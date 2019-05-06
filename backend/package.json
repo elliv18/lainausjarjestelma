@@ -4,9 +4,12 @@
   "main": "src/index.js",
   "license": "MIT",
   "scripts":{
-    "dev": "",
-    "start": "",
-    "seed": "sequelize db:seed:all --url postgres://postgres:defaultpass@localhost:5432/postgres"
+    "dev": "nodemon --watch src src/index.js",
+    "start": "node build/src/index.js",
+    "seed": "sequelize db:seed:all --url postgres://postgres:defaultpass@localhost:5432/postgres",
+    "lint:es": "eslint src",
+    "test": "yarn lint:es",
+    "test:watch": "nodemon -w src --exec 'yarn test'"
   },
   "dependencies": {
     "apollo-server-koa": "^2.4.8",
@@ -28,6 +31,7 @@
     "winston-daily-rotate-file": "^3.9.0"
   },
   "devDependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "eslint": "^5.16.0"
   }
 }
