@@ -1,0 +1,20 @@
+# Node modules
+node_modules/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.env
+#*.json
+
+# Build files
+build/
+
+# Files that do not belong to the root folder
+/yarn.lock
+/package.json
+.reports/
+
+# logs
+logs/

@@ -1,0 +1,38 @@
+version: '3.5'
+
+services:
+  db:
+    image: postgres:10
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - /var/lib/postgresql/data
+  backend:
+    image: ${BACKEND_IMAGE}
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    restart: always
+    environment:
+      NODE_ENV: production
+      BACKEND_HOST: ${BACKEND_HOST}
+      BACKEND_PORT: ${BACKEND_PORT}
+      ROOT_ADMIN_EMAIL: ${ROOT_ADMIN_EMAIL}
+      ROOT_ADMIN_PASS: ${ROOT_ADMIN_PASS}
+      JWT_SECRET: ${JWT_SECRET}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_RESET: ${DB_RESET}
+  frontend:
+    image: ${FRONTEND_IMAGE}
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    environment:
+      NODE_ENV: production
+      BACKEND_HOST: ${BACKEND_HOST}
+      BACKEND_PORT: ${BACKEND_PORT}
+      FRONTEND_HOST: ${FRONTEND_HOST}
+      FRONTEND_PORT: ${FRONTEND_PORT}
+    restart: always

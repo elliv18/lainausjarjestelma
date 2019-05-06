@@ -1,0 +1,123 @@
+variables:
+  REMOTE_HOST: deploy@172.16.12.222
+  REMOTE_DIR: oma-valmentaja-proto
+  BACKEND_IMAGE: ${CI_REGISTRY_IMAGE}/backend
+  FRONTEND_IMAGE: ${CI_REGISTRY_IMAGE}/frontend
+  PROD_DOMAIN: omavalmentaja.iotlab.tamk.fi
+
+stages:
+  - env
+  - deploy
+
+#########################
+# ENV - START HERE      #
+#########################
+
+env_prod:
+  image: alpine:latest
+  stage: env
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - "${REMOTE_DIR}/"
+  script:
+    - mkdir "${REMOTE_DIR}"
+    - touch "${REMOTE_DIR}/.env"
+    # Common ENVS
+    - echo "NODE_ENV=production" >> "${REMOTE_DIR}/.env"
+    # BACKEND ENVS
+    - echo "BACKEND_IMAGE=${BACKEND_IMAGE}" >> "${REMOTE_DIR}/.env"
+    - echo "BACKEND_PORT=3050" >> "${REMOTE_DIR}/.env"
+    - echo "BACKEND_HOST=api.${PROD_DOMAIN}" >> "${REMOTE_DIR}/.env"
+    - echo "JWT_SECRET=${JWT_SECRET}" >> "${REMOTE_DIR}/.env"
+    - echo "ROOT_ADMIN_EMAIL=${ROOT_ADMIN_EMAIL}" >> "${REMOTE_DIR}/.env"
+    - echo "ROOT_ADMIN_PASS=${ROOT_ADMIN_PASS}" >> "${REMOTE_DIR}/.env"
+    # DATABASE ENVS
+    - echo "DB_USERNAME=${DB_USERNAME}" >> "${REMOTE_DIR}/.env"
+    - echo "DB_PASSWORD=${DB_PASSWORD}" >> "${REMOTE_DIR}/.env"
+    - echo "DB_NAME=${DB_NAME}" >> "${REMOTE_DIR}/.env"
+    - echo "DB_RESET=${DB_RESET}" >> "${REMOTE_DIR}/.env"
+    # FRONTEND ENVS
+    - echo "FRONTEND_IMAGE=${FRONTEND_IMAGE}" >> "${REMOTE_DIR}/.env"
+    - echo "FRONTEND_PORT=3000" >> "${REMOTE_DIR}/.env"
+    - echo "FRONTEND_HOST=${PROD_DOMAIN}" >> "${REMOTE_DIR}/.env"
+
+#########################
+# ENV - ENDS HERE       #
+#########################
+
+#########################
+# BACKEND - START HERE  #
+#########################
+
+deploy_backend:
+  image: docker:latest
+  stage: deploy
+  services:
+    - docker:dind
+  dependencies:
+    - env_prod
+  script:
+    - apk update && apk add rsync openssh
+    - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
+    # Prepare SSH settings
+    - mkdir -p ~/.ssh && (umask  077 ; echo "${DEPLOY_KEY_PRIVATE}" | base64 -d > ~/.ssh/id_rsa)
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    # Build containers
+    - docker pull "${BACKEND_IMAGE}"
+    - docker build --cache-from "${BACKEND_IMAGE}" -f .dockerfiles/BackendProd -t "${BACKEND_IMAGE}" .
+    # Push to remote
+    - docker push "${BACKEND_IMAGE}"
+    # Prepare files for transfer
+    - cp docker-compose.prod.yml "${REMOTE_DIR}/docker-compose.yml"
+    # Copy files to server - permissionit kusee, miksi?
+    - rsync -r "${REMOTE_DIR}" "${REMOTE_HOST}:./"
+    # Run container-setup.sh to set up Docker environment on the remote server
+    - ssh ${REMOTE_HOST} /bin/bash "
+        echo ${REMOTE_DIR};
+        cd ~/$REMOTE_DIR;
+        docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY;
+        docker-compose pull;
+        docker-compose up -d backend db;"
+
+#######################
+# BACKEND - ENDS HERE #
+#######################
+
+#########################
+# FRONTEND - START HERE #
+#########################
+
+deploy_frontend:
+  image: docker:latest
+  stage: deploy
+  services:
+    - docker:dind
+  dependencies:
+    - env_prod
+  script:
+    - apk update && apk add rsync openssh
+    - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
+    # Prepare SSH settings
+    - mkdir -p ~/.ssh && (umask  077 ; echo "${DEPLOY_KEY_PRIVATE}" | base64 -d > ~/.ssh/id_rsa)
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    # Build containers
+    - docker pull "${FRONTEND_IMAGE}"
+    - docker build --cache-from "${FRONTEND_IMAGE}" -f .dockerfiles/FrontendProd -t "${FRONTEND_IMAGE}" .
+    # Push to remote
+    - docker push "${FRONTEND_IMAGE}"
+    # Prepare files for transfer
+    - cp docker-compose.prod.yml "${REMOTE_DIR}/docker-compose.yml"
+    # Copy files to server
+    - rsync -r "${REMOTE_DIR}" "${REMOTE_HOST}:./"
+    # Run container-setup.sh to set up Docker environment on the remote server
+    - ssh ${REMOTE_HOST} /bin/bash "
+        echo ${REMOTE_DIR};
+        cd ~/$REMOTE_DIR;
+        docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY;
+        docker-compose pull;
+        docker-compose up -d frontend;"
+
+########################
+# FRONTEND - ENDS HERE #
+########################

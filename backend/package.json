@@ -1,0 +1,33 @@
+{
+  "name": "Lainausjarjestelma-proto-backend",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts":{
+    "dev": "",
+    "start": "",
+    "seed": "sequelize db:seed:all --url postgres://postgres:defaultpass@localhost:5432/postgres"
+  },
+  "dependencies": {
+    "apollo-server-koa": "^2.4.8",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.0.0",
+    "graphql": "^14.2.1",
+    "graphql-tools": "^4.0.4",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-jwt": "^3.5.1",
+    "koa-router": "^7.4.0",
+    "lodash": "^4.17.11",
+    "nodemon": "^1.19.0",
+    "pg": "^7.10.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^5.8.5",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.9.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
+  }
+}

@@ -1,0 +1,47 @@
+version: '3.5'
+
+services:
+  db:
+    image: postgres:10
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - /var/lib/postgresql/data
+  backend:
+    build:
+      context: ./
+      dockerfile: .dockerfiles/backendDev
+    ports:
+      - "${BACKEND_PORT}:3050"
+    volumes:
+      - ./backend:/opt/app
+    restart: always
+    environment:
+      NODE_ENV: development
+      BACKEND_HOST: ${BACKEND_HOST}
+      BACKEND_PORT: ${BACKEND_PORT}
+      ROOT_ADMIN_EMAIL: ${ROOT_ADMIN_EMAIL}
+      ROOT_ADMIN_PASS: ${ROOT_ADMIN_PASS}
+      JWT_SECRET: ${JWT_SECRET}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    env_file: .env
+  frontend:
+    build:
+      context: ./
+      dockerfile: .dockerfiles/frontendDev
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    volumes:
+      - ./frontend:/opt/app
+      - /opt/app/node_modules/.cache/
+    environment:
+      NODE_ENV: development
+      BACKEND_HOST: ${BACKEND_HOST}
+      BACKEND_PORT: ${BACKEND_PORT}
+      FRONTEND_HOST: ${FRONTEND_HOST}
+      FRONTEND_PORT: ${FRONTEND_PORT}
+    restart: always
