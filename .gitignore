@@ -18,3 +18,5 @@ build/
 
 # logs
 logs/
+
+.next/

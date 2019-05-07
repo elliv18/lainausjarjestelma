@@ -1,15 +1,12 @@
-import React from 'react'
-import Nav from '../components/nav'
-import Loans from '../components/loans'
+import App from '../components/App'
+import Submit from '../components/Submit'
+import PostList from '../components/PostList'
+import Nav from '../components/Nav'
 
-const Home = () => (
-  
-  <div>
-    <Nav/>
-    <Loans/>
-    
-  </div>
-  
+export default () => (
+  <App>
+    <Nav />
+    <Submit />
+    <PostList />
+  </App>
 )
-
-export default Home
