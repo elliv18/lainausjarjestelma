@@ -71,7 +71,7 @@ class Nav extends React.Component{
       <Typography className={classes.titleText}>
         Loan System
       </Typography>
-      <Button className={classes.login} color="inherit" ><Group className={classes.group}></Group> Login</Button>
+      <Button className={classes.login} color="inherit" ><Group className={classes.group}></Group> My account</Button>
     </Toolbar>
   </AppBar>
 
