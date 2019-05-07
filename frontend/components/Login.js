@@ -1,6 +1,9 @@
 import React from 'react';
 import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
 import { Face, Fingerprint } from '@material-ui/icons'
+
+import { Mutation } from 'react-apollo'
+
 const styles = theme => ({
     margin: {
         margin: theme.spacing.unit * 2,
@@ -17,6 +20,22 @@ const styles = theme => ({
 });
 
 class LoginTab extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            email: '',
+            password: '',
+        }
+    }
+
+    setEmail = (e) => {
+        this.setState({ email: e.target.value })
+    }
+
+    setPassword = (e) => {
+        this.setState({ password: e.target.value })
+    }
+ 
     render() {
         const { classes } = this.props;
         return (
@@ -27,9 +46,13 @@ class LoginTab extends React.Component {
                             <Face />
                         </Grid>
                         <Grid item md={true} sm={true} xs={true}>
-                            <TextField id="username" label="Username" type="email" 
+                            <TextField 
+                            id="username" 
+                            label="Username" 
+                            type="email" 
                             autoComplete = "email"
-                            fullWidth autoFocus required />
+                            fullWidth autoFocus required
+                            onChange={this.setEmail} />
                         </Grid>
                     </Grid>
                     <Grid container spacing={8} alignItems="flex-end">
@@ -37,9 +60,13 @@ class LoginTab extends React.Component {
                             <Fingerprint />
                         </Grid>
                         <Grid item md={true} sm={true} xs={true}>
-                            <TextField id="username" label="Password" type="password" 
+                            <TextField 
+                            id="username" 
+                            label="Password" 
+                            type="password" 
                             autoComplete = "password"
-                            fullWidth required />
+                            fullWidth required 
+                            onChange={this.setPassword}/>
                         </Grid>
                     </Grid>
                     <Grid container alignItems="center" justify="space-between">
@@ -51,11 +78,18 @@ class LoginTab extends React.Component {
                             } label="Remember me" />
                         </Grid>
                         <Grid item>
-                            <Button disableFocusRipple disableRipple style={{ textTransform: "none" }} variant="text" color="primary">Forgot password ?</Button>
+                            <Button 
+                            disableFocusRipple 
+                            disableRipple style={{ textTransform: "none" }} 
+                            variant="text" 
+                            color="primary">Forgot password ?</Button>
                         </Grid>
                     </Grid>
                     <Grid container justify="center" style={{ marginTop: '10px' }}>
-                        <Button variant="outlined" color="primary" style={{ textTransform: "none" }}>Login</Button>
+                        <Button 
+                        variant="outlined" 
+                        color="primary" 
+                        style={{ textTransform: "none" }}>Login</Button>
                     </Grid>
                 </div>
             </Paper>
