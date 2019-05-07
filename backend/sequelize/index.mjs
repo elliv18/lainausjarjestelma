@@ -5,7 +5,7 @@ const DataTypes = require('sequelize').DataTypes;
 
 const basename = path.basename(module.filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(`${__dirname}/config.ts`)[env];
+const config = require(`${__dirname}/config.mjs`)[env];
 const db = {};
 
 const sequelize = config.use_env_variable
@@ -14,7 +14,7 @@ const sequelize = config.use_env_variable
 
 fs
   .readdirSync(__dirname)
-  .filter(file => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
+  .filter(file => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.mjs'))
   .forEach((file) => {
     const model = sequelize.import(path.join(__dirname, file));
     db[model.name] = model;

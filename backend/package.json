@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "license": "MIT",
-  "scripts":{
-    "dev": "nodemon --watch src src/index.js",
-    "start": "node build/src/index.js",
+  "scripts": {
+    "dev": "nodemon --experimental-modules src/index.mjs -w src",
+    "start": "node --experimental-modules src/index.mjs",
     "seed": "sequelize db:seed:all --url postgres://postgres:defaultpass@localhost:5432/postgres",
     "lint:es": "eslint src",
     "test": "yarn lint:es",
     "test:watch": "nodemon -w src --exec 'yarn test'"
   },
   "dependencies": {
+    "@koa/cors": "^3.0.0",
     "apollo-server-koa": "^2.4.8",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.0.0",
@@ -23,6 +24,8 @@
     "koa-jwt": "^3.5.1",
     "koa-router": "^7.4.0",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.25",
     "nodemon": "^1.19.0",
     "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",
@@ -31,6 +34,7 @@
     "winston-daily-rotate-file": "^3.9.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "concurrently": "^4.1.0",
     "eslint": "^5.16.0"
   }
