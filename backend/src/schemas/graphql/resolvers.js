@@ -1,9 +1,17 @@
-import { User } from '../../sql';
-import { logger } from '../../../tools';
+//import { User } from '../sql';
+//import { logger } from '../../tools';
+const login = require('../sql/login');
 
-export default {
-    Query: {
-        currentUser: async (obj, args, { currentUser }) => {
+module.exports = {
+  Query: {
+    testMessage: () => {
+      return 'Hello world';
+    },
+    listUsernames: () => {
+      const data = login.findAll();
+      return data;
+    },
+        /*currentUser: async (obj, args, { currentUser }) => {
             if (!currentUser) {
                 logger.log('error', '[currentUser] Current user is not authorized');
                 throw new Error('Not authorized');
@@ -58,6 +66,6 @@ export default {
             }
             const user = await User.findOne({ where: { email } });
             return user;
-        },
+        },*/
     }
 };

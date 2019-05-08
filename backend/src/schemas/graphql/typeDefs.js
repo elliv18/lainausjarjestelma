@@ -1,12 +1,14 @@
-export default `
+const { gql } = require('apollo-server');
+
+module.exports = gql`
     #########################
     # Enums
     #########################
 
     enum Role {
-        ADMIN
-        STAFF
-        STUDENTS
+      ADMIN
+      STAFF
+      STUDENTS
     }
 
     #########################
@@ -14,11 +16,17 @@ export default `
     #########################
 
     type User {
-    id: ID!
-    userType: Role
-    email: String
-    createdAt: String
-    updatedAt: String
+      id: ID!
+      userType: Role
+      email: String
+      createdAt: String
+      updatedAt: String
+    }
+
+    type Login {
+      id: ID!
+      username: String
+      password: String
     }
 
     ###############
@@ -26,6 +34,8 @@ export default `
     ###############
     
     type Query {
+      testMessage: String!
+      listUsernames: [Login]
       # Returns the currently authenticated user, or null if unauthenticated
       currentUser: User
   
@@ -38,5 +48,4 @@ export default `
       # List all users by type
       allUsersByType: [User]
     }
-  
 `;

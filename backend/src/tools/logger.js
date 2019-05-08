@@ -1,12 +1,17 @@
-import { createLogger, format, transports } from 'winston';
-import * as dailyRotateFile from 'winston-daily-rotate-file';
-import * as fs from 'fs';
-import * as moment from 'moment-timezone';
+const { createLogger, format, transports } = require('winston');
+const dailyRotateFile = require('winston-daily-rotate-file');
+const fs = require('fs');
+const moment = require('moment-timezone');
 
 const logDir = 'logs';
 const env = process.env.NODE_ENV || 'development';
 
-const { combine, timestamp, splat, printf } = format;
+const {
+  combine,
+  timestamp,
+  splat,
+  printf,
+} = format;
 
 // Create the log directory if it does not exist
 if (!fs.existsSync(logDir)) {
@@ -23,7 +28,7 @@ const tzTimestamp = format((info, opts) => {
 const logger = createLogger({
   format: combine(
     tzTimestamp({ tz: 'Europe/Helsinki' }),
-    splat(),    // Enables string formating, aka. %s %d
+    splat(), // Enables string formating, aka. %s %d
     printf((info) => {
       return `[${info.timestamp}] ${info.level}: ${info.message}`;
     }),
@@ -32,7 +37,7 @@ const logger = createLogger({
     new dailyRotateFile({
       filename: `${logDir}/%DATE%.log`,
       datePattern: 'YYYY-MM-DD',
-      prepend: true,
+      // prepend: true,
       level: env === 'development' ? 'verbose' : 'info',
       maxFiles: '30d',
     }),
@@ -45,4 +50,4 @@ logger.on('rotate', (oldFilename, newFilename) => {
 
 logger.log('info', 'Starting logging service...');
 
-export default logger;
+module.exports = logger;
