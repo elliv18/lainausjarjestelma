@@ -27,8 +27,12 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+db.DataTypes = DataTypes;
+
 // module.exports = { Sequelize, sequelize, DataTypes };
 module.exports = db;
-module.exports.sequelize = sequelize;
-module.exports.Sequelize = Sequelize;
-module.exports.DataTypes = DataTypes;
+// module.exports.sequelize = sequelize;
+// module.exports.Sequelize = Sequelize;
+// module.exports.DataTypes = DataTypes;

@@ -1,5 +1,5 @@
 const login = require('../schemas/sql/login');
-const { sequelize } = require('../../models');
+const models = require('../../models');
 // const { logger } = require('./logger');
 const rootAdmin = require('./rootAdmin');
 
@@ -10,7 +10,7 @@ const rootAdmin = require('./rootAdmin');
 module.exports = {
   wait: () => {
     console.log('waiting db...');
-    sequelize.authenticate().then(() => {
+    models.sequelize.authenticate().then(() => {
       console.log('Connection established successfully.');
     }).catch((err) => {
       console.error('Unable to connect to the database:', err);
@@ -19,7 +19,7 @@ module.exports = {
   start: () => {
     console.log('starting db...');
     // logger.log('info', 'Synronising database...');
-    sequelize.sync().then(() => {
+    models.sequelize.sync().then(() => {
       rootAdmin.create();
       /* login.count().then((result) => {
         console.log(result);
@@ -30,7 +30,7 @@ module.exports = {
   },
   reset: () => {
     // logger.log('info', 'RESETING DATABASE...');
-    sequelize.sync({ force: true }).then(() => {
+    models.sequelize.sync({ force: true }).then(() => {
       rootAdmin.create();
     });
   },
