@@ -6,7 +6,8 @@ import LoginTab from '../components/Login'
 
 export default () => (
   <App>
-    <LoginTab />
-  
+    <Nav/>
+    <Submit/>
+    <PostList/>
   </App>
 )
