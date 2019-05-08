@@ -1,7 +1,13 @@
 import React from 'react';
 import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
 import { Face, Fingerprint} from '@material-ui/icons'
-import Router from 'next/router';
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Redirect,
+    withRouter
+  } from 'react-router-dom'
 
 import { Mutation } from 'react-apollo'
 
@@ -21,6 +27,8 @@ const styles = theme => ({
 });
 
 class LoginTab extends React.Component {
+    
+
     constructor(props) {
         super(props)
         this.state = {
@@ -44,9 +52,13 @@ class LoginTab extends React.Component {
         console.log(password)
 
         if(email=='matti' && password== 'matti19'){
-            Router.push({
-                pathname: '/users',
-              });
+            const PrivateRoute = ({ component: Component, ...rest }) => (
+                <Route {...rest} render={(props) => (
+                  fakeAuth.isAuthenticated === true
+                    ? <Component {...props} />
+                    : <Redirect to='/login' />
+                )} />
+            )
         }
       }
         
