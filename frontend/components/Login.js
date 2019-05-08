@@ -1,6 +1,7 @@
 import React from 'react';
 import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
-import { Face, Fingerprint } from '@material-ui/icons'
+import { Face, Fingerprint} from '@material-ui/icons'
+import Router from 'next/router';
 
 import { Mutation } from 'react-apollo'
 
@@ -23,8 +24,10 @@ class LoginTab extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            email: '',
-            password: '',
+            email: 'x',
+            password: 'x',
+            email2: 'y'
+          
         }
     }
 
@@ -35,6 +38,19 @@ class LoginTab extends React.Component {
     setPassword = (e) => {
         this.setState({ password: e.target.value })
     }
+
+    getEmail(email, password) {
+        console.log(email)
+        console.log(password)
+
+        if(email=='matti' && password== 'matti19'){
+            Router.push({
+                pathname: '/users',
+              });
+        }
+      }
+        
+      
  
     render() {
         const { classes } = this.props;
@@ -50,7 +66,7 @@ class LoginTab extends React.Component {
                             id="username" 
                             label="Username" 
                             type="email" 
-                            autoComplete = "email"
+                            //autoComplete = "email"
                             fullWidth autoFocus required
                             onChange={this.setEmail} />
                         </Grid>
@@ -64,7 +80,7 @@ class LoginTab extends React.Component {
                             id="username" 
                             label="Password" 
                             type="password" 
-                            autoComplete = "password"
+                            //autoComplete = "password"
                             fullWidth required 
                             onChange={this.setPassword}/>
                         </Grid>
@@ -87,6 +103,7 @@ class LoginTab extends React.Component {
                     </Grid>
                     <Grid container justify="center" style={{ marginTop: '10px' }}>
                         <Button 
+                        onClick={() => this.getEmail(this.state.email, this.state.password)}
                         variant="outlined" 
                         color="primary" 
                         style={{ textTransform: "none" }}>Login</Button>
