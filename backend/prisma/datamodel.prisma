@@ -15,21 +15,24 @@ type Device {
   idCode: String
   model: String
   info: String
+  devCat: DevCategory! @relation(link: INLINE)
 }
 
 type DevCategory {
   id: ID! @id
   devType: String
   manufacture: String
-  vastuuHnkl: String
+  device: Device!
+  vastuuHnkl: User! @relation(link: INLINE)
 }
 
 type loan {
   id: ID! @id
-  loanDate: String
+  loanDate: String!
   returnDate: String
-  dueDate: String
-  loanGiver: String
-  loanReturner: String
-  devID: String
+  dueDate: String!
+  Loaner: User! @relation(link: INLINE)
+  loanGiver: User! @relation(link: INLINE)
+  loanReturner: User
+  devID: Device! @relation(link: INLINE)
 }
