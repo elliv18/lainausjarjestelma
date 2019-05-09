@@ -35,6 +35,10 @@ const styles = {
         fontSize: '20px',
         flexGrow: 1,
     },
+    menuButton:{
+      marginLeft: -12,
+      marginRight: 20,
+    }
 }
 
 class Nav extends React.Component{
@@ -63,9 +67,9 @@ class Nav extends React.Component{
 
   return(
 <div className={classes.root}>
-  <AppBar>
+  <AppBar position="static">
     <Toolbar>
-      <IconButton color="inherit" arial-label="Menu" onClick={this.toggleDrawer('left',true)}>
+      <IconButton className={classes.menuButton} color="inherit" arial-label="Menu" onClick={this.toggleDrawer('left',true)}>
         <MenuIcon />
       </IconButton>
       <Typography className={classes.titleText}>
