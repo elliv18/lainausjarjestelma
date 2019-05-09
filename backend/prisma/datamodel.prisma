@@ -1,6 +1,13 @@
+enum UserType {
+  ADMIN
+  STAFF
+  STUDENT
+}
+
 type User {
   id: ID! @id
-  userType: String!
+  isActive: Boolean! @default(value: true)
+  userType: UserType!
   email: String! @unique
   password: String!
   firstName: String
@@ -8,6 +15,7 @@ type User {
   address: String
   opNro: String
   puh: String
+
 }
 
 type Device {
@@ -15,24 +23,24 @@ type Device {
   idCode: String
   model: String
   info: String
-  devCat: DevCategory! @relation(link: INLINE)
+  devCategoryId: DevCategory! 
+
 }
 
 type DevCategory {
   id: ID! @id
-  devType: String
+  deviceType: String
   manufacture: String
-  device: Device!
-  vastuuHnkl: User! @relation(link: INLINE)
+
 }
 
-type loan {
+type Loan {
   id: ID! @id
   loanDate: String!
   returnDate: String
   dueDate: String!
-  Loaner: User! @relation(link: INLINE)
-  loanGiver: User! @relation(link: INLINE)
-  loanReturner: User
-  devID: Device! @relation(link: INLINE)
+  deviceId: Device!
+  loanerId: User! @relation(name: "LoanerId")
+  supplierId: User! @relation(name: "SupplierId")
+  returnerId: User @relation(name: "ReturnId")
 }
