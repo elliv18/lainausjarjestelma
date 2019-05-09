@@ -1,12 +1,13 @@
 import { prismaObjectType } from 'nexus-prisma'
 
-export const User = prismaObjectType({
-  name: 'User',
+export const Loan = prismaObjectType({
+  name: 'Loan',
   definition(t) {
     t.prismaFields([
       'id',
-      'name',
-      'email',
+      'loanDate',
+      'returnDate',
+      'dueDate'
     ])
   },
 })

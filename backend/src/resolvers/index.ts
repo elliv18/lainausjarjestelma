@@ -1,13 +1,17 @@
-// import { Mutation } from './mutations'
-// import { Query } from './queries'
-import { User } from './users'
+import { User } from './user'
+import { Device } from './device'
+import { DevCategory } from './devCategory'
+import { Loan } from './loan'
 import { AuthPayload } from './AuthPayload'
-import { Query } from './queries'
-import { Mutation } from './mutations'
+import { Query } from './query'
+import { Mutation } from './mutation'
 
 export const resolvers = {
-    Query,
-    Mutation,
     User,
+    Device,
+    DevCategory,
+    Loan,
+    Query,
+    Mutation,   
     AuthPayload
 };
