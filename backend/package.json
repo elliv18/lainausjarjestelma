@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "yarn build && concurrently \"tsc --watch\" \"nodemon -w build --exec 'node --max-old-space-size=8192 build/src/index.js'\"",
+    "build": "rm -rf build && mkdir build && cp -r config build/ && tsc",
+    "start": "node build/src/index.js"
+  },
+  "dependencies": {
+    "apollo-server": "^2.5.0",
+    "bcrypt": "^3.0.6",
+    "graphql": "^14.3.0",
+    "graphql-shield": "^5.3.5",
+    "graphql-yoga": "^1.17.4",
+    "jsonwebtoken": "^8.5.1",
+    "nexus": "^0.11.7",
+    "nexus-prisma": "^0.3.7",
+    "nodemon": "^1.19.0",
+    "npx": "^10.2.0",
+    "prisma": "^1.32.2",
+    "prisma-client-lib": "^1.30.4",
+    "typescript": "^3.4.5"
+  }
+}
