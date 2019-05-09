@@ -1,4 +1,35 @@
 type User {
   id: ID! @id
-  name: String!
+  userType: String!
+  email: String! @unique
+  password: String!
+  firstName: String
+  lastName: String
+  address: String
+  opNro: String
+  puh: String
+}
+
+type Device {
+  id: ID! @id
+  idCode: String
+  model: String
+  info: String
+}
+
+type DevCategory {
+  id: ID! @id
+  devType: String
+  manufacture: String
+  vastuuHnkl: String
+}
+
+type loan {
+  id: ID! @id
+  loanDate: String
+  returnDate: String
+  dueDate: String
+  loanGiver: String
+  loanReturner: String
+  devID: String
 }
