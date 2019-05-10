@@ -1,10 +1,12 @@
 import App from '../components/App'
 import Home from '../components/Home'
-import Nav from '../components/Nav'
+import MiniDrawer from '../components/MiniDrawer';
 
 
 export default () => (
   <App>
-    <Nav/>
+    <MiniDrawer>
+      <Home/>
+    </MiniDrawer>
   </App>
 )

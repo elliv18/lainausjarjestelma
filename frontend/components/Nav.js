@@ -15,6 +15,7 @@ import Group from '@material-ui/icons/Group'
 const styles = {
     root: {
         flexGrow: 1,
+        marginBottom: 10
     },
     login:{
         right: 0,
@@ -66,25 +67,25 @@ class Nav extends React.Component{
     )
 
   return(
-<div className={classes.root}>
-  <AppBar position="static">
-    <Toolbar>
-      <IconButton className={classes.menuButton} color="inherit" arial-label="Menu" onClick={this.toggleDrawer('left',true)}>
-        <MenuIcon />
-      </IconButton>
-      <Typography className={classes.titleText}>
-        Loan System
-      </Typography>
-      <Button className={classes.login} color="inherit" ><Group className={classes.group}></Group> My account</Button>
-    </Toolbar>
-  </AppBar>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton className={classes.menuButton} color="inherit" arial-label="Menu" onClick={this.toggleDrawer('left',true)}>
+            <MenuIcon />
+          </IconButton>
+          <Typography className={classes.titleText}>
+            Loan System
+          </Typography>
+          <Button className={classes.login} color="inherit" ><Group className={classes.group}></Group> My account</Button>
+        </Toolbar>
+      </AppBar>
 
-      <Drawer open={this.state.left} onClose={this.toggleDrawer('left',false)}>
-        <div>
-          {sideList}
-        </div>
-      </Drawer>
-</div>
+          <Drawer open={this.state.left} onClose={this.toggleDrawer('left',false)}>
+            <div>
+              {sideList}
+            </div>
+          </Drawer>
+    </div>
   )
   }
 }
