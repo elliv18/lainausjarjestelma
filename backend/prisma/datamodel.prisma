@@ -24,6 +24,7 @@ type Device {
   idCode: String!
   model: String
   info: String
+  loanStatus: Boolean! @default(value: false)
   devCategoryId: DevCategory! 
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt

@@ -38,6 +38,7 @@ export default `
         idCode: String!
         model: String
         info: String
+        loanStatus: Boolean!
         devCategory: DevCategory!
         createdAt: String!
         updatedAt: String!

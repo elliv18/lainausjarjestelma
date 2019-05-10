@@ -22,3 +22,14 @@ Bearer <token>
 api: localhost:4466
 
 db admin: localhost:4466/_admin
+
+## methos
+
+### query
+
+- currentUser
+- allDevices
+- allLoans
+- allUsers
+- usersLoans
+- 
