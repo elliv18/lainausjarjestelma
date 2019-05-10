@@ -1,13 +1,12 @@
-endpoint: http://localhost:4466
+endpoint: http://prisma:3060
 datamodel: datamodel.prisma
-secret: mysecret42
 
 generate:
   - generator: typescript-client
     output: ../src/generated/prisma-client/
 
 # Ensures Prisma client is re-generated after a datamodel change.
-hooks:
-  post-deploy:
-    - prisma generate
-    - npx nexus-prisma-generate --client ./src/generated/prisma-client --output ./src/generated/nexus-prisma # Runs the codegen tool from nexus-prisma.
+#hooks:
+#  post-deploy:
+#    - prisma generate
+#    - npx nexus-prisma-generate --client ./src/generated/prisma-client --output ./src/generated/nexus-prisma # Runs the codegen tool from nexus-prisma.

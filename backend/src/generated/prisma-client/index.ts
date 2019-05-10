@@ -243,6 +243,8 @@ export type DeviceOrderByInput =
   | "model_DESC"
   | "info_ASC"
   | "info_DESC"
+  | "loanStatus_ASC"
+  | "loanStatus_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -281,10 +283,10 @@ export type UserOrderByInput =
   | "lastName_DESC"
   | "address_ASC"
   | "address_DESC"
-  | "opNro_ASC"
-  | "opNro_DESC"
-  | "puh_ASC"
-  | "puh_DESC"
+  | "personNumber_ASC"
+  | "personNumber_DESC"
+  | "phone_ASC"
+  | "phone_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -421,6 +423,8 @@ export interface DeviceWhereInput {
   info_not_starts_with?: Maybe<String>;
   info_ends_with?: Maybe<String>;
   info_not_ends_with?: Maybe<String>;
+  loanStatus?: Maybe<Boolean>;
+  loanStatus_not?: Maybe<Boolean>;
   devCategoryId?: Maybe<DevCategoryWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
@@ -602,34 +606,34 @@ export interface UserWhereInput {
   address_not_starts_with?: Maybe<String>;
   address_ends_with?: Maybe<String>;
   address_not_ends_with?: Maybe<String>;
-  opNro?: Maybe<String>;
-  opNro_not?: Maybe<String>;
-  opNro_in?: Maybe<String[] | String>;
-  opNro_not_in?: Maybe<String[] | String>;
-  opNro_lt?: Maybe<String>;
-  opNro_lte?: Maybe<String>;
-  opNro_gt?: Maybe<String>;
-  opNro_gte?: Maybe<String>;
-  opNro_contains?: Maybe<String>;
-  opNro_not_contains?: Maybe<String>;
-  opNro_starts_with?: Maybe<String>;
-  opNro_not_starts_with?: Maybe<String>;
-  opNro_ends_with?: Maybe<String>;
-  opNro_not_ends_with?: Maybe<String>;
-  puh?: Maybe<String>;
-  puh_not?: Maybe<String>;
-  puh_in?: Maybe<String[] | String>;
-  puh_not_in?: Maybe<String[] | String>;
-  puh_lt?: Maybe<String>;
-  puh_lte?: Maybe<String>;
-  puh_gt?: Maybe<String>;
-  puh_gte?: Maybe<String>;
-  puh_contains?: Maybe<String>;
-  puh_not_contains?: Maybe<String>;
-  puh_starts_with?: Maybe<String>;
-  puh_not_starts_with?: Maybe<String>;
-  puh_ends_with?: Maybe<String>;
-  puh_not_ends_with?: Maybe<String>;
+  personNumber?: Maybe<String>;
+  personNumber_not?: Maybe<String>;
+  personNumber_in?: Maybe<String[] | String>;
+  personNumber_not_in?: Maybe<String[] | String>;
+  personNumber_lt?: Maybe<String>;
+  personNumber_lte?: Maybe<String>;
+  personNumber_gt?: Maybe<String>;
+  personNumber_gte?: Maybe<String>;
+  personNumber_contains?: Maybe<String>;
+  personNumber_not_contains?: Maybe<String>;
+  personNumber_starts_with?: Maybe<String>;
+  personNumber_not_starts_with?: Maybe<String>;
+  personNumber_ends_with?: Maybe<String>;
+  personNumber_not_ends_with?: Maybe<String>;
+  phone?: Maybe<String>;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -674,9 +678,10 @@ export interface DevCategoryUpdateManyMutationInput {
 
 export interface DeviceCreateInput {
   id?: Maybe<ID_Input>;
-  idCode?: Maybe<String>;
+  idCode: String;
   model?: Maybe<String>;
   info?: Maybe<String>;
+  loanStatus?: Maybe<Boolean>;
   devCategoryId: DevCategoryCreateOneInput;
 }
 
@@ -689,6 +694,7 @@ export interface DeviceUpdateInput {
   idCode?: Maybe<String>;
   model?: Maybe<String>;
   info?: Maybe<String>;
+  loanStatus?: Maybe<Boolean>;
   devCategoryId?: Maybe<DevCategoryUpdateOneRequiredInput>;
 }
 
@@ -713,6 +719,7 @@ export interface DeviceUpdateManyMutationInput {
   idCode?: Maybe<String>;
   model?: Maybe<String>;
   info?: Maybe<String>;
+  loanStatus?: Maybe<Boolean>;
 }
 
 export interface LoanCreateInput {
@@ -745,8 +752,8 @@ export interface UserCreateInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   address?: Maybe<String>;
-  opNro?: Maybe<String>;
-  puh?: Maybe<String>;
+  personNumber?: Maybe<String>;
+  phone?: Maybe<String>;
 }
 
 export interface LoanUpdateInput {
@@ -770,6 +777,7 @@ export interface DeviceUpdateDataInput {
   idCode?: Maybe<String>;
   model?: Maybe<String>;
   info?: Maybe<String>;
+  loanStatus?: Maybe<Boolean>;
   devCategoryId?: Maybe<DevCategoryUpdateOneRequiredInput>;
 }
 
@@ -793,8 +801,8 @@ export interface UserUpdateDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   address?: Maybe<String>;
-  opNro?: Maybe<String>;
-  puh?: Maybe<String>;
+  personNumber?: Maybe<String>;
+  phone?: Maybe<String>;
 }
 
 export interface UserUpsertNestedInput {
@@ -825,8 +833,8 @@ export interface UserUpdateInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   address?: Maybe<String>;
-  opNro?: Maybe<String>;
-  puh?: Maybe<String>;
+  personNumber?: Maybe<String>;
+  phone?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -837,8 +845,8 @@ export interface UserUpdateManyMutationInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   address?: Maybe<String>;
-  opNro?: Maybe<String>;
-  puh?: Maybe<String>;
+  personNumber?: Maybe<String>;
+  phone?: Maybe<String>;
 }
 
 export interface DevCategorySubscriptionWhereInput {
@@ -1012,9 +1020,10 @@ export interface AggregateDevCategorySubscription
 
 export interface Device {
   id: ID_Output;
-  idCode?: String;
+  idCode: String;
   model?: String;
   info?: String;
+  loanStatus: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -1024,6 +1033,7 @@ export interface DevicePromise extends Promise<Device>, Fragmentable {
   idCode: () => Promise<String>;
   model: () => Promise<String>;
   info: () => Promise<String>;
+  loanStatus: () => Promise<Boolean>;
   devCategoryId: <T = DevCategoryPromise>() => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -1036,6 +1046,7 @@ export interface DeviceSubscription
   idCode: () => Promise<AsyncIterator<String>>;
   model: () => Promise<AsyncIterator<String>>;
   info: () => Promise<AsyncIterator<String>>;
+  loanStatus: () => Promise<AsyncIterator<Boolean>>;
   devCategoryId: <T = DevCategorySubscription>() => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -1048,6 +1059,7 @@ export interface DeviceNullablePromise
   idCode: () => Promise<String>;
   model: () => Promise<String>;
   info: () => Promise<String>;
+  loanStatus: () => Promise<Boolean>;
   devCategoryId: <T = DevCategoryPromise>() => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -1168,8 +1180,8 @@ export interface User {
   firstName?: String;
   lastName?: String;
   address?: String;
-  opNro?: String;
-  puh?: String;
+  personNumber?: String;
+  phone?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -1183,8 +1195,8 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   address: () => Promise<String>;
-  opNro: () => Promise<String>;
-  puh: () => Promise<String>;
+  personNumber: () => Promise<String>;
+  phone: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1200,8 +1212,8 @@ export interface UserSubscription
   firstName: () => Promise<AsyncIterator<String>>;
   lastName: () => Promise<AsyncIterator<String>>;
   address: () => Promise<AsyncIterator<String>>;
-  opNro: () => Promise<AsyncIterator<String>>;
-  puh: () => Promise<AsyncIterator<String>>;
+  personNumber: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1217,8 +1229,8 @@ export interface UserNullablePromise
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   address: () => Promise<String>;
-  opNro: () => Promise<String>;
-  puh: () => Promise<String>;
+  personNumber: () => Promise<String>;
+  phone: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1427,9 +1439,10 @@ export interface DeviceSubscriptionPayloadSubscription
 
 export interface DevicePreviousValues {
   id: ID_Output;
-  idCode?: String;
+  idCode: String;
   model?: String;
   info?: String;
+  loanStatus: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -1441,6 +1454,7 @@ export interface DevicePreviousValuesPromise
   idCode: () => Promise<String>;
   model: () => Promise<String>;
   info: () => Promise<String>;
+  loanStatus: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1452,6 +1466,7 @@ export interface DevicePreviousValuesSubscription
   idCode: () => Promise<AsyncIterator<String>>;
   model: () => Promise<AsyncIterator<String>>;
   info: () => Promise<AsyncIterator<String>>;
+  loanStatus: () => Promise<AsyncIterator<Boolean>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1546,8 +1561,8 @@ export interface UserPreviousValues {
   firstName?: String;
   lastName?: String;
   address?: String;
-  opNro?: String;
-  puh?: String;
+  personNumber?: String;
+  phone?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -1563,8 +1578,8 @@ export interface UserPreviousValuesPromise
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   address: () => Promise<String>;
-  opNro: () => Promise<String>;
-  puh: () => Promise<String>;
+  personNumber: () => Promise<String>;
+  phone: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1580,8 +1595,8 @@ export interface UserPreviousValuesSubscription
   firstName: () => Promise<AsyncIterator<String>>;
   lastName: () => Promise<AsyncIterator<String>>;
   address: () => Promise<AsyncIterator<String>>;
-  opNro: () => Promise<AsyncIterator<String>>;
-  puh: () => Promise<AsyncIterator<String>>;
+  personNumber: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1653,7 +1668,6 @@ export const models: Model[] = [
 export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
   typeDefs,
   models,
-  endpoint: `http://localhost:4466`,
-  secret: `mysecret42`
+  endpoint: `http://prisma:3060`
 });
 export const prisma = new Prisma();

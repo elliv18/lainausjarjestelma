@@ -9,7 +9,9 @@ export default {
             return await prisma.user({ id: req.id })
         },
         allUsers: async (obj, args, reg) => {
-            return await prisma.users
+            const users = await prisma.users()
+            console.log(users)
+            return users
         }
     },
     Mutation: {

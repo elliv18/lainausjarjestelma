@@ -9,7 +9,7 @@ const server = new GraphQLServer({
   resolvers,
   //middlewares: [permissions],
   context: req => {
-    console.log(req)
+    //console.log(req)
     return {
       ...req
     }
@@ -17,7 +17,11 @@ const server = new GraphQLServer({
 })
 
 const options = {
-  port: 3050
+  port: 3050,
+  cors: {
+    creditials: true,
+    origin: ["http://prisma:3060"]
+  }
 }
 
 server.start(options, () => console.log(`🚀 Server ready at http://localhost:3050`))
