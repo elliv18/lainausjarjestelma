@@ -2,10 +2,11 @@
 import { GraphQLServer } from 'graphql-yoga'
 import { permissions } from './permissions'
 import { prisma } from './generated/prisma-client';
-import schema from './schema';
+import { typeDefs, resolvers } from './schema';
 
 const server = new GraphQLServer({
-  schema,
+  typeDefs,
+  resolvers,
   middlewares: [permissions],
   context: request => {
     return {
