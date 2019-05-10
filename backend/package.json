@@ -5,8 +5,15 @@
   "license": "MIT",
   "scripts": {
     "dev": "yarn build && concurrently \"tsc --watch\" \"nodemon -w build --exec 'node --max-old-space-size=8192 build/src/index.js'\"",
-    "build": "rm -rf build && mkdir build && cp -r config build/ && tsc",
-    "start": "node build/src/index.js"
+    "dev-prisma": "nodemon -w datamodel.prisma --exec 'yarn prisma generate && PRISMA_ENDPOINT=http://localhost:4466 yarn prisma deploy --force'",
+    "dev-prettier": "onchange 'src/**/*.{ts,tsx}' -- prettier --write {{changed}}",
+    "dev-serve": "sleep 5 && tsc-watch -w --noClear --onSuccess 'node --max-old-space-size=2048 build/src/index.js'",
+    "build": "rm -rf build && mkdir build && yarn prisma generate && tsc",
+    "start": "yarn prisma deploy && node build/src/index.js",
+    "lint": "yarn lint-prettier && yarn lint-ts",
+    "lint-ts": "tslint -p tsconfig.json -t stylish -e '**/*.spec.{ts,tsx}' 'src/**/*.{ts,tsx}'",
+    "lint-prettier": "prettier --check 'src/**/*.{ts,tsx}'",
+    "prisma:force-deploy": "yarn prisma deploy --force"
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -15,6 +22,7 @@
     "apollo-server": "^2.5.0",
     "bcrypt": "^3.0.6",
     "bcryptjs": "^2.4.3",
+    "concurrently": "^4.1.0",
     "graphql": "^14.3.0",
     "graphql-shield": "^5.3.5",
     "graphql-yoga": "^1.17.4",
@@ -25,7 +33,14 @@
     "npx": "^10.2.0",
     "prisma": "^1.32.2",
     "prisma-client-lib": "^1.30.4",
-    "typescript": "^3.4.5"
+    "tsc-watch": "^2.1.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "onchange": "^5.2.0",
+    "prettier": "^1.17.0",
+    "tslint": "^5.16.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.4.5"
+  }
 }

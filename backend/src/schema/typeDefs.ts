@@ -24,8 +24,8 @@ export default `
         address: String
         personNumber: String
         phone: String
-        createdAt: DateTime!
-        updatedAt: DateTime!
+        createdAt: String!
+        updatedAt: String!
 
     }
 
@@ -39,8 +39,8 @@ export default `
         model: String
         info: String
         devCategory: DevCategory!
-        createdAt: DateTime!
-        updatedAt: DateTime!
+        createdAt: String!
+        updatedAt: String!
     }
 
     ###############
@@ -51,8 +51,8 @@ export default `
         id: ID!
         deviceType: String
         manufacture: String
-        createdAt: DateTime!
-        updatedAt: DateTime!
+        createdAt: String!
+        updatedAt: String!
     }
 
     ########
@@ -61,15 +61,15 @@ export default `
 
     type Loan {
         id: ID!
-        loandate: Datetime!
-        returnDate: DateTime
-        dueDate: DateTime!
+        loandate: String!
+        returnDate: String
+        dueDate: String!
         deviceId: Device!
         loanerId: User!
         supplierId: User!
         returnerId: User
-        createdAt: DateTime!
-        updatedAt: DateTime!
+        createdAt: String!
+        updatedAt: String!
     }
 
     ###########
@@ -78,6 +78,7 @@ export default `
 
     type Query {
         currentUser: User
+        allUsers: [User]
     }
 
     #############

@@ -1,23 +1,23 @@
 // import { ApolloServer, gql } from 'apollo-server';
 import { GraphQLServer } from 'graphql-yoga'
 import { permissions } from './permissions'
-import { prisma } from './generated/prisma-client';
+// import { prisma } from './generated/prisma-client';
 import { typeDefs, resolvers } from './schema';
 
 const server = new GraphQLServer({
   typeDefs,
   resolvers,
-  middlewares: [permissions],
-  context: request => {
+  //middlewares: [permissions],
+  context: req => {
+    console.log(req)
     return {
-      ...request,
-      prisma,
+      ...req
     }
   },
 })
 
 const options = {
-  port: 4466
+  port: 3050
 }
 
-server.start(options, () => console.log(`🚀 Server ready at http://localhost:4466`))
+server.start(options, () => console.log(`🚀 Server ready at http://localhost:3050`))

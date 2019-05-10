@@ -5,7 +5,12 @@ import { JWT_SECRET } from '../environment'
 
 export default {
     Query: {
-
+        currentUser: async (obj, args, req) => {
+            return await prisma.user({ id: req.id })
+        },
+        allUsers: async (obj, args, reg) => {
+            return await prisma.users
+        }
     },
     Mutation: {
         login: async (obj, { input: { email, password }}) => {

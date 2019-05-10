@@ -1,27 +1,24 @@
-import { rule, shield } from 'graphql-shield'
-import { getUserId } from '../tools/jwt'
+import { rule, shield, and, or, not } from 'graphql-shield'
+import { verify } from 'jsonwebtoken' 
 
 const rules = {
   isAuthenticatedUser: rule()((parent, args, context) => {
-    const userId = getUserId(context)
-    return Boolean(userId)
+    //const userId = getUserId(context)
+    return Boolean(true)
   }),
   isPostOwner: rule()(async (parent, { id }, context) => {
-    const userId = getUserId(context)
-    const author = await context.prisma.post({ id }).author()
-    return userId === author.id
+    //const userId = getUserId(context)
+    //const author = await context.prisma.post({ id }).author()
+    //return userId === author.id
+    return true
   }),
 }
 
 export const permissions = shield({
   Query: {
-    me: rules.isAuthenticatedUser,
-    filterPosts: rules.isAuthenticatedUser,
-    post: rules.isAuthenticatedUser,
+
   },
   Mutation: {
-    createDraft: rules.isAuthenticatedUser,
-    deletePost: rules.isPostOwner,
-    publish: rules.isPostOwner,
+
   },
 })
