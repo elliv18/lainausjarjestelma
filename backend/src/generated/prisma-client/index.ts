@@ -230,9 +230,11 @@ export type DeviceOrderByInput =
   | "model_ASC"
   | "model_DESC"
   | "info_ASC"
-  | "info_DESC";
-
-export type UserType = "ADMIN" | "STAFF" | "STUDENT";
+  | "info_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type DevCategoryOrderByInput =
   | "id_ASC"
@@ -240,7 +242,13 @@ export type DevCategoryOrderByInput =
   | "deviceType_ASC"
   | "deviceType_DESC"
   | "manufacture_ASC"
-  | "manufacture_DESC";
+  | "manufacture_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type UserType = "ADMIN" | "STAFF" | "STUDENT";
 
 export type LoanOrderByInput =
   | "id_ASC"
@@ -250,7 +258,11 @@ export type LoanOrderByInput =
   | "returnDate_ASC"
   | "returnDate_DESC"
   | "dueDate_ASC"
-  | "dueDate_DESC";
+  | "dueDate_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -272,7 +284,11 @@ export type UserOrderByInput =
   | "opNro_ASC"
   | "opNro_DESC"
   | "puh_ASC"
-  | "puh_DESC";
+  | "puh_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -290,9 +306,11 @@ export interface DeviceUpsertNestedInput {
   create: DeviceCreateInput;
 }
 
-export interface DevCategoryUpdateDataInput {
-  deviceType?: Maybe<String>;
-  manufacture?: Maybe<String>;
+export interface DevCategoryUpdateOneRequiredInput {
+  create?: Maybe<DevCategoryCreateInput>;
+  update?: Maybe<DevCategoryUpdateDataInput>;
+  upsert?: Maybe<DevCategoryUpsertNestedInput>;
+  connect?: Maybe<DevCategoryWhereUniqueInput>;
 }
 
 export interface DeviceUpdateDataInput {
@@ -307,10 +325,12 @@ export interface DevCategoryCreateOneInput {
   connect?: Maybe<DevCategoryWhereUniqueInput>;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-}>;
+export interface DeviceUpdateOneRequiredInput {
+  create?: Maybe<DeviceCreateInput>;
+  update?: Maybe<DeviceUpdateDataInput>;
+  upsert?: Maybe<DeviceUpsertNestedInput>;
+  connect?: Maybe<DeviceWhereUniqueInput>;
+}
 
 export interface LoanSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
@@ -323,229 +343,23 @@ export interface LoanSubscriptionWhereInput {
   NOT?: Maybe<LoanSubscriptionWhereInput[] | LoanSubscriptionWhereInput>;
 }
 
-export interface DeviceUpdateOneRequiredInput {
-  create?: Maybe<DeviceCreateInput>;
-  update?: Maybe<DeviceUpdateDataInput>;
-  upsert?: Maybe<DeviceUpsertNestedInput>;
-  connect?: Maybe<DeviceWhereUniqueInput>;
-}
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+}>;
 
-export interface DeviceSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<DeviceWhereInput>;
-  AND?: Maybe<DeviceSubscriptionWhereInput[] | DeviceSubscriptionWhereInput>;
-  OR?: Maybe<DeviceSubscriptionWhereInput[] | DeviceSubscriptionWhereInput>;
-  NOT?: Maybe<DeviceSubscriptionWhereInput[] | DeviceSubscriptionWhereInput>;
-}
+export type DeviceWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface LoanUpdateInput {
-  loanDate?: Maybe<String>;
-  returnDate?: Maybe<String>;
-  dueDate?: Maybe<String>;
+  loanDate?: Maybe<DateTimeInput>;
+  returnDate?: Maybe<DateTimeInput>;
+  dueDate?: Maybe<DateTimeInput>;
   deviceId?: Maybe<DeviceUpdateOneRequiredInput>;
   loanerId?: Maybe<UserUpdateOneRequiredInput>;
   supplierId?: Maybe<UserUpdateOneRequiredInput>;
   returnerId?: Maybe<UserUpdateOneInput>;
-}
-
-export interface DevCategorySubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<DevCategoryWhereInput>;
-  AND?: Maybe<
-    DevCategorySubscriptionWhereInput[] | DevCategorySubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    DevCategorySubscriptionWhereInput[] | DevCategorySubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    DevCategorySubscriptionWhereInput[] | DevCategorySubscriptionWhereInput
-  >;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  isActive?: Maybe<Boolean>;
-  userType: UserType;
-  email: String;
-  password: String;
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  address?: Maybe<String>;
-  opNro?: Maybe<String>;
-  puh?: Maybe<String>;
-}
-
-export interface UserUpdateInput {
-  isActive?: Maybe<Boolean>;
-  userType?: Maybe<UserType>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  address?: Maybe<String>;
-  opNro?: Maybe<String>;
-  puh?: Maybe<String>;
-}
-
-export interface UserCreateOneInput {
-  create?: Maybe<UserCreateInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export type LoanWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
-}
-
-export interface LoanWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  loanDate?: Maybe<String>;
-  loanDate_not?: Maybe<String>;
-  loanDate_in?: Maybe<String[] | String>;
-  loanDate_not_in?: Maybe<String[] | String>;
-  loanDate_lt?: Maybe<String>;
-  loanDate_lte?: Maybe<String>;
-  loanDate_gt?: Maybe<String>;
-  loanDate_gte?: Maybe<String>;
-  loanDate_contains?: Maybe<String>;
-  loanDate_not_contains?: Maybe<String>;
-  loanDate_starts_with?: Maybe<String>;
-  loanDate_not_starts_with?: Maybe<String>;
-  loanDate_ends_with?: Maybe<String>;
-  loanDate_not_ends_with?: Maybe<String>;
-  returnDate?: Maybe<String>;
-  returnDate_not?: Maybe<String>;
-  returnDate_in?: Maybe<String[] | String>;
-  returnDate_not_in?: Maybe<String[] | String>;
-  returnDate_lt?: Maybe<String>;
-  returnDate_lte?: Maybe<String>;
-  returnDate_gt?: Maybe<String>;
-  returnDate_gte?: Maybe<String>;
-  returnDate_contains?: Maybe<String>;
-  returnDate_not_contains?: Maybe<String>;
-  returnDate_starts_with?: Maybe<String>;
-  returnDate_not_starts_with?: Maybe<String>;
-  returnDate_ends_with?: Maybe<String>;
-  returnDate_not_ends_with?: Maybe<String>;
-  dueDate?: Maybe<String>;
-  dueDate_not?: Maybe<String>;
-  dueDate_in?: Maybe<String[] | String>;
-  dueDate_not_in?: Maybe<String[] | String>;
-  dueDate_lt?: Maybe<String>;
-  dueDate_lte?: Maybe<String>;
-  dueDate_gt?: Maybe<String>;
-  dueDate_gte?: Maybe<String>;
-  dueDate_contains?: Maybe<String>;
-  dueDate_not_contains?: Maybe<String>;
-  dueDate_starts_with?: Maybe<String>;
-  dueDate_not_starts_with?: Maybe<String>;
-  dueDate_ends_with?: Maybe<String>;
-  dueDate_not_ends_with?: Maybe<String>;
-  deviceId?: Maybe<DeviceWhereInput>;
-  loanerId?: Maybe<UserWhereInput>;
-  supplierId?: Maybe<UserWhereInput>;
-  returnerId?: Maybe<UserWhereInput>;
-  AND?: Maybe<LoanWhereInput[] | LoanWhereInput>;
-  OR?: Maybe<LoanWhereInput[] | LoanWhereInput>;
-  NOT?: Maybe<LoanWhereInput[] | LoanWhereInput>;
-}
-
-export interface DevCategoryCreateInput {
-  id?: Maybe<ID_Input>;
-  deviceType?: Maybe<String>;
-  manufacture?: Maybe<String>;
-}
-
-export interface DevCategoryWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  deviceType?: Maybe<String>;
-  deviceType_not?: Maybe<String>;
-  deviceType_in?: Maybe<String[] | String>;
-  deviceType_not_in?: Maybe<String[] | String>;
-  deviceType_lt?: Maybe<String>;
-  deviceType_lte?: Maybe<String>;
-  deviceType_gt?: Maybe<String>;
-  deviceType_gte?: Maybe<String>;
-  deviceType_contains?: Maybe<String>;
-  deviceType_not_contains?: Maybe<String>;
-  deviceType_starts_with?: Maybe<String>;
-  deviceType_not_starts_with?: Maybe<String>;
-  deviceType_ends_with?: Maybe<String>;
-  deviceType_not_ends_with?: Maybe<String>;
-  manufacture?: Maybe<String>;
-  manufacture_not?: Maybe<String>;
-  manufacture_in?: Maybe<String[] | String>;
-  manufacture_not_in?: Maybe<String[] | String>;
-  manufacture_lt?: Maybe<String>;
-  manufacture_lte?: Maybe<String>;
-  manufacture_gt?: Maybe<String>;
-  manufacture_gte?: Maybe<String>;
-  manufacture_contains?: Maybe<String>;
-  manufacture_not_contains?: Maybe<String>;
-  manufacture_starts_with?: Maybe<String>;
-  manufacture_not_starts_with?: Maybe<String>;
-  manufacture_ends_with?: Maybe<String>;
-  manufacture_not_ends_with?: Maybe<String>;
-  AND?: Maybe<DevCategoryWhereInput[] | DevCategoryWhereInput>;
-  OR?: Maybe<DevCategoryWhereInput[] | DevCategoryWhereInput>;
-  NOT?: Maybe<DevCategoryWhereInput[] | DevCategoryWhereInput>;
-}
-
-export interface DevCategoryUpdateInput {
-  deviceType?: Maybe<String>;
-  manufacture?: Maybe<String>;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
-export interface DeviceCreateOneInput {
-  create?: Maybe<DeviceCreateInput>;
-  connect?: Maybe<DeviceWhereUniqueInput>;
 }
 
 export interface DeviceWhereInput {
@@ -606,35 +420,41 @@ export interface DeviceWhereInput {
   info_ends_with?: Maybe<String>;
   info_not_ends_with?: Maybe<String>;
   devCategoryId?: Maybe<DevCategoryWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<DeviceWhereInput[] | DeviceWhereInput>;
   OR?: Maybe<DeviceWhereInput[] | DeviceWhereInput>;
   NOT?: Maybe<DeviceWhereInput[] | DeviceWhereInput>;
 }
 
-export interface LoanCreateInput {
+export interface UserCreateInput {
   id?: Maybe<ID_Input>;
-  loanDate: String;
-  returnDate?: Maybe<String>;
-  dueDate: String;
-  deviceId: DeviceCreateOneInput;
-  loanerId: UserCreateOneInput;
-  supplierId: UserCreateOneInput;
-  returnerId?: Maybe<UserCreateOneInput>;
+  isActive?: Maybe<Boolean>;
+  userType: UserType;
+  email: String;
+  password: String;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  address?: Maybe<String>;
+  opNro?: Maybe<String>;
+  puh?: Maybe<String>;
 }
 
-export interface LoanUpdateManyMutationInput {
-  loanDate?: Maybe<String>;
-  returnDate?: Maybe<String>;
-  dueDate?: Maybe<String>;
-}
-
-export interface DeviceUpdateManyMutationInput {
-  idCode?: Maybe<String>;
-  model?: Maybe<String>;
-  info?: Maybe<String>;
-}
-
-export interface UserUpdateDataInput {
+export interface UserUpdateInput {
   isActive?: Maybe<Boolean>;
   userType?: Maybe<UserType>;
   email?: Maybe<String>;
@@ -646,31 +466,92 @@ export interface UserUpdateDataInput {
   puh?: Maybe<String>;
 }
 
-export interface DevCategoryUpdateOneRequiredInput {
-  create?: Maybe<DevCategoryCreateInput>;
-  update?: Maybe<DevCategoryUpdateDataInput>;
-  upsert?: Maybe<DevCategoryUpsertNestedInput>;
-  connect?: Maybe<DevCategoryWhereUniqueInput>;
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface DeviceUpdateInput {
-  idCode?: Maybe<String>;
-  model?: Maybe<String>;
-  info?: Maybe<String>;
-  devCategoryId?: Maybe<DevCategoryUpdateOneRequiredInput>;
+export interface UserUpdateOneInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface DevCategoryUpsertNestedInput {
-  update: DevCategoryUpdateDataInput;
-  create: DevCategoryCreateInput;
+export interface DeviceCreateOneInput {
+  create?: Maybe<DeviceCreateInput>;
+  connect?: Maybe<DeviceWhereUniqueInput>;
 }
 
-export interface DeviceCreateInput {
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface DevCategoryWhereInput {
   id?: Maybe<ID_Input>;
-  idCode?: Maybe<String>;
-  model?: Maybe<String>;
-  info?: Maybe<String>;
-  devCategoryId: DevCategoryCreateOneInput;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  deviceType?: Maybe<String>;
+  deviceType_not?: Maybe<String>;
+  deviceType_in?: Maybe<String[] | String>;
+  deviceType_not_in?: Maybe<String[] | String>;
+  deviceType_lt?: Maybe<String>;
+  deviceType_lte?: Maybe<String>;
+  deviceType_gt?: Maybe<String>;
+  deviceType_gte?: Maybe<String>;
+  deviceType_contains?: Maybe<String>;
+  deviceType_not_contains?: Maybe<String>;
+  deviceType_starts_with?: Maybe<String>;
+  deviceType_not_starts_with?: Maybe<String>;
+  deviceType_ends_with?: Maybe<String>;
+  deviceType_not_ends_with?: Maybe<String>;
+  manufacture?: Maybe<String>;
+  manufacture_not?: Maybe<String>;
+  manufacture_in?: Maybe<String[] | String>;
+  manufacture_not_in?: Maybe<String[] | String>;
+  manufacture_lt?: Maybe<String>;
+  manufacture_lte?: Maybe<String>;
+  manufacture_gt?: Maybe<String>;
+  manufacture_gte?: Maybe<String>;
+  manufacture_contains?: Maybe<String>;
+  manufacture_not_contains?: Maybe<String>;
+  manufacture_starts_with?: Maybe<String>;
+  manufacture_not_starts_with?: Maybe<String>;
+  manufacture_ends_with?: Maybe<String>;
+  manufacture_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<DevCategoryWhereInput[] | DevCategoryWhereInput>;
+  OR?: Maybe<DevCategoryWhereInput[] | DevCategoryWhereInput>;
+  NOT?: Maybe<DevCategoryWhereInput[] | DevCategoryWhereInput>;
 }
 
 export interface UserWhereInput {
@@ -792,19 +673,193 @@ export interface UserWhereInput {
   puh_not_starts_with?: Maybe<String>;
   puh_ends_with?: Maybe<String>;
   puh_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface UserUpdateOneInput {
-  create?: Maybe<UserCreateInput>;
-  update?: Maybe<UserUpdateDataInput>;
-  upsert?: Maybe<UserUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface DevCategoryCreateInput {
+  id?: Maybe<ID_Input>;
+  deviceType?: Maybe<String>;
+  manufacture?: Maybe<String>;
 }
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface DevCategoryUpdateInput {
+  deviceType?: Maybe<String>;
+  manufacture?: Maybe<String>;
+}
+
+export interface DevCategorySubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<DevCategoryWhereInput>;
+  AND?: Maybe<
+    DevCategorySubscriptionWhereInput[] | DevCategorySubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    DevCategorySubscriptionWhereInput[] | DevCategorySubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    DevCategorySubscriptionWhereInput[] | DevCategorySubscriptionWhereInput
+  >;
+}
+
+export interface LoanCreateInput {
+  id?: Maybe<ID_Input>;
+  loanDate: DateTimeInput;
+  returnDate?: Maybe<DateTimeInput>;
+  dueDate: DateTimeInput;
+  deviceId: DeviceCreateOneInput;
+  loanerId: UserCreateOneInput;
+  supplierId: UserCreateOneInput;
+  returnerId?: Maybe<UserCreateOneInput>;
+}
+
+export interface LoanUpdateManyMutationInput {
+  loanDate?: Maybe<DateTimeInput>;
+  returnDate?: Maybe<DateTimeInput>;
+  dueDate?: Maybe<DateTimeInput>;
+}
+
+export interface DeviceUpdateManyMutationInput {
+  idCode?: Maybe<String>;
+  model?: Maybe<String>;
+  info?: Maybe<String>;
+}
+
+export interface UserUpdateDataInput {
+  isActive?: Maybe<Boolean>;
+  userType?: Maybe<UserType>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  address?: Maybe<String>;
+  opNro?: Maybe<String>;
+  puh?: Maybe<String>;
+}
+
+export interface DeviceUpdateInput {
+  idCode?: Maybe<String>;
+  model?: Maybe<String>;
+  info?: Maybe<String>;
+  devCategoryId?: Maybe<DevCategoryUpdateOneRequiredInput>;
+}
+
+export interface DevCategoryUpdateDataInput {
+  deviceType?: Maybe<String>;
+  manufacture?: Maybe<String>;
+}
+
+export interface DeviceCreateInput {
+  id?: Maybe<ID_Input>;
+  idCode?: Maybe<String>;
+  model?: Maybe<String>;
+  info?: Maybe<String>;
+  devCategoryId: DevCategoryCreateOneInput;
+}
+
+export interface DevCategoryUpsertNestedInput {
+  update: DevCategoryUpdateDataInput;
+  create: DevCategoryCreateInput;
+}
+
+export interface LoanWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  loanDate?: Maybe<DateTimeInput>;
+  loanDate_not?: Maybe<DateTimeInput>;
+  loanDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  loanDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  loanDate_lt?: Maybe<DateTimeInput>;
+  loanDate_lte?: Maybe<DateTimeInput>;
+  loanDate_gt?: Maybe<DateTimeInput>;
+  loanDate_gte?: Maybe<DateTimeInput>;
+  returnDate?: Maybe<DateTimeInput>;
+  returnDate_not?: Maybe<DateTimeInput>;
+  returnDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  returnDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  returnDate_lt?: Maybe<DateTimeInput>;
+  returnDate_lte?: Maybe<DateTimeInput>;
+  returnDate_gt?: Maybe<DateTimeInput>;
+  returnDate_gte?: Maybe<DateTimeInput>;
+  dueDate?: Maybe<DateTimeInput>;
+  dueDate_not?: Maybe<DateTimeInput>;
+  dueDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  dueDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  dueDate_lt?: Maybe<DateTimeInput>;
+  dueDate_lte?: Maybe<DateTimeInput>;
+  dueDate_gt?: Maybe<DateTimeInput>;
+  dueDate_gte?: Maybe<DateTimeInput>;
+  deviceId?: Maybe<DeviceWhereInput>;
+  loanerId?: Maybe<UserWhereInput>;
+  supplierId?: Maybe<UserWhereInput>;
+  returnerId?: Maybe<UserWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<LoanWhereInput[] | LoanWhereInput>;
+  OR?: Maybe<LoanWhereInput[] | LoanWhereInput>;
+  NOT?: Maybe<LoanWhereInput[] | LoanWhereInput>;
+}
+
+export type LoanWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface UserUpdateManyMutationInput {
   isActive?: Maybe<Boolean>;
@@ -818,9 +873,16 @@ export interface UserUpdateManyMutationInput {
   puh?: Maybe<String>;
 }
 
-export type DeviceWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
+export interface DeviceSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<DeviceWhereInput>;
+  AND?: Maybe<DeviceSubscriptionWhereInput[] | DeviceSubscriptionWhereInput>;
+  OR?: Maybe<DeviceSubscriptionWhereInput[] | DeviceSubscriptionWhereInput>;
+  NOT?: Maybe<DeviceSubscriptionWhereInput[] | DeviceSubscriptionWhereInput>;
+}
 
 export interface UserUpdateOneRequiredInput {
   create?: Maybe<UserCreateInput>;
@@ -844,6 +906,8 @@ export interface UserPreviousValues {
   address?: String;
   opNro?: String;
   puh?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface UserPreviousValuesPromise
@@ -859,6 +923,8 @@ export interface UserPreviousValuesPromise
   address: () => Promise<String>;
   opNro: () => Promise<String>;
   puh: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -874,6 +940,8 @@ export interface UserPreviousValuesSubscription
   address: () => Promise<AsyncIterator<String>>;
   opNro: () => Promise<AsyncIterator<String>>;
   puh: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface DeviceEdge {
@@ -891,6 +959,48 @@ export interface DeviceEdgeSubscription
     Fragmentable {
   node: <T = DeviceSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface DevCategoryConnection {
+  pageInfo: PageInfo;
+  edges: DevCategoryEdge[];
+}
+
+export interface DevCategoryConnectionPromise
+  extends Promise<DevCategoryConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<DevCategoryEdge>>() => T;
+  aggregate: <T = AggregateDevCategoryPromise>() => T;
+}
+
+export interface DevCategoryConnectionSubscription
+  extends Promise<AsyncIterator<DevCategoryConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<DevCategoryEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateDevCategorySubscription>() => T;
+}
+
+export interface DeviceConnection {
+  pageInfo: PageInfo;
+  edges: DeviceEdge[];
+}
+
+export interface DeviceConnectionPromise
+  extends Promise<DeviceConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<DeviceEdge>>() => T;
+  aggregate: <T = AggregateDevicePromise>() => T;
+}
+
+export interface DeviceConnectionSubscription
+  extends Promise<AsyncIterator<DeviceConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<DeviceEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateDeviceSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -916,27 +1026,6 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface DeviceConnection {
-  pageInfo: PageInfo;
-  edges: DeviceEdge[];
-}
-
-export interface DeviceConnectionPromise
-  extends Promise<DeviceConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<DeviceEdge>>() => T;
-  aggregate: <T = AggregateDevicePromise>() => T;
-}
-
-export interface DeviceConnectionSubscription
-  extends Promise<AsyncIterator<DeviceConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<DeviceEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateDeviceSubscription>() => T;
-}
-
 export interface BatchPayload {
   count: Long;
 }
@@ -951,27 +1040,6 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface DevCategoryConnection {
-  pageInfo: PageInfo;
-  edges: DevCategoryEdge[];
-}
-
-export interface DevCategoryConnectionPromise
-  extends Promise<DevCategoryConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<DevCategoryEdge>>() => T;
-  aggregate: <T = AggregateDevCategoryPromise>() => T;
-}
-
-export interface DevCategoryConnectionSubscription
-  extends Promise<AsyncIterator<DevCategoryConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<DevCategoryEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateDevCategorySubscription>() => T;
 }
 
 export interface AggregateUser {
@@ -990,32 +1058,47 @@ export interface AggregateUserSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface DevCategory {
+export interface Device {
   id: ID_Output;
-  deviceType?: String;
-  manufacture?: String;
+  idCode?: String;
+  model?: String;
+  info?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
-export interface DevCategoryPromise extends Promise<DevCategory>, Fragmentable {
+export interface DevicePromise extends Promise<Device>, Fragmentable {
   id: () => Promise<ID_Output>;
-  deviceType: () => Promise<String>;
-  manufacture: () => Promise<String>;
+  idCode: () => Promise<String>;
+  model: () => Promise<String>;
+  info: () => Promise<String>;
+  devCategoryId: <T = DevCategoryPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface DevCategorySubscription
-  extends Promise<AsyncIterator<DevCategory>>,
+export interface DeviceSubscription
+  extends Promise<AsyncIterator<Device>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  deviceType: () => Promise<AsyncIterator<String>>;
-  manufacture: () => Promise<AsyncIterator<String>>;
+  idCode: () => Promise<AsyncIterator<String>>;
+  model: () => Promise<AsyncIterator<String>>;
+  info: () => Promise<AsyncIterator<String>>;
+  devCategoryId: <T = DevCategorySubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface DevCategoryNullablePromise
-  extends Promise<DevCategory | null>,
+export interface DeviceNullablePromise
+  extends Promise<Device | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  deviceType: () => Promise<String>;
-  manufacture: () => Promise<String>;
+  idCode: () => Promise<String>;
+  model: () => Promise<String>;
+  info: () => Promise<String>;
+  devCategoryId: <T = DevCategoryPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserConnection {
@@ -1037,6 +1120,58 @@ export interface UserConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
   aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface DevCategory {
+  id: ID_Output;
+  deviceType?: String;
+  manufacture?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface DevCategoryPromise extends Promise<DevCategory>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  deviceType: () => Promise<String>;
+  manufacture: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface DevCategorySubscription
+  extends Promise<AsyncIterator<DevCategory>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  deviceType: () => Promise<AsyncIterator<String>>;
+  manufacture: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface DevCategoryNullablePromise
+  extends Promise<DevCategory | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  deviceType: () => Promise<String>;
+  manufacture: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AggregateLoan {
+  count: Int;
+}
+
+export interface AggregateLoanPromise
+  extends Promise<AggregateLoan>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateLoanSubscription
+  extends Promise<AsyncIterator<AggregateLoan>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface DevCategorySubscriptionPayload {
@@ -1064,44 +1199,6 @@ export interface DevCategorySubscriptionPayloadSubscription
   previousValues: <T = DevCategoryPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateLoan {
-  count: Int;
-}
-
-export interface AggregateLoanPromise
-  extends Promise<AggregateLoan>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateLoanSubscription
-  extends Promise<AsyncIterator<AggregateLoan>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface DevCategoryPreviousValues {
-  id: ID_Output;
-  deviceType?: String;
-  manufacture?: String;
-}
-
-export interface DevCategoryPreviousValuesPromise
-  extends Promise<DevCategoryPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  deviceType: () => Promise<String>;
-  manufacture: () => Promise<String>;
-}
-
-export interface DevCategoryPreviousValuesSubscription
-  extends Promise<AsyncIterator<DevCategoryPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  deviceType: () => Promise<AsyncIterator<String>>;
-  manufacture: () => Promise<AsyncIterator<String>>;
-}
-
 export interface LoanConnection {
   pageInfo: PageInfo;
   edges: LoanEdge[];
@@ -1123,39 +1220,32 @@ export interface LoanConnectionSubscription
   aggregate: <T = AggregateLoanSubscription>() => T;
 }
 
-export interface Device {
+export interface DevCategoryPreviousValues {
   id: ID_Output;
-  idCode?: String;
-  model?: String;
-  info?: String;
+  deviceType?: String;
+  manufacture?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
-export interface DevicePromise extends Promise<Device>, Fragmentable {
+export interface DevCategoryPreviousValuesPromise
+  extends Promise<DevCategoryPreviousValues>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
-  idCode: () => Promise<String>;
-  model: () => Promise<String>;
-  info: () => Promise<String>;
-  devCategoryId: <T = DevCategoryPromise>() => T;
+  deviceType: () => Promise<String>;
+  manufacture: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface DeviceSubscription
-  extends Promise<AsyncIterator<Device>>,
+export interface DevCategoryPreviousValuesSubscription
+  extends Promise<AsyncIterator<DevCategoryPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  idCode: () => Promise<AsyncIterator<String>>;
-  model: () => Promise<AsyncIterator<String>>;
-  info: () => Promise<AsyncIterator<String>>;
-  devCategoryId: <T = DevCategorySubscription>() => T;
-}
-
-export interface DeviceNullablePromise
-  extends Promise<Device | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  idCode: () => Promise<String>;
-  model: () => Promise<String>;
-  info: () => Promise<String>;
-  devCategoryId: <T = DevCategoryPromise>() => T;
+  deviceType: () => Promise<AsyncIterator<String>>;
+  manufacture: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface User {
@@ -1169,6 +1259,8 @@ export interface User {
   address?: String;
   opNro?: String;
   puh?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -1182,6 +1274,8 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   address: () => Promise<String>;
   opNro: () => Promise<String>;
   puh: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserSubscription
@@ -1197,6 +1291,8 @@ export interface UserSubscription
   address: () => Promise<AsyncIterator<String>>;
   opNro: () => Promise<AsyncIterator<String>>;
   puh: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserNullablePromise
@@ -1212,31 +1308,24 @@ export interface UserNullablePromise
   address: () => Promise<String>;
   opNro: () => Promise<String>;
   puh: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface DeviceSubscriptionPayload {
-  mutation: MutationType;
-  node: Device;
-  updatedFields: String[];
-  previousValues: DevicePreviousValues;
+export interface AggregateDevCategory {
+  count: Int;
 }
 
-export interface DeviceSubscriptionPayloadPromise
-  extends Promise<DeviceSubscriptionPayload>,
+export interface AggregateDevCategoryPromise
+  extends Promise<AggregateDevCategory>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = DevicePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = DevicePreviousValuesPromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface DeviceSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<DeviceSubscriptionPayload>>,
+export interface AggregateDevCategorySubscription
+  extends Promise<AsyncIterator<AggregateDevCategory>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = DeviceSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = DevicePreviousValuesSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface AggregateDevice {
@@ -1253,6 +1342,73 @@ export interface AggregateDeviceSubscription
   extends Promise<AsyncIterator<AggregateDevice>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface DevCategoryEdge {
+  node: DevCategory;
+  cursor: String;
+}
+
+export interface DevCategoryEdgePromise
+  extends Promise<DevCategoryEdge>,
+    Fragmentable {
+  node: <T = DevCategoryPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface DevCategoryEdgeSubscription
+  extends Promise<AsyncIterator<DevCategoryEdge>>,
+    Fragmentable {
+  node: <T = DevCategorySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface DevicePreviousValues {
+  id: ID_Output;
+  idCode?: String;
+  model?: String;
+  info?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface DevicePreviousValuesPromise
+  extends Promise<DevicePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  idCode: () => Promise<String>;
+  model: () => Promise<String>;
+  info: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface DevicePreviousValuesSubscription
+  extends Promise<AsyncIterator<DevicePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  idCode: () => Promise<AsyncIterator<String>>;
+  model: () => Promise<AsyncIterator<String>>;
+  info: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface LoanSubscriptionPayload {
@@ -1280,125 +1436,87 @@ export interface LoanSubscriptionPayloadSubscription
   previousValues: <T = LoanPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateDevCategory {
-  count: Int;
-}
-
-export interface AggregateDevCategoryPromise
-  extends Promise<AggregateDevCategory>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateDevCategorySubscription
-  extends Promise<AsyncIterator<AggregateDevCategory>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface LoanPreviousValues {
-  id: ID_Output;
-  loanDate: String;
-  returnDate?: String;
-  dueDate: String;
-}
-
-export interface LoanPreviousValuesPromise
-  extends Promise<LoanPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  loanDate: () => Promise<String>;
-  returnDate: () => Promise<String>;
-  dueDate: () => Promise<String>;
-}
-
-export interface LoanPreviousValuesSubscription
-  extends Promise<AsyncIterator<LoanPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  loanDate: () => Promise<AsyncIterator<String>>;
-  returnDate: () => Promise<AsyncIterator<String>>;
-  dueDate: () => Promise<AsyncIterator<String>>;
-}
-
 export interface Loan {
   id: ID_Output;
-  loanDate: String;
-  returnDate?: String;
-  dueDate: String;
+  loanDate: DateTimeOutput;
+  returnDate?: DateTimeOutput;
+  dueDate: DateTimeOutput;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface LoanPromise extends Promise<Loan>, Fragmentable {
   id: () => Promise<ID_Output>;
-  loanDate: () => Promise<String>;
-  returnDate: () => Promise<String>;
-  dueDate: () => Promise<String>;
+  loanDate: () => Promise<DateTimeOutput>;
+  returnDate: () => Promise<DateTimeOutput>;
+  dueDate: () => Promise<DateTimeOutput>;
   deviceId: <T = DevicePromise>() => T;
   loanerId: <T = UserPromise>() => T;
   supplierId: <T = UserPromise>() => T;
   returnerId: <T = UserPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface LoanSubscription
   extends Promise<AsyncIterator<Loan>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  loanDate: () => Promise<AsyncIterator<String>>;
-  returnDate: () => Promise<AsyncIterator<String>>;
-  dueDate: () => Promise<AsyncIterator<String>>;
+  loanDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  returnDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  dueDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   deviceId: <T = DeviceSubscription>() => T;
   loanerId: <T = UserSubscription>() => T;
   supplierId: <T = UserSubscription>() => T;
   returnerId: <T = UserSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface LoanNullablePromise
   extends Promise<Loan | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  loanDate: () => Promise<String>;
-  returnDate: () => Promise<String>;
-  dueDate: () => Promise<String>;
+  loanDate: () => Promise<DateTimeOutput>;
+  returnDate: () => Promise<DateTimeOutput>;
+  dueDate: () => Promise<DateTimeOutput>;
   deviceId: <T = DevicePromise>() => T;
   loanerId: <T = UserPromise>() => T;
   supplierId: <T = UserPromise>() => T;
   returnerId: <T = UserPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface DevCategoryEdge {
-  node: DevCategory;
-  cursor: String;
+export interface LoanPreviousValues {
+  id: ID_Output;
+  loanDate: DateTimeOutput;
+  returnDate?: DateTimeOutput;
+  dueDate: DateTimeOutput;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
-export interface DevCategoryEdgePromise
-  extends Promise<DevCategoryEdge>,
+export interface LoanPreviousValuesPromise
+  extends Promise<LoanPreviousValues>,
     Fragmentable {
-  node: <T = DevCategoryPromise>() => T;
-  cursor: () => Promise<String>;
+  id: () => Promise<ID_Output>;
+  loanDate: () => Promise<DateTimeOutput>;
+  returnDate: () => Promise<DateTimeOutput>;
+  dueDate: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface DevCategoryEdgeSubscription
-  extends Promise<AsyncIterator<DevCategoryEdge>>,
+export interface LoanPreviousValuesSubscription
+  extends Promise<AsyncIterator<LoanPreviousValues>>,
     Fragmentable {
-  node: <T = DevCategorySubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  loanDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  returnDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  dueDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface LoanEdge {
@@ -1443,35 +1561,35 @@ export interface UserSubscriptionPayloadSubscription
   previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
-export interface DevicePreviousValues {
-  id: ID_Output;
-  idCode?: String;
-  model?: String;
-  info?: String;
+export interface DeviceSubscriptionPayload {
+  mutation: MutationType;
+  node: Device;
+  updatedFields: String[];
+  previousValues: DevicePreviousValues;
 }
 
-export interface DevicePreviousValuesPromise
-  extends Promise<DevicePreviousValues>,
+export interface DeviceSubscriptionPayloadPromise
+  extends Promise<DeviceSubscriptionPayload>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  idCode: () => Promise<String>;
-  model: () => Promise<String>;
-  info: () => Promise<String>;
+  mutation: () => Promise<MutationType>;
+  node: <T = DevicePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = DevicePreviousValuesPromise>() => T;
 }
 
-export interface DevicePreviousValuesSubscription
-  extends Promise<AsyncIterator<DevicePreviousValues>>,
+export interface DeviceSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<DeviceSubscriptionPayload>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  idCode: () => Promise<AsyncIterator<String>>;
-  model: () => Promise<AsyncIterator<String>>;
-  info: () => Promise<AsyncIterator<String>>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = DeviceSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = DevicePreviousValuesSubscription>() => T;
 }
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
-export type Boolean = boolean;
+export type Int = number;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -1485,9 +1603,19 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+The `Boolean` scalar type represents `true` or `false`.
 */
-export type Int = number;
+export type Boolean = boolean;
+
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
 
 export type Long = string;
 

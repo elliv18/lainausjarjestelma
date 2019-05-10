@@ -15,7 +15,8 @@ type User {
   address: String
   opNro: String
   puh: String
-
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Device {
@@ -24,23 +25,27 @@ type Device {
   model: String
   info: String
   devCategoryId: DevCategory! 
-
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type DevCategory {
   id: ID! @id
   deviceType: String
   manufacture: String
-
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Loan {
   id: ID! @id
-  loanDate: String!
-  returnDate: String
-  dueDate: String!
+  loanDate: DateTime!
+  returnDate: DateTime
+  dueDate: DateTime!
   deviceId: Device!
   loanerId: User! @relation(name: "LoanerId")
   supplierId: User! @relation(name: "SupplierId")
   returnerId: User @relation(name: "ReturnId")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }

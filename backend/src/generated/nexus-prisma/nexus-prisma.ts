@@ -407,6 +407,8 @@ type UserObject =
   | { name: 'address', args?: [] | false, alias?: string  } 
   | { name: 'opNro', args?: [] | false, alias?: string  } 
   | { name: 'puh', args?: [] | false, alias?: string  } 
+  | { name: 'createdAt', args?: [] | false, alias?: string  } 
+  | { name: 'updatedAt', args?: [] | false, alias?: string  } 
 
 type UserFields =
   | 'id'
@@ -419,6 +421,8 @@ type UserFields =
   | 'address'
   | 'opNro'
   | 'puh'
+  | 'createdAt'
+  | 'updatedAt'
 
 
 
@@ -508,6 +512,22 @@ export interface UserFieldDetails {
     description: string
     list: undefined
     nullable: true
+    resolve: undefined
+  }
+  createdAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  updatedAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
     resolve: undefined
   }
 }
@@ -702,6 +722,8 @@ type DeviceObject =
   | { name: 'model', args?: [] | false, alias?: string  } 
   | { name: 'info', args?: [] | false, alias?: string  } 
   | { name: 'devCategoryId', args?: [] | false, alias?: string  } 
+  | { name: 'createdAt', args?: [] | false, alias?: string  } 
+  | { name: 'updatedAt', args?: [] | false, alias?: string  } 
 
 type DeviceFields =
   | 'id'
@@ -709,6 +731,8 @@ type DeviceFields =
   | 'model'
   | 'info'
   | 'devCategoryId'
+  | 'createdAt'
+  | 'updatedAt'
 
 
 
@@ -760,6 +784,22 @@ export interface DeviceFieldDetails {
       info?: GraphQLResolveInfo
     ) => Promise<prisma.DevCategory> | prisma.DevCategory
   }
+  createdAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  updatedAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
 }
   
 
@@ -770,11 +810,15 @@ type DevCategoryObject =
   | { name: 'id', args?: [] | false, alias?: string  } 
   | { name: 'deviceType', args?: [] | false, alias?: string  } 
   | { name: 'manufacture', args?: [] | false, alias?: string  } 
+  | { name: 'createdAt', args?: [] | false, alias?: string  } 
+  | { name: 'updatedAt', args?: [] | false, alias?: string  } 
 
 type DevCategoryFields =
   | 'id'
   | 'deviceType'
   | 'manufacture'
+  | 'createdAt'
+  | 'updatedAt'
 
 
 
@@ -803,6 +847,22 @@ export interface DevCategoryFieldDetails {
     description: string
     list: undefined
     nullable: true
+    resolve: undefined
+  }
+  createdAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  updatedAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
     resolve: undefined
   }
 }
@@ -1070,6 +1130,8 @@ type LoanObject =
   | { name: 'loanerId', args?: [] | false, alias?: string  } 
   | { name: 'supplierId', args?: [] | false, alias?: string  } 
   | { name: 'returnerId', args?: [] | false, alias?: string  } 
+  | { name: 'createdAt', args?: [] | false, alias?: string  } 
+  | { name: 'updatedAt', args?: [] | false, alias?: string  } 
 
 type LoanFields =
   | 'id'
@@ -1080,6 +1142,8 @@ type LoanFields =
   | 'loanerId'
   | 'supplierId'
   | 'returnerId'
+  | 'createdAt'
+  | 'updatedAt'
 
 
 
@@ -1095,7 +1159,7 @@ export interface LoanFieldDetails {
     resolve: undefined
   }
   loanDate: {
-    type: 'String'
+    type: 'DateTime'
     args: {}
     description: string
     list: undefined
@@ -1103,7 +1167,7 @@ export interface LoanFieldDetails {
     resolve: undefined
   }
   returnDate: {
-    type: 'String'
+    type: 'DateTime'
     args: {}
     description: string
     list: undefined
@@ -1111,7 +1175,7 @@ export interface LoanFieldDetails {
     resolve: undefined
   }
   dueDate: {
-    type: 'String'
+    type: 'DateTime'
     args: {}
     description: string
     list: undefined
@@ -1169,6 +1233,22 @@ export interface LoanFieldDetails {
       context: core.GetGen<"context">,
       info?: GraphQLResolveInfo
     ) => Promise<prisma.User | null> | prisma.User | null
+  }
+  createdAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  updatedAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
   }
 }
   
@@ -1927,6 +2007,8 @@ type UserPreviousValuesObject =
   | { name: 'address', args?: [] | false, alias?: string  } 
   | { name: 'opNro', args?: [] | false, alias?: string  } 
   | { name: 'puh', args?: [] | false, alias?: string  } 
+  | { name: 'createdAt', args?: [] | false, alias?: string  } 
+  | { name: 'updatedAt', args?: [] | false, alias?: string  } 
 
 type UserPreviousValuesFields =
   | 'id'
@@ -1939,6 +2021,8 @@ type UserPreviousValuesFields =
   | 'address'
   | 'opNro'
   | 'puh'
+  | 'createdAt'
+  | 'updatedAt'
 
 
 
@@ -2030,6 +2114,22 @@ export interface UserPreviousValuesFieldDetails {
     nullable: true
     resolve: undefined
   }
+  createdAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  updatedAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
 }
   
 
@@ -2111,12 +2211,16 @@ type DevicePreviousValuesObject =
   | { name: 'idCode', args?: [] | false, alias?: string  } 
   | { name: 'model', args?: [] | false, alias?: string  } 
   | { name: 'info', args?: [] | false, alias?: string  } 
+  | { name: 'createdAt', args?: [] | false, alias?: string  } 
+  | { name: 'updatedAt', args?: [] | false, alias?: string  } 
 
 type DevicePreviousValuesFields =
   | 'id'
   | 'idCode'
   | 'model'
   | 'info'
+  | 'createdAt'
+  | 'updatedAt'
 
 
 
@@ -2153,6 +2257,22 @@ export interface DevicePreviousValuesFieldDetails {
     description: string
     list: undefined
     nullable: true
+    resolve: undefined
+  }
+  createdAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  updatedAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
     resolve: undefined
   }
 }
@@ -2235,11 +2355,15 @@ type DevCategoryPreviousValuesObject =
   | { name: 'id', args?: [] | false, alias?: string  } 
   | { name: 'deviceType', args?: [] | false, alias?: string  } 
   | { name: 'manufacture', args?: [] | false, alias?: string  } 
+  | { name: 'createdAt', args?: [] | false, alias?: string  } 
+  | { name: 'updatedAt', args?: [] | false, alias?: string  } 
 
 type DevCategoryPreviousValuesFields =
   | 'id'
   | 'deviceType'
   | 'manufacture'
+  | 'createdAt'
+  | 'updatedAt'
 
 
 
@@ -2268,6 +2392,22 @@ export interface DevCategoryPreviousValuesFieldDetails {
     description: string
     list: undefined
     nullable: true
+    resolve: undefined
+  }
+  createdAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  updatedAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
     resolve: undefined
   }
 }
@@ -2351,12 +2491,16 @@ type LoanPreviousValuesObject =
   | { name: 'loanDate', args?: [] | false, alias?: string  } 
   | { name: 'returnDate', args?: [] | false, alias?: string  } 
   | { name: 'dueDate', args?: [] | false, alias?: string  } 
+  | { name: 'createdAt', args?: [] | false, alias?: string  } 
+  | { name: 'updatedAt', args?: [] | false, alias?: string  } 
 
 type LoanPreviousValuesFields =
   | 'id'
   | 'loanDate'
   | 'returnDate'
   | 'dueDate'
+  | 'createdAt'
+  | 'updatedAt'
 
 
 
@@ -2372,7 +2516,7 @@ export interface LoanPreviousValuesFieldDetails {
     resolve: undefined
   }
   loanDate: {
-    type: 'String'
+    type: 'DateTime'
     args: {}
     description: string
     list: undefined
@@ -2380,7 +2524,7 @@ export interface LoanPreviousValuesFieldDetails {
     resolve: undefined
   }
   returnDate: {
-    type: 'String'
+    type: 'DateTime'
     args: {}
     description: string
     list: undefined
@@ -2388,7 +2532,23 @@ export interface LoanPreviousValuesFieldDetails {
     resolve: undefined
   }
   dueDate: {
-    type: 'String'
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  createdAt: {
+    type: 'DateTime'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  updatedAt: {
+    type: 'DateTime'
     args: {}
     description: string
     list: undefined
@@ -2527,6 +2687,22 @@ export interface UserWhereInput {
   puh_not_starts_with?: string | null
   puh_ends_with?: string | null
   puh_not_ends_with?: string | null
+  createdAt?: string | null
+  createdAt_not?: string | null
+  createdAt_in?: string[]
+  createdAt_not_in?: string[]
+  createdAt_lt?: string | null
+  createdAt_lte?: string | null
+  createdAt_gt?: string | null
+  createdAt_gte?: string | null
+  updatedAt?: string | null
+  updatedAt_not?: string | null
+  updatedAt_in?: string[]
+  updatedAt_not_in?: string[]
+  updatedAt_lt?: string | null
+  updatedAt_lte?: string | null
+  updatedAt_gt?: string | null
+  updatedAt_gte?: string | null
   AND?: UserWhereInput[]
   OR?: UserWhereInput[]
   NOT?: UserWhereInput[]
@@ -2651,6 +2827,22 @@ export type UserWhereInputInputObject =
   | { name: 'puh_not_starts_with', alias?: string  } 
   | { name: 'puh_ends_with', alias?: string  } 
   | { name: 'puh_not_ends_with', alias?: string  } 
+  | { name: 'createdAt', alias?: string  } 
+  | { name: 'createdAt_not', alias?: string  } 
+  | { name: 'createdAt_in', alias?: string  } 
+  | { name: 'createdAt_not_in', alias?: string  } 
+  | { name: 'createdAt_lt', alias?: string  } 
+  | { name: 'createdAt_lte', alias?: string  } 
+  | { name: 'createdAt_gt', alias?: string  } 
+  | { name: 'createdAt_gte', alias?: string  } 
+  | { name: 'updatedAt', alias?: string  } 
+  | { name: 'updatedAt_not', alias?: string  } 
+  | { name: 'updatedAt_in', alias?: string  } 
+  | { name: 'updatedAt_not_in', alias?: string  } 
+  | { name: 'updatedAt_lt', alias?: string  } 
+  | { name: 'updatedAt_lte', alias?: string  } 
+  | { name: 'updatedAt_gt', alias?: string  } 
+  | { name: 'updatedAt_gte', alias?: string  } 
   | { name: 'AND', alias?: string  } 
   | { name: 'OR', alias?: string  } 
   | { name: 'NOT', alias?: string  } 
@@ -2720,6 +2912,22 @@ export interface DeviceWhereInput {
   info_ends_with?: string | null
   info_not_ends_with?: string | null
   devCategoryId?: DevCategoryWhereInput | null
+  createdAt?: string | null
+  createdAt_not?: string | null
+  createdAt_in?: string[]
+  createdAt_not_in?: string[]
+  createdAt_lt?: string | null
+  createdAt_lte?: string | null
+  createdAt_gt?: string | null
+  createdAt_gte?: string | null
+  updatedAt?: string | null
+  updatedAt_not?: string | null
+  updatedAt_in?: string[]
+  updatedAt_not_in?: string[]
+  updatedAt_lt?: string | null
+  updatedAt_lte?: string | null
+  updatedAt_gt?: string | null
+  updatedAt_gte?: string | null
   AND?: DeviceWhereInput[]
   OR?: DeviceWhereInput[]
   NOT?: DeviceWhereInput[]
@@ -2783,6 +2991,22 @@ export type DeviceWhereInputInputObject =
   | { name: 'info_ends_with', alias?: string  } 
   | { name: 'info_not_ends_with', alias?: string  } 
   | { name: 'devCategoryId', alias?: string  } 
+  | { name: 'createdAt', alias?: string  } 
+  | { name: 'createdAt_not', alias?: string  } 
+  | { name: 'createdAt_in', alias?: string  } 
+  | { name: 'createdAt_not_in', alias?: string  } 
+  | { name: 'createdAt_lt', alias?: string  } 
+  | { name: 'createdAt_lte', alias?: string  } 
+  | { name: 'createdAt_gt', alias?: string  } 
+  | { name: 'createdAt_gte', alias?: string  } 
+  | { name: 'updatedAt', alias?: string  } 
+  | { name: 'updatedAt_not', alias?: string  } 
+  | { name: 'updatedAt_in', alias?: string  } 
+  | { name: 'updatedAt_not_in', alias?: string  } 
+  | { name: 'updatedAt_lt', alias?: string  } 
+  | { name: 'updatedAt_lte', alias?: string  } 
+  | { name: 'updatedAt_gt', alias?: string  } 
+  | { name: 'updatedAt_gte', alias?: string  } 
   | { name: 'AND', alias?: string  } 
   | { name: 'OR', alias?: string  } 
   | { name: 'NOT', alias?: string  } 
@@ -2830,6 +3054,22 @@ export interface DevCategoryWhereInput {
   manufacture_not_starts_with?: string | null
   manufacture_ends_with?: string | null
   manufacture_not_ends_with?: string | null
+  createdAt?: string | null
+  createdAt_not?: string | null
+  createdAt_in?: string[]
+  createdAt_not_in?: string[]
+  createdAt_lt?: string | null
+  createdAt_lte?: string | null
+  createdAt_gt?: string | null
+  createdAt_gte?: string | null
+  updatedAt?: string | null
+  updatedAt_not?: string | null
+  updatedAt_in?: string[]
+  updatedAt_not_in?: string[]
+  updatedAt_lt?: string | null
+  updatedAt_lte?: string | null
+  updatedAt_gt?: string | null
+  updatedAt_gte?: string | null
   AND?: DevCategoryWhereInput[]
   OR?: DevCategoryWhereInput[]
   NOT?: DevCategoryWhereInput[]
@@ -2878,6 +3118,22 @@ export type DevCategoryWhereInputInputObject =
   | { name: 'manufacture_not_starts_with', alias?: string  } 
   | { name: 'manufacture_ends_with', alias?: string  } 
   | { name: 'manufacture_not_ends_with', alias?: string  } 
+  | { name: 'createdAt', alias?: string  } 
+  | { name: 'createdAt_not', alias?: string  } 
+  | { name: 'createdAt_in', alias?: string  } 
+  | { name: 'createdAt_not_in', alias?: string  } 
+  | { name: 'createdAt_lt', alias?: string  } 
+  | { name: 'createdAt_lte', alias?: string  } 
+  | { name: 'createdAt_gt', alias?: string  } 
+  | { name: 'createdAt_gte', alias?: string  } 
+  | { name: 'updatedAt', alias?: string  } 
+  | { name: 'updatedAt_not', alias?: string  } 
+  | { name: 'updatedAt_in', alias?: string  } 
+  | { name: 'updatedAt_not_in', alias?: string  } 
+  | { name: 'updatedAt_lt', alias?: string  } 
+  | { name: 'updatedAt_lte', alias?: string  } 
+  | { name: 'updatedAt_gt', alias?: string  } 
+  | { name: 'updatedAt_gte', alias?: string  } 
   | { name: 'AND', alias?: string  } 
   | { name: 'OR', alias?: string  } 
   | { name: 'NOT', alias?: string  } 
@@ -2919,12 +3175,6 @@ export interface LoanWhereInput {
   loanDate_lte?: string | null
   loanDate_gt?: string | null
   loanDate_gte?: string | null
-  loanDate_contains?: string | null
-  loanDate_not_contains?: string | null
-  loanDate_starts_with?: string | null
-  loanDate_not_starts_with?: string | null
-  loanDate_ends_with?: string | null
-  loanDate_not_ends_with?: string | null
   returnDate?: string | null
   returnDate_not?: string | null
   returnDate_in?: string[]
@@ -2933,12 +3183,6 @@ export interface LoanWhereInput {
   returnDate_lte?: string | null
   returnDate_gt?: string | null
   returnDate_gte?: string | null
-  returnDate_contains?: string | null
-  returnDate_not_contains?: string | null
-  returnDate_starts_with?: string | null
-  returnDate_not_starts_with?: string | null
-  returnDate_ends_with?: string | null
-  returnDate_not_ends_with?: string | null
   dueDate?: string | null
   dueDate_not?: string | null
   dueDate_in?: string[]
@@ -2947,16 +3191,26 @@ export interface LoanWhereInput {
   dueDate_lte?: string | null
   dueDate_gt?: string | null
   dueDate_gte?: string | null
-  dueDate_contains?: string | null
-  dueDate_not_contains?: string | null
-  dueDate_starts_with?: string | null
-  dueDate_not_starts_with?: string | null
-  dueDate_ends_with?: string | null
-  dueDate_not_ends_with?: string | null
   deviceId?: DeviceWhereInput | null
   loanerId?: UserWhereInput | null
   supplierId?: UserWhereInput | null
   returnerId?: UserWhereInput | null
+  createdAt?: string | null
+  createdAt_not?: string | null
+  createdAt_in?: string[]
+  createdAt_not_in?: string[]
+  createdAt_lt?: string | null
+  createdAt_lte?: string | null
+  createdAt_gt?: string | null
+  createdAt_gte?: string | null
+  updatedAt?: string | null
+  updatedAt_not?: string | null
+  updatedAt_in?: string[]
+  updatedAt_not_in?: string[]
+  updatedAt_lt?: string | null
+  updatedAt_lte?: string | null
+  updatedAt_gt?: string | null
+  updatedAt_gte?: string | null
   AND?: LoanWhereInput[]
   OR?: LoanWhereInput[]
   NOT?: LoanWhereInput[]
@@ -2985,12 +3239,6 @@ export type LoanWhereInputInputObject =
   | { name: 'loanDate_lte', alias?: string  } 
   | { name: 'loanDate_gt', alias?: string  } 
   | { name: 'loanDate_gte', alias?: string  } 
-  | { name: 'loanDate_contains', alias?: string  } 
-  | { name: 'loanDate_not_contains', alias?: string  } 
-  | { name: 'loanDate_starts_with', alias?: string  } 
-  | { name: 'loanDate_not_starts_with', alias?: string  } 
-  | { name: 'loanDate_ends_with', alias?: string  } 
-  | { name: 'loanDate_not_ends_with', alias?: string  } 
   | { name: 'returnDate', alias?: string  } 
   | { name: 'returnDate_not', alias?: string  } 
   | { name: 'returnDate_in', alias?: string  } 
@@ -2999,12 +3247,6 @@ export type LoanWhereInputInputObject =
   | { name: 'returnDate_lte', alias?: string  } 
   | { name: 'returnDate_gt', alias?: string  } 
   | { name: 'returnDate_gte', alias?: string  } 
-  | { name: 'returnDate_contains', alias?: string  } 
-  | { name: 'returnDate_not_contains', alias?: string  } 
-  | { name: 'returnDate_starts_with', alias?: string  } 
-  | { name: 'returnDate_not_starts_with', alias?: string  } 
-  | { name: 'returnDate_ends_with', alias?: string  } 
-  | { name: 'returnDate_not_ends_with', alias?: string  } 
   | { name: 'dueDate', alias?: string  } 
   | { name: 'dueDate_not', alias?: string  } 
   | { name: 'dueDate_in', alias?: string  } 
@@ -3013,16 +3255,26 @@ export type LoanWhereInputInputObject =
   | { name: 'dueDate_lte', alias?: string  } 
   | { name: 'dueDate_gt', alias?: string  } 
   | { name: 'dueDate_gte', alias?: string  } 
-  | { name: 'dueDate_contains', alias?: string  } 
-  | { name: 'dueDate_not_contains', alias?: string  } 
-  | { name: 'dueDate_starts_with', alias?: string  } 
-  | { name: 'dueDate_not_starts_with', alias?: string  } 
-  | { name: 'dueDate_ends_with', alias?: string  } 
-  | { name: 'dueDate_not_ends_with', alias?: string  } 
   | { name: 'deviceId', alias?: string  } 
   | { name: 'loanerId', alias?: string  } 
   | { name: 'supplierId', alias?: string  } 
   | { name: 'returnerId', alias?: string  } 
+  | { name: 'createdAt', alias?: string  } 
+  | { name: 'createdAt_not', alias?: string  } 
+  | { name: 'createdAt_in', alias?: string  } 
+  | { name: 'createdAt_not_in', alias?: string  } 
+  | { name: 'createdAt_lt', alias?: string  } 
+  | { name: 'createdAt_lte', alias?: string  } 
+  | { name: 'createdAt_gt', alias?: string  } 
+  | { name: 'createdAt_gte', alias?: string  } 
+  | { name: 'updatedAt', alias?: string  } 
+  | { name: 'updatedAt_not', alias?: string  } 
+  | { name: 'updatedAt_in', alias?: string  } 
+  | { name: 'updatedAt_not_in', alias?: string  } 
+  | { name: 'updatedAt_lt', alias?: string  } 
+  | { name: 'updatedAt_lte', alias?: string  } 
+  | { name: 'updatedAt_gt', alias?: string  } 
+  | { name: 'updatedAt_gte', alias?: string  } 
   | { name: 'AND', alias?: string  } 
   | { name: 'OR', alias?: string  } 
   | { name: 'NOT', alias?: string  } 

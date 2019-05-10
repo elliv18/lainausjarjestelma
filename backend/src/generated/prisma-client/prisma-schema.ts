@@ -22,10 +22,14 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 type DevCategory {
   id: ID!
   deviceType: String
   manufacture: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type DevCategoryConnection {
@@ -57,12 +61,18 @@ enum DevCategoryOrderByInput {
   deviceType_DESC
   manufacture_ASC
   manufacture_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type DevCategoryPreviousValues {
   id: ID!
   deviceType: String
   manufacture: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type DevCategorySubscriptionPayload {
@@ -153,6 +163,22 @@ input DevCategoryWhereInput {
   manufacture_not_starts_with: String
   manufacture_ends_with: String
   manufacture_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [DevCategoryWhereInput!]
   OR: [DevCategoryWhereInput!]
   NOT: [DevCategoryWhereInput!]
@@ -168,6 +194,8 @@ type Device {
   model: String
   info: String
   devCategoryId: DevCategory!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type DeviceConnection {
@@ -203,6 +231,10 @@ enum DeviceOrderByInput {
   model_DESC
   info_ASC
   info_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type DevicePreviousValues {
@@ -210,6 +242,8 @@ type DevicePreviousValues {
   idCode: String
   model: String
   info: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type DeviceSubscriptionPayload {
@@ -320,6 +354,22 @@ input DeviceWhereInput {
   info_ends_with: String
   info_not_ends_with: String
   devCategoryId: DevCategoryWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [DeviceWhereInput!]
   OR: [DeviceWhereInput!]
   NOT: [DeviceWhereInput!]
@@ -331,13 +381,15 @@ input DeviceWhereUniqueInput {
 
 type Loan {
   id: ID!
-  loanDate: String!
-  returnDate: String
-  dueDate: String!
+  loanDate: DateTime!
+  returnDate: DateTime
+  dueDate: DateTime!
   deviceId: Device!
   loanerId: User!
   supplierId: User!
   returnerId: User
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type LoanConnection {
@@ -348,9 +400,9 @@ type LoanConnection {
 
 input LoanCreateInput {
   id: ID
-  loanDate: String!
-  returnDate: String
-  dueDate: String!
+  loanDate: DateTime!
+  returnDate: DateTime
+  dueDate: DateTime!
   deviceId: DeviceCreateOneInput!
   loanerId: UserCreateOneInput!
   supplierId: UserCreateOneInput!
@@ -371,13 +423,19 @@ enum LoanOrderByInput {
   returnDate_DESC
   dueDate_ASC
   dueDate_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type LoanPreviousValues {
   id: ID!
-  loanDate: String!
-  returnDate: String
-  dueDate: String!
+  loanDate: DateTime!
+  returnDate: DateTime
+  dueDate: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type LoanSubscriptionPayload {
@@ -399,9 +457,9 @@ input LoanSubscriptionWhereInput {
 }
 
 input LoanUpdateInput {
-  loanDate: String
-  returnDate: String
-  dueDate: String
+  loanDate: DateTime
+  returnDate: DateTime
+  dueDate: DateTime
   deviceId: DeviceUpdateOneRequiredInput
   loanerId: UserUpdateOneRequiredInput
   supplierId: UserUpdateOneRequiredInput
@@ -409,9 +467,9 @@ input LoanUpdateInput {
 }
 
 input LoanUpdateManyMutationInput {
-  loanDate: String
-  returnDate: String
-  dueDate: String
+  loanDate: DateTime
+  returnDate: DateTime
+  dueDate: DateTime
 }
 
 input LoanWhereInput {
@@ -429,52 +487,50 @@ input LoanWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  loanDate: String
-  loanDate_not: String
-  loanDate_in: [String!]
-  loanDate_not_in: [String!]
-  loanDate_lt: String
-  loanDate_lte: String
-  loanDate_gt: String
-  loanDate_gte: String
-  loanDate_contains: String
-  loanDate_not_contains: String
-  loanDate_starts_with: String
-  loanDate_not_starts_with: String
-  loanDate_ends_with: String
-  loanDate_not_ends_with: String
-  returnDate: String
-  returnDate_not: String
-  returnDate_in: [String!]
-  returnDate_not_in: [String!]
-  returnDate_lt: String
-  returnDate_lte: String
-  returnDate_gt: String
-  returnDate_gte: String
-  returnDate_contains: String
-  returnDate_not_contains: String
-  returnDate_starts_with: String
-  returnDate_not_starts_with: String
-  returnDate_ends_with: String
-  returnDate_not_ends_with: String
-  dueDate: String
-  dueDate_not: String
-  dueDate_in: [String!]
-  dueDate_not_in: [String!]
-  dueDate_lt: String
-  dueDate_lte: String
-  dueDate_gt: String
-  dueDate_gte: String
-  dueDate_contains: String
-  dueDate_not_contains: String
-  dueDate_starts_with: String
-  dueDate_not_starts_with: String
-  dueDate_ends_with: String
-  dueDate_not_ends_with: String
+  loanDate: DateTime
+  loanDate_not: DateTime
+  loanDate_in: [DateTime!]
+  loanDate_not_in: [DateTime!]
+  loanDate_lt: DateTime
+  loanDate_lte: DateTime
+  loanDate_gt: DateTime
+  loanDate_gte: DateTime
+  returnDate: DateTime
+  returnDate_not: DateTime
+  returnDate_in: [DateTime!]
+  returnDate_not_in: [DateTime!]
+  returnDate_lt: DateTime
+  returnDate_lte: DateTime
+  returnDate_gt: DateTime
+  returnDate_gte: DateTime
+  dueDate: DateTime
+  dueDate_not: DateTime
+  dueDate_in: [DateTime!]
+  dueDate_not_in: [DateTime!]
+  dueDate_lt: DateTime
+  dueDate_lte: DateTime
+  dueDate_gt: DateTime
+  dueDate_gte: DateTime
   deviceId: DeviceWhereInput
   loanerId: UserWhereInput
   supplierId: UserWhereInput
   returnerId: UserWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [LoanWhereInput!]
   OR: [LoanWhereInput!]
   NOT: [LoanWhereInput!]
@@ -564,6 +620,8 @@ type User {
   address: String
   opNro: String
   puh: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type UserConnection {
@@ -616,6 +674,10 @@ enum UserOrderByInput {
   opNro_DESC
   puh_ASC
   puh_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type UserPreviousValues {
@@ -629,6 +691,8 @@ type UserPreviousValues {
   address: String
   opNro: String
   puh: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type UserSubscriptionPayload {
@@ -831,6 +895,22 @@ input UserWhereInput {
   puh_not_starts_with: String
   puh_ends_with: String
   puh_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
