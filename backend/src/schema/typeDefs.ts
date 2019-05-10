@@ -18,7 +18,15 @@ export default `
         isActive: Boolean
         userType: UserType
         email: String
-        password: String
+        password: String!
+        firstName: String
+        lastName: String
+        address: String
+        personNumber: String
+        phone: String
+        createdAt: DateTime!
+        updatedAt: DateTime!
+
     }
 
     ##########
@@ -26,7 +34,13 @@ export default `
     ##########
 
     type Device {
-
+        id: ID!
+        idCode: String!
+        model: String
+        info: String
+        devCategory: DevCategory!
+        createdAt: DateTime!
+        updatedAt: DateTime!
     }
 
     ###############
@@ -34,7 +48,11 @@ export default `
     ###############
 
     type DevCategory {
-
+        id: ID!
+        deviceType: String
+        manufacture: String
+        createdAt: DateTime!
+        updatedAt: DateTime!
     }
 
     ########
@@ -42,7 +60,16 @@ export default `
     ########
 
     type Loan {
-
+        id: ID!
+        loandate: Datetime!
+        returnDate: DateTime
+        dueDate: DateTime!
+        deviceId: Device!
+        loanerId: User!
+        supplierId: User!
+        returnerId: User
+        createdAt: DateTime!
+        updatedAt: DateTime!
     }
 
     ###########
@@ -50,7 +77,7 @@ export default `
     ###########
 
     type Query {
-
+        currentUser: User
     }
 
     #############
