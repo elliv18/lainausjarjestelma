@@ -13,15 +13,15 @@ type User {
   firstName: String
   lastName: String
   address: String
-  opNro: String
-  puh: String
+  personNumber: String
+  phone: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
 
 type Device {
   id: ID! @id
-  idCode: String
+  idCode: String!
   model: String
   info: String
   devCategoryId: DevCategory! 
