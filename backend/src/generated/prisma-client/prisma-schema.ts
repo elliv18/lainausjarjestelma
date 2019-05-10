@@ -2,7 +2,19 @@
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-export const typeDefs = /* GraphQL */ `type AggregateUser {
+export const typeDefs = /* GraphQL */ `type AggregateDevCategory {
+  count: Int!
+}
+
+type AggregateDevice {
+  count: Int!
+}
+
+type AggregateLoan {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -10,9 +22,489 @@ type BatchPayload {
   count: Long!
 }
 
+type DevCategory {
+  id: ID!
+  deviceType: String
+  manufacture: String
+}
+
+type DevCategoryConnection {
+  pageInfo: PageInfo!
+  edges: [DevCategoryEdge]!
+  aggregate: AggregateDevCategory!
+}
+
+input DevCategoryCreateInput {
+  id: ID
+  deviceType: String
+  manufacture: String
+}
+
+input DevCategoryCreateOneInput {
+  create: DevCategoryCreateInput
+  connect: DevCategoryWhereUniqueInput
+}
+
+type DevCategoryEdge {
+  node: DevCategory!
+  cursor: String!
+}
+
+enum DevCategoryOrderByInput {
+  id_ASC
+  id_DESC
+  deviceType_ASC
+  deviceType_DESC
+  manufacture_ASC
+  manufacture_DESC
+}
+
+type DevCategoryPreviousValues {
+  id: ID!
+  deviceType: String
+  manufacture: String
+}
+
+type DevCategorySubscriptionPayload {
+  mutation: MutationType!
+  node: DevCategory
+  updatedFields: [String!]
+  previousValues: DevCategoryPreviousValues
+}
+
+input DevCategorySubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: DevCategoryWhereInput
+  AND: [DevCategorySubscriptionWhereInput!]
+  OR: [DevCategorySubscriptionWhereInput!]
+  NOT: [DevCategorySubscriptionWhereInput!]
+}
+
+input DevCategoryUpdateDataInput {
+  deviceType: String
+  manufacture: String
+}
+
+input DevCategoryUpdateInput {
+  deviceType: String
+  manufacture: String
+}
+
+input DevCategoryUpdateManyMutationInput {
+  deviceType: String
+  manufacture: String
+}
+
+input DevCategoryUpdateOneRequiredInput {
+  create: DevCategoryCreateInput
+  update: DevCategoryUpdateDataInput
+  upsert: DevCategoryUpsertNestedInput
+  connect: DevCategoryWhereUniqueInput
+}
+
+input DevCategoryUpsertNestedInput {
+  update: DevCategoryUpdateDataInput!
+  create: DevCategoryCreateInput!
+}
+
+input DevCategoryWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  deviceType: String
+  deviceType_not: String
+  deviceType_in: [String!]
+  deviceType_not_in: [String!]
+  deviceType_lt: String
+  deviceType_lte: String
+  deviceType_gt: String
+  deviceType_gte: String
+  deviceType_contains: String
+  deviceType_not_contains: String
+  deviceType_starts_with: String
+  deviceType_not_starts_with: String
+  deviceType_ends_with: String
+  deviceType_not_ends_with: String
+  manufacture: String
+  manufacture_not: String
+  manufacture_in: [String!]
+  manufacture_not_in: [String!]
+  manufacture_lt: String
+  manufacture_lte: String
+  manufacture_gt: String
+  manufacture_gte: String
+  manufacture_contains: String
+  manufacture_not_contains: String
+  manufacture_starts_with: String
+  manufacture_not_starts_with: String
+  manufacture_ends_with: String
+  manufacture_not_ends_with: String
+  AND: [DevCategoryWhereInput!]
+  OR: [DevCategoryWhereInput!]
+  NOT: [DevCategoryWhereInput!]
+}
+
+input DevCategoryWhereUniqueInput {
+  id: ID
+}
+
+type Device {
+  id: ID!
+  idCode: String
+  model: String
+  info: String
+  devCategoryId: DevCategory!
+}
+
+type DeviceConnection {
+  pageInfo: PageInfo!
+  edges: [DeviceEdge]!
+  aggregate: AggregateDevice!
+}
+
+input DeviceCreateInput {
+  id: ID
+  idCode: String
+  model: String
+  info: String
+  devCategoryId: DevCategoryCreateOneInput!
+}
+
+input DeviceCreateOneInput {
+  create: DeviceCreateInput
+  connect: DeviceWhereUniqueInput
+}
+
+type DeviceEdge {
+  node: Device!
+  cursor: String!
+}
+
+enum DeviceOrderByInput {
+  id_ASC
+  id_DESC
+  idCode_ASC
+  idCode_DESC
+  model_ASC
+  model_DESC
+  info_ASC
+  info_DESC
+}
+
+type DevicePreviousValues {
+  id: ID!
+  idCode: String
+  model: String
+  info: String
+}
+
+type DeviceSubscriptionPayload {
+  mutation: MutationType!
+  node: Device
+  updatedFields: [String!]
+  previousValues: DevicePreviousValues
+}
+
+input DeviceSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: DeviceWhereInput
+  AND: [DeviceSubscriptionWhereInput!]
+  OR: [DeviceSubscriptionWhereInput!]
+  NOT: [DeviceSubscriptionWhereInput!]
+}
+
+input DeviceUpdateDataInput {
+  idCode: String
+  model: String
+  info: String
+  devCategoryId: DevCategoryUpdateOneRequiredInput
+}
+
+input DeviceUpdateInput {
+  idCode: String
+  model: String
+  info: String
+  devCategoryId: DevCategoryUpdateOneRequiredInput
+}
+
+input DeviceUpdateManyMutationInput {
+  idCode: String
+  model: String
+  info: String
+}
+
+input DeviceUpdateOneRequiredInput {
+  create: DeviceCreateInput
+  update: DeviceUpdateDataInput
+  upsert: DeviceUpsertNestedInput
+  connect: DeviceWhereUniqueInput
+}
+
+input DeviceUpsertNestedInput {
+  update: DeviceUpdateDataInput!
+  create: DeviceCreateInput!
+}
+
+input DeviceWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  idCode: String
+  idCode_not: String
+  idCode_in: [String!]
+  idCode_not_in: [String!]
+  idCode_lt: String
+  idCode_lte: String
+  idCode_gt: String
+  idCode_gte: String
+  idCode_contains: String
+  idCode_not_contains: String
+  idCode_starts_with: String
+  idCode_not_starts_with: String
+  idCode_ends_with: String
+  idCode_not_ends_with: String
+  model: String
+  model_not: String
+  model_in: [String!]
+  model_not_in: [String!]
+  model_lt: String
+  model_lte: String
+  model_gt: String
+  model_gte: String
+  model_contains: String
+  model_not_contains: String
+  model_starts_with: String
+  model_not_starts_with: String
+  model_ends_with: String
+  model_not_ends_with: String
+  info: String
+  info_not: String
+  info_in: [String!]
+  info_not_in: [String!]
+  info_lt: String
+  info_lte: String
+  info_gt: String
+  info_gte: String
+  info_contains: String
+  info_not_contains: String
+  info_starts_with: String
+  info_not_starts_with: String
+  info_ends_with: String
+  info_not_ends_with: String
+  devCategoryId: DevCategoryWhereInput
+  AND: [DeviceWhereInput!]
+  OR: [DeviceWhereInput!]
+  NOT: [DeviceWhereInput!]
+}
+
+input DeviceWhereUniqueInput {
+  id: ID
+}
+
+type Loan {
+  id: ID!
+  loanDate: String!
+  returnDate: String
+  dueDate: String!
+  deviceId: Device!
+  loanerId: User!
+  supplierId: User!
+  returnerId: User
+}
+
+type LoanConnection {
+  pageInfo: PageInfo!
+  edges: [LoanEdge]!
+  aggregate: AggregateLoan!
+}
+
+input LoanCreateInput {
+  id: ID
+  loanDate: String!
+  returnDate: String
+  dueDate: String!
+  deviceId: DeviceCreateOneInput!
+  loanerId: UserCreateOneInput!
+  supplierId: UserCreateOneInput!
+  returnerId: UserCreateOneInput
+}
+
+type LoanEdge {
+  node: Loan!
+  cursor: String!
+}
+
+enum LoanOrderByInput {
+  id_ASC
+  id_DESC
+  loanDate_ASC
+  loanDate_DESC
+  returnDate_ASC
+  returnDate_DESC
+  dueDate_ASC
+  dueDate_DESC
+}
+
+type LoanPreviousValues {
+  id: ID!
+  loanDate: String!
+  returnDate: String
+  dueDate: String!
+}
+
+type LoanSubscriptionPayload {
+  mutation: MutationType!
+  node: Loan
+  updatedFields: [String!]
+  previousValues: LoanPreviousValues
+}
+
+input LoanSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: LoanWhereInput
+  AND: [LoanSubscriptionWhereInput!]
+  OR: [LoanSubscriptionWhereInput!]
+  NOT: [LoanSubscriptionWhereInput!]
+}
+
+input LoanUpdateInput {
+  loanDate: String
+  returnDate: String
+  dueDate: String
+  deviceId: DeviceUpdateOneRequiredInput
+  loanerId: UserUpdateOneRequiredInput
+  supplierId: UserUpdateOneRequiredInput
+  returnerId: UserUpdateOneInput
+}
+
+input LoanUpdateManyMutationInput {
+  loanDate: String
+  returnDate: String
+  dueDate: String
+}
+
+input LoanWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  loanDate: String
+  loanDate_not: String
+  loanDate_in: [String!]
+  loanDate_not_in: [String!]
+  loanDate_lt: String
+  loanDate_lte: String
+  loanDate_gt: String
+  loanDate_gte: String
+  loanDate_contains: String
+  loanDate_not_contains: String
+  loanDate_starts_with: String
+  loanDate_not_starts_with: String
+  loanDate_ends_with: String
+  loanDate_not_ends_with: String
+  returnDate: String
+  returnDate_not: String
+  returnDate_in: [String!]
+  returnDate_not_in: [String!]
+  returnDate_lt: String
+  returnDate_lte: String
+  returnDate_gt: String
+  returnDate_gte: String
+  returnDate_contains: String
+  returnDate_not_contains: String
+  returnDate_starts_with: String
+  returnDate_not_starts_with: String
+  returnDate_ends_with: String
+  returnDate_not_ends_with: String
+  dueDate: String
+  dueDate_not: String
+  dueDate_in: [String!]
+  dueDate_not_in: [String!]
+  dueDate_lt: String
+  dueDate_lte: String
+  dueDate_gt: String
+  dueDate_gte: String
+  dueDate_contains: String
+  dueDate_not_contains: String
+  dueDate_starts_with: String
+  dueDate_not_starts_with: String
+  dueDate_ends_with: String
+  dueDate_not_ends_with: String
+  deviceId: DeviceWhereInput
+  loanerId: UserWhereInput
+  supplierId: UserWhereInput
+  returnerId: UserWhereInput
+  AND: [LoanWhereInput!]
+  OR: [LoanWhereInput!]
+  NOT: [LoanWhereInput!]
+}
+
+input LoanWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createDevCategory(data: DevCategoryCreateInput!): DevCategory!
+  updateDevCategory(data: DevCategoryUpdateInput!, where: DevCategoryWhereUniqueInput!): DevCategory
+  updateManyDevCategories(data: DevCategoryUpdateManyMutationInput!, where: DevCategoryWhereInput): BatchPayload!
+  upsertDevCategory(where: DevCategoryWhereUniqueInput!, create: DevCategoryCreateInput!, update: DevCategoryUpdateInput!): DevCategory!
+  deleteDevCategory(where: DevCategoryWhereUniqueInput!): DevCategory
+  deleteManyDevCategories(where: DevCategoryWhereInput): BatchPayload!
+  createDevice(data: DeviceCreateInput!): Device!
+  updateDevice(data: DeviceUpdateInput!, where: DeviceWhereUniqueInput!): Device
+  updateManyDevices(data: DeviceUpdateManyMutationInput!, where: DeviceWhereInput): BatchPayload!
+  upsertDevice(where: DeviceWhereUniqueInput!, create: DeviceCreateInput!, update: DeviceUpdateInput!): Device!
+  deleteDevice(where: DeviceWhereUniqueInput!): Device
+  deleteManyDevices(where: DeviceWhereInput): BatchPayload!
+  createLoan(data: LoanCreateInput!): Loan!
+  updateLoan(data: LoanUpdateInput!, where: LoanWhereUniqueInput!): Loan
+  updateManyLoans(data: LoanUpdateManyMutationInput!, where: LoanWhereInput): BatchPayload!
+  upsertLoan(where: LoanWhereUniqueInput!, create: LoanCreateInput!, update: LoanUpdateInput!): Loan!
+  deleteLoan(where: LoanWhereUniqueInput!): Loan
+  deleteManyLoans(where: LoanWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -39,6 +531,15 @@ type PageInfo {
 }
 
 type Query {
+  devCategory(where: DevCategoryWhereUniqueInput!): DevCategory
+  devCategories(where: DevCategoryWhereInput, orderBy: DevCategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DevCategory]!
+  devCategoriesConnection(where: DevCategoryWhereInput, orderBy: DevCategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DevCategoryConnection!
+  device(where: DeviceWhereUniqueInput!): Device
+  devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device]!
+  devicesConnection(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DeviceConnection!
+  loan(where: LoanWhereUniqueInput!): Loan
+  loans(where: LoanWhereInput, orderBy: LoanOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Loan]!
+  loansConnection(where: LoanWhereInput, orderBy: LoanOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LoanConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -46,12 +547,23 @@ type Query {
 }
 
 type Subscription {
+  devCategory(where: DevCategorySubscriptionWhereInput): DevCategorySubscriptionPayload
+  device(where: DeviceSubscriptionWhereInput): DeviceSubscriptionPayload
+  loan(where: LoanSubscriptionWhereInput): LoanSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User {
   id: ID!
-  name: String!
+  isActive: Boolean!
+  userType: UserType!
+  email: String!
+  password: String!
+  firstName: String
+  lastName: String
+  address: String
+  opNro: String
+  puh: String
 }
 
 type UserConnection {
@@ -62,7 +574,20 @@ type UserConnection {
 
 input UserCreateInput {
   id: ID
-  name: String!
+  isActive: Boolean
+  userType: UserType!
+  email: String!
+  password: String!
+  firstName: String
+  lastName: String
+  address: String
+  opNro: String
+  puh: String
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type UserEdge {
@@ -73,13 +598,37 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
+  isActive_ASC
+  isActive_DESC
+  userType_ASC
+  userType_DESC
+  email_ASC
+  email_DESC
+  password_ASC
+  password_DESC
+  firstName_ASC
+  firstName_DESC
+  lastName_ASC
+  lastName_DESC
+  address_ASC
+  address_DESC
+  opNro_ASC
+  opNro_DESC
+  puh_ASC
+  puh_DESC
 }
 
 type UserPreviousValues {
   id: ID!
-  name: String!
+  isActive: Boolean!
+  userType: UserType!
+  email: String!
+  password: String!
+  firstName: String
+  lastName: String
+  address: String
+  opNro: String
+  puh: String
 }
 
 type UserSubscriptionPayload {
@@ -100,12 +649,67 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+enum UserType {
+  ADMIN
+  STAFF
+  STUDENT
+}
+
+input UserUpdateDataInput {
+  isActive: Boolean
+  userType: UserType
+  email: String
+  password: String
+  firstName: String
+  lastName: String
+  address: String
+  opNro: String
+  puh: String
+}
+
 input UserUpdateInput {
-  name: String
+  isActive: Boolean
+  userType: UserType
+  email: String
+  password: String
+  firstName: String
+  lastName: String
+  address: String
+  opNro: String
+  puh: String
 }
 
 input UserUpdateManyMutationInput {
-  name: String
+  isActive: Boolean
+  userType: UserType
+  email: String
+  password: String
+  firstName: String
+  lastName: String
+  address: String
+  opNro: String
+  puh: String
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
@@ -123,20 +727,110 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
+  isActive: Boolean
+  isActive_not: Boolean
+  userType: UserType
+  userType_not: UserType
+  userType_in: [UserType!]
+  userType_not_in: [UserType!]
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  firstName: String
+  firstName_not: String
+  firstName_in: [String!]
+  firstName_not_in: [String!]
+  firstName_lt: String
+  firstName_lte: String
+  firstName_gt: String
+  firstName_gte: String
+  firstName_contains: String
+  firstName_not_contains: String
+  firstName_starts_with: String
+  firstName_not_starts_with: String
+  firstName_ends_with: String
+  firstName_not_ends_with: String
+  lastName: String
+  lastName_not: String
+  lastName_in: [String!]
+  lastName_not_in: [String!]
+  lastName_lt: String
+  lastName_lte: String
+  lastName_gt: String
+  lastName_gte: String
+  lastName_contains: String
+  lastName_not_contains: String
+  lastName_starts_with: String
+  lastName_not_starts_with: String
+  lastName_ends_with: String
+  lastName_not_ends_with: String
+  address: String
+  address_not: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_lt: String
+  address_lte: String
+  address_gt: String
+  address_gte: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  opNro: String
+  opNro_not: String
+  opNro_in: [String!]
+  opNro_not_in: [String!]
+  opNro_lt: String
+  opNro_lte: String
+  opNro_gt: String
+  opNro_gte: String
+  opNro_contains: String
+  opNro_not_contains: String
+  opNro_starts_with: String
+  opNro_not_starts_with: String
+  opNro_ends_with: String
+  opNro_not_ends_with: String
+  puh: String
+  puh_not: String
+  puh_in: [String!]
+  puh_not_in: [String!]
+  puh_lt: String
+  puh_lte: String
+  puh_gt: String
+  puh_gte: String
+  puh_contains: String
+  puh_not_contains: String
+  puh_starts_with: String
+  puh_not_starts_with: String
+  puh_ends_with: String
+  puh_not_ends_with: String
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -144,5 +838,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }
 `

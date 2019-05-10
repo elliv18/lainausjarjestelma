@@ -20,11 +20,29 @@ export interface NexusPrismaTypes {
       PageInfo: PageInfoObject
       UserEdge: UserEdgeObject
       AggregateUser: AggregateUserObject
+      Device: DeviceObject
+      DevCategory: DevCategoryObject
+      DeviceConnection: DeviceConnectionObject
+      DeviceEdge: DeviceEdgeObject
+      AggregateDevice: AggregateDeviceObject
+      DevCategoryConnection: DevCategoryConnectionObject
+      DevCategoryEdge: DevCategoryEdgeObject
+      AggregateDevCategory: AggregateDevCategoryObject
+      Loan: LoanObject
+      LoanConnection: LoanConnectionObject
+      LoanEdge: LoanEdgeObject
+      AggregateLoan: AggregateLoanObject
       Mutation: MutationObject
       BatchPayload: BatchPayloadObject
       Subscription: SubscriptionObject
       UserSubscriptionPayload: UserSubscriptionPayloadObject
       UserPreviousValues: UserPreviousValuesObject
+      DeviceSubscriptionPayload: DeviceSubscriptionPayloadObject
+      DevicePreviousValues: DevicePreviousValuesObject
+      DevCategorySubscriptionPayload: DevCategorySubscriptionPayloadObject
+      DevCategoryPreviousValues: DevCategoryPreviousValuesObject
+      LoanSubscriptionPayload: LoanSubscriptionPayloadObject
+      LoanPreviousValues: LoanPreviousValuesObject
     }
     fieldsDetails: {
       Query: QueryFieldDetails
@@ -33,25 +51,78 @@ export interface NexusPrismaTypes {
       PageInfo: PageInfoFieldDetails
       UserEdge: UserEdgeFieldDetails
       AggregateUser: AggregateUserFieldDetails
+      Device: DeviceFieldDetails
+      DevCategory: DevCategoryFieldDetails
+      DeviceConnection: DeviceConnectionFieldDetails
+      DeviceEdge: DeviceEdgeFieldDetails
+      AggregateDevice: AggregateDeviceFieldDetails
+      DevCategoryConnection: DevCategoryConnectionFieldDetails
+      DevCategoryEdge: DevCategoryEdgeFieldDetails
+      AggregateDevCategory: AggregateDevCategoryFieldDetails
+      Loan: LoanFieldDetails
+      LoanConnection: LoanConnectionFieldDetails
+      LoanEdge: LoanEdgeFieldDetails
+      AggregateLoan: AggregateLoanFieldDetails
       Mutation: MutationFieldDetails
       BatchPayload: BatchPayloadFieldDetails
       Subscription: SubscriptionFieldDetails
       UserSubscriptionPayload: UserSubscriptionPayloadFieldDetails
       UserPreviousValues: UserPreviousValuesFieldDetails
+      DeviceSubscriptionPayload: DeviceSubscriptionPayloadFieldDetails
+      DevicePreviousValues: DevicePreviousValuesFieldDetails
+      DevCategorySubscriptionPayload: DevCategorySubscriptionPayloadFieldDetails
+      DevCategoryPreviousValues: DevCategoryPreviousValuesFieldDetails
+      LoanSubscriptionPayload: LoanSubscriptionPayloadFieldDetails
+      LoanPreviousValues: LoanPreviousValuesFieldDetails
     }
   }
   inputTypes: {
     fields: {
       UserWhereUniqueInput: UserWhereUniqueInputInputObject
       UserWhereInput: UserWhereInputInputObject
+      DeviceWhereUniqueInput: DeviceWhereUniqueInputInputObject
+      DeviceWhereInput: DeviceWhereInputInputObject
+      DevCategoryWhereInput: DevCategoryWhereInputInputObject
+      DevCategoryWhereUniqueInput: DevCategoryWhereUniqueInputInputObject
+      LoanWhereUniqueInput: LoanWhereUniqueInputInputObject
+      LoanWhereInput: LoanWhereInputInputObject
       UserCreateInput: UserCreateInputInputObject
       UserUpdateInput: UserUpdateInputInputObject
       UserUpdateManyMutationInput: UserUpdateManyMutationInputInputObject
+      DeviceCreateInput: DeviceCreateInputInputObject
+      DevCategoryCreateOneInput: DevCategoryCreateOneInputInputObject
+      DevCategoryCreateInput: DevCategoryCreateInputInputObject
+      DeviceUpdateInput: DeviceUpdateInputInputObject
+      DevCategoryUpdateOneRequiredInput: DevCategoryUpdateOneRequiredInputInputObject
+      DevCategoryUpdateDataInput: DevCategoryUpdateDataInputInputObject
+      DevCategoryUpsertNestedInput: DevCategoryUpsertNestedInputInputObject
+      DeviceUpdateManyMutationInput: DeviceUpdateManyMutationInputInputObject
+      DevCategoryUpdateInput: DevCategoryUpdateInputInputObject
+      DevCategoryUpdateManyMutationInput: DevCategoryUpdateManyMutationInputInputObject
+      LoanCreateInput: LoanCreateInputInputObject
+      DeviceCreateOneInput: DeviceCreateOneInputInputObject
+      UserCreateOneInput: UserCreateOneInputInputObject
+      LoanUpdateInput: LoanUpdateInputInputObject
+      DeviceUpdateOneRequiredInput: DeviceUpdateOneRequiredInputInputObject
+      DeviceUpdateDataInput: DeviceUpdateDataInputInputObject
+      DeviceUpsertNestedInput: DeviceUpsertNestedInputInputObject
+      UserUpdateOneRequiredInput: UserUpdateOneRequiredInputInputObject
+      UserUpdateDataInput: UserUpdateDataInputInputObject
+      UserUpsertNestedInput: UserUpsertNestedInputInputObject
+      UserUpdateOneInput: UserUpdateOneInputInputObject
+      LoanUpdateManyMutationInput: LoanUpdateManyMutationInputInputObject
       UserSubscriptionWhereInput: UserSubscriptionWhereInputInputObject
+      DeviceSubscriptionWhereInput: DeviceSubscriptionWhereInputInputObject
+      DevCategorySubscriptionWhereInput: DevCategorySubscriptionWhereInputInputObject
+      LoanSubscriptionWhereInput: LoanSubscriptionWhereInputInputObject
     }
   }
   enumTypes: {
+    UserType: UserTypeValues,
     UserOrderByInput: UserOrderByInputValues,
+    DeviceOrderByInput: DeviceOrderByInputValues,
+    DevCategoryOrderByInput: DevCategoryOrderByInputValues,
+    LoanOrderByInput: LoanOrderByInputValues,
     MutationType: MutationTypeValues,
   }
 }
@@ -63,11 +134,29 @@ type QueryObject =
   | { name: 'user', args?: QueryUserArgs[] | false, alias?: string  } 
   | { name: 'users', args?: QueryUsersArgs[] | false, alias?: string  } 
   | { name: 'usersConnection', args?: QueryUsersConnectionArgs[] | false, alias?: string  } 
+  | { name: 'device', args?: QueryDeviceArgs[] | false, alias?: string  } 
+  | { name: 'devices', args?: QueryDevicesArgs[] | false, alias?: string  } 
+  | { name: 'devicesConnection', args?: QueryDevicesConnectionArgs[] | false, alias?: string  } 
+  | { name: 'devCategory', args?: QueryDevCategoryArgs[] | false, alias?: string  } 
+  | { name: 'devCategories', args?: QueryDevCategoriesArgs[] | false, alias?: string  } 
+  | { name: 'devCategoriesConnection', args?: QueryDevCategoriesConnectionArgs[] | false, alias?: string  } 
+  | { name: 'loan', args?: QueryLoanArgs[] | false, alias?: string  } 
+  | { name: 'loans', args?: QueryLoansArgs[] | false, alias?: string  } 
+  | { name: 'loansConnection', args?: QueryLoansConnectionArgs[] | false, alias?: string  } 
 
 type QueryFields =
   | 'user'
   | 'users'
   | 'usersConnection'
+  | 'device'
+  | 'devices'
+  | 'devicesConnection'
+  | 'devCategory'
+  | 'devCategories'
+  | 'devCategoriesConnection'
+  | 'loan'
+  | 'loans'
+  | 'loansConnection'
 
 
 type QueryUserArgs =
@@ -81,6 +170,60 @@ type QueryUsersArgs =
   | 'first'
   | 'last'
 type QueryUsersConnectionArgs =
+  | 'where'
+  | 'orderBy'
+  | 'skip'
+  | 'after'
+  | 'before'
+  | 'first'
+  | 'last'
+type QueryDeviceArgs =
+  | 'where'
+type QueryDevicesArgs =
+  | 'where'
+  | 'orderBy'
+  | 'skip'
+  | 'after'
+  | 'before'
+  | 'first'
+  | 'last'
+type QueryDevicesConnectionArgs =
+  | 'where'
+  | 'orderBy'
+  | 'skip'
+  | 'after'
+  | 'before'
+  | 'first'
+  | 'last'
+type QueryDevCategoryArgs =
+  | 'where'
+type QueryDevCategoriesArgs =
+  | 'where'
+  | 'orderBy'
+  | 'skip'
+  | 'after'
+  | 'before'
+  | 'first'
+  | 'last'
+type QueryDevCategoriesConnectionArgs =
+  | 'where'
+  | 'orderBy'
+  | 'skip'
+  | 'after'
+  | 'before'
+  | 'first'
+  | 'last'
+type QueryLoanArgs =
+  | 'where'
+type QueryLoansArgs =
+  | 'where'
+  | 'orderBy'
+  | 'skip'
+  | 'after'
+  | 'before'
+  | 'first'
+  | 'last'
+type QueryLoansConnectionArgs =
   | 'where'
   | 'orderBy'
   | 'skip'
@@ -130,6 +273,123 @@ export interface QueryFieldDetails {
       info?: GraphQLResolveInfo
     ) => Promise<prisma.UserConnection> | prisma.UserConnection
   }
+  device: {
+    type: 'Device'
+    args: Record<QueryDeviceArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where: DeviceWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Device | null> | prisma.Device | null
+  }
+  devices: {
+    type: 'Device'
+    args: Record<QueryDevicesArgs, core.NexusArgDef<string>>
+    description: string
+    list: true
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where?: DeviceWhereInput | null, orderBy?: prisma.DeviceOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Device[]> | prisma.Device[]
+  }
+  devicesConnection: {
+    type: 'DeviceConnection'
+    args: Record<QueryDevicesConnectionArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where?: DeviceWhereInput | null, orderBy?: prisma.DeviceOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DeviceConnection> | prisma.DeviceConnection
+  }
+  devCategory: {
+    type: 'DevCategory'
+    args: Record<QueryDevCategoryArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where: DevCategoryWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategory | null> | prisma.DevCategory | null
+  }
+  devCategories: {
+    type: 'DevCategory'
+    args: Record<QueryDevCategoriesArgs, core.NexusArgDef<string>>
+    description: string
+    list: true
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where?: DevCategoryWhereInput | null, orderBy?: prisma.DevCategoryOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategory[]> | prisma.DevCategory[]
+  }
+  devCategoriesConnection: {
+    type: 'DevCategoryConnection'
+    args: Record<QueryDevCategoriesConnectionArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where?: DevCategoryWhereInput | null, orderBy?: prisma.DevCategoryOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategoryConnection> | prisma.DevCategoryConnection
+  }
+  loan: {
+    type: 'Loan'
+    args: Record<QueryLoanArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where: LoanWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Loan | null> | prisma.Loan | null
+  }
+  loans: {
+    type: 'Loan'
+    args: Record<QueryLoansArgs, core.NexusArgDef<string>>
+    description: string
+    list: true
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where?: LoanWhereInput | null, orderBy?: prisma.LoanOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Loan[]> | prisma.Loan[]
+  }
+  loansConnection: {
+    type: 'LoanConnection'
+    args: Record<QueryLoansConnectionArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Query">,
+      args: { where?: LoanWhereInput | null, orderBy?: prisma.LoanOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.LoanConnection> | prisma.LoanConnection
+  }
 }
   
 
@@ -138,11 +398,27 @@ export interface QueryFieldDetails {
 type UserObject =
   | UserFields
   | { name: 'id', args?: [] | false, alias?: string  } 
-  | { name: 'name', args?: [] | false, alias?: string  } 
+  | { name: 'isActive', args?: [] | false, alias?: string  } 
+  | { name: 'userType', args?: [] | false, alias?: string  } 
+  | { name: 'email', args?: [] | false, alias?: string  } 
+  | { name: 'password', args?: [] | false, alias?: string  } 
+  | { name: 'firstName', args?: [] | false, alias?: string  } 
+  | { name: 'lastName', args?: [] | false, alias?: string  } 
+  | { name: 'address', args?: [] | false, alias?: string  } 
+  | { name: 'opNro', args?: [] | false, alias?: string  } 
+  | { name: 'puh', args?: [] | false, alias?: string  } 
 
 type UserFields =
   | 'id'
-  | 'name'
+  | 'isActive'
+  | 'userType'
+  | 'email'
+  | 'password'
+  | 'firstName'
+  | 'lastName'
+  | 'address'
+  | 'opNro'
+  | 'puh'
 
 
 
@@ -157,12 +433,81 @@ export interface UserFieldDetails {
     nullable: false
     resolve: undefined
   }
-  name: {
+  isActive: {
+    type: 'Boolean'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  userType: {
+    type: 'UserType'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"User">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.UserType> | prisma.UserType
+  }
+  email: {
     type: 'String'
     args: {}
     description: string
     list: undefined
     nullable: false
+    resolve: undefined
+  }
+  password: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  firstName: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  lastName: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  address: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  opNro: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  puh: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
     resolve: undefined
   }
 }
@@ -348,6 +693,611 @@ export interface AggregateUserFieldDetails {
 }
   
 
+// Types for Device
+
+type DeviceObject =
+  | DeviceFields
+  | { name: 'id', args?: [] | false, alias?: string  } 
+  | { name: 'idCode', args?: [] | false, alias?: string  } 
+  | { name: 'model', args?: [] | false, alias?: string  } 
+  | { name: 'info', args?: [] | false, alias?: string  } 
+  | { name: 'devCategoryId', args?: [] | false, alias?: string  } 
+
+type DeviceFields =
+  | 'id'
+  | 'idCode'
+  | 'model'
+  | 'info'
+  | 'devCategoryId'
+
+
+
+  
+
+export interface DeviceFieldDetails {
+  id: {
+    type: 'ID'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  idCode: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  model: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  info: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  devCategoryId: {
+    type: 'DevCategory'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Device">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategory> | prisma.DevCategory
+  }
+}
+  
+
+// Types for DevCategory
+
+type DevCategoryObject =
+  | DevCategoryFields
+  | { name: 'id', args?: [] | false, alias?: string  } 
+  | { name: 'deviceType', args?: [] | false, alias?: string  } 
+  | { name: 'manufacture', args?: [] | false, alias?: string  } 
+
+type DevCategoryFields =
+  | 'id'
+  | 'deviceType'
+  | 'manufacture'
+
+
+
+  
+
+export interface DevCategoryFieldDetails {
+  id: {
+    type: 'ID'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  deviceType: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  manufacture: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+}
+  
+
+// Types for DeviceConnection
+
+type DeviceConnectionObject =
+  | DeviceConnectionFields
+  | { name: 'pageInfo', args?: [] | false, alias?: string  } 
+  | { name: 'edges', args?: [] | false, alias?: string  } 
+  | { name: 'aggregate', args?: [] | false, alias?: string  } 
+
+type DeviceConnectionFields =
+  | 'pageInfo'
+  | 'edges'
+  | 'aggregate'
+
+
+
+  
+
+export interface DeviceConnectionFieldDetails {
+  pageInfo: {
+    type: 'PageInfo'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"DeviceConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.PageInfo> | prisma.PageInfo
+  }
+  edges: {
+    type: 'DeviceEdge'
+    args: {}
+    description: string
+    list: true
+    nullable: false
+    resolve: (
+      root: core.RootValue<"DeviceConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DeviceEdge[]> | prisma.DeviceEdge[]
+  }
+  aggregate: {
+    type: 'AggregateDevice'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"DeviceConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.AggregateDevice> | prisma.AggregateDevice
+  }
+}
+  
+
+// Types for DeviceEdge
+
+type DeviceEdgeObject =
+  | DeviceEdgeFields
+  | { name: 'node', args?: [] | false, alias?: string  } 
+  | { name: 'cursor', args?: [] | false, alias?: string  } 
+
+type DeviceEdgeFields =
+  | 'node'
+  | 'cursor'
+
+
+
+  
+
+export interface DeviceEdgeFieldDetails {
+  node: {
+    type: 'Device'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"DeviceEdge">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Device> | prisma.Device
+  }
+  cursor: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+}
+  
+
+// Types for AggregateDevice
+
+type AggregateDeviceObject =
+  | AggregateDeviceFields
+  | { name: 'count', args?: [] | false, alias?: string  } 
+
+type AggregateDeviceFields =
+  | 'count'
+
+
+
+  
+
+export interface AggregateDeviceFieldDetails {
+  count: {
+    type: 'Int'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+}
+  
+
+// Types for DevCategoryConnection
+
+type DevCategoryConnectionObject =
+  | DevCategoryConnectionFields
+  | { name: 'pageInfo', args?: [] | false, alias?: string  } 
+  | { name: 'edges', args?: [] | false, alias?: string  } 
+  | { name: 'aggregate', args?: [] | false, alias?: string  } 
+
+type DevCategoryConnectionFields =
+  | 'pageInfo'
+  | 'edges'
+  | 'aggregate'
+
+
+
+  
+
+export interface DevCategoryConnectionFieldDetails {
+  pageInfo: {
+    type: 'PageInfo'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"DevCategoryConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.PageInfo> | prisma.PageInfo
+  }
+  edges: {
+    type: 'DevCategoryEdge'
+    args: {}
+    description: string
+    list: true
+    nullable: false
+    resolve: (
+      root: core.RootValue<"DevCategoryConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategoryEdge[]> | prisma.DevCategoryEdge[]
+  }
+  aggregate: {
+    type: 'AggregateDevCategory'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"DevCategoryConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.AggregateDevCategory> | prisma.AggregateDevCategory
+  }
+}
+  
+
+// Types for DevCategoryEdge
+
+type DevCategoryEdgeObject =
+  | DevCategoryEdgeFields
+  | { name: 'node', args?: [] | false, alias?: string  } 
+  | { name: 'cursor', args?: [] | false, alias?: string  } 
+
+type DevCategoryEdgeFields =
+  | 'node'
+  | 'cursor'
+
+
+
+  
+
+export interface DevCategoryEdgeFieldDetails {
+  node: {
+    type: 'DevCategory'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"DevCategoryEdge">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategory> | prisma.DevCategory
+  }
+  cursor: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+}
+  
+
+// Types for AggregateDevCategory
+
+type AggregateDevCategoryObject =
+  | AggregateDevCategoryFields
+  | { name: 'count', args?: [] | false, alias?: string  } 
+
+type AggregateDevCategoryFields =
+  | 'count'
+
+
+
+  
+
+export interface AggregateDevCategoryFieldDetails {
+  count: {
+    type: 'Int'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+}
+  
+
+// Types for Loan
+
+type LoanObject =
+  | LoanFields
+  | { name: 'id', args?: [] | false, alias?: string  } 
+  | { name: 'loanDate', args?: [] | false, alias?: string  } 
+  | { name: 'returnDate', args?: [] | false, alias?: string  } 
+  | { name: 'dueDate', args?: [] | false, alias?: string  } 
+  | { name: 'deviceId', args?: [] | false, alias?: string  } 
+  | { name: 'loanerId', args?: [] | false, alias?: string  } 
+  | { name: 'supplierId', args?: [] | false, alias?: string  } 
+  | { name: 'returnerId', args?: [] | false, alias?: string  } 
+
+type LoanFields =
+  | 'id'
+  | 'loanDate'
+  | 'returnDate'
+  | 'dueDate'
+  | 'deviceId'
+  | 'loanerId'
+  | 'supplierId'
+  | 'returnerId'
+
+
+
+  
+
+export interface LoanFieldDetails {
+  id: {
+    type: 'ID'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  loanDate: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  returnDate: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  dueDate: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  deviceId: {
+    type: 'Device'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Loan">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Device> | prisma.Device
+  }
+  loanerId: {
+    type: 'User'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Loan">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.User> | prisma.User
+  }
+  supplierId: {
+    type: 'User'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Loan">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.User> | prisma.User
+  }
+  returnerId: {
+    type: 'User'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Loan">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.User | null> | prisma.User | null
+  }
+}
+  
+
+// Types for LoanConnection
+
+type LoanConnectionObject =
+  | LoanConnectionFields
+  | { name: 'pageInfo', args?: [] | false, alias?: string  } 
+  | { name: 'edges', args?: [] | false, alias?: string  } 
+  | { name: 'aggregate', args?: [] | false, alias?: string  } 
+
+type LoanConnectionFields =
+  | 'pageInfo'
+  | 'edges'
+  | 'aggregate'
+
+
+
+  
+
+export interface LoanConnectionFieldDetails {
+  pageInfo: {
+    type: 'PageInfo'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"LoanConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.PageInfo> | prisma.PageInfo
+  }
+  edges: {
+    type: 'LoanEdge'
+    args: {}
+    description: string
+    list: true
+    nullable: false
+    resolve: (
+      root: core.RootValue<"LoanConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.LoanEdge[]> | prisma.LoanEdge[]
+  }
+  aggregate: {
+    type: 'AggregateLoan'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"LoanConnection">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.AggregateLoan> | prisma.AggregateLoan
+  }
+}
+  
+
+// Types for LoanEdge
+
+type LoanEdgeObject =
+  | LoanEdgeFields
+  | { name: 'node', args?: [] | false, alias?: string  } 
+  | { name: 'cursor', args?: [] | false, alias?: string  } 
+
+type LoanEdgeFields =
+  | 'node'
+  | 'cursor'
+
+
+
+  
+
+export interface LoanEdgeFieldDetails {
+  node: {
+    type: 'Loan'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"LoanEdge">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Loan> | prisma.Loan
+  }
+  cursor: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+}
+  
+
+// Types for AggregateLoan
+
+type AggregateLoanObject =
+  | AggregateLoanFields
+  | { name: 'count', args?: [] | false, alias?: string  } 
+
+type AggregateLoanFields =
+  | 'count'
+
+
+
+  
+
+export interface AggregateLoanFieldDetails {
+  count: {
+    type: 'Int'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+}
+  
+
 // Types for Mutation
 
 type MutationObject =
@@ -358,6 +1308,24 @@ type MutationObject =
   | { name: 'upsertUser', args?: MutationUpsertUserArgs[] | false, alias?: string  } 
   | { name: 'deleteUser', args?: MutationDeleteUserArgs[] | false, alias?: string  } 
   | { name: 'deleteManyUsers', args?: MutationDeleteManyUsersArgs[] | false, alias?: string  } 
+  | { name: 'createDevice', args?: MutationCreateDeviceArgs[] | false, alias?: string  } 
+  | { name: 'updateDevice', args?: MutationUpdateDeviceArgs[] | false, alias?: string  } 
+  | { name: 'updateManyDevices', args?: MutationUpdateManyDevicesArgs[] | false, alias?: string  } 
+  | { name: 'upsertDevice', args?: MutationUpsertDeviceArgs[] | false, alias?: string  } 
+  | { name: 'deleteDevice', args?: MutationDeleteDeviceArgs[] | false, alias?: string  } 
+  | { name: 'deleteManyDevices', args?: MutationDeleteManyDevicesArgs[] | false, alias?: string  } 
+  | { name: 'createDevCategory', args?: MutationCreateDevCategoryArgs[] | false, alias?: string  } 
+  | { name: 'updateDevCategory', args?: MutationUpdateDevCategoryArgs[] | false, alias?: string  } 
+  | { name: 'updateManyDevCategories', args?: MutationUpdateManyDevCategoriesArgs[] | false, alias?: string  } 
+  | { name: 'upsertDevCategory', args?: MutationUpsertDevCategoryArgs[] | false, alias?: string  } 
+  | { name: 'deleteDevCategory', args?: MutationDeleteDevCategoryArgs[] | false, alias?: string  } 
+  | { name: 'deleteManyDevCategories', args?: MutationDeleteManyDevCategoriesArgs[] | false, alias?: string  } 
+  | { name: 'createLoan', args?: MutationCreateLoanArgs[] | false, alias?: string  } 
+  | { name: 'updateLoan', args?: MutationUpdateLoanArgs[] | false, alias?: string  } 
+  | { name: 'updateManyLoans', args?: MutationUpdateManyLoansArgs[] | false, alias?: string  } 
+  | { name: 'upsertLoan', args?: MutationUpsertLoanArgs[] | false, alias?: string  } 
+  | { name: 'deleteLoan', args?: MutationDeleteLoanArgs[] | false, alias?: string  } 
+  | { name: 'deleteManyLoans', args?: MutationDeleteManyLoansArgs[] | false, alias?: string  } 
 
 type MutationFields =
   | 'createUser'
@@ -366,6 +1334,24 @@ type MutationFields =
   | 'upsertUser'
   | 'deleteUser'
   | 'deleteManyUsers'
+  | 'createDevice'
+  | 'updateDevice'
+  | 'updateManyDevices'
+  | 'upsertDevice'
+  | 'deleteDevice'
+  | 'deleteManyDevices'
+  | 'createDevCategory'
+  | 'updateDevCategory'
+  | 'updateManyDevCategories'
+  | 'upsertDevCategory'
+  | 'deleteDevCategory'
+  | 'deleteManyDevCategories'
+  | 'createLoan'
+  | 'updateLoan'
+  | 'updateManyLoans'
+  | 'upsertLoan'
+  | 'deleteLoan'
+  | 'deleteManyLoans'
 
 
 type MutationCreateUserArgs =
@@ -383,6 +1369,54 @@ type MutationUpsertUserArgs =
 type MutationDeleteUserArgs =
   | 'where'
 type MutationDeleteManyUsersArgs =
+  | 'where'
+type MutationCreateDeviceArgs =
+  | 'data'
+type MutationUpdateDeviceArgs =
+  | 'data'
+  | 'where'
+type MutationUpdateManyDevicesArgs =
+  | 'data'
+  | 'where'
+type MutationUpsertDeviceArgs =
+  | 'where'
+  | 'create'
+  | 'update'
+type MutationDeleteDeviceArgs =
+  | 'where'
+type MutationDeleteManyDevicesArgs =
+  | 'where'
+type MutationCreateDevCategoryArgs =
+  | 'data'
+type MutationUpdateDevCategoryArgs =
+  | 'data'
+  | 'where'
+type MutationUpdateManyDevCategoriesArgs =
+  | 'data'
+  | 'where'
+type MutationUpsertDevCategoryArgs =
+  | 'where'
+  | 'create'
+  | 'update'
+type MutationDeleteDevCategoryArgs =
+  | 'where'
+type MutationDeleteManyDevCategoriesArgs =
+  | 'where'
+type MutationCreateLoanArgs =
+  | 'data'
+type MutationUpdateLoanArgs =
+  | 'data'
+  | 'where'
+type MutationUpdateManyLoansArgs =
+  | 'data'
+  | 'where'
+type MutationUpsertLoanArgs =
+  | 'where'
+  | 'create'
+  | 'update'
+type MutationDeleteLoanArgs =
+  | 'where'
+type MutationDeleteManyLoansArgs =
   | 'where'
   
 
@@ -465,6 +1499,240 @@ export interface MutationFieldDetails {
       info?: GraphQLResolveInfo
     ) => Promise<prisma.BatchPayload> | prisma.BatchPayload
   }
+  createDevice: {
+    type: 'Device'
+    args: Record<MutationCreateDeviceArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: DeviceCreateInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Device> | prisma.Device
+  }
+  updateDevice: {
+    type: 'Device'
+    args: Record<MutationUpdateDeviceArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: DeviceUpdateInput, where: DeviceWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Device | null> | prisma.Device | null
+  }
+  updateManyDevices: {
+    type: 'BatchPayload'
+    args: Record<MutationUpdateManyDevicesArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: DeviceUpdateManyMutationInput, where?: DeviceWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.BatchPayload> | prisma.BatchPayload
+  }
+  upsertDevice: {
+    type: 'Device'
+    args: Record<MutationUpsertDeviceArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where: DeviceWhereUniqueInput, create: DeviceCreateInput, update: DeviceUpdateInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Device> | prisma.Device
+  }
+  deleteDevice: {
+    type: 'Device'
+    args: Record<MutationDeleteDeviceArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where: DeviceWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Device | null> | prisma.Device | null
+  }
+  deleteManyDevices: {
+    type: 'BatchPayload'
+    args: Record<MutationDeleteManyDevicesArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where?: DeviceWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.BatchPayload> | prisma.BatchPayload
+  }
+  createDevCategory: {
+    type: 'DevCategory'
+    args: Record<MutationCreateDevCategoryArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: DevCategoryCreateInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategory> | prisma.DevCategory
+  }
+  updateDevCategory: {
+    type: 'DevCategory'
+    args: Record<MutationUpdateDevCategoryArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: DevCategoryUpdateInput, where: DevCategoryWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategory | null> | prisma.DevCategory | null
+  }
+  updateManyDevCategories: {
+    type: 'BatchPayload'
+    args: Record<MutationUpdateManyDevCategoriesArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: DevCategoryUpdateManyMutationInput, where?: DevCategoryWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.BatchPayload> | prisma.BatchPayload
+  }
+  upsertDevCategory: {
+    type: 'DevCategory'
+    args: Record<MutationUpsertDevCategoryArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where: DevCategoryWhereUniqueInput, create: DevCategoryCreateInput, update: DevCategoryUpdateInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategory> | prisma.DevCategory
+  }
+  deleteDevCategory: {
+    type: 'DevCategory'
+    args: Record<MutationDeleteDevCategoryArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where: DevCategoryWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategory | null> | prisma.DevCategory | null
+  }
+  deleteManyDevCategories: {
+    type: 'BatchPayload'
+    args: Record<MutationDeleteManyDevCategoriesArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where?: DevCategoryWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.BatchPayload> | prisma.BatchPayload
+  }
+  createLoan: {
+    type: 'Loan'
+    args: Record<MutationCreateLoanArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: LoanCreateInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Loan> | prisma.Loan
+  }
+  updateLoan: {
+    type: 'Loan'
+    args: Record<MutationUpdateLoanArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: LoanUpdateInput, where: LoanWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Loan | null> | prisma.Loan | null
+  }
+  updateManyLoans: {
+    type: 'BatchPayload'
+    args: Record<MutationUpdateManyLoansArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { data: LoanUpdateManyMutationInput, where?: LoanWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.BatchPayload> | prisma.BatchPayload
+  }
+  upsertLoan: {
+    type: 'Loan'
+    args: Record<MutationUpsertLoanArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where: LoanWhereUniqueInput, create: LoanCreateInput, update: LoanUpdateInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Loan> | prisma.Loan
+  }
+  deleteLoan: {
+    type: 'Loan'
+    args: Record<MutationDeleteLoanArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where: LoanWhereUniqueInput }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Loan | null> | prisma.Loan | null
+  }
+  deleteManyLoans: {
+    type: 'BatchPayload'
+    args: Record<MutationDeleteManyLoansArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Mutation">,
+      args: { where?: LoanWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.BatchPayload> | prisma.BatchPayload
+  }
 }
   
 
@@ -498,12 +1766,24 @@ export interface BatchPayloadFieldDetails {
 type SubscriptionObject =
   | SubscriptionFields
   | { name: 'user', args?: SubscriptionUserArgs[] | false, alias?: string  } 
+  | { name: 'device', args?: SubscriptionDeviceArgs[] | false, alias?: string  } 
+  | { name: 'devCategory', args?: SubscriptionDevCategoryArgs[] | false, alias?: string  } 
+  | { name: 'loan', args?: SubscriptionLoanArgs[] | false, alias?: string  } 
 
 type SubscriptionFields =
   | 'user'
+  | 'device'
+  | 'devCategory'
+  | 'loan'
 
 
 type SubscriptionUserArgs =
+  | 'where'
+type SubscriptionDeviceArgs =
+  | 'where'
+type SubscriptionDevCategoryArgs =
+  | 'where'
+type SubscriptionLoanArgs =
   | 'where'
   
 
@@ -520,6 +1800,45 @@ export interface SubscriptionFieldDetails {
       context: core.GetGen<"context">,
       info?: GraphQLResolveInfo
     ) => Promise<prisma.UserSubscriptionPayload | null> | prisma.UserSubscriptionPayload | null
+  }
+  device: {
+    type: 'DeviceSubscriptionPayload'
+    args: Record<SubscriptionDeviceArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Subscription">,
+      args: { where?: DeviceSubscriptionWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DeviceSubscriptionPayload | null> | prisma.DeviceSubscriptionPayload | null
+  }
+  devCategory: {
+    type: 'DevCategorySubscriptionPayload'
+    args: Record<SubscriptionDevCategoryArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Subscription">,
+      args: { where?: DevCategorySubscriptionWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategorySubscriptionPayload | null> | prisma.DevCategorySubscriptionPayload | null
+  }
+  loan: {
+    type: 'LoanSubscriptionPayload'
+    args: Record<SubscriptionLoanArgs, core.NexusArgDef<string>>
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"Subscription">,
+      args: { where?: LoanSubscriptionWhereInput | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.LoanSubscriptionPayload | null> | prisma.LoanSubscriptionPayload | null
   }
 }
   
@@ -599,11 +1918,27 @@ export interface UserSubscriptionPayloadFieldDetails {
 type UserPreviousValuesObject =
   | UserPreviousValuesFields
   | { name: 'id', args?: [] | false, alias?: string  } 
-  | { name: 'name', args?: [] | false, alias?: string  } 
+  | { name: 'isActive', args?: [] | false, alias?: string  } 
+  | { name: 'userType', args?: [] | false, alias?: string  } 
+  | { name: 'email', args?: [] | false, alias?: string  } 
+  | { name: 'password', args?: [] | false, alias?: string  } 
+  | { name: 'firstName', args?: [] | false, alias?: string  } 
+  | { name: 'lastName', args?: [] | false, alias?: string  } 
+  | { name: 'address', args?: [] | false, alias?: string  } 
+  | { name: 'opNro', args?: [] | false, alias?: string  } 
+  | { name: 'puh', args?: [] | false, alias?: string  } 
 
 type UserPreviousValuesFields =
   | 'id'
-  | 'name'
+  | 'isActive'
+  | 'userType'
+  | 'email'
+  | 'password'
+  | 'firstName'
+  | 'lastName'
+  | 'address'
+  | 'opNro'
+  | 'puh'
 
 
 
@@ -618,7 +1953,441 @@ export interface UserPreviousValuesFieldDetails {
     nullable: false
     resolve: undefined
   }
-  name: {
+  isActive: {
+    type: 'Boolean'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  userType: {
+    type: 'UserType'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"UserPreviousValues">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.UserType> | prisma.UserType
+  }
+  email: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  password: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  firstName: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  lastName: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  address: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  opNro: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  puh: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+}
+  
+
+// Types for DeviceSubscriptionPayload
+
+type DeviceSubscriptionPayloadObject =
+  | DeviceSubscriptionPayloadFields
+  | { name: 'mutation', args?: [] | false, alias?: string  } 
+  | { name: 'node', args?: [] | false, alias?: string  } 
+  | { name: 'updatedFields', args?: [] | false, alias?: string  } 
+  | { name: 'previousValues', args?: [] | false, alias?: string  } 
+
+type DeviceSubscriptionPayloadFields =
+  | 'mutation'
+  | 'node'
+  | 'updatedFields'
+  | 'previousValues'
+
+
+
+  
+
+export interface DeviceSubscriptionPayloadFieldDetails {
+  mutation: {
+    type: 'MutationType'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"DeviceSubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.MutationType> | prisma.MutationType
+  }
+  node: {
+    type: 'Device'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"DeviceSubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Device | null> | prisma.Device | null
+  }
+  updatedFields: {
+    type: 'String'
+    args: {}
+    description: string
+    list: true
+    nullable: false
+    resolve: undefined
+  }
+  previousValues: {
+    type: 'DevicePreviousValues'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"DeviceSubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevicePreviousValues | null> | prisma.DevicePreviousValues | null
+  }
+}
+  
+
+// Types for DevicePreviousValues
+
+type DevicePreviousValuesObject =
+  | DevicePreviousValuesFields
+  | { name: 'id', args?: [] | false, alias?: string  } 
+  | { name: 'idCode', args?: [] | false, alias?: string  } 
+  | { name: 'model', args?: [] | false, alias?: string  } 
+  | { name: 'info', args?: [] | false, alias?: string  } 
+
+type DevicePreviousValuesFields =
+  | 'id'
+  | 'idCode'
+  | 'model'
+  | 'info'
+
+
+
+  
+
+export interface DevicePreviousValuesFieldDetails {
+  id: {
+    type: 'ID'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  idCode: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  model: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  info: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+}
+  
+
+// Types for DevCategorySubscriptionPayload
+
+type DevCategorySubscriptionPayloadObject =
+  | DevCategorySubscriptionPayloadFields
+  | { name: 'mutation', args?: [] | false, alias?: string  } 
+  | { name: 'node', args?: [] | false, alias?: string  } 
+  | { name: 'updatedFields', args?: [] | false, alias?: string  } 
+  | { name: 'previousValues', args?: [] | false, alias?: string  } 
+
+type DevCategorySubscriptionPayloadFields =
+  | 'mutation'
+  | 'node'
+  | 'updatedFields'
+  | 'previousValues'
+
+
+
+  
+
+export interface DevCategorySubscriptionPayloadFieldDetails {
+  mutation: {
+    type: 'MutationType'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"DevCategorySubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.MutationType> | prisma.MutationType
+  }
+  node: {
+    type: 'DevCategory'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"DevCategorySubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategory | null> | prisma.DevCategory | null
+  }
+  updatedFields: {
+    type: 'String'
+    args: {}
+    description: string
+    list: true
+    nullable: false
+    resolve: undefined
+  }
+  previousValues: {
+    type: 'DevCategoryPreviousValues'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"DevCategorySubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.DevCategoryPreviousValues | null> | prisma.DevCategoryPreviousValues | null
+  }
+}
+  
+
+// Types for DevCategoryPreviousValues
+
+type DevCategoryPreviousValuesObject =
+  | DevCategoryPreviousValuesFields
+  | { name: 'id', args?: [] | false, alias?: string  } 
+  | { name: 'deviceType', args?: [] | false, alias?: string  } 
+  | { name: 'manufacture', args?: [] | false, alias?: string  } 
+
+type DevCategoryPreviousValuesFields =
+  | 'id'
+  | 'deviceType'
+  | 'manufacture'
+
+
+
+  
+
+export interface DevCategoryPreviousValuesFieldDetails {
+  id: {
+    type: 'ID'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  deviceType: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  manufacture: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+}
+  
+
+// Types for LoanSubscriptionPayload
+
+type LoanSubscriptionPayloadObject =
+  | LoanSubscriptionPayloadFields
+  | { name: 'mutation', args?: [] | false, alias?: string  } 
+  | { name: 'node', args?: [] | false, alias?: string  } 
+  | { name: 'updatedFields', args?: [] | false, alias?: string  } 
+  | { name: 'previousValues', args?: [] | false, alias?: string  } 
+
+type LoanSubscriptionPayloadFields =
+  | 'mutation'
+  | 'node'
+  | 'updatedFields'
+  | 'previousValues'
+
+
+
+  
+
+export interface LoanSubscriptionPayloadFieldDetails {
+  mutation: {
+    type: 'MutationType'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"LoanSubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.MutationType> | prisma.MutationType
+  }
+  node: {
+    type: 'Loan'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"LoanSubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Loan | null> | prisma.Loan | null
+  }
+  updatedFields: {
+    type: 'String'
+    args: {}
+    description: string
+    list: true
+    nullable: false
+    resolve: undefined
+  }
+  previousValues: {
+    type: 'LoanPreviousValues'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: (
+      root: core.RootValue<"LoanSubscriptionPayload">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.LoanPreviousValues | null> | prisma.LoanPreviousValues | null
+  }
+}
+  
+
+// Types for LoanPreviousValues
+
+type LoanPreviousValuesObject =
+  | LoanPreviousValuesFields
+  | { name: 'id', args?: [] | false, alias?: string  } 
+  | { name: 'loanDate', args?: [] | false, alias?: string  } 
+  | { name: 'returnDate', args?: [] | false, alias?: string  } 
+  | { name: 'dueDate', args?: [] | false, alias?: string  } 
+
+type LoanPreviousValuesFields =
+  | 'id'
+  | 'loanDate'
+  | 'returnDate'
+  | 'dueDate'
+
+
+
+  
+
+export interface LoanPreviousValuesFieldDetails {
+  id: {
+    type: 'ID'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  loanDate: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: undefined
+  }
+  returnDate: {
+    type: 'String'
+    args: {}
+    description: string
+    list: undefined
+    nullable: true
+    resolve: undefined
+  }
+  dueDate: {
     type: 'String'
     args: {}
     description: string
@@ -632,10 +2401,12 @@ export interface UserPreviousValuesFieldDetails {
 
 export interface UserWhereUniqueInput {
   id?: string | null
+  email?: string | null
 }
 export type UserWhereUniqueInputInputObject =
   | Extract<keyof UserWhereUniqueInput, string>
   | { name: 'id', alias?: string  } 
+  | { name: 'email', alias?: string  } 
   
 export interface UserWhereInput {
   id?: string | null
@@ -652,20 +2423,110 @@ export interface UserWhereInput {
   id_not_starts_with?: string | null
   id_ends_with?: string | null
   id_not_ends_with?: string | null
-  name?: string | null
-  name_not?: string | null
-  name_in?: string[]
-  name_not_in?: string[]
-  name_lt?: string | null
-  name_lte?: string | null
-  name_gt?: string | null
-  name_gte?: string | null
-  name_contains?: string | null
-  name_not_contains?: string | null
-  name_starts_with?: string | null
-  name_not_starts_with?: string | null
-  name_ends_with?: string | null
-  name_not_ends_with?: string | null
+  isActive?: boolean | null
+  isActive_not?: boolean | null
+  userType?: prisma.UserType | null
+  userType_not?: prisma.UserType | null
+  userType_in?: prisma.UserType[]
+  userType_not_in?: prisma.UserType[]
+  email?: string | null
+  email_not?: string | null
+  email_in?: string[]
+  email_not_in?: string[]
+  email_lt?: string | null
+  email_lte?: string | null
+  email_gt?: string | null
+  email_gte?: string | null
+  email_contains?: string | null
+  email_not_contains?: string | null
+  email_starts_with?: string | null
+  email_not_starts_with?: string | null
+  email_ends_with?: string | null
+  email_not_ends_with?: string | null
+  password?: string | null
+  password_not?: string | null
+  password_in?: string[]
+  password_not_in?: string[]
+  password_lt?: string | null
+  password_lte?: string | null
+  password_gt?: string | null
+  password_gte?: string | null
+  password_contains?: string | null
+  password_not_contains?: string | null
+  password_starts_with?: string | null
+  password_not_starts_with?: string | null
+  password_ends_with?: string | null
+  password_not_ends_with?: string | null
+  firstName?: string | null
+  firstName_not?: string | null
+  firstName_in?: string[]
+  firstName_not_in?: string[]
+  firstName_lt?: string | null
+  firstName_lte?: string | null
+  firstName_gt?: string | null
+  firstName_gte?: string | null
+  firstName_contains?: string | null
+  firstName_not_contains?: string | null
+  firstName_starts_with?: string | null
+  firstName_not_starts_with?: string | null
+  firstName_ends_with?: string | null
+  firstName_not_ends_with?: string | null
+  lastName?: string | null
+  lastName_not?: string | null
+  lastName_in?: string[]
+  lastName_not_in?: string[]
+  lastName_lt?: string | null
+  lastName_lte?: string | null
+  lastName_gt?: string | null
+  lastName_gte?: string | null
+  lastName_contains?: string | null
+  lastName_not_contains?: string | null
+  lastName_starts_with?: string | null
+  lastName_not_starts_with?: string | null
+  lastName_ends_with?: string | null
+  lastName_not_ends_with?: string | null
+  address?: string | null
+  address_not?: string | null
+  address_in?: string[]
+  address_not_in?: string[]
+  address_lt?: string | null
+  address_lte?: string | null
+  address_gt?: string | null
+  address_gte?: string | null
+  address_contains?: string | null
+  address_not_contains?: string | null
+  address_starts_with?: string | null
+  address_not_starts_with?: string | null
+  address_ends_with?: string | null
+  address_not_ends_with?: string | null
+  opNro?: string | null
+  opNro_not?: string | null
+  opNro_in?: string[]
+  opNro_not_in?: string[]
+  opNro_lt?: string | null
+  opNro_lte?: string | null
+  opNro_gt?: string | null
+  opNro_gte?: string | null
+  opNro_contains?: string | null
+  opNro_not_contains?: string | null
+  opNro_starts_with?: string | null
+  opNro_not_starts_with?: string | null
+  opNro_ends_with?: string | null
+  opNro_not_ends_with?: string | null
+  puh?: string | null
+  puh_not?: string | null
+  puh_in?: string[]
+  puh_not_in?: string[]
+  puh_lt?: string | null
+  puh_lte?: string | null
+  puh_gt?: string | null
+  puh_gte?: string | null
+  puh_contains?: string | null
+  puh_not_contains?: string | null
+  puh_starts_with?: string | null
+  puh_not_starts_with?: string | null
+  puh_ends_with?: string | null
+  puh_not_ends_with?: string | null
   AND?: UserWhereInput[]
   OR?: UserWhereInput[]
   NOT?: UserWhereInput[]
@@ -686,46 +2547,830 @@ export type UserWhereInputInputObject =
   | { name: 'id_not_starts_with', alias?: string  } 
   | { name: 'id_ends_with', alias?: string  } 
   | { name: 'id_not_ends_with', alias?: string  } 
-  | { name: 'name', alias?: string  } 
-  | { name: 'name_not', alias?: string  } 
-  | { name: 'name_in', alias?: string  } 
-  | { name: 'name_not_in', alias?: string  } 
-  | { name: 'name_lt', alias?: string  } 
-  | { name: 'name_lte', alias?: string  } 
-  | { name: 'name_gt', alias?: string  } 
-  | { name: 'name_gte', alias?: string  } 
-  | { name: 'name_contains', alias?: string  } 
-  | { name: 'name_not_contains', alias?: string  } 
-  | { name: 'name_starts_with', alias?: string  } 
-  | { name: 'name_not_starts_with', alias?: string  } 
-  | { name: 'name_ends_with', alias?: string  } 
-  | { name: 'name_not_ends_with', alias?: string  } 
+  | { name: 'isActive', alias?: string  } 
+  | { name: 'isActive_not', alias?: string  } 
+  | { name: 'userType', alias?: string  } 
+  | { name: 'userType_not', alias?: string  } 
+  | { name: 'userType_in', alias?: string  } 
+  | { name: 'userType_not_in', alias?: string  } 
+  | { name: 'email', alias?: string  } 
+  | { name: 'email_not', alias?: string  } 
+  | { name: 'email_in', alias?: string  } 
+  | { name: 'email_not_in', alias?: string  } 
+  | { name: 'email_lt', alias?: string  } 
+  | { name: 'email_lte', alias?: string  } 
+  | { name: 'email_gt', alias?: string  } 
+  | { name: 'email_gte', alias?: string  } 
+  | { name: 'email_contains', alias?: string  } 
+  | { name: 'email_not_contains', alias?: string  } 
+  | { name: 'email_starts_with', alias?: string  } 
+  | { name: 'email_not_starts_with', alias?: string  } 
+  | { name: 'email_ends_with', alias?: string  } 
+  | { name: 'email_not_ends_with', alias?: string  } 
+  | { name: 'password', alias?: string  } 
+  | { name: 'password_not', alias?: string  } 
+  | { name: 'password_in', alias?: string  } 
+  | { name: 'password_not_in', alias?: string  } 
+  | { name: 'password_lt', alias?: string  } 
+  | { name: 'password_lte', alias?: string  } 
+  | { name: 'password_gt', alias?: string  } 
+  | { name: 'password_gte', alias?: string  } 
+  | { name: 'password_contains', alias?: string  } 
+  | { name: 'password_not_contains', alias?: string  } 
+  | { name: 'password_starts_with', alias?: string  } 
+  | { name: 'password_not_starts_with', alias?: string  } 
+  | { name: 'password_ends_with', alias?: string  } 
+  | { name: 'password_not_ends_with', alias?: string  } 
+  | { name: 'firstName', alias?: string  } 
+  | { name: 'firstName_not', alias?: string  } 
+  | { name: 'firstName_in', alias?: string  } 
+  | { name: 'firstName_not_in', alias?: string  } 
+  | { name: 'firstName_lt', alias?: string  } 
+  | { name: 'firstName_lte', alias?: string  } 
+  | { name: 'firstName_gt', alias?: string  } 
+  | { name: 'firstName_gte', alias?: string  } 
+  | { name: 'firstName_contains', alias?: string  } 
+  | { name: 'firstName_not_contains', alias?: string  } 
+  | { name: 'firstName_starts_with', alias?: string  } 
+  | { name: 'firstName_not_starts_with', alias?: string  } 
+  | { name: 'firstName_ends_with', alias?: string  } 
+  | { name: 'firstName_not_ends_with', alias?: string  } 
+  | { name: 'lastName', alias?: string  } 
+  | { name: 'lastName_not', alias?: string  } 
+  | { name: 'lastName_in', alias?: string  } 
+  | { name: 'lastName_not_in', alias?: string  } 
+  | { name: 'lastName_lt', alias?: string  } 
+  | { name: 'lastName_lte', alias?: string  } 
+  | { name: 'lastName_gt', alias?: string  } 
+  | { name: 'lastName_gte', alias?: string  } 
+  | { name: 'lastName_contains', alias?: string  } 
+  | { name: 'lastName_not_contains', alias?: string  } 
+  | { name: 'lastName_starts_with', alias?: string  } 
+  | { name: 'lastName_not_starts_with', alias?: string  } 
+  | { name: 'lastName_ends_with', alias?: string  } 
+  | { name: 'lastName_not_ends_with', alias?: string  } 
+  | { name: 'address', alias?: string  } 
+  | { name: 'address_not', alias?: string  } 
+  | { name: 'address_in', alias?: string  } 
+  | { name: 'address_not_in', alias?: string  } 
+  | { name: 'address_lt', alias?: string  } 
+  | { name: 'address_lte', alias?: string  } 
+  | { name: 'address_gt', alias?: string  } 
+  | { name: 'address_gte', alias?: string  } 
+  | { name: 'address_contains', alias?: string  } 
+  | { name: 'address_not_contains', alias?: string  } 
+  | { name: 'address_starts_with', alias?: string  } 
+  | { name: 'address_not_starts_with', alias?: string  } 
+  | { name: 'address_ends_with', alias?: string  } 
+  | { name: 'address_not_ends_with', alias?: string  } 
+  | { name: 'opNro', alias?: string  } 
+  | { name: 'opNro_not', alias?: string  } 
+  | { name: 'opNro_in', alias?: string  } 
+  | { name: 'opNro_not_in', alias?: string  } 
+  | { name: 'opNro_lt', alias?: string  } 
+  | { name: 'opNro_lte', alias?: string  } 
+  | { name: 'opNro_gt', alias?: string  } 
+  | { name: 'opNro_gte', alias?: string  } 
+  | { name: 'opNro_contains', alias?: string  } 
+  | { name: 'opNro_not_contains', alias?: string  } 
+  | { name: 'opNro_starts_with', alias?: string  } 
+  | { name: 'opNro_not_starts_with', alias?: string  } 
+  | { name: 'opNro_ends_with', alias?: string  } 
+  | { name: 'opNro_not_ends_with', alias?: string  } 
+  | { name: 'puh', alias?: string  } 
+  | { name: 'puh_not', alias?: string  } 
+  | { name: 'puh_in', alias?: string  } 
+  | { name: 'puh_not_in', alias?: string  } 
+  | { name: 'puh_lt', alias?: string  } 
+  | { name: 'puh_lte', alias?: string  } 
+  | { name: 'puh_gt', alias?: string  } 
+  | { name: 'puh_gte', alias?: string  } 
+  | { name: 'puh_contains', alias?: string  } 
+  | { name: 'puh_not_contains', alias?: string  } 
+  | { name: 'puh_starts_with', alias?: string  } 
+  | { name: 'puh_not_starts_with', alias?: string  } 
+  | { name: 'puh_ends_with', alias?: string  } 
+  | { name: 'puh_not_ends_with', alias?: string  } 
+  | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
+  
+export interface DeviceWhereUniqueInput {
+  id?: string | null
+}
+export type DeviceWhereUniqueInputInputObject =
+  | Extract<keyof DeviceWhereUniqueInput, string>
+  | { name: 'id', alias?: string  } 
+  
+export interface DeviceWhereInput {
+  id?: string | null
+  id_not?: string | null
+  id_in?: string[]
+  id_not_in?: string[]
+  id_lt?: string | null
+  id_lte?: string | null
+  id_gt?: string | null
+  id_gte?: string | null
+  id_contains?: string | null
+  id_not_contains?: string | null
+  id_starts_with?: string | null
+  id_not_starts_with?: string | null
+  id_ends_with?: string | null
+  id_not_ends_with?: string | null
+  idCode?: string | null
+  idCode_not?: string | null
+  idCode_in?: string[]
+  idCode_not_in?: string[]
+  idCode_lt?: string | null
+  idCode_lte?: string | null
+  idCode_gt?: string | null
+  idCode_gte?: string | null
+  idCode_contains?: string | null
+  idCode_not_contains?: string | null
+  idCode_starts_with?: string | null
+  idCode_not_starts_with?: string | null
+  idCode_ends_with?: string | null
+  idCode_not_ends_with?: string | null
+  model?: string | null
+  model_not?: string | null
+  model_in?: string[]
+  model_not_in?: string[]
+  model_lt?: string | null
+  model_lte?: string | null
+  model_gt?: string | null
+  model_gte?: string | null
+  model_contains?: string | null
+  model_not_contains?: string | null
+  model_starts_with?: string | null
+  model_not_starts_with?: string | null
+  model_ends_with?: string | null
+  model_not_ends_with?: string | null
+  info?: string | null
+  info_not?: string | null
+  info_in?: string[]
+  info_not_in?: string[]
+  info_lt?: string | null
+  info_lte?: string | null
+  info_gt?: string | null
+  info_gte?: string | null
+  info_contains?: string | null
+  info_not_contains?: string | null
+  info_starts_with?: string | null
+  info_not_starts_with?: string | null
+  info_ends_with?: string | null
+  info_not_ends_with?: string | null
+  devCategoryId?: DevCategoryWhereInput | null
+  AND?: DeviceWhereInput[]
+  OR?: DeviceWhereInput[]
+  NOT?: DeviceWhereInput[]
+}
+export type DeviceWhereInputInputObject =
+  | Extract<keyof DeviceWhereInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'id_not', alias?: string  } 
+  | { name: 'id_in', alias?: string  } 
+  | { name: 'id_not_in', alias?: string  } 
+  | { name: 'id_lt', alias?: string  } 
+  | { name: 'id_lte', alias?: string  } 
+  | { name: 'id_gt', alias?: string  } 
+  | { name: 'id_gte', alias?: string  } 
+  | { name: 'id_contains', alias?: string  } 
+  | { name: 'id_not_contains', alias?: string  } 
+  | { name: 'id_starts_with', alias?: string  } 
+  | { name: 'id_not_starts_with', alias?: string  } 
+  | { name: 'id_ends_with', alias?: string  } 
+  | { name: 'id_not_ends_with', alias?: string  } 
+  | { name: 'idCode', alias?: string  } 
+  | { name: 'idCode_not', alias?: string  } 
+  | { name: 'idCode_in', alias?: string  } 
+  | { name: 'idCode_not_in', alias?: string  } 
+  | { name: 'idCode_lt', alias?: string  } 
+  | { name: 'idCode_lte', alias?: string  } 
+  | { name: 'idCode_gt', alias?: string  } 
+  | { name: 'idCode_gte', alias?: string  } 
+  | { name: 'idCode_contains', alias?: string  } 
+  | { name: 'idCode_not_contains', alias?: string  } 
+  | { name: 'idCode_starts_with', alias?: string  } 
+  | { name: 'idCode_not_starts_with', alias?: string  } 
+  | { name: 'idCode_ends_with', alias?: string  } 
+  | { name: 'idCode_not_ends_with', alias?: string  } 
+  | { name: 'model', alias?: string  } 
+  | { name: 'model_not', alias?: string  } 
+  | { name: 'model_in', alias?: string  } 
+  | { name: 'model_not_in', alias?: string  } 
+  | { name: 'model_lt', alias?: string  } 
+  | { name: 'model_lte', alias?: string  } 
+  | { name: 'model_gt', alias?: string  } 
+  | { name: 'model_gte', alias?: string  } 
+  | { name: 'model_contains', alias?: string  } 
+  | { name: 'model_not_contains', alias?: string  } 
+  | { name: 'model_starts_with', alias?: string  } 
+  | { name: 'model_not_starts_with', alias?: string  } 
+  | { name: 'model_ends_with', alias?: string  } 
+  | { name: 'model_not_ends_with', alias?: string  } 
+  | { name: 'info', alias?: string  } 
+  | { name: 'info_not', alias?: string  } 
+  | { name: 'info_in', alias?: string  } 
+  | { name: 'info_not_in', alias?: string  } 
+  | { name: 'info_lt', alias?: string  } 
+  | { name: 'info_lte', alias?: string  } 
+  | { name: 'info_gt', alias?: string  } 
+  | { name: 'info_gte', alias?: string  } 
+  | { name: 'info_contains', alias?: string  } 
+  | { name: 'info_not_contains', alias?: string  } 
+  | { name: 'info_starts_with', alias?: string  } 
+  | { name: 'info_not_starts_with', alias?: string  } 
+  | { name: 'info_ends_with', alias?: string  } 
+  | { name: 'info_not_ends_with', alias?: string  } 
+  | { name: 'devCategoryId', alias?: string  } 
+  | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
+  
+export interface DevCategoryWhereInput {
+  id?: string | null
+  id_not?: string | null
+  id_in?: string[]
+  id_not_in?: string[]
+  id_lt?: string | null
+  id_lte?: string | null
+  id_gt?: string | null
+  id_gte?: string | null
+  id_contains?: string | null
+  id_not_contains?: string | null
+  id_starts_with?: string | null
+  id_not_starts_with?: string | null
+  id_ends_with?: string | null
+  id_not_ends_with?: string | null
+  deviceType?: string | null
+  deviceType_not?: string | null
+  deviceType_in?: string[]
+  deviceType_not_in?: string[]
+  deviceType_lt?: string | null
+  deviceType_lte?: string | null
+  deviceType_gt?: string | null
+  deviceType_gte?: string | null
+  deviceType_contains?: string | null
+  deviceType_not_contains?: string | null
+  deviceType_starts_with?: string | null
+  deviceType_not_starts_with?: string | null
+  deviceType_ends_with?: string | null
+  deviceType_not_ends_with?: string | null
+  manufacture?: string | null
+  manufacture_not?: string | null
+  manufacture_in?: string[]
+  manufacture_not_in?: string[]
+  manufacture_lt?: string | null
+  manufacture_lte?: string | null
+  manufacture_gt?: string | null
+  manufacture_gte?: string | null
+  manufacture_contains?: string | null
+  manufacture_not_contains?: string | null
+  manufacture_starts_with?: string | null
+  manufacture_not_starts_with?: string | null
+  manufacture_ends_with?: string | null
+  manufacture_not_ends_with?: string | null
+  AND?: DevCategoryWhereInput[]
+  OR?: DevCategoryWhereInput[]
+  NOT?: DevCategoryWhereInput[]
+}
+export type DevCategoryWhereInputInputObject =
+  | Extract<keyof DevCategoryWhereInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'id_not', alias?: string  } 
+  | { name: 'id_in', alias?: string  } 
+  | { name: 'id_not_in', alias?: string  } 
+  | { name: 'id_lt', alias?: string  } 
+  | { name: 'id_lte', alias?: string  } 
+  | { name: 'id_gt', alias?: string  } 
+  | { name: 'id_gte', alias?: string  } 
+  | { name: 'id_contains', alias?: string  } 
+  | { name: 'id_not_contains', alias?: string  } 
+  | { name: 'id_starts_with', alias?: string  } 
+  | { name: 'id_not_starts_with', alias?: string  } 
+  | { name: 'id_ends_with', alias?: string  } 
+  | { name: 'id_not_ends_with', alias?: string  } 
+  | { name: 'deviceType', alias?: string  } 
+  | { name: 'deviceType_not', alias?: string  } 
+  | { name: 'deviceType_in', alias?: string  } 
+  | { name: 'deviceType_not_in', alias?: string  } 
+  | { name: 'deviceType_lt', alias?: string  } 
+  | { name: 'deviceType_lte', alias?: string  } 
+  | { name: 'deviceType_gt', alias?: string  } 
+  | { name: 'deviceType_gte', alias?: string  } 
+  | { name: 'deviceType_contains', alias?: string  } 
+  | { name: 'deviceType_not_contains', alias?: string  } 
+  | { name: 'deviceType_starts_with', alias?: string  } 
+  | { name: 'deviceType_not_starts_with', alias?: string  } 
+  | { name: 'deviceType_ends_with', alias?: string  } 
+  | { name: 'deviceType_not_ends_with', alias?: string  } 
+  | { name: 'manufacture', alias?: string  } 
+  | { name: 'manufacture_not', alias?: string  } 
+  | { name: 'manufacture_in', alias?: string  } 
+  | { name: 'manufacture_not_in', alias?: string  } 
+  | { name: 'manufacture_lt', alias?: string  } 
+  | { name: 'manufacture_lte', alias?: string  } 
+  | { name: 'manufacture_gt', alias?: string  } 
+  | { name: 'manufacture_gte', alias?: string  } 
+  | { name: 'manufacture_contains', alias?: string  } 
+  | { name: 'manufacture_not_contains', alias?: string  } 
+  | { name: 'manufacture_starts_with', alias?: string  } 
+  | { name: 'manufacture_not_starts_with', alias?: string  } 
+  | { name: 'manufacture_ends_with', alias?: string  } 
+  | { name: 'manufacture_not_ends_with', alias?: string  } 
+  | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
+  
+export interface DevCategoryWhereUniqueInput {
+  id?: string | null
+}
+export type DevCategoryWhereUniqueInputInputObject =
+  | Extract<keyof DevCategoryWhereUniqueInput, string>
+  | { name: 'id', alias?: string  } 
+  
+export interface LoanWhereUniqueInput {
+  id?: string | null
+}
+export type LoanWhereUniqueInputInputObject =
+  | Extract<keyof LoanWhereUniqueInput, string>
+  | { name: 'id', alias?: string  } 
+  
+export interface LoanWhereInput {
+  id?: string | null
+  id_not?: string | null
+  id_in?: string[]
+  id_not_in?: string[]
+  id_lt?: string | null
+  id_lte?: string | null
+  id_gt?: string | null
+  id_gte?: string | null
+  id_contains?: string | null
+  id_not_contains?: string | null
+  id_starts_with?: string | null
+  id_not_starts_with?: string | null
+  id_ends_with?: string | null
+  id_not_ends_with?: string | null
+  loanDate?: string | null
+  loanDate_not?: string | null
+  loanDate_in?: string[]
+  loanDate_not_in?: string[]
+  loanDate_lt?: string | null
+  loanDate_lte?: string | null
+  loanDate_gt?: string | null
+  loanDate_gte?: string | null
+  loanDate_contains?: string | null
+  loanDate_not_contains?: string | null
+  loanDate_starts_with?: string | null
+  loanDate_not_starts_with?: string | null
+  loanDate_ends_with?: string | null
+  loanDate_not_ends_with?: string | null
+  returnDate?: string | null
+  returnDate_not?: string | null
+  returnDate_in?: string[]
+  returnDate_not_in?: string[]
+  returnDate_lt?: string | null
+  returnDate_lte?: string | null
+  returnDate_gt?: string | null
+  returnDate_gte?: string | null
+  returnDate_contains?: string | null
+  returnDate_not_contains?: string | null
+  returnDate_starts_with?: string | null
+  returnDate_not_starts_with?: string | null
+  returnDate_ends_with?: string | null
+  returnDate_not_ends_with?: string | null
+  dueDate?: string | null
+  dueDate_not?: string | null
+  dueDate_in?: string[]
+  dueDate_not_in?: string[]
+  dueDate_lt?: string | null
+  dueDate_lte?: string | null
+  dueDate_gt?: string | null
+  dueDate_gte?: string | null
+  dueDate_contains?: string | null
+  dueDate_not_contains?: string | null
+  dueDate_starts_with?: string | null
+  dueDate_not_starts_with?: string | null
+  dueDate_ends_with?: string | null
+  dueDate_not_ends_with?: string | null
+  deviceId?: DeviceWhereInput | null
+  loanerId?: UserWhereInput | null
+  supplierId?: UserWhereInput | null
+  returnerId?: UserWhereInput | null
+  AND?: LoanWhereInput[]
+  OR?: LoanWhereInput[]
+  NOT?: LoanWhereInput[]
+}
+export type LoanWhereInputInputObject =
+  | Extract<keyof LoanWhereInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'id_not', alias?: string  } 
+  | { name: 'id_in', alias?: string  } 
+  | { name: 'id_not_in', alias?: string  } 
+  | { name: 'id_lt', alias?: string  } 
+  | { name: 'id_lte', alias?: string  } 
+  | { name: 'id_gt', alias?: string  } 
+  | { name: 'id_gte', alias?: string  } 
+  | { name: 'id_contains', alias?: string  } 
+  | { name: 'id_not_contains', alias?: string  } 
+  | { name: 'id_starts_with', alias?: string  } 
+  | { name: 'id_not_starts_with', alias?: string  } 
+  | { name: 'id_ends_with', alias?: string  } 
+  | { name: 'id_not_ends_with', alias?: string  } 
+  | { name: 'loanDate', alias?: string  } 
+  | { name: 'loanDate_not', alias?: string  } 
+  | { name: 'loanDate_in', alias?: string  } 
+  | { name: 'loanDate_not_in', alias?: string  } 
+  | { name: 'loanDate_lt', alias?: string  } 
+  | { name: 'loanDate_lte', alias?: string  } 
+  | { name: 'loanDate_gt', alias?: string  } 
+  | { name: 'loanDate_gte', alias?: string  } 
+  | { name: 'loanDate_contains', alias?: string  } 
+  | { name: 'loanDate_not_contains', alias?: string  } 
+  | { name: 'loanDate_starts_with', alias?: string  } 
+  | { name: 'loanDate_not_starts_with', alias?: string  } 
+  | { name: 'loanDate_ends_with', alias?: string  } 
+  | { name: 'loanDate_not_ends_with', alias?: string  } 
+  | { name: 'returnDate', alias?: string  } 
+  | { name: 'returnDate_not', alias?: string  } 
+  | { name: 'returnDate_in', alias?: string  } 
+  | { name: 'returnDate_not_in', alias?: string  } 
+  | { name: 'returnDate_lt', alias?: string  } 
+  | { name: 'returnDate_lte', alias?: string  } 
+  | { name: 'returnDate_gt', alias?: string  } 
+  | { name: 'returnDate_gte', alias?: string  } 
+  | { name: 'returnDate_contains', alias?: string  } 
+  | { name: 'returnDate_not_contains', alias?: string  } 
+  | { name: 'returnDate_starts_with', alias?: string  } 
+  | { name: 'returnDate_not_starts_with', alias?: string  } 
+  | { name: 'returnDate_ends_with', alias?: string  } 
+  | { name: 'returnDate_not_ends_with', alias?: string  } 
+  | { name: 'dueDate', alias?: string  } 
+  | { name: 'dueDate_not', alias?: string  } 
+  | { name: 'dueDate_in', alias?: string  } 
+  | { name: 'dueDate_not_in', alias?: string  } 
+  | { name: 'dueDate_lt', alias?: string  } 
+  | { name: 'dueDate_lte', alias?: string  } 
+  | { name: 'dueDate_gt', alias?: string  } 
+  | { name: 'dueDate_gte', alias?: string  } 
+  | { name: 'dueDate_contains', alias?: string  } 
+  | { name: 'dueDate_not_contains', alias?: string  } 
+  | { name: 'dueDate_starts_with', alias?: string  } 
+  | { name: 'dueDate_not_starts_with', alias?: string  } 
+  | { name: 'dueDate_ends_with', alias?: string  } 
+  | { name: 'dueDate_not_ends_with', alias?: string  } 
+  | { name: 'deviceId', alias?: string  } 
+  | { name: 'loanerId', alias?: string  } 
+  | { name: 'supplierId', alias?: string  } 
+  | { name: 'returnerId', alias?: string  } 
   | { name: 'AND', alias?: string  } 
   | { name: 'OR', alias?: string  } 
   | { name: 'NOT', alias?: string  } 
   
 export interface UserCreateInput {
   id?: string | null
-  name?: string
+  isActive?: boolean | null
+  userType?: prisma.UserType
+  email?: string
+  password?: string
+  firstName?: string | null
+  lastName?: string | null
+  address?: string | null
+  opNro?: string | null
+  puh?: string | null
 }
 export type UserCreateInputInputObject =
   | Extract<keyof UserCreateInput, string>
   | { name: 'id', alias?: string  } 
-  | { name: 'name', alias?: string  } 
+  | { name: 'isActive', alias?: string  } 
+  | { name: 'userType', alias?: string  } 
+  | { name: 'email', alias?: string  } 
+  | { name: 'password', alias?: string  } 
+  | { name: 'firstName', alias?: string  } 
+  | { name: 'lastName', alias?: string  } 
+  | { name: 'address', alias?: string  } 
+  | { name: 'opNro', alias?: string  } 
+  | { name: 'puh', alias?: string  } 
   
 export interface UserUpdateInput {
-  name?: string | null
+  isActive?: boolean | null
+  userType?: prisma.UserType | null
+  email?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  address?: string | null
+  opNro?: string | null
+  puh?: string | null
 }
 export type UserUpdateInputInputObject =
   | Extract<keyof UserUpdateInput, string>
-  | { name: 'name', alias?: string  } 
+  | { name: 'isActive', alias?: string  } 
+  | { name: 'userType', alias?: string  } 
+  | { name: 'email', alias?: string  } 
+  | { name: 'password', alias?: string  } 
+  | { name: 'firstName', alias?: string  } 
+  | { name: 'lastName', alias?: string  } 
+  | { name: 'address', alias?: string  } 
+  | { name: 'opNro', alias?: string  } 
+  | { name: 'puh', alias?: string  } 
   
 export interface UserUpdateManyMutationInput {
-  name?: string | null
+  isActive?: boolean | null
+  userType?: prisma.UserType | null
+  email?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  address?: string | null
+  opNro?: string | null
+  puh?: string | null
 }
 export type UserUpdateManyMutationInputInputObject =
   | Extract<keyof UserUpdateManyMutationInput, string>
-  | { name: 'name', alias?: string  } 
+  | { name: 'isActive', alias?: string  } 
+  | { name: 'userType', alias?: string  } 
+  | { name: 'email', alias?: string  } 
+  | { name: 'password', alias?: string  } 
+  | { name: 'firstName', alias?: string  } 
+  | { name: 'lastName', alias?: string  } 
+  | { name: 'address', alias?: string  } 
+  | { name: 'opNro', alias?: string  } 
+  | { name: 'puh', alias?: string  } 
+  
+export interface DeviceCreateInput {
+  id?: string | null
+  idCode?: string | null
+  model?: string | null
+  info?: string | null
+  devCategoryId?: DevCategoryCreateOneInput
+}
+export type DeviceCreateInputInputObject =
+  | Extract<keyof DeviceCreateInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'idCode', alias?: string  } 
+  | { name: 'model', alias?: string  } 
+  | { name: 'info', alias?: string  } 
+  | { name: 'devCategoryId', alias?: string  } 
+  
+export interface DevCategoryCreateOneInput {
+  create?: DevCategoryCreateInput | null
+  connect?: DevCategoryWhereUniqueInput | null
+}
+export type DevCategoryCreateOneInputInputObject =
+  | Extract<keyof DevCategoryCreateOneInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface DevCategoryCreateInput {
+  id?: string | null
+  deviceType?: string | null
+  manufacture?: string | null
+}
+export type DevCategoryCreateInputInputObject =
+  | Extract<keyof DevCategoryCreateInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'deviceType', alias?: string  } 
+  | { name: 'manufacture', alias?: string  } 
+  
+export interface DeviceUpdateInput {
+  idCode?: string | null
+  model?: string | null
+  info?: string | null
+  devCategoryId?: DevCategoryUpdateOneRequiredInput | null
+}
+export type DeviceUpdateInputInputObject =
+  | Extract<keyof DeviceUpdateInput, string>
+  | { name: 'idCode', alias?: string  } 
+  | { name: 'model', alias?: string  } 
+  | { name: 'info', alias?: string  } 
+  | { name: 'devCategoryId', alias?: string  } 
+  
+export interface DevCategoryUpdateOneRequiredInput {
+  create?: DevCategoryCreateInput | null
+  update?: DevCategoryUpdateDataInput | null
+  upsert?: DevCategoryUpsertNestedInput | null
+  connect?: DevCategoryWhereUniqueInput | null
+}
+export type DevCategoryUpdateOneRequiredInputInputObject =
+  | Extract<keyof DevCategoryUpdateOneRequiredInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'upsert', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface DevCategoryUpdateDataInput {
+  deviceType?: string | null
+  manufacture?: string | null
+}
+export type DevCategoryUpdateDataInputInputObject =
+  | Extract<keyof DevCategoryUpdateDataInput, string>
+  | { name: 'deviceType', alias?: string  } 
+  | { name: 'manufacture', alias?: string  } 
+  
+export interface DevCategoryUpsertNestedInput {
+  update?: DevCategoryUpdateDataInput
+  create?: DevCategoryCreateInput
+}
+export type DevCategoryUpsertNestedInputInputObject =
+  | Extract<keyof DevCategoryUpsertNestedInput, string>
+  | { name: 'update', alias?: string  } 
+  | { name: 'create', alias?: string  } 
+  
+export interface DeviceUpdateManyMutationInput {
+  idCode?: string | null
+  model?: string | null
+  info?: string | null
+}
+export type DeviceUpdateManyMutationInputInputObject =
+  | Extract<keyof DeviceUpdateManyMutationInput, string>
+  | { name: 'idCode', alias?: string  } 
+  | { name: 'model', alias?: string  } 
+  | { name: 'info', alias?: string  } 
+  
+export interface DevCategoryUpdateInput {
+  deviceType?: string | null
+  manufacture?: string | null
+}
+export type DevCategoryUpdateInputInputObject =
+  | Extract<keyof DevCategoryUpdateInput, string>
+  | { name: 'deviceType', alias?: string  } 
+  | { name: 'manufacture', alias?: string  } 
+  
+export interface DevCategoryUpdateManyMutationInput {
+  deviceType?: string | null
+  manufacture?: string | null
+}
+export type DevCategoryUpdateManyMutationInputInputObject =
+  | Extract<keyof DevCategoryUpdateManyMutationInput, string>
+  | { name: 'deviceType', alias?: string  } 
+  | { name: 'manufacture', alias?: string  } 
+  
+export interface LoanCreateInput {
+  id?: string | null
+  loanDate?: string
+  returnDate?: string | null
+  dueDate?: string
+  deviceId?: DeviceCreateOneInput
+  loanerId?: UserCreateOneInput
+  supplierId?: UserCreateOneInput
+  returnerId?: UserCreateOneInput | null
+}
+export type LoanCreateInputInputObject =
+  | Extract<keyof LoanCreateInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'loanDate', alias?: string  } 
+  | { name: 'returnDate', alias?: string  } 
+  | { name: 'dueDate', alias?: string  } 
+  | { name: 'deviceId', alias?: string  } 
+  | { name: 'loanerId', alias?: string  } 
+  | { name: 'supplierId', alias?: string  } 
+  | { name: 'returnerId', alias?: string  } 
+  
+export interface DeviceCreateOneInput {
+  create?: DeviceCreateInput | null
+  connect?: DeviceWhereUniqueInput | null
+}
+export type DeviceCreateOneInputInputObject =
+  | Extract<keyof DeviceCreateOneInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface UserCreateOneInput {
+  create?: UserCreateInput | null
+  connect?: UserWhereUniqueInput | null
+}
+export type UserCreateOneInputInputObject =
+  | Extract<keyof UserCreateOneInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface LoanUpdateInput {
+  loanDate?: string | null
+  returnDate?: string | null
+  dueDate?: string | null
+  deviceId?: DeviceUpdateOneRequiredInput | null
+  loanerId?: UserUpdateOneRequiredInput | null
+  supplierId?: UserUpdateOneRequiredInput | null
+  returnerId?: UserUpdateOneInput | null
+}
+export type LoanUpdateInputInputObject =
+  | Extract<keyof LoanUpdateInput, string>
+  | { name: 'loanDate', alias?: string  } 
+  | { name: 'returnDate', alias?: string  } 
+  | { name: 'dueDate', alias?: string  } 
+  | { name: 'deviceId', alias?: string  } 
+  | { name: 'loanerId', alias?: string  } 
+  | { name: 'supplierId', alias?: string  } 
+  | { name: 'returnerId', alias?: string  } 
+  
+export interface DeviceUpdateOneRequiredInput {
+  create?: DeviceCreateInput | null
+  update?: DeviceUpdateDataInput | null
+  upsert?: DeviceUpsertNestedInput | null
+  connect?: DeviceWhereUniqueInput | null
+}
+export type DeviceUpdateOneRequiredInputInputObject =
+  | Extract<keyof DeviceUpdateOneRequiredInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'upsert', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface DeviceUpdateDataInput {
+  idCode?: string | null
+  model?: string | null
+  info?: string | null
+  devCategoryId?: DevCategoryUpdateOneRequiredInput | null
+}
+export type DeviceUpdateDataInputInputObject =
+  | Extract<keyof DeviceUpdateDataInput, string>
+  | { name: 'idCode', alias?: string  } 
+  | { name: 'model', alias?: string  } 
+  | { name: 'info', alias?: string  } 
+  | { name: 'devCategoryId', alias?: string  } 
+  
+export interface DeviceUpsertNestedInput {
+  update?: DeviceUpdateDataInput
+  create?: DeviceCreateInput
+}
+export type DeviceUpsertNestedInputInputObject =
+  | Extract<keyof DeviceUpsertNestedInput, string>
+  | { name: 'update', alias?: string  } 
+  | { name: 'create', alias?: string  } 
+  
+export interface UserUpdateOneRequiredInput {
+  create?: UserCreateInput | null
+  update?: UserUpdateDataInput | null
+  upsert?: UserUpsertNestedInput | null
+  connect?: UserWhereUniqueInput | null
+}
+export type UserUpdateOneRequiredInputInputObject =
+  | Extract<keyof UserUpdateOneRequiredInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'upsert', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface UserUpdateDataInput {
+  isActive?: boolean | null
+  userType?: prisma.UserType | null
+  email?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  address?: string | null
+  opNro?: string | null
+  puh?: string | null
+}
+export type UserUpdateDataInputInputObject =
+  | Extract<keyof UserUpdateDataInput, string>
+  | { name: 'isActive', alias?: string  } 
+  | { name: 'userType', alias?: string  } 
+  | { name: 'email', alias?: string  } 
+  | { name: 'password', alias?: string  } 
+  | { name: 'firstName', alias?: string  } 
+  | { name: 'lastName', alias?: string  } 
+  | { name: 'address', alias?: string  } 
+  | { name: 'opNro', alias?: string  } 
+  | { name: 'puh', alias?: string  } 
+  
+export interface UserUpsertNestedInput {
+  update?: UserUpdateDataInput
+  create?: UserCreateInput
+}
+export type UserUpsertNestedInputInputObject =
+  | Extract<keyof UserUpsertNestedInput, string>
+  | { name: 'update', alias?: string  } 
+  | { name: 'create', alias?: string  } 
+  
+export interface UserUpdateOneInput {
+  create?: UserCreateInput | null
+  update?: UserUpdateDataInput | null
+  upsert?: UserUpsertNestedInput | null
+  delete?: boolean | null
+  disconnect?: boolean | null
+  connect?: UserWhereUniqueInput | null
+}
+export type UserUpdateOneInputInputObject =
+  | Extract<keyof UserUpdateOneInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'upsert', alias?: string  } 
+  | { name: 'delete', alias?: string  } 
+  | { name: 'disconnect', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface LoanUpdateManyMutationInput {
+  loanDate?: string | null
+  returnDate?: string | null
+  dueDate?: string | null
+}
+export type LoanUpdateManyMutationInputInputObject =
+  | Extract<keyof LoanUpdateManyMutationInput, string>
+  | { name: 'loanDate', alias?: string  } 
+  | { name: 'returnDate', alias?: string  } 
+  | { name: 'dueDate', alias?: string  } 
   
 export interface UserSubscriptionWhereInput {
   mutation_in?: prisma.MutationType[]
@@ -748,12 +3393,136 @@ export type UserSubscriptionWhereInputInputObject =
   | { name: 'OR', alias?: string  } 
   | { name: 'NOT', alias?: string  } 
   
+export interface DeviceSubscriptionWhereInput {
+  mutation_in?: prisma.MutationType[]
+  updatedFields_contains?: string | null
+  updatedFields_contains_every?: string[]
+  updatedFields_contains_some?: string[]
+  node?: DeviceWhereInput | null
+  AND?: DeviceSubscriptionWhereInput[]
+  OR?: DeviceSubscriptionWhereInput[]
+  NOT?: DeviceSubscriptionWhereInput[]
+}
+export type DeviceSubscriptionWhereInputInputObject =
+  | Extract<keyof DeviceSubscriptionWhereInput, string>
+  | { name: 'mutation_in', alias?: string  } 
+  | { name: 'updatedFields_contains', alias?: string  } 
+  | { name: 'updatedFields_contains_every', alias?: string  } 
+  | { name: 'updatedFields_contains_some', alias?: string  } 
+  | { name: 'node', alias?: string  } 
+  | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
+  
+export interface DevCategorySubscriptionWhereInput {
+  mutation_in?: prisma.MutationType[]
+  updatedFields_contains?: string | null
+  updatedFields_contains_every?: string[]
+  updatedFields_contains_some?: string[]
+  node?: DevCategoryWhereInput | null
+  AND?: DevCategorySubscriptionWhereInput[]
+  OR?: DevCategorySubscriptionWhereInput[]
+  NOT?: DevCategorySubscriptionWhereInput[]
+}
+export type DevCategorySubscriptionWhereInputInputObject =
+  | Extract<keyof DevCategorySubscriptionWhereInput, string>
+  | { name: 'mutation_in', alias?: string  } 
+  | { name: 'updatedFields_contains', alias?: string  } 
+  | { name: 'updatedFields_contains_every', alias?: string  } 
+  | { name: 'updatedFields_contains_some', alias?: string  } 
+  | { name: 'node', alias?: string  } 
+  | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
+  
+export interface LoanSubscriptionWhereInput {
+  mutation_in?: prisma.MutationType[]
+  updatedFields_contains?: string | null
+  updatedFields_contains_every?: string[]
+  updatedFields_contains_some?: string[]
+  node?: LoanWhereInput | null
+  AND?: LoanSubscriptionWhereInput[]
+  OR?: LoanSubscriptionWhereInput[]
+  NOT?: LoanSubscriptionWhereInput[]
+}
+export type LoanSubscriptionWhereInputInputObject =
+  | Extract<keyof LoanSubscriptionWhereInput, string>
+  | { name: 'mutation_in', alias?: string  } 
+  | { name: 'updatedFields_contains', alias?: string  } 
+  | { name: 'updatedFields_contains_every', alias?: string  } 
+  | { name: 'updatedFields_contains_some', alias?: string  } 
+  | { name: 'node', alias?: string  } 
+  | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
+  
 
+export type UserTypeValues =
+  | 'ADMIN'
+  | 'STAFF'
+  | 'STUDENT'
+  
 export type UserOrderByInputValues =
   | 'id_ASC'
   | 'id_DESC'
-  | 'name_ASC'
-  | 'name_DESC'
+  | 'isActive_ASC'
+  | 'isActive_DESC'
+  | 'userType_ASC'
+  | 'userType_DESC'
+  | 'email_ASC'
+  | 'email_DESC'
+  | 'password_ASC'
+  | 'password_DESC'
+  | 'firstName_ASC'
+  | 'firstName_DESC'
+  | 'lastName_ASC'
+  | 'lastName_DESC'
+  | 'address_ASC'
+  | 'address_DESC'
+  | 'opNro_ASC'
+  | 'opNro_DESC'
+  | 'puh_ASC'
+  | 'puh_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  
+export type DeviceOrderByInputValues =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'idCode_ASC'
+  | 'idCode_DESC'
+  | 'model_ASC'
+  | 'model_DESC'
+  | 'info_ASC'
+  | 'info_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  
+export type DevCategoryOrderByInputValues =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'deviceType_ASC'
+  | 'deviceType_DESC'
+  | 'manufacture_ASC'
+  | 'manufacture_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  
+export type LoanOrderByInputValues =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'loanDate_ASC'
+  | 'loanDate_DESC'
+  | 'returnDate_ASC'
+  | 'returnDate_DESC'
+  | 'dueDate_ASC'
+  | 'dueDate_DESC'
   | 'createdAt_ASC'
   | 'createdAt_DESC'
   | 'updatedAt_ASC'
