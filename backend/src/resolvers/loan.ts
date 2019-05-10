@@ -7,7 +7,13 @@ export const Loan = prismaObjectType({
       'id',
       'loanDate',
       'returnDate',
-      'dueDate'
+      'dueDate',
+      'deviceId',
+      'loanerId',
+      'supplierId',
+      'returnerId',
+      'createdAt',
+      'updatedAt'
     ])
   },
 })

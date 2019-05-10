@@ -5,8 +5,10 @@ export const DevCategory = prismaObjectType({
   definition(t) {
     t.prismaFields([
       'id',
-      'devType',
-      'manufacture'
+      'deviceType',
+      'manufacture',
+      'createdAt',
+      'updatedAt'
     ])
   },
 })

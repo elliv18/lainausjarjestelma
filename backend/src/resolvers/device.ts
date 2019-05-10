@@ -7,7 +7,10 @@ export const Device = prismaObjectType({
       'id',
       'idCode',
       'model',
-      'info'
+      'info',
+      'devCategoryId',
+      'createdAt',
+      'updatedAt'
     ])
   },
 })
