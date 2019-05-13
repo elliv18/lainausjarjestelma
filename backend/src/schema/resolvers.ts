@@ -30,6 +30,74 @@ export default {
       console.log(users);
       return users;
     }
-  } //,
-  //Mutation: {}
+  },
+  Mutation: {
+    userCreate: async (
+      obj,
+      {
+        input: {
+          isActive,
+          userType,
+          email,
+          password,
+          firstName,
+          lastName,
+          address,
+          personNumber,
+          phone
+        }
+      }
+    ) => {
+      const user = await prisma.createUser({
+        isActive: isActive,
+        userType: userType,
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        personNumber: personNumber,
+        phone: phone
+      });
+
+      return { user };
+    },
+    userCreateStudent: async (
+      obj,
+      {
+        input: {
+          isActive,
+          email,
+          password,
+          firstName,
+          lastName,
+          address,
+          personNumber,
+          phone
+        }
+      }
+    ) => {
+      const user = await prisma.createUser({
+        isActive: isActive,
+        userType: "STUDENT",
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        personNumber: personNumber,
+        phone: phone
+      });
+
+      return { user };
+    },
+    categoryCreate: async (obj, { input: { deviceType, manufacture } }) => {
+      const devCat = await prisma.createDevCategory({
+        deviceType: deviceType,
+        manufacture: manufacture
+      });
+      console.log(devCat);
+      return { devCat };
+    }
+  }
 };

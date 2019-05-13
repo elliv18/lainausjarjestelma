@@ -26,7 +26,6 @@ export default `
         phone: String
         createdAt: String!
         updatedAt: String!
-
     }
 
     ##########
@@ -78,11 +77,13 @@ export default `
     ###########
 
     type Query {
+        # ALL - return current user information
         currentUser: User
 
-        # ALL -login
+        # ALL - login
         login(input: LoginInput!): LoginPayload
 
+        # ADMINS - List all users
         allUsers: [User]
     }
 
@@ -90,21 +91,69 @@ export default `
     # Mutations #
     #############
 
-    #type Mutation {
-    #    
-    #}
+    type Mutation {
+        # ADMINS - Create new user
+        userCreate(input: UserCreateInput!): UserCreatePayload
+
+        # STAFF - Create new student user
+        userCreateStudent(input: UserCreateStudentInput!): UserCreateStudentPayload
+
+        # ADMINS - Create new Device Category
+        categoryCreate(input: CategoryCreateInput!): CategoryCreatePayload
+    }
 
     ##############################
-    # Mutation inputs & payloads #
+    # Query inputs & payloads #
     ##############################
 
     ################# LOGIN ########################
 
     input LoginInput {
-        email: String!
+        email: String!  
         password: String!
     }
     type LoginPayload {
         jwt: String
+    }
+
+    ##############################
+    # Mutation inputs & payloads #
+    ##############################
+
+    input UserCreateInput {
+        isActive: Boolean!
+        userType: UserType!
+        email: String!
+        password: String!
+        firstName: String!
+        lastName: String!
+        address: String
+        personNumber: String
+        phone: String!
+    }
+    type UserCreatePayload {
+        user: User
+    }
+
+    input UserCreateStudentInput {
+        isActive: Boolean!
+        email: String!
+        password: String!
+        firstName: String!
+        lastName: String!
+        address: String
+        personNumber: String
+        phone: String!
+    }
+    type UserCreateStudentPayload {
+        user: User
+    }
+
+    input CategoryCreateInput {
+        deviceType: String!
+        manufacture: String
+    }
+    type CategoryCreatePayload {
+        devCategory: DevCategory
     }
 `;
