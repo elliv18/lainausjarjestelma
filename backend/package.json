@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "yarn build && concurrently -n prisma,prettier,serve \"yarn dev-prisma\" \"yarn dev-prettier\" \"yarn dev-serve\"",
-    "dev-prisma": "nodemon -w datamodel.prisma --exec 'yarn prisma generate && PRISMA_ENDPOINT=http://prisma:3060 yarn prisma deploy --force'",
+    "dev-prisma": "nodemon -w datamodel.prisma --exec 'yarn prisma generate && PRISMA_ENDPOINT=http://prisma:3060/lainaus/dev yarn prisma deploy --force'",
     "dev-prettier": "onchange 'src/**/*.{ts,tsx}' -- prettier --write {{changed}}",
     "dev-serve": "sleep 5 && tsc-watch -w --noClear --onSuccess 'node --max-old-space-size=2048 build/src/index.js'",
     "build": "rm -rf build && mkdir build && yarn prisma delete -f && yarn prisma generate && tsc",
@@ -27,8 +27,6 @@
     "graphql-shield": "^5.3.5",
     "graphql-yoga": "^1.17.4",
     "jsonwebtoken": "^8.5.1",
-    "nexus": "^0.11.7",
-    "nexus-prisma": "^0.3.7",
     "nodemon": "^1.19.0",
     "npx": "^10.2.0",
     "prisma": "^1.32.2",

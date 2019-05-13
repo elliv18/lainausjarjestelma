@@ -1,12 +1,13 @@
-import { prisma } from "../generated/prisma-client";
-import * as bcrypt from "bcryptjs";
+// import bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
-import { JWT_SECRET } from "../environment";
+
+import { prisma } from "../generated/prisma-client";
+import { JWT_SECRET, SALT_ROUNDS } from "../environment";
 
 export default {
   Query: {
-    currentUser: async (obj, args, req) => {
-      return await prisma.user({ id: req.id });
+    currentUser: async (obj, args, { currentUser }) => {
+      return await prisma.user({ id: currentUser.id });
     },
     login: async (obj, { input: { email, password } }) => {
       const user = await prisma.user({ email: email });
@@ -26,9 +27,20 @@ export default {
       return { jwt };
     },
     allUsers: async (obj, args, reg) => {
-      const users = await prisma.users();
-      console.log(users);
-      return users;
+      return await prisma.users();
+    },
+    allCategories: async (obj, args, reg) => {
+      return await prisma.devCategories();
+    },
+    allDevices: async (obj, args, reg) => {
+      return await prisma.devices();
+    },
+    allLoans: async (obj, args, reg) => {
+      return await prisma.loans();
+    },
+    // not working
+    ownLoans: async (obj, args, { currentUser }) => {
+      return await prisma.loans({ where: { loanerId: currentUser.id } });
     }
   },
   Mutation: {
@@ -48,6 +60,10 @@ export default {
         }
       }
     ) => {
+      // const pw = await bcrypt.hash(password, SALT_ROUNDS);
+      const pw = {};
+      console.log(pw);
+      // not load
       const user = await prisma.createUser({
         isActive: isActive,
         userType: userType,
@@ -66,7 +82,6 @@ export default {
       obj,
       {
         input: {
-          isActive,
           email,
           password,
           firstName,
@@ -78,7 +93,7 @@ export default {
       }
     ) => {
       const user = await prisma.createUser({
-        isActive: isActive,
+        isActive: true,
         userType: "STUDENT",
         email: email,
         password: password,
@@ -91,13 +106,46 @@ export default {
 
       return { user };
     },
-    categoryCreate: async (obj, { input: { deviceType, manufacture } }) => {
-      const devCat = await prisma.createDevCategory({
+    categoryCreate: async (obj, { input: { deviceType, desription } }) => {
+      const devCategory = await prisma.createDevCategory({
         deviceType: deviceType,
-        manufacture: manufacture
+        desription: desription
       });
-      console.log(devCat);
-      return { devCat };
+      return { devCategory };
+    },
+    deviceCreate: async (
+      obj,
+      { input: { idCode, manufacture, model, info, devType } }
+    ) => {
+      const device = await prisma.createDevice({
+        idCode: idCode,
+        manufacture: manufacture,
+        model: model,
+        info: info,
+        loanStatus: true,
+        devCategoryId: {
+          connect: { deviceType: devType }
+        }
+      });
+
+      return { device };
+    },
+    loanCreate: async (
+      obj,
+      { input: loandate, dueDate, devIdCode, loaner },
+      { currentUser }
+    ) => {
+      const loan = await prisma.createLoan({
+        loanDate: loandate,
+        dueDate: dueDate,
+        deviceId: {
+          connect: { idCode: devIdCode }
+        },
+        loanerId: {
+          connect: { email: loaner }
+        },
+        supplierId: currentUser.id
+      });
     }
   }
 };

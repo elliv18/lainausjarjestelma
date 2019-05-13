@@ -32,6 +32,7 @@ services:
       - '3050:3050'
     volumes:
       - ./backend:/opt/app
+      - /opt/app/node_modules/bcrypt
     restart: always
   frontend:
     build:

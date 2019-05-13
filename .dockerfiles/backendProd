@@ -2,8 +2,11 @@
 FROM mhart/alpine-node:latest
 
 COPY ./backend /opt/app
-RUN cd /opt/app && yarn install
+RUN apt-get update \
+    && apt-get install -y build-essential libstdc++6 python \
+    && cd /opt/app \
+    && yarn install --prod
 
 WORKDIR /opt/app
 
-CMD ["yarn", "run", "start"]
+CMD ["yarn", "start"]

@@ -227,8 +227,8 @@ export type DevCategoryOrderByInput =
   | "id_DESC"
   | "deviceType_ASC"
   | "deviceType_DESC"
-  | "manufacture_ASC"
-  | "manufacture_DESC"
+  | "desription_ASC"
+  | "desription_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -239,6 +239,8 @@ export type DeviceOrderByInput =
   | "id_DESC"
   | "idCode_ASC"
   | "idCode_DESC"
+  | "manufacture_ASC"
+  | "manufacture_DESC"
   | "model_ASC"
   | "model_DESC"
   | "info_ASC"
@@ -296,6 +298,7 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type DevCategoryWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  deviceType?: Maybe<String>;
 }>;
 
 export interface DevCategoryWhereInput {
@@ -327,20 +330,20 @@ export interface DevCategoryWhereInput {
   deviceType_not_starts_with?: Maybe<String>;
   deviceType_ends_with?: Maybe<String>;
   deviceType_not_ends_with?: Maybe<String>;
-  manufacture?: Maybe<String>;
-  manufacture_not?: Maybe<String>;
-  manufacture_in?: Maybe<String[] | String>;
-  manufacture_not_in?: Maybe<String[] | String>;
-  manufacture_lt?: Maybe<String>;
-  manufacture_lte?: Maybe<String>;
-  manufacture_gt?: Maybe<String>;
-  manufacture_gte?: Maybe<String>;
-  manufacture_contains?: Maybe<String>;
-  manufacture_not_contains?: Maybe<String>;
-  manufacture_starts_with?: Maybe<String>;
-  manufacture_not_starts_with?: Maybe<String>;
-  manufacture_ends_with?: Maybe<String>;
-  manufacture_not_ends_with?: Maybe<String>;
+  desription?: Maybe<String>;
+  desription_not?: Maybe<String>;
+  desription_in?: Maybe<String[] | String>;
+  desription_not_in?: Maybe<String[] | String>;
+  desription_lt?: Maybe<String>;
+  desription_lte?: Maybe<String>;
+  desription_gt?: Maybe<String>;
+  desription_gte?: Maybe<String>;
+  desription_contains?: Maybe<String>;
+  desription_not_contains?: Maybe<String>;
+  desription_starts_with?: Maybe<String>;
+  desription_not_starts_with?: Maybe<String>;
+  desription_ends_with?: Maybe<String>;
+  desription_not_ends_with?: Maybe<String>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -364,6 +367,7 @@ export interface DevCategoryWhereInput {
 
 export type DeviceWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  idCode?: Maybe<String>;
 }>;
 
 export interface DeviceWhereInput {
@@ -395,6 +399,20 @@ export interface DeviceWhereInput {
   idCode_not_starts_with?: Maybe<String>;
   idCode_ends_with?: Maybe<String>;
   idCode_not_ends_with?: Maybe<String>;
+  manufacture?: Maybe<String>;
+  manufacture_not?: Maybe<String>;
+  manufacture_in?: Maybe<String[] | String>;
+  manufacture_not_in?: Maybe<String[] | String>;
+  manufacture_lt?: Maybe<String>;
+  manufacture_lte?: Maybe<String>;
+  manufacture_gt?: Maybe<String>;
+  manufacture_gte?: Maybe<String>;
+  manufacture_contains?: Maybe<String>;
+  manufacture_not_contains?: Maybe<String>;
+  manufacture_starts_with?: Maybe<String>;
+  manufacture_not_starts_with?: Maybe<String>;
+  manufacture_ends_with?: Maybe<String>;
+  manufacture_not_ends_with?: Maybe<String>;
   model?: Maybe<String>;
   model_not?: Maybe<String>;
   model_in?: Maybe<String[] | String>;
@@ -663,22 +681,23 @@ export type UserWhereUniqueInput = AtLeastOne<{
 export interface DevCategoryCreateInput {
   id?: Maybe<ID_Input>;
   deviceType?: Maybe<String>;
-  manufacture?: Maybe<String>;
+  desription?: Maybe<String>;
 }
 
 export interface DevCategoryUpdateInput {
   deviceType?: Maybe<String>;
-  manufacture?: Maybe<String>;
+  desription?: Maybe<String>;
 }
 
 export interface DevCategoryUpdateManyMutationInput {
   deviceType?: Maybe<String>;
-  manufacture?: Maybe<String>;
+  desription?: Maybe<String>;
 }
 
 export interface DeviceCreateInput {
   id?: Maybe<ID_Input>;
   idCode: String;
+  manufacture?: Maybe<String>;
   model?: Maybe<String>;
   info?: Maybe<String>;
   loanStatus?: Maybe<Boolean>;
@@ -692,6 +711,7 @@ export interface DevCategoryCreateOneInput {
 
 export interface DeviceUpdateInput {
   idCode?: Maybe<String>;
+  manufacture?: Maybe<String>;
   model?: Maybe<String>;
   info?: Maybe<String>;
   loanStatus?: Maybe<Boolean>;
@@ -707,7 +727,7 @@ export interface DevCategoryUpdateOneRequiredInput {
 
 export interface DevCategoryUpdateDataInput {
   deviceType?: Maybe<String>;
-  manufacture?: Maybe<String>;
+  desription?: Maybe<String>;
 }
 
 export interface DevCategoryUpsertNestedInput {
@@ -717,6 +737,7 @@ export interface DevCategoryUpsertNestedInput {
 
 export interface DeviceUpdateManyMutationInput {
   idCode?: Maybe<String>;
+  manufacture?: Maybe<String>;
   model?: Maybe<String>;
   info?: Maybe<String>;
   loanStatus?: Maybe<Boolean>;
@@ -775,6 +796,7 @@ export interface DeviceUpdateOneRequiredInput {
 
 export interface DeviceUpdateDataInput {
   idCode?: Maybe<String>;
+  manufacture?: Maybe<String>;
   model?: Maybe<String>;
   info?: Maybe<String>;
   loanStatus?: Maybe<Boolean>;
@@ -906,7 +928,7 @@ export interface NodeNode {
 export interface DevCategory {
   id: ID_Output;
   deviceType?: String;
-  manufacture?: String;
+  desription?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -914,7 +936,7 @@ export interface DevCategory {
 export interface DevCategoryPromise extends Promise<DevCategory>, Fragmentable {
   id: () => Promise<ID_Output>;
   deviceType: () => Promise<String>;
-  manufacture: () => Promise<String>;
+  desription: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -924,7 +946,7 @@ export interface DevCategorySubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   deviceType: () => Promise<AsyncIterator<String>>;
-  manufacture: () => Promise<AsyncIterator<String>>;
+  desription: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -934,7 +956,7 @@ export interface DevCategoryNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   deviceType: () => Promise<String>;
-  manufacture: () => Promise<String>;
+  desription: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1021,6 +1043,7 @@ export interface AggregateDevCategorySubscription
 export interface Device {
   id: ID_Output;
   idCode: String;
+  manufacture?: String;
   model?: String;
   info?: String;
   loanStatus: Boolean;
@@ -1031,6 +1054,7 @@ export interface Device {
 export interface DevicePromise extends Promise<Device>, Fragmentable {
   id: () => Promise<ID_Output>;
   idCode: () => Promise<String>;
+  manufacture: () => Promise<String>;
   model: () => Promise<String>;
   info: () => Promise<String>;
   loanStatus: () => Promise<Boolean>;
@@ -1044,6 +1068,7 @@ export interface DeviceSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   idCode: () => Promise<AsyncIterator<String>>;
+  manufacture: () => Promise<AsyncIterator<String>>;
   model: () => Promise<AsyncIterator<String>>;
   info: () => Promise<AsyncIterator<String>>;
   loanStatus: () => Promise<AsyncIterator<Boolean>>;
@@ -1057,6 +1082,7 @@ export interface DeviceNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   idCode: () => Promise<String>;
+  manufacture: () => Promise<String>;
   model: () => Promise<String>;
   info: () => Promise<String>;
   loanStatus: () => Promise<Boolean>;
@@ -1387,7 +1413,7 @@ export interface DevCategorySubscriptionPayloadSubscription
 export interface DevCategoryPreviousValues {
   id: ID_Output;
   deviceType?: String;
-  manufacture?: String;
+  desription?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -1397,7 +1423,7 @@ export interface DevCategoryPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   deviceType: () => Promise<String>;
-  manufacture: () => Promise<String>;
+  desription: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1407,7 +1433,7 @@ export interface DevCategoryPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   deviceType: () => Promise<AsyncIterator<String>>;
-  manufacture: () => Promise<AsyncIterator<String>>;
+  desription: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1440,6 +1466,7 @@ export interface DeviceSubscriptionPayloadSubscription
 export interface DevicePreviousValues {
   id: ID_Output;
   idCode: String;
+  manufacture?: String;
   model?: String;
   info?: String;
   loanStatus: Boolean;
@@ -1452,6 +1479,7 @@ export interface DevicePreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   idCode: () => Promise<String>;
+  manufacture: () => Promise<String>;
   model: () => Promise<String>;
   info: () => Promise<String>;
   loanStatus: () => Promise<Boolean>;
@@ -1464,6 +1492,7 @@ export interface DevicePreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   idCode: () => Promise<AsyncIterator<String>>;
+  manufacture: () => Promise<AsyncIterator<String>>;
   model: () => Promise<AsyncIterator<String>>;
   info: () => Promise<AsyncIterator<String>>;
   loanStatus: () => Promise<AsyncIterator<Boolean>>;

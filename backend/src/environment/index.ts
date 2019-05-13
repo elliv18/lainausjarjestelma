@@ -12,3 +12,5 @@ export const BACKEND_PORT = process.env.BACKEND_PORT || 3000;
 export const NODE_ENV = process.env.NODE_ENV || DEVELOPMENT;
 
 export const DB_RESET = process.env.DB_RESET === "true" ? true : false;
+
+export const SALT_ROUNDS = 10;

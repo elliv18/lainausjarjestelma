@@ -2,16 +2,23 @@
 import { GraphQLServer } from "graphql-yoga";
 import { permissions } from "./permissions";
 // import { prisma } from './generated/prisma-client';
+import * as jwt from "jsonwebtoken";
+import { JWT_SECRET } from "./environment";
 import { typeDefs, resolvers } from "./schema";
 
 const server = new GraphQLServer({
   typeDefs,
   resolvers,
   //middlewares: [permissions],
-  context: req => {
-    return {
-      ...req
-    };
+  context: async ctx => {
+    const auth = ctx.request.get("Authorization");
+    let currentUser = {};
+    try {
+      currentUser = await jwt.verify(auth.replace("Bearer ", ""), JWT_SECRET);
+    } catch (e) {
+      console.log("Error:", e.toString());
+    }
+    return { currentUser };
   }
 });
 

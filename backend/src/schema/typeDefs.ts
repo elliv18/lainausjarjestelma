@@ -35,6 +35,7 @@ export default `
     type Device {
         id: ID!
         idCode: String!
+        manufacture: String
         model: String
         info: String
         loanStatus: Boolean!
@@ -49,8 +50,8 @@ export default `
 
     type DevCategory {
         id: ID!
-        deviceType: String
-        manufacture: String
+        deviceType: String!
+        desription: String
         createdAt: String!
         updatedAt: String!
     }
@@ -85,6 +86,18 @@ export default `
 
         # ADMINS - List all users
         allUsers: [User]
+
+        # ADMINS - List all categories
+        allCategories: [DevCategory]
+
+        # ADMINS/STAFF - List all devices
+        allDevices: [Device]
+
+        # ADMINS/STAFF - List all loans
+        allLoans: [Loan]
+
+        # List own loans - NOT WORKING
+        ownLoans: [Loan]
     }
 
     #############
@@ -98,8 +111,14 @@ export default `
         # STAFF - Create new student user
         userCreateStudent(input: UserCreateStudentInput!): UserCreateStudentPayload
 
-        # ADMINS - Create new Device Category
+        # ADMINS - Create new device category
         categoryCreate(input: CategoryCreateInput!): CategoryCreatePayload
+
+        # ADMINS/STAFF - Create new device
+        deviceCreate(input: DeviceCreateInput!): DeviceCreatePayload
+
+        # ADMINS/STUFF - Create new loan
+        loanCreate(input: LoanCreateInput!): LoanCreatePayload
     }
 
     ##############################
@@ -136,7 +155,6 @@ export default `
     }
 
     input UserCreateStudentInput {
-        isActive: Boolean!
         email: String!
         password: String!
         firstName: String!
@@ -151,9 +169,30 @@ export default `
 
     input CategoryCreateInput {
         deviceType: String!
-        manufacture: String
+        desription: String
     }
     type CategoryCreatePayload {
         devCategory: DevCategory
+    }
+
+    input DeviceCreateInput {
+        idCode: String!
+        manufacture: String
+        model: String
+        info: String
+        devType: String!
+    }
+    type DeviceCreatePayload {
+        device: Device
+    }
+
+    input LoanCreateInput {
+        loandate: String!
+        dueDate: String!
+        devIdCode: String!
+        loaner: String!
+    }
+    type LoanCreatePayload {
+        loan: Loan
     }
 `;

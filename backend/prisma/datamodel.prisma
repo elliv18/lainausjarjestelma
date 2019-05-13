@@ -21,7 +21,8 @@ type User {
 
 type Device {
   id: ID! @id
-  idCode: String!
+  idCode: String! @unique
+  manufacture: String
   model: String
   info: String
   loanStatus: Boolean! @default(value: false)
@@ -32,8 +33,8 @@ type Device {
 
 type DevCategory {
   id: ID! @id
-  deviceType: String
-  manufacture: String
+  deviceType: String @unique
+  desription: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

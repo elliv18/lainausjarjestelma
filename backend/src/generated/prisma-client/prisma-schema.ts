@@ -28,7 +28,7 @@ export const typeDefs = /* GraphQL */ `
   type DevCategory {
     id: ID!
     deviceType: String
-    manufacture: String
+    desription: String
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -42,7 +42,7 @@ export const typeDefs = /* GraphQL */ `
   input DevCategoryCreateInput {
     id: ID
     deviceType: String
-    manufacture: String
+    desription: String
   }
 
   input DevCategoryCreateOneInput {
@@ -60,8 +60,8 @@ export const typeDefs = /* GraphQL */ `
     id_DESC
     deviceType_ASC
     deviceType_DESC
-    manufacture_ASC
-    manufacture_DESC
+    desription_ASC
+    desription_DESC
     createdAt_ASC
     createdAt_DESC
     updatedAt_ASC
@@ -71,7 +71,7 @@ export const typeDefs = /* GraphQL */ `
   type DevCategoryPreviousValues {
     id: ID!
     deviceType: String
-    manufacture: String
+    desription: String
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -96,17 +96,17 @@ export const typeDefs = /* GraphQL */ `
 
   input DevCategoryUpdateDataInput {
     deviceType: String
-    manufacture: String
+    desription: String
   }
 
   input DevCategoryUpdateInput {
     deviceType: String
-    manufacture: String
+    desription: String
   }
 
   input DevCategoryUpdateManyMutationInput {
     deviceType: String
-    manufacture: String
+    desription: String
   }
 
   input DevCategoryUpdateOneRequiredInput {
@@ -150,20 +150,20 @@ export const typeDefs = /* GraphQL */ `
     deviceType_not_starts_with: String
     deviceType_ends_with: String
     deviceType_not_ends_with: String
-    manufacture: String
-    manufacture_not: String
-    manufacture_in: [String!]
-    manufacture_not_in: [String!]
-    manufacture_lt: String
-    manufacture_lte: String
-    manufacture_gt: String
-    manufacture_gte: String
-    manufacture_contains: String
-    manufacture_not_contains: String
-    manufacture_starts_with: String
-    manufacture_not_starts_with: String
-    manufacture_ends_with: String
-    manufacture_not_ends_with: String
+    desription: String
+    desription_not: String
+    desription_in: [String!]
+    desription_not_in: [String!]
+    desription_lt: String
+    desription_lte: String
+    desription_gt: String
+    desription_gte: String
+    desription_contains: String
+    desription_not_contains: String
+    desription_starts_with: String
+    desription_not_starts_with: String
+    desription_ends_with: String
+    desription_not_ends_with: String
     createdAt: DateTime
     createdAt_not: DateTime
     createdAt_in: [DateTime!]
@@ -187,11 +187,13 @@ export const typeDefs = /* GraphQL */ `
 
   input DevCategoryWhereUniqueInput {
     id: ID
+    deviceType: String
   }
 
   type Device {
     id: ID!
     idCode: String!
+    manufacture: String
     model: String
     info: String
     loanStatus: Boolean!
@@ -209,6 +211,7 @@ export const typeDefs = /* GraphQL */ `
   input DeviceCreateInput {
     id: ID
     idCode: String!
+    manufacture: String
     model: String
     info: String
     loanStatus: Boolean
@@ -230,6 +233,8 @@ export const typeDefs = /* GraphQL */ `
     id_DESC
     idCode_ASC
     idCode_DESC
+    manufacture_ASC
+    manufacture_DESC
     model_ASC
     model_DESC
     info_ASC
@@ -245,6 +250,7 @@ export const typeDefs = /* GraphQL */ `
   type DevicePreviousValues {
     id: ID!
     idCode: String!
+    manufacture: String
     model: String
     info: String
     loanStatus: Boolean!
@@ -272,6 +278,7 @@ export const typeDefs = /* GraphQL */ `
 
   input DeviceUpdateDataInput {
     idCode: String
+    manufacture: String
     model: String
     info: String
     loanStatus: Boolean
@@ -280,6 +287,7 @@ export const typeDefs = /* GraphQL */ `
 
   input DeviceUpdateInput {
     idCode: String
+    manufacture: String
     model: String
     info: String
     loanStatus: Boolean
@@ -288,6 +296,7 @@ export const typeDefs = /* GraphQL */ `
 
   input DeviceUpdateManyMutationInput {
     idCode: String
+    manufacture: String
     model: String
     info: String
     loanStatus: Boolean
@@ -334,6 +343,20 @@ export const typeDefs = /* GraphQL */ `
     idCode_not_starts_with: String
     idCode_ends_with: String
     idCode_not_ends_with: String
+    manufacture: String
+    manufacture_not: String
+    manufacture_in: [String!]
+    manufacture_not_in: [String!]
+    manufacture_lt: String
+    manufacture_lte: String
+    manufacture_gt: String
+    manufacture_gte: String
+    manufacture_contains: String
+    manufacture_not_contains: String
+    manufacture_starts_with: String
+    manufacture_not_starts_with: String
+    manufacture_ends_with: String
+    manufacture_not_ends_with: String
     model: String
     model_not: String
     model_in: [String!]
@@ -388,6 +411,7 @@ export const typeDefs = /* GraphQL */ `
 
   input DeviceWhereUniqueInput {
     id: ID
+    idCode: String
   }
 
   type Loan {
