@@ -11,12 +11,10 @@ const server = new GraphQLServer({
   context: async ctx => {
     const auth = ctx.request.get("Authorization");
     let currentUser = {};
-    console.log(auth);
-    try {
+    //console.log(auth);
+    if (auth != null)
       currentUser = await jwt.verify(auth.replace("Bearer ", ""), JWT_SECRET);
-    } catch (e) {
-      console.log("Error:", e.toString());
-    }
+
     return { currentUser };
   }
 });

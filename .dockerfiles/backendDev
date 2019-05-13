@@ -1,5 +1,5 @@
 #! dockerfile
-FROM node:slim
+FROM node:8-slim
 
 COPY ./backend /opt/app
 RUN apt-get update \

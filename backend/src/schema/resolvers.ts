@@ -16,11 +16,11 @@ export default {
         throw new Error("Email not found!");
       }
 
-      //const pwValid = await bcrypt.compare(password, user.password);
+      const pwValid = await bcrypt.compare(password, user.password);
 
-      /*if (!pwValid) {
+      if (!pwValid) {
         throw new Error("Password is invalid!");
-      }*/
+      }
 
       const jwt = sign({ id: user.id, type: user.userType }, JWT_SECRET);
 
@@ -60,15 +60,11 @@ export default {
         }
       }
     ) => {
-      const pw = await bcrypt.hash(password, SALT_ROUNDS);
-
-      console.log(pw);
-      // not load
       const user = await prisma.createUser({
         isActive: isActive,
         userType: userType,
         email: email,
-        password: password,
+        password: await bcrypt.hash(password, SALT_ROUNDS),
         firstName: firstName,
         lastName: lastName,
         address: address,
@@ -96,7 +92,7 @@ export default {
         isActive: true,
         userType: "STUDENT",
         email: email,
-        password: password,
+        password: await bcrypt.hash(password, SALT_ROUNDS),
         firstName: firstName,
         lastName: lastName,
         address: address,
