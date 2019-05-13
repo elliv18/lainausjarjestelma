@@ -79,6 +79,10 @@ export default `
 
     type Query {
         currentUser: User
+
+        # ALL -login
+        login(input: LoginInput!): LoginPayload
+
         allUsers: [User]
     }
 
@@ -86,10 +90,9 @@ export default `
     # Mutations #
     #############
 
-    type Mutation {
-        # ALL -login
-        login(input: LoginInput!): LoginPayload
-    }
+    #type Mutation {
+    #    
+    #}
 
     ##############################
     # Mutation inputs & payloads #
@@ -104,5 +107,4 @@ export default `
     type LoginPayload {
         jwt: String
     }
-`
-
+`;
