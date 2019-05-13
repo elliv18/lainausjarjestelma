@@ -1,4 +1,4 @@
-// import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
 
 import { prisma } from "../generated/prisma-client";
@@ -60,8 +60,8 @@ export default {
         }
       }
     ) => {
-      // const pw = await bcrypt.hash(password, SALT_ROUNDS);
-      const pw = {};
+      const pw = await bcrypt.hash(password, SALT_ROUNDS);
+
       console.log(pw);
       // not load
       const user = await prisma.createUser({
