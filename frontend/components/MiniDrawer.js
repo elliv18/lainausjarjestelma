@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import App from '../components/App';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -20,11 +21,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DevicesIcon from '@material-ui/icons/Devices';
 import Link from 'next/link'
 
+
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    display: 'flex',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -37,7 +38,6 @@ const styles = theme => ({
   },
   menuButton: {
     marginLeft: 12,
-    marginRight: 36,
     
   },
   hide: {
@@ -47,6 +47,14 @@ const styles = theme => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
+    top: '64px',
+    overflowY: 'auto',
+    left: 0,
+  },
+  paper: {
+    top: '64px',
+    overflow: 'auto',
+    left: 0,
   },
   drawerOpen: {
     width: drawerWidth,
@@ -75,11 +83,9 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-  },
-  paper: {
-    marginTop: '64px',
-  },
+    overflow: 'hidden',
+    paddingBottom: '16px'
+    },
   myAccount:{
     right: 0,
   },
@@ -89,18 +95,28 @@ const styles = theme => ({
   titleTypo:{
     flexGrow: 1,
   },
-  menuIcon:{
-    display: 'block',
-    float: 'left',
-    marginLeft: '-4px',
-    verticalAlign: 'center',
-    textAlign: 'center',
-  },
   titleText:{
       fontSize: '24px',
       margin: '2px',
       padding: '9px',
-  }
+  },
+  menuIcon:{
+    marginLeft: '8px',
+  },
+  paperDrawerClose: {
+    paddingLeft: theme.spacing.unit * 7 + 1,
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: theme.spacing.unit * 9 + 1,
+    },
+    width: '100%',
+    transition: 'padding-left 0.4s',
+  },
+  paperDrawerOpen: {
+    paddingLeft: drawerWidth,
+    width: '100%',
+    transition: 'padding-left 0.4s',
+  },
+
 });
 
 class MiniDrawer extends React.Component {
@@ -126,11 +142,11 @@ class MiniDrawer extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar position="fixed">
+        <AppBar position="sticky">
             <Toolbar>
                 <Link href="/">
                     <Typography className={classes.titleTypo}>
-                        <Button size="Large" className={classes.titleText}>Loan System</Button>
+                        <Button size="large" className={classes.titleText}>Loan System</Button>
                     </Typography>
                 </Link>
                 <Button className={classes.myAccount} color="inherit" >
@@ -139,6 +155,7 @@ class MiniDrawer extends React.Component {
                 </Button>
             </Toolbar>
         </AppBar>
+        <App>
         <Drawer
           variant="permanent"
           className={classNames(classes.drawer, {
@@ -174,17 +191,26 @@ class MiniDrawer extends React.Component {
           <Divider/>
           <List>
               <Link href="/equipments">
-              <ListItem button key ="Equipments" className={classes.menuButton}>
+              <ListItem button key ="Equipments">
                 <ListItemIcon className={classes.menuIcon}><DevicesIcon /></ListItemIcon>
                 <ListItemText primary="Equipments" />
               </ListItem>
               </Link>
           </List>
         </Drawer>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-                <div>{children}</div>
-        </main>
+          <div className={classNames({
+            [classes.paperDrawerOpen]: this.state.open,
+            [classes.paperDrawerClose]: !this.state.open,
+          })}
+          classes={{
+            paper: classNames(classes.paper, {
+              [classes.paperDrawerOpen]: this.state.open,
+              [classes.paperDrawerClose]: !this.state.open,
+            }),
+          }}>
+            {children}
+          </div>
+        </App>
       </div>
     );
   }
@@ -193,7 +219,6 @@ class MiniDrawer extends React.Component {
 MiniDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  content: PropTypes.element.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(MiniDrawer);
