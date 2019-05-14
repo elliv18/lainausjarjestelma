@@ -9,13 +9,17 @@
 - missing queries/mutations?
 - testing
 - cleanup
-- docker files cleanup
+    - dockerfiles
 - remote server?
     - configs
 - env
+    - docker-compose
+        - dev
+        - prod
 - remove hardcode
 - api readme
 - jwt secret and other secrets better ones
+- fix package.json | remove prisma force...
 
 ## Teknologies
 
