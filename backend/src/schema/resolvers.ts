@@ -1,10 +1,24 @@
 import * as bcrypt from "bcryptjs";
+import * as _ from "lodash";
 import { sign } from "jsonwebtoken";
 
 import { prisma } from "../generated/prisma-client";
 import { JWT_SECRET, SALT_ROUNDS } from "../environment";
+import { userInfo } from "os";
 
 export default {
+  User: {
+    async loans(loan) {
+      console.log(loan);
+      return await prisma.loan({ id: loan.id });
+    }
+  },
+  Loan: {
+    async loanerId(user) {
+      console.log(user);
+      return await prisma.user({ id: user.id });
+    }
+  },
   Query: {
     currentUser: async (obj, args, { currentUser }) => {
       return await prisma.user({ id: currentUser.id });
@@ -40,7 +54,7 @@ export default {
     },
     // not working
     ownLoans: async (obj, args, { currentUser }) => {
-      return await prisma.loans({ where: { loanerId: currentUser.id } });
+      return await prisma.user({ id: currentUser.id }).loans();
     }
   },
   Mutation: {
@@ -70,6 +84,49 @@ export default {
         address: address,
         personNumber: personNumber,
         phone: phone
+      });
+
+      return { user };
+    },
+    userUpdate: async (
+      obj,
+      {
+        input: {
+          isActive,
+          userType,
+          email,
+          password,
+          firstName,
+          lastName,
+          address,
+          personNumber,
+          phone
+        }
+      }
+    ) => {
+      let pw;
+      if (password != null) {
+        pw = await bcrypt.hash(password, SALT_ROUNDS);
+      }
+
+      const user = await prisma.updateUser({
+        data: _.pickBy(
+          {
+            isActive: isActive,
+            userType: userType,
+            email: email,
+            password: pw,
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            personNumber: personNumber,
+            phone: phone
+          },
+          _.identity
+        ),
+        where: {
+          email: email
+        }
       });
 
       return { user };
@@ -128,7 +185,7 @@ export default {
     },
     loanCreate: async (
       obj,
-      { input: loandate, dueDate, devIdCode, loaner },
+      { input: { loandate, dueDate, devIdCode, loaner } },
       { currentUser }
     ) => {
       const loan = await prisma.createLoan({
@@ -140,7 +197,9 @@ export default {
         loanerId: {
           connect: { email: loaner }
         },
-        supplierId: currentUser.id
+        supplierId: {
+          connect: { id: currentUser.id }
+        }
       });
     }
   }

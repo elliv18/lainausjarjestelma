@@ -17,9 +17,15 @@ const isStudent = rule()(async (parent, args, { currentUser }) => {
 
 export const permissions = shield({
   Query: {
-    allUsers: or(isAdmin, isStaff)
+    currentUser: isAuthenticated,
+    allUsers: or(isAdmin, isStaff),
+    allCategories: isAdmin,
+    allDevices: or(isAdmin, isStaff),
+    allLoans: or(isAdmin, isStaff)
   },
   Mutation: {
+    categoryCreate: isAdmin,
+    deviceCreate: or(isAdmin, isStaff),
     loanCreate: or(isAdmin, isStaff)
   }
 });

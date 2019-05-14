@@ -1,4 +1,19 @@
+
+
 # BACKEND
+
+## TODO
+
+- relations graphql
+- permissions
+- missing queries/mutations?
+- testing
+- cleanup
+- docker files cleanup
+- remote server?
+    - configs
+
+## Teknologies
 
 - graphql-yoda https://github.com/prisma/graphql-yoga
 - graphql-shield https://github.com/maticzav/graphql-shield
@@ -19,9 +34,9 @@ Bearer <token>
 
 ## address
 
-api: localhost:4466
+api: localhost:3050
 
-db admin: localhost:4466/_admin
+db admin: localhost:3060/_admin
 
 ## methos
 

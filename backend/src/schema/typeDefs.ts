@@ -24,6 +24,7 @@ export default `
         address: String
         personNumber: String
         phone: String
+        loans: [Loan]
         createdAt: String!
         updatedAt: String!
     }
@@ -96,8 +97,8 @@ export default `
         # ADMINS/STAFF - List all loans
         allLoans: [Loan]
 
-        # List own loans - NOT WORKING
-        ownLoans: [Loan]
+        # List own loans
+        ownLoans: [User]
     }
 
     #############
@@ -107,6 +108,9 @@ export default `
     type Mutation {
         # ADMINS - Create new user
         userCreate(input: UserCreateInput!): UserCreatePayload
+
+        # ADMINS - Update user
+        userUpdate(input: UserUpdateInput!): UserUpdatePayload
 
         # STAFF - Create new student user
         userCreateStudent(input: UserCreateStudentInput!): UserCreateStudentPayload
@@ -139,6 +143,8 @@ export default `
     # Mutation inputs & payloads #
     ##############################
 
+    ############### USER ######################
+
     input UserCreateInput {
         isActive: Boolean!
         userType: UserType!
@@ -151,6 +157,21 @@ export default `
         phone: String!
     }
     type UserCreatePayload {
+        user: User
+    }
+
+    input UserUpdateInput {
+        isActive: Boolean
+        userType: UserType
+        email: String!
+        password: String
+        firstName: String
+        lastName: String
+        address: String
+        personNumber: String
+        phone: String
+    }
+    type UserUpdatePayload {
         user: User
     }
 
@@ -167,6 +188,8 @@ export default `
         user: User
     }
 
+    ########### CATEGORY #####################
+
     input CategoryCreateInput {
         deviceType: String!
         desription: String
@@ -174,6 +197,8 @@ export default `
     type CategoryCreatePayload {
         devCategory: DevCategory
     }
+
+    ############# DEVICE ##################
 
     input DeviceCreateInput {
         idCode: String!
@@ -185,6 +210,8 @@ export default `
     type DeviceCreatePayload {
         device: Device
     }
+
+    ################ LOAN #######################
 
     input LoanCreateInput {
         loandate: String!

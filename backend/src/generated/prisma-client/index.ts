@@ -652,6 +652,9 @@ export interface UserWhereInput {
   phone_not_starts_with?: Maybe<String>;
   phone_ends_with?: Maybe<String>;
   phone_not_ends_with?: Maybe<String>;
+  loans_every?: Maybe<LoanWhereInput>;
+  loans_some?: Maybe<LoanWhereInput>;
+  loans_none?: Maybe<LoanWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -749,7 +752,7 @@ export interface LoanCreateInput {
   returnDate?: Maybe<DateTimeInput>;
   dueDate: DateTimeInput;
   deviceId: DeviceCreateOneInput;
-  loanerId: UserCreateOneInput;
+  loanerId: UserCreateOneWithoutLoansInput;
   supplierId: UserCreateOneInput;
   returnerId?: Maybe<UserCreateOneInput>;
 }
@@ -757,6 +760,24 @@ export interface LoanCreateInput {
 export interface DeviceCreateOneInput {
   create?: Maybe<DeviceCreateInput>;
   connect?: Maybe<DeviceWhereUniqueInput>;
+}
+
+export interface UserCreateOneWithoutLoansInput {
+  create?: Maybe<UserCreateWithoutLoansInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutLoansInput {
+  id?: Maybe<ID_Input>;
+  isActive?: Maybe<Boolean>;
+  userType: UserType;
+  email: String;
+  password: String;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  address?: Maybe<String>;
+  personNumber?: Maybe<String>;
+  phone?: Maybe<String>;
 }
 
 export interface UserCreateOneInput {
@@ -775,6 +796,24 @@ export interface UserCreateInput {
   address?: Maybe<String>;
   personNumber?: Maybe<String>;
   phone?: Maybe<String>;
+  loans?: Maybe<LoanCreateManyWithoutLoanerIdInput>;
+}
+
+export interface LoanCreateManyWithoutLoanerIdInput {
+  create?: Maybe<
+    LoanCreateWithoutLoanerIdInput[] | LoanCreateWithoutLoanerIdInput
+  >;
+  connect?: Maybe<LoanWhereUniqueInput[] | LoanWhereUniqueInput>;
+}
+
+export interface LoanCreateWithoutLoanerIdInput {
+  id?: Maybe<ID_Input>;
+  loanDate: DateTimeInput;
+  returnDate?: Maybe<DateTimeInput>;
+  dueDate: DateTimeInput;
+  deviceId: DeviceCreateOneInput;
+  supplierId: UserCreateOneInput;
+  returnerId?: Maybe<UserCreateOneInput>;
 }
 
 export interface LoanUpdateInput {
@@ -782,7 +821,7 @@ export interface LoanUpdateInput {
   returnDate?: Maybe<DateTimeInput>;
   dueDate?: Maybe<DateTimeInput>;
   deviceId?: Maybe<DeviceUpdateOneRequiredInput>;
-  loanerId?: Maybe<UserUpdateOneRequiredInput>;
+  loanerId?: Maybe<UserUpdateOneRequiredWithoutLoansInput>;
   supplierId?: Maybe<UserUpdateOneRequiredInput>;
   returnerId?: Maybe<UserUpdateOneInput>;
 }
@@ -808,6 +847,30 @@ export interface DeviceUpsertNestedInput {
   create: DeviceCreateInput;
 }
 
+export interface UserUpdateOneRequiredWithoutLoansInput {
+  create?: Maybe<UserCreateWithoutLoansInput>;
+  update?: Maybe<UserUpdateWithoutLoansDataInput>;
+  upsert?: Maybe<UserUpsertWithoutLoansInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutLoansDataInput {
+  isActive?: Maybe<Boolean>;
+  userType?: Maybe<UserType>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  address?: Maybe<String>;
+  personNumber?: Maybe<String>;
+  phone?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutLoansInput {
+  update: UserUpdateWithoutLoansDataInput;
+  create: UserCreateWithoutLoansInput;
+}
+
 export interface UserUpdateOneRequiredInput {
   create?: Maybe<UserCreateInput>;
   update?: Maybe<UserUpdateDataInput>;
@@ -825,11 +888,43 @@ export interface UserUpdateDataInput {
   address?: Maybe<String>;
   personNumber?: Maybe<String>;
   phone?: Maybe<String>;
+  loans?: Maybe<LoanUpdateManyWithoutLoanerIdInput>;
 }
 
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
+export interface LoanUpdateManyWithoutLoanerIdInput {
+  create?: Maybe<
+    LoanCreateWithoutLoanerIdInput[] | LoanCreateWithoutLoanerIdInput
+  >;
+  delete?: Maybe<LoanWhereUniqueInput[] | LoanWhereUniqueInput>;
+  connect?: Maybe<LoanWhereUniqueInput[] | LoanWhereUniqueInput>;
+  set?: Maybe<LoanWhereUniqueInput[] | LoanWhereUniqueInput>;
+  disconnect?: Maybe<LoanWhereUniqueInput[] | LoanWhereUniqueInput>;
+  update?: Maybe<
+    | LoanUpdateWithWhereUniqueWithoutLoanerIdInput[]
+    | LoanUpdateWithWhereUniqueWithoutLoanerIdInput
+  >;
+  upsert?: Maybe<
+    | LoanUpsertWithWhereUniqueWithoutLoanerIdInput[]
+    | LoanUpsertWithWhereUniqueWithoutLoanerIdInput
+  >;
+  deleteMany?: Maybe<LoanScalarWhereInput[] | LoanScalarWhereInput>;
+  updateMany?: Maybe<
+    LoanUpdateManyWithWhereNestedInput[] | LoanUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface LoanUpdateWithWhereUniqueWithoutLoanerIdInput {
+  where: LoanWhereUniqueInput;
+  data: LoanUpdateWithoutLoanerIdDataInput;
+}
+
+export interface LoanUpdateWithoutLoanerIdDataInput {
+  loanDate?: Maybe<DateTimeInput>;
+  returnDate?: Maybe<DateTimeInput>;
+  dueDate?: Maybe<DateTimeInput>;
+  deviceId?: Maybe<DeviceUpdateOneRequiredInput>;
+  supplierId?: Maybe<UserUpdateOneRequiredInput>;
+  returnerId?: Maybe<UserUpdateOneInput>;
 }
 
 export interface UserUpdateOneInput {
@@ -839,6 +934,88 @@ export interface UserUpdateOneInput {
   delete?: Maybe<Boolean>;
   disconnect?: Maybe<Boolean>;
   connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface LoanUpsertWithWhereUniqueWithoutLoanerIdInput {
+  where: LoanWhereUniqueInput;
+  update: LoanUpdateWithoutLoanerIdDataInput;
+  create: LoanCreateWithoutLoanerIdInput;
+}
+
+export interface LoanScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  loanDate?: Maybe<DateTimeInput>;
+  loanDate_not?: Maybe<DateTimeInput>;
+  loanDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  loanDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  loanDate_lt?: Maybe<DateTimeInput>;
+  loanDate_lte?: Maybe<DateTimeInput>;
+  loanDate_gt?: Maybe<DateTimeInput>;
+  loanDate_gte?: Maybe<DateTimeInput>;
+  returnDate?: Maybe<DateTimeInput>;
+  returnDate_not?: Maybe<DateTimeInput>;
+  returnDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  returnDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  returnDate_lt?: Maybe<DateTimeInput>;
+  returnDate_lte?: Maybe<DateTimeInput>;
+  returnDate_gt?: Maybe<DateTimeInput>;
+  returnDate_gte?: Maybe<DateTimeInput>;
+  dueDate?: Maybe<DateTimeInput>;
+  dueDate_not?: Maybe<DateTimeInput>;
+  dueDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  dueDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  dueDate_lt?: Maybe<DateTimeInput>;
+  dueDate_lte?: Maybe<DateTimeInput>;
+  dueDate_gt?: Maybe<DateTimeInput>;
+  dueDate_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<LoanScalarWhereInput[] | LoanScalarWhereInput>;
+  OR?: Maybe<LoanScalarWhereInput[] | LoanScalarWhereInput>;
+  NOT?: Maybe<LoanScalarWhereInput[] | LoanScalarWhereInput>;
+}
+
+export interface LoanUpdateManyWithWhereNestedInput {
+  where: LoanScalarWhereInput;
+  data: LoanUpdateManyDataInput;
+}
+
+export interface LoanUpdateManyDataInput {
+  loanDate?: Maybe<DateTimeInput>;
+  returnDate?: Maybe<DateTimeInput>;
+  dueDate?: Maybe<DateTimeInput>;
 }
 
 export interface LoanUpdateManyMutationInput {
@@ -857,6 +1034,7 @@ export interface UserUpdateInput {
   address?: Maybe<String>;
   personNumber?: Maybe<String>;
   phone?: Maybe<String>;
+  loans?: Maybe<LoanUpdateManyWithoutLoanerIdInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -1223,6 +1401,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   address: () => Promise<String>;
   personNumber: () => Promise<String>;
   phone: () => Promise<String>;
+  loans: <T = FragmentableArray<Loan>>(args?: {
+    where?: LoanWhereInput;
+    orderBy?: LoanOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1240,6 +1427,15 @@ export interface UserSubscription
   address: () => Promise<AsyncIterator<String>>;
   personNumber: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
+  loans: <T = Promise<AsyncIterator<LoanSubscription>>>(args?: {
+    where?: LoanWhereInput;
+    orderBy?: LoanOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1257,6 +1453,15 @@ export interface UserNullablePromise
   address: () => Promise<String>;
   personNumber: () => Promise<String>;
   phone: () => Promise<String>;
+  loans: <T = FragmentableArray<Loan>>(args?: {
+    where?: LoanWhereInput;
+    orderBy?: LoanOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }

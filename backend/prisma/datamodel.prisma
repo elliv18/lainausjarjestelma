@@ -15,6 +15,7 @@ type User {
   address: String
   personNumber: String
   phone: String
+  loans: [Loan]! @relation(name: "LoanerId")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
