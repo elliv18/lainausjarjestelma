@@ -175,7 +175,7 @@ export default {
         manufacture: manufacture,
         model: model,
         info: info,
-        loanStatus: true,
+        loanStatus: false,
         devCategoryId: {
           connect: { deviceType: devType }
         }
