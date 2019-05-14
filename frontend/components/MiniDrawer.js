@@ -29,6 +29,7 @@ const styles = theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: 'rgba(0,70,85,0.85)',
     
   },
   appBarShift: {
@@ -142,7 +143,7 @@ class MiniDrawer extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar position="sticky">
+        <AppBar position="sticky" className={classes.appBar}>
             <Toolbar>
                 <Link href="/">
                     <Typography className={classes.titleTypo}>

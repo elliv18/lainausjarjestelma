@@ -5,20 +5,27 @@ import Chip from '@material-ui/core/Chip';
 import {
   SortingState,
   IntegratedSorting,
-  DataTypeProvider
+  DataTypeProvider,
+  SearchState,
+  IntegratedFiltering,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
   Table,
   TableHeaderRow,
+  SearchPanel,
+  Toolbar,
 } from '@devexpress/dx-react-grid-material-ui';
 import Check from '@material-ui/icons/check'
 import Cancel from '@material-ui/icons/cancel'
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
 import { ApolloConsumer } from "react-apollo"
 
 const styles = theme => ({
     root: {
-      width: '85%',
+      width: '90%',
       marginTop: theme.spacing.unit * 3,
       overflowX: 'auto',
       marginLeft: 'auto',
@@ -50,6 +57,58 @@ const styles = theme => ({
       {...props}
     />
   );
+
+  const AddButton = ({ onExecute }) => (
+    <div style={{ textAlign: 'center' }}>
+      <Button
+        color="primary"
+        onClick={onExecute}
+        title="Create new row"
+      >
+        New
+      </Button>
+    </div>
+  );
+  
+  const EditButton = ({ onExecute }) => (
+    <IconButton onClick={onExecute} title="Edit row">
+      <EditIcon />
+    </IconButton>
+  );
+  
+  const DeleteButton = ({ onExecute }) => (
+    <IconButton
+      onClick={() => {
+        // eslint-disable-next-line
+        if (window.confirm('Are you sure you want to delete this row?')) {
+          onExecute();
+        }
+      }}
+      title="Delete row"
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+  
+  const CommitButton = ({ onExecute }) => (
+    <IconButton onClick={onExecute} title="Save changes">
+      <SaveIcon />
+    </IconButton>
+  );
+  
+  const CancelButton = ({ onExecute }) => (
+    <IconButton color="secondary" onClick={onExecute} title="Cancel changes">
+      <CancelIcon />
+    </IconButton>
+  );
+
+  const commandComponents = {
+    add: AddButton,
+    edit: EditButton,
+    delete: DeleteButton,
+    commit: CommitButton,
+    cancel: CancelButton,
+  };
 
   const BooleanFormatter = ({ value }) => 
   <Chip color={value? 'primary' : 'secondary'} 
@@ -93,13 +152,14 @@ class Equipments extends React.Component{
         const{classes} = this.props
         const { rows, columns, tableColumnExtensions, sorting, booleanColumns } = this.state;
     return(
-      <div className={classes.root}>
-        <Paper>
+        <Paper className ={classes.root} elevation={5}>
         <Grid
           rows={rows}
           columns={columns}
-
+          
         >
+        <SearchState />
+        <IntegratedFiltering />
         <BooleanTypeProvider 
           for={booleanColumns}
           style={{paddingRight: '20px'}}/>
@@ -110,9 +170,10 @@ class Equipments extends React.Component{
           <IntegratedSorting />
           <Table columnExtensions={tableColumnExtensions} />
           <TableHeaderRow showSortingControls />
+          <Toolbar />
+          <SearchPanel />
         </Grid>
       </Paper>
-      </div>
     );
     }
 }
