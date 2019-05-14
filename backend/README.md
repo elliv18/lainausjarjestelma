@@ -4,7 +4,6 @@
 
 ## TODO
 
-+ relations graphql
 - permissions
 - missing queries/mutations?
 - testing
