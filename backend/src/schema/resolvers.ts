@@ -1,4 +1,4 @@
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
 
 import { prisma } from "../generated/prisma-client";
