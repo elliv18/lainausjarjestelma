@@ -4,7 +4,7 @@
 
 ## TODO
 
-- relations graphql
++ relations graphql
 - permissions
 - missing queries/mutations?
 - testing
@@ -12,6 +12,10 @@
 - docker files cleanup
 - remote server?
     - configs
+- env
+- remove hardcode
+- api readme
+- jwt secret and other secrets better ones
 
 ## Teknologies
 
