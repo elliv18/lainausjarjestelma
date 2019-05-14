@@ -8,15 +8,27 @@ import { userInfo } from "os";
 
 export default {
   User: {
-    async loans(loan) {
-      console.log(loan);
-      return await prisma.loan({ id: loan.id });
+    async loans(user) {
+      return await prisma.user({ id: user.id }).loans();
+    }
+  },
+  Device: {
+    async devCategory(device) {
+      return await prisma.device({ id: device.id }).devCategoryId();
     }
   },
   Loan: {
+    async deviceId(device) {
+      return await prisma.loan({ id: device.id }).deviceId();
+    },
     async loanerId(user) {
-      console.log(user);
-      return await prisma.user({ id: user.id });
+      return await prisma.loan({ id: user.id }).loanerId();
+    },
+    async supplierId(user) {
+      return await prisma.loan({ id: user.id }).supplierId();
+    },
+    async returnerId(user) {
+      return await prisma.loan({ id: user.id }).returnerId();
     }
   },
   Query: {
@@ -52,9 +64,8 @@ export default {
     allLoans: async (obj, args, reg) => {
       return await prisma.loans();
     },
-    // not working
-    ownLoans: async (obj, args, { currentUser }) => {
-      return await prisma.user({ id: currentUser.id }).loans();
+    oneUser: async (obj, { input: { email } }) => {
+      return await prisma.user({ email: email });
     }
   },
   Mutation: {
@@ -163,6 +174,21 @@ export default {
       const devCategory = await prisma.createDevCategory({
         deviceType: deviceType,
         desription: desription
+      });
+      return { devCategory };
+    },
+    categoryUpdate: async (obj, { input: { deviceType, desription } }) => {
+      const devCategory = await prisma.updateDevCategory({
+        data: _.pickBy(
+          {
+            deviceType: deviceType,
+            desription: desription
+          },
+          _.identity
+        ),
+        where: {
+          deviceType: deviceType
+        }
       });
       return { devCategory };
     },

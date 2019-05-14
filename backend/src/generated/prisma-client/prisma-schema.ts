@@ -29,6 +29,15 @@ export const typeDefs = /* GraphQL */ `
     id: ID!
     deviceType: String
     desription: String
+    devices(
+      where: DeviceWhereInput
+      orderBy: DeviceOrderByInput
+      skip: Int
+      after: String
+      before: String
+      first: Int
+      last: Int
+    ): [Device!]
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -43,11 +52,18 @@ export const typeDefs = /* GraphQL */ `
     id: ID
     deviceType: String
     desription: String
+    devices: DeviceCreateManyWithoutDevCategoryIdInput
   }
 
-  input DevCategoryCreateOneInput {
-    create: DevCategoryCreateInput
+  input DevCategoryCreateOneWithoutDevicesInput {
+    create: DevCategoryCreateWithoutDevicesInput
     connect: DevCategoryWhereUniqueInput
+  }
+
+  input DevCategoryCreateWithoutDevicesInput {
+    id: ID
+    deviceType: String
+    desription: String
   }
 
   type DevCategoryEdge {
@@ -94,14 +110,10 @@ export const typeDefs = /* GraphQL */ `
     NOT: [DevCategorySubscriptionWhereInput!]
   }
 
-  input DevCategoryUpdateDataInput {
-    deviceType: String
-    desription: String
-  }
-
   input DevCategoryUpdateInput {
     deviceType: String
     desription: String
+    devices: DeviceUpdateManyWithoutDevCategoryIdInput
   }
 
   input DevCategoryUpdateManyMutationInput {
@@ -109,16 +121,21 @@ export const typeDefs = /* GraphQL */ `
     desription: String
   }
 
-  input DevCategoryUpdateOneRequiredInput {
-    create: DevCategoryCreateInput
-    update: DevCategoryUpdateDataInput
-    upsert: DevCategoryUpsertNestedInput
+  input DevCategoryUpdateOneRequiredWithoutDevicesInput {
+    create: DevCategoryCreateWithoutDevicesInput
+    update: DevCategoryUpdateWithoutDevicesDataInput
+    upsert: DevCategoryUpsertWithoutDevicesInput
     connect: DevCategoryWhereUniqueInput
   }
 
-  input DevCategoryUpsertNestedInput {
-    update: DevCategoryUpdateDataInput!
-    create: DevCategoryCreateInput!
+  input DevCategoryUpdateWithoutDevicesDataInput {
+    deviceType: String
+    desription: String
+  }
+
+  input DevCategoryUpsertWithoutDevicesInput {
+    update: DevCategoryUpdateWithoutDevicesDataInput!
+    create: DevCategoryCreateWithoutDevicesInput!
   }
 
   input DevCategoryWhereInput {
@@ -164,6 +181,9 @@ export const typeDefs = /* GraphQL */ `
     desription_not_starts_with: String
     desription_ends_with: String
     desription_not_ends_with: String
+    devices_every: DeviceWhereInput
+    devices_some: DeviceWhereInput
+    devices_none: DeviceWhereInput
     createdAt: DateTime
     createdAt_not: DateTime
     createdAt_in: [DateTime!]
@@ -198,6 +218,7 @@ export const typeDefs = /* GraphQL */ `
     info: String
     loanStatus: Boolean!
     devCategoryId: DevCategory!
+    loan: Loan
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -215,12 +236,38 @@ export const typeDefs = /* GraphQL */ `
     model: String
     info: String
     loanStatus: Boolean
-    devCategoryId: DevCategoryCreateOneInput!
+    devCategoryId: DevCategoryCreateOneWithoutDevicesInput!
+    loan: LoanCreateOneWithoutDeviceIdInput
   }
 
-  input DeviceCreateOneInput {
-    create: DeviceCreateInput
+  input DeviceCreateManyWithoutDevCategoryIdInput {
+    create: [DeviceCreateWithoutDevCategoryIdInput!]
+    connect: [DeviceWhereUniqueInput!]
+  }
+
+  input DeviceCreateOneWithoutLoanInput {
+    create: DeviceCreateWithoutLoanInput
     connect: DeviceWhereUniqueInput
+  }
+
+  input DeviceCreateWithoutDevCategoryIdInput {
+    id: ID
+    idCode: String!
+    manufacture: String
+    model: String
+    info: String
+    loanStatus: Boolean
+    loan: LoanCreateOneWithoutDeviceIdInput
+  }
+
+  input DeviceCreateWithoutLoanInput {
+    id: ID
+    idCode: String!
+    manufacture: String
+    model: String
+    info: String
+    loanStatus: Boolean
+    devCategoryId: DevCategoryCreateOneWithoutDevicesInput!
   }
 
   type DeviceEdge {
@@ -258,6 +305,100 @@ export const typeDefs = /* GraphQL */ `
     updatedAt: DateTime!
   }
 
+  input DeviceScalarWhereInput {
+    id: ID
+    id_not: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_gt: ID
+    id_gte: ID
+    id_contains: ID
+    id_not_contains: ID
+    id_starts_with: ID
+    id_not_starts_with: ID
+    id_ends_with: ID
+    id_not_ends_with: ID
+    idCode: String
+    idCode_not: String
+    idCode_in: [String!]
+    idCode_not_in: [String!]
+    idCode_lt: String
+    idCode_lte: String
+    idCode_gt: String
+    idCode_gte: String
+    idCode_contains: String
+    idCode_not_contains: String
+    idCode_starts_with: String
+    idCode_not_starts_with: String
+    idCode_ends_with: String
+    idCode_not_ends_with: String
+    manufacture: String
+    manufacture_not: String
+    manufacture_in: [String!]
+    manufacture_not_in: [String!]
+    manufacture_lt: String
+    manufacture_lte: String
+    manufacture_gt: String
+    manufacture_gte: String
+    manufacture_contains: String
+    manufacture_not_contains: String
+    manufacture_starts_with: String
+    manufacture_not_starts_with: String
+    manufacture_ends_with: String
+    manufacture_not_ends_with: String
+    model: String
+    model_not: String
+    model_in: [String!]
+    model_not_in: [String!]
+    model_lt: String
+    model_lte: String
+    model_gt: String
+    model_gte: String
+    model_contains: String
+    model_not_contains: String
+    model_starts_with: String
+    model_not_starts_with: String
+    model_ends_with: String
+    model_not_ends_with: String
+    info: String
+    info_not: String
+    info_in: [String!]
+    info_not_in: [String!]
+    info_lt: String
+    info_lte: String
+    info_gt: String
+    info_gte: String
+    info_contains: String
+    info_not_contains: String
+    info_starts_with: String
+    info_not_starts_with: String
+    info_ends_with: String
+    info_not_ends_with: String
+    loanStatus: Boolean
+    loanStatus_not: Boolean
+    createdAt: DateTime
+    createdAt_not: DateTime
+    createdAt_in: [DateTime!]
+    createdAt_not_in: [DateTime!]
+    createdAt_lt: DateTime
+    createdAt_lte: DateTime
+    createdAt_gt: DateTime
+    createdAt_gte: DateTime
+    updatedAt: DateTime
+    updatedAt_not: DateTime
+    updatedAt_in: [DateTime!]
+    updatedAt_not_in: [DateTime!]
+    updatedAt_lt: DateTime
+    updatedAt_lte: DateTime
+    updatedAt_gt: DateTime
+    updatedAt_gte: DateTime
+    AND: [DeviceScalarWhereInput!]
+    OR: [DeviceScalarWhereInput!]
+    NOT: [DeviceScalarWhereInput!]
+  }
+
   type DeviceSubscriptionPayload {
     mutation: MutationType!
     node: Device
@@ -276,22 +417,22 @@ export const typeDefs = /* GraphQL */ `
     NOT: [DeviceSubscriptionWhereInput!]
   }
 
-  input DeviceUpdateDataInput {
-    idCode: String
-    manufacture: String
-    model: String
-    info: String
-    loanStatus: Boolean
-    devCategoryId: DevCategoryUpdateOneRequiredInput
-  }
-
   input DeviceUpdateInput {
     idCode: String
     manufacture: String
     model: String
     info: String
     loanStatus: Boolean
-    devCategoryId: DevCategoryUpdateOneRequiredInput
+    devCategoryId: DevCategoryUpdateOneRequiredWithoutDevicesInput
+    loan: LoanUpdateOneWithoutDeviceIdInput
+  }
+
+  input DeviceUpdateManyDataInput {
+    idCode: String
+    manufacture: String
+    model: String
+    info: String
+    loanStatus: Boolean
   }
 
   input DeviceUpdateManyMutationInput {
@@ -302,16 +443,62 @@ export const typeDefs = /* GraphQL */ `
     loanStatus: Boolean
   }
 
-  input DeviceUpdateOneRequiredInput {
-    create: DeviceCreateInput
-    update: DeviceUpdateDataInput
-    upsert: DeviceUpsertNestedInput
+  input DeviceUpdateManyWithoutDevCategoryIdInput {
+    create: [DeviceCreateWithoutDevCategoryIdInput!]
+    delete: [DeviceWhereUniqueInput!]
+    connect: [DeviceWhereUniqueInput!]
+    set: [DeviceWhereUniqueInput!]
+    disconnect: [DeviceWhereUniqueInput!]
+    update: [DeviceUpdateWithWhereUniqueWithoutDevCategoryIdInput!]
+    upsert: [DeviceUpsertWithWhereUniqueWithoutDevCategoryIdInput!]
+    deleteMany: [DeviceScalarWhereInput!]
+    updateMany: [DeviceUpdateManyWithWhereNestedInput!]
+  }
+
+  input DeviceUpdateManyWithWhereNestedInput {
+    where: DeviceScalarWhereInput!
+    data: DeviceUpdateManyDataInput!
+  }
+
+  input DeviceUpdateOneRequiredWithoutLoanInput {
+    create: DeviceCreateWithoutLoanInput
+    update: DeviceUpdateWithoutLoanDataInput
+    upsert: DeviceUpsertWithoutLoanInput
     connect: DeviceWhereUniqueInput
   }
 
-  input DeviceUpsertNestedInput {
-    update: DeviceUpdateDataInput!
-    create: DeviceCreateInput!
+  input DeviceUpdateWithoutDevCategoryIdDataInput {
+    idCode: String
+    manufacture: String
+    model: String
+    info: String
+    loanStatus: Boolean
+    loan: LoanUpdateOneWithoutDeviceIdInput
+  }
+
+  input DeviceUpdateWithoutLoanDataInput {
+    idCode: String
+    manufacture: String
+    model: String
+    info: String
+    loanStatus: Boolean
+    devCategoryId: DevCategoryUpdateOneRequiredWithoutDevicesInput
+  }
+
+  input DeviceUpdateWithWhereUniqueWithoutDevCategoryIdInput {
+    where: DeviceWhereUniqueInput!
+    data: DeviceUpdateWithoutDevCategoryIdDataInput!
+  }
+
+  input DeviceUpsertWithoutLoanInput {
+    update: DeviceUpdateWithoutLoanDataInput!
+    create: DeviceCreateWithoutLoanInput!
+  }
+
+  input DeviceUpsertWithWhereUniqueWithoutDevCategoryIdInput {
+    where: DeviceWhereUniqueInput!
+    update: DeviceUpdateWithoutDevCategoryIdDataInput!
+    create: DeviceCreateWithoutDevCategoryIdInput!
   }
 
   input DeviceWhereInput {
@@ -388,6 +575,7 @@ export const typeDefs = /* GraphQL */ `
     loanStatus: Boolean
     loanStatus_not: Boolean
     devCategoryId: DevCategoryWhereInput
+    loan: LoanWhereInput
     createdAt: DateTime
     createdAt_not: DateTime
     createdAt_in: [DateTime!]
@@ -438,10 +626,10 @@ export const typeDefs = /* GraphQL */ `
     loanDate: DateTime!
     returnDate: DateTime
     dueDate: DateTime!
-    deviceId: DeviceCreateOneInput!
+    deviceId: DeviceCreateOneWithoutLoanInput!
     loanerId: UserCreateOneWithoutLoansInput!
-    supplierId: UserCreateOneInput!
-    returnerId: UserCreateOneInput
+    supplierId: UserCreateOneWithoutSuppliersInput!
+    returnerId: UserCreateOneWithoutReturnsInput
   }
 
   input LoanCreateManyWithoutLoanerIdInput {
@@ -449,14 +637,59 @@ export const typeDefs = /* GraphQL */ `
     connect: [LoanWhereUniqueInput!]
   }
 
+  input LoanCreateManyWithoutReturnerIdInput {
+    create: [LoanCreateWithoutReturnerIdInput!]
+    connect: [LoanWhereUniqueInput!]
+  }
+
+  input LoanCreateManyWithoutSupplierIdInput {
+    create: [LoanCreateWithoutSupplierIdInput!]
+    connect: [LoanWhereUniqueInput!]
+  }
+
+  input LoanCreateOneWithoutDeviceIdInput {
+    create: LoanCreateWithoutDeviceIdInput
+    connect: LoanWhereUniqueInput
+  }
+
+  input LoanCreateWithoutDeviceIdInput {
+    id: ID
+    loanDate: DateTime!
+    returnDate: DateTime
+    dueDate: DateTime!
+    loanerId: UserCreateOneWithoutLoansInput!
+    supplierId: UserCreateOneWithoutSuppliersInput!
+    returnerId: UserCreateOneWithoutReturnsInput
+  }
+
   input LoanCreateWithoutLoanerIdInput {
     id: ID
     loanDate: DateTime!
     returnDate: DateTime
     dueDate: DateTime!
-    deviceId: DeviceCreateOneInput!
-    supplierId: UserCreateOneInput!
-    returnerId: UserCreateOneInput
+    deviceId: DeviceCreateOneWithoutLoanInput!
+    supplierId: UserCreateOneWithoutSuppliersInput!
+    returnerId: UserCreateOneWithoutReturnsInput
+  }
+
+  input LoanCreateWithoutReturnerIdInput {
+    id: ID
+    loanDate: DateTime!
+    returnDate: DateTime
+    dueDate: DateTime!
+    deviceId: DeviceCreateOneWithoutLoanInput!
+    loanerId: UserCreateOneWithoutLoansInput!
+    supplierId: UserCreateOneWithoutSuppliersInput!
+  }
+
+  input LoanCreateWithoutSupplierIdInput {
+    id: ID
+    loanDate: DateTime!
+    returnDate: DateTime
+    dueDate: DateTime!
+    deviceId: DeviceCreateOneWithoutLoanInput!
+    loanerId: UserCreateOneWithoutLoansInput!
+    returnerId: UserCreateOneWithoutReturnsInput
   }
 
   type LoanEdge {
@@ -570,10 +803,10 @@ export const typeDefs = /* GraphQL */ `
     loanDate: DateTime
     returnDate: DateTime
     dueDate: DateTime
-    deviceId: DeviceUpdateOneRequiredInput
+    deviceId: DeviceUpdateOneRequiredWithoutLoanInput
     loanerId: UserUpdateOneRequiredWithoutLoansInput
-    supplierId: UserUpdateOneRequiredInput
-    returnerId: UserUpdateOneInput
+    supplierId: UserUpdateOneRequiredWithoutSuppliersInput
+    returnerId: UserUpdateOneWithoutReturnsInput
   }
 
   input LoanUpdateManyDataInput {
@@ -600,18 +833,78 @@ export const typeDefs = /* GraphQL */ `
     updateMany: [LoanUpdateManyWithWhereNestedInput!]
   }
 
+  input LoanUpdateManyWithoutReturnerIdInput {
+    create: [LoanCreateWithoutReturnerIdInput!]
+    delete: [LoanWhereUniqueInput!]
+    connect: [LoanWhereUniqueInput!]
+    set: [LoanWhereUniqueInput!]
+    disconnect: [LoanWhereUniqueInput!]
+    update: [LoanUpdateWithWhereUniqueWithoutReturnerIdInput!]
+    upsert: [LoanUpsertWithWhereUniqueWithoutReturnerIdInput!]
+    deleteMany: [LoanScalarWhereInput!]
+    updateMany: [LoanUpdateManyWithWhereNestedInput!]
+  }
+
+  input LoanUpdateManyWithoutSupplierIdInput {
+    create: [LoanCreateWithoutSupplierIdInput!]
+    delete: [LoanWhereUniqueInput!]
+    connect: [LoanWhereUniqueInput!]
+    set: [LoanWhereUniqueInput!]
+    disconnect: [LoanWhereUniqueInput!]
+    update: [LoanUpdateWithWhereUniqueWithoutSupplierIdInput!]
+    upsert: [LoanUpsertWithWhereUniqueWithoutSupplierIdInput!]
+    deleteMany: [LoanScalarWhereInput!]
+    updateMany: [LoanUpdateManyWithWhereNestedInput!]
+  }
+
   input LoanUpdateManyWithWhereNestedInput {
     where: LoanScalarWhereInput!
     data: LoanUpdateManyDataInput!
+  }
+
+  input LoanUpdateOneWithoutDeviceIdInput {
+    create: LoanCreateWithoutDeviceIdInput
+    update: LoanUpdateWithoutDeviceIdDataInput
+    upsert: LoanUpsertWithoutDeviceIdInput
+    delete: Boolean
+    disconnect: Boolean
+    connect: LoanWhereUniqueInput
+  }
+
+  input LoanUpdateWithoutDeviceIdDataInput {
+    loanDate: DateTime
+    returnDate: DateTime
+    dueDate: DateTime
+    loanerId: UserUpdateOneRequiredWithoutLoansInput
+    supplierId: UserUpdateOneRequiredWithoutSuppliersInput
+    returnerId: UserUpdateOneWithoutReturnsInput
   }
 
   input LoanUpdateWithoutLoanerIdDataInput {
     loanDate: DateTime
     returnDate: DateTime
     dueDate: DateTime
-    deviceId: DeviceUpdateOneRequiredInput
-    supplierId: UserUpdateOneRequiredInput
-    returnerId: UserUpdateOneInput
+    deviceId: DeviceUpdateOneRequiredWithoutLoanInput
+    supplierId: UserUpdateOneRequiredWithoutSuppliersInput
+    returnerId: UserUpdateOneWithoutReturnsInput
+  }
+
+  input LoanUpdateWithoutReturnerIdDataInput {
+    loanDate: DateTime
+    returnDate: DateTime
+    dueDate: DateTime
+    deviceId: DeviceUpdateOneRequiredWithoutLoanInput
+    loanerId: UserUpdateOneRequiredWithoutLoansInput
+    supplierId: UserUpdateOneRequiredWithoutSuppliersInput
+  }
+
+  input LoanUpdateWithoutSupplierIdDataInput {
+    loanDate: DateTime
+    returnDate: DateTime
+    dueDate: DateTime
+    deviceId: DeviceUpdateOneRequiredWithoutLoanInput
+    loanerId: UserUpdateOneRequiredWithoutLoansInput
+    returnerId: UserUpdateOneWithoutReturnsInput
   }
 
   input LoanUpdateWithWhereUniqueWithoutLoanerIdInput {
@@ -619,10 +912,37 @@ export const typeDefs = /* GraphQL */ `
     data: LoanUpdateWithoutLoanerIdDataInput!
   }
 
+  input LoanUpdateWithWhereUniqueWithoutReturnerIdInput {
+    where: LoanWhereUniqueInput!
+    data: LoanUpdateWithoutReturnerIdDataInput!
+  }
+
+  input LoanUpdateWithWhereUniqueWithoutSupplierIdInput {
+    where: LoanWhereUniqueInput!
+    data: LoanUpdateWithoutSupplierIdDataInput!
+  }
+
+  input LoanUpsertWithoutDeviceIdInput {
+    update: LoanUpdateWithoutDeviceIdDataInput!
+    create: LoanCreateWithoutDeviceIdInput!
+  }
+
   input LoanUpsertWithWhereUniqueWithoutLoanerIdInput {
     where: LoanWhereUniqueInput!
     update: LoanUpdateWithoutLoanerIdDataInput!
     create: LoanCreateWithoutLoanerIdInput!
+  }
+
+  input LoanUpsertWithWhereUniqueWithoutReturnerIdInput {
+    where: LoanWhereUniqueInput!
+    update: LoanUpdateWithoutReturnerIdDataInput!
+    create: LoanCreateWithoutReturnerIdInput!
+  }
+
+  input LoanUpsertWithWhereUniqueWithoutSupplierIdInput {
+    where: LoanWhereUniqueInput!
+    update: LoanUpdateWithoutSupplierIdDataInput!
+    create: LoanCreateWithoutSupplierIdInput!
   }
 
   input LoanWhereInput {
@@ -882,6 +1202,24 @@ export const typeDefs = /* GraphQL */ `
       first: Int
       last: Int
     ): [Loan!]
+    suppliers(
+      where: LoanWhereInput
+      orderBy: LoanOrderByInput
+      skip: Int
+      after: String
+      before: String
+      first: Int
+      last: Int
+    ): [Loan!]
+    returns(
+      where: LoanWhereInput
+      orderBy: LoanOrderByInput
+      skip: Int
+      after: String
+      before: String
+      first: Int
+      last: Int
+    ): [Loan!]
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -904,15 +1242,22 @@ export const typeDefs = /* GraphQL */ `
     personNumber: String
     phone: String
     loans: LoanCreateManyWithoutLoanerIdInput
-  }
-
-  input UserCreateOneInput {
-    create: UserCreateInput
-    connect: UserWhereUniqueInput
+    suppliers: LoanCreateManyWithoutSupplierIdInput
+    returns: LoanCreateManyWithoutReturnerIdInput
   }
 
   input UserCreateOneWithoutLoansInput {
     create: UserCreateWithoutLoansInput
+    connect: UserWhereUniqueInput
+  }
+
+  input UserCreateOneWithoutReturnsInput {
+    create: UserCreateWithoutReturnsInput
+    connect: UserWhereUniqueInput
+  }
+
+  input UserCreateOneWithoutSuppliersInput {
+    create: UserCreateWithoutSuppliersInput
     connect: UserWhereUniqueInput
   }
 
@@ -927,6 +1272,38 @@ export const typeDefs = /* GraphQL */ `
     address: String
     personNumber: String
     phone: String
+    suppliers: LoanCreateManyWithoutSupplierIdInput
+    returns: LoanCreateManyWithoutReturnerIdInput
+  }
+
+  input UserCreateWithoutReturnsInput {
+    id: ID
+    isActive: Boolean
+    userType: UserType!
+    email: String!
+    password: String!
+    firstName: String
+    lastName: String
+    address: String
+    personNumber: String
+    phone: String
+    loans: LoanCreateManyWithoutLoanerIdInput
+    suppliers: LoanCreateManyWithoutSupplierIdInput
+  }
+
+  input UserCreateWithoutSuppliersInput {
+    id: ID
+    isActive: Boolean
+    userType: UserType!
+    email: String!
+    password: String!
+    firstName: String
+    lastName: String
+    address: String
+    personNumber: String
+    phone: String
+    loans: LoanCreateManyWithoutLoanerIdInput
+    returns: LoanCreateManyWithoutReturnerIdInput
   }
 
   type UserEdge {
@@ -1000,19 +1377,6 @@ export const typeDefs = /* GraphQL */ `
     STUDENT
   }
 
-  input UserUpdateDataInput {
-    isActive: Boolean
-    userType: UserType
-    email: String
-    password: String
-    firstName: String
-    lastName: String
-    address: String
-    personNumber: String
-    phone: String
-    loans: LoanUpdateManyWithoutLoanerIdInput
-  }
-
   input UserUpdateInput {
     isActive: Boolean
     userType: UserType
@@ -1024,6 +1388,8 @@ export const typeDefs = /* GraphQL */ `
     personNumber: String
     phone: String
     loans: LoanUpdateManyWithoutLoanerIdInput
+    suppliers: LoanUpdateManyWithoutSupplierIdInput
+    returns: LoanUpdateManyWithoutReturnerIdInput
   }
 
   input UserUpdateManyMutationInput {
@@ -1038,26 +1404,26 @@ export const typeDefs = /* GraphQL */ `
     phone: String
   }
 
-  input UserUpdateOneInput {
-    create: UserCreateInput
-    update: UserUpdateDataInput
-    upsert: UserUpsertNestedInput
-    delete: Boolean
-    disconnect: Boolean
-    connect: UserWhereUniqueInput
-  }
-
-  input UserUpdateOneRequiredInput {
-    create: UserCreateInput
-    update: UserUpdateDataInput
-    upsert: UserUpsertNestedInput
-    connect: UserWhereUniqueInput
-  }
-
   input UserUpdateOneRequiredWithoutLoansInput {
     create: UserCreateWithoutLoansInput
     update: UserUpdateWithoutLoansDataInput
     upsert: UserUpsertWithoutLoansInput
+    connect: UserWhereUniqueInput
+  }
+
+  input UserUpdateOneRequiredWithoutSuppliersInput {
+    create: UserCreateWithoutSuppliersInput
+    update: UserUpdateWithoutSuppliersDataInput
+    upsert: UserUpsertWithoutSuppliersInput
+    connect: UserWhereUniqueInput
+  }
+
+  input UserUpdateOneWithoutReturnsInput {
+    create: UserCreateWithoutReturnsInput
+    update: UserUpdateWithoutReturnsDataInput
+    upsert: UserUpsertWithoutReturnsInput
+    delete: Boolean
+    disconnect: Boolean
     connect: UserWhereUniqueInput
   }
 
@@ -1071,16 +1437,51 @@ export const typeDefs = /* GraphQL */ `
     address: String
     personNumber: String
     phone: String
+    suppliers: LoanUpdateManyWithoutSupplierIdInput
+    returns: LoanUpdateManyWithoutReturnerIdInput
   }
 
-  input UserUpsertNestedInput {
-    update: UserUpdateDataInput!
-    create: UserCreateInput!
+  input UserUpdateWithoutReturnsDataInput {
+    isActive: Boolean
+    userType: UserType
+    email: String
+    password: String
+    firstName: String
+    lastName: String
+    address: String
+    personNumber: String
+    phone: String
+    loans: LoanUpdateManyWithoutLoanerIdInput
+    suppliers: LoanUpdateManyWithoutSupplierIdInput
+  }
+
+  input UserUpdateWithoutSuppliersDataInput {
+    isActive: Boolean
+    userType: UserType
+    email: String
+    password: String
+    firstName: String
+    lastName: String
+    address: String
+    personNumber: String
+    phone: String
+    loans: LoanUpdateManyWithoutLoanerIdInput
+    returns: LoanUpdateManyWithoutReturnerIdInput
   }
 
   input UserUpsertWithoutLoansInput {
     update: UserUpdateWithoutLoansDataInput!
     create: UserCreateWithoutLoansInput!
+  }
+
+  input UserUpsertWithoutReturnsInput {
+    update: UserUpdateWithoutReturnsDataInput!
+    create: UserCreateWithoutReturnsInput!
+  }
+
+  input UserUpsertWithoutSuppliersInput {
+    update: UserUpdateWithoutSuppliersDataInput!
+    create: UserCreateWithoutSuppliersInput!
   }
 
   input UserWhereInput {
@@ -1205,6 +1606,12 @@ export const typeDefs = /* GraphQL */ `
     loans_every: LoanWhereInput
     loans_some: LoanWhereInput
     loans_none: LoanWhereInput
+    suppliers_every: LoanWhereInput
+    suppliers_some: LoanWhereInput
+    suppliers_none: LoanWhereInput
+    returns_every: LoanWhereInput
+    returns_some: LoanWhereInput
+    returns_none: LoanWhereInput
     createdAt: DateTime
     createdAt_not: DateTime
     createdAt_in: [DateTime!]

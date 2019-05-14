@@ -97,8 +97,8 @@ export default `
         # ADMINS/STAFF - List all loans
         allLoans: [Loan]
 
-        # List own loans
-        ownLoans: [User]
+        # ADMINS - List one user
+        oneUser(input: OneUserInput!): OneUserPayload
     }
 
     #############
@@ -106,11 +106,10 @@ export default `
     #############
 
     type Mutation {
+        ############ CREATE #################
+
         # ADMINS - Create new user
         userCreate(input: UserCreateInput!): UserCreatePayload
-
-        # ADMINS - Update user
-        userUpdate(input: UserUpdateInput!): UserUpdatePayload
 
         # STAFF - Create new student user
         userCreateStudent(input: UserCreateStudentInput!): UserCreateStudentPayload
@@ -123,6 +122,13 @@ export default `
 
         # ADMINS/STUFF - Create new loan
         loanCreate(input: LoanCreateInput!): LoanCreatePayload
+
+        ############# UPDATE ##################
+
+        # ADMINS - Update user
+        userUpdate(input: UserUpdateInput!): UserUpdatePayload
+
+        categoryUpdate(input: CategoryUpdateInput!): CategoryUpdatePayload
     }
 
     ##############################
@@ -137,6 +143,15 @@ export default `
     }
     type LoginPayload {
         jwt: String
+    }
+
+    ############### USER ######################
+
+    input OneUserInput {
+        email: String!
+    }
+    type OneUserPayload {
+        user: User
     }
 
     ##############################
@@ -195,6 +210,14 @@ export default `
         desription: String
     }
     type CategoryCreatePayload {
+        devCategory: DevCategory
+    }
+
+    input CategoryUpdateInput {
+        deviceType: String!
+        desription: String
+    }
+    type CategoryUpdatePayload {
         devCategory: DevCategory
     }
 
