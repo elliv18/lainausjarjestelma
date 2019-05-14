@@ -1,5 +1,5 @@
 #! dockerfile
-FROM mhart/alpine-node:latest
+FROM node:8-slim
 
 COPY ./backend /opt/app
 RUN apt-get update \

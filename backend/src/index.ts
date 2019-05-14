@@ -7,7 +7,7 @@ import { typeDefs, resolvers } from "./schema";
 const server = new GraphQLServer({
   typeDefs,
   resolvers,
-  //middlewares: [permissions],
+  middlewares: [permissions],
   context: async ctx => {
     const auth = ctx.request.get("Authorization");
     let currentUser = {};
