@@ -3,6 +3,9 @@ import { permissions } from "./permissions";
 import * as jwt from "jsonwebtoken";
 import { JWT_SECRET } from "./environment";
 import { typeDefs, resolvers } from "./schema";
+import createRootAdmin from "./misc/rootAdmin";
+
+createRootAdmin();
 
 const server = new GraphQLServer({
   typeDefs,
