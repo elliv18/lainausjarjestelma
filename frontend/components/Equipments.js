@@ -8,7 +8,7 @@ import {
   DataTypeProvider,
   SearchState,
   IntegratedFiltering,
-  EditingState
+  EditingState,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -18,9 +18,11 @@ import {
   Toolbar,
   TableEditRow,
   TableEditColumn,
+  TableColumnReordering,
+  TableFixedColumns,
 } from '@devexpress/dx-react-grid-material-ui';
-import Check from '@material-ui/icons/check'
-import Cancel from '@material-ui/icons/cancel'
+import CheckIcon from '@material-ui/icons/check'
+import CancelIcon from '@material-ui/icons/cancel'
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
@@ -49,17 +51,17 @@ const BooleanTypeProvider = props => (
 
 let id = 0;
 function createData(
-  name, model, info, loanStatus) {
+  deviceCategory, manufacture, model, info, loanStatus) {
   id += 1;
-  return { id, name, model, info, loanStatus };
+  return { id, deviceCategory, manufacture, model, info, loanStatus };
 }
 
 const rows = [
-  createData('Kannettava', 'Lenovo', 'Kiva kone', false),
-  createData('Laite 2', 'Asus', 'Hahaa', false),
-  createData('Tv', 'Lg', '120 tuumainen OLED', true),
-  createData('Laite 4', 'Abc', 'infoo!', false),
-  createData('Kone 5', 'Cds', 'infoo123123', false),
+  createData('Kannettava', 'Lenovo', 'Abc', 'Kiva kone', false),
+  createData('Laite 2', 'Asus', '123', 'Hahaa', false),
+  createData('Tv', 'Lg', 'malli1', '120 tuumainen OLED', true),
+  createData('Laite 4', 'Abc','malli2', 'infoo!', false),
+  createData('Kone 5', 'Cds','malli3', 'infoo123123', false),
 ];
 
 const getRowId = row => row.id;
@@ -67,7 +69,7 @@ const getRowId = row => row.id;
 const BooleanFormatter = ({ value }) => 
   <Chip color={value? 'primary' : 'secondary'} 
         label={value ? 'Loaned' : 'Available'} 
-        icon={value ? <Cancel /> : <Check/>}
+        icon={value ? <CancelIcon /> : <CheckIcon />}
         style={value? {backgroundColor:'rgba(204,0,0,0.85)', 
                         width: '115px', 
                         justifyContent: 'left'}
@@ -81,15 +83,15 @@ class Equipments extends React.Component{
 
     this.state = {
       columns: [
-        { name: 'id', title: 'Id' },
-        { name: 'name', title: 'Name' },
+        { name: 'deviceCategory', title: 'Category'},
+        { name: 'manufacture', title: 'Manufacture' },
         { name: 'model', title: 'Model' },
         { name: 'info', title: 'Info' },
         { name: 'loanStatus', title: 'Loan', dataType: 'boolean' },
       ],
       tableColumnExtensions:[
-        { columnName: 'id', wordWrapEnabled: true, width: 80},
-        { columnName: 'name', wordWrapEnabled: true},
+        { columnName: 'deviceCategory', wordWrapEnabled: true},
+        { columnName: 'manufacture', wordWrapEnabled: true},
         { columnName: 'model', wordWrapEnabled: true},
         { columnName: 'info', wordWrapEnabled: true},
         { columnName: 'loanStatus', wordWrapEnabled: true, width: 150 },
@@ -97,6 +99,7 @@ class Equipments extends React.Component{
       booleanColumns: ['loanStatus'],
       rows: rows,
       sorting: [{ columnName: 'id', direction: 'asc' }],
+      leftFixedColumns: [TableEditColumn.COLUMN_TYPE],
       
     };
     this.commitChanges = this.commitChanges.bind(this);
@@ -127,13 +130,12 @@ class Equipments extends React.Component{
 
     render(){
         const{classes} = this.props
-        const { rows, columns, tableColumnExtensions, sorting, booleanColumns } = this.state;
+        const { rows, columns, tableColumnExtensions, sorting, booleanColumns, leftFixedColumns } = this.state;
     return(
         <Paper className ={classes.root} elevation={5}>
         <Grid
           rows={rows}
           columns={columns}
-          getRowId={getRowId}
         >
         <EditingState onCommitChanges={this.commitChanges}/>
         <SearchState />
@@ -147,12 +149,19 @@ class Equipments extends React.Component{
           />
           <IntegratedSorting />
           <Table columnExtensions={tableColumnExtensions} />
+          <TableColumnReordering
+            defaultOrder={['manufacture', 'model', 'info', 'loanStatus']}
+          />
           <TableHeaderRow showSortingControls />
           <TableEditRow />
           <TableEditColumn
+            width={180}
             showAddCommand
             showEditCommand
             showDeleteCommand
+          />
+          <TableFixedColumns
+            leftColumns={leftFixedColumns}
           />
           <Toolbar />
           <SearchPanel />
