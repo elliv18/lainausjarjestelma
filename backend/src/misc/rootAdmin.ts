@@ -1,6 +1,7 @@
 import { prisma } from "../generated/prisma-client";
 import * as bcrypt from "bcryptjs";
 import { JWT_SECRET, SALT_ROUNDS } from "../environment";
+import logger from "./logger";
 
 export default async () => {
   // is db empty?
@@ -21,6 +22,7 @@ export default async () => {
       personNumber: "127.0.0.1",
       phone: "127.0.0.1"
     });
+    logger.log("info", "[USER CREATE] Root admin have been created");
     console.log("Root Admin Created!!!");
   }
 };

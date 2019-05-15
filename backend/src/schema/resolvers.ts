@@ -5,6 +5,7 @@ import { sign } from "jsonwebtoken";
 import { prisma } from "../generated/prisma-client";
 import { JWT_SECRET, SALT_ROUNDS } from "../environment";
 import { userInfo } from "os";
+import logger from "../misc/logger";
 
 export default {
   User: {
@@ -56,17 +57,20 @@ export default {
       const user = await prisma.user({ email: email });
       console.log(user);
       if (!user) {
+        logger.log("warn", "[LOGIN] Email %s not found", email);
         throw new Error("Email not found!");
       }
 
       const pwValid = await bcrypt.compare(password, user.password);
 
       if (!pwValid) {
+        logger.log("warn", "[LOGIN] Password is invalid from user %s", email);
         throw new Error("Password is invalid!");
       }
 
       const jwt = sign({ id: user.id, type: user.userType }, JWT_SECRET);
 
+      logger.log("info", "[LOGIN] Login succesful! Logged user is: %s", email);
       return { jwt };
     },
     userCreate: async (
@@ -97,6 +101,7 @@ export default {
         phone: phone
       });
 
+      logger.log("info", "[USER CREATE] New user created %s", email);
       return { user };
     },
     userUpdate: async (
@@ -140,6 +145,7 @@ export default {
         }
       });
 
+      logger.log("info", "[USER UPDATE] User %s have updated", email);
       return { user };
     },
     userCreateStudent: async (
@@ -168,6 +174,11 @@ export default {
         phone: phone
       });
 
+      logger.log(
+        "info",
+        "[STUDENT CREATE] Student user %s have been created",
+        email
+      );
       return { user };
     },
     categoryCreate: async (obj, { input: { deviceType, desription } }) => {
@@ -175,6 +186,12 @@ export default {
         deviceType: deviceType,
         desription: desription
       });
+
+      logger.log(
+        "info",
+        "[CATEGORY CREATE] New category %s have been created",
+        deviceType
+      );
       return { devCategory };
     },
     categoryUpdate: async (obj, { input: { deviceType, desription } }) => {
@@ -190,6 +207,12 @@ export default {
           deviceType: deviceType
         }
       });
+
+      logger.log(
+        "info",
+        "[CATEGORY UPDATE] Category %s have been updated",
+        deviceType
+      );
       return { devCategory };
     },
     deviceCreate: async (
@@ -207,6 +230,11 @@ export default {
         }
       });
 
+      logger.log(
+        "info",
+        "[DEVICE CREATE] New device %s have been created",
+        idCode
+      );
       return { device };
     },
     loanCreate: async (
@@ -227,6 +255,13 @@ export default {
           connect: { id: currentUser.id }
         }
       });
+
+      logger.log(
+        "info",
+        "[LOAN CREATE] New loan to device %s have been created",
+        devIdCode
+      );
+      return { loan };
     }
   }
 };

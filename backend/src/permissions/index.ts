@@ -25,8 +25,11 @@ export const permissions = shield({
     allLoans: or(isAdmin, isStaff)
   },
   Mutation: {
-    createUser: isAdmin,
+    userCreate: isAdmin,
+    userUpdate: isAdmin,
+    userCreateStudent: isStaff,
     categoryCreate: isAdmin,
+    categoryUpdate: isAdmin,
     deviceCreate: or(isAdmin, isStaff),
     loanCreate: or(isAdmin, isStaff)
   }

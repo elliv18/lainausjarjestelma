@@ -4,6 +4,7 @@ import * as jwt from "jsonwebtoken";
 import { JWT_SECRET } from "./environment";
 import { typeDefs, resolvers } from "./schema";
 import createRootAdmin from "./misc/rootAdmin";
+import logger from "./misc/logger";
 
 createRootAdmin();
 
@@ -30,6 +31,8 @@ const options = {
   }
 };
 
-server.start(options, () =>
-  console.log(`🚀 Server ready at http://localhost:3050`)
+server.start(
+  options,
+  () => logger.log("info", `🚀 Server ready at http://localhost:3050`)
+  //console.log(`🚀 Server ready at http://localhost:3050`)
 );

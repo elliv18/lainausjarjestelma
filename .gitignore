@@ -21,5 +21,6 @@ logs/
 
 .next/
 
-# backend build files
+# backend generated files
 backend/src/generated/
+backend/logs/
