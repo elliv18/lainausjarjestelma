@@ -55,7 +55,7 @@ export default {
   Mutation: {
     login: async (obj, { input: { email, password } }) => {
       const user = await prisma.user({ email: email });
-      console.log(user);
+
       if (!user) {
         logger.log("warn", "[LOGIN] Email %s not found", email);
         throw new Error("Email not found!");

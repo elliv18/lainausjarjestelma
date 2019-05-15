@@ -22,7 +22,7 @@ export default async () => {
       personNumber: "127.0.0.1",
       phone: "127.0.0.1"
     });
+
     logger.log("info", "[USER CREATE] Root admin have been created");
-    console.log("Root Admin Created!!!");
   }
 };

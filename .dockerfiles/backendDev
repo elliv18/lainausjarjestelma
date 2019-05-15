@@ -2,11 +2,7 @@
 FROM node:slim
 
 COPY ./backend /opt/app
-RUN apt-get update \
-    && apt-get install -y build-essential libstdc++6 python \
-    && cd /opt/app \
-    && yarn install
-
+RUN cd /opt/app && yarn install
 
 WORKDIR /opt/app
 

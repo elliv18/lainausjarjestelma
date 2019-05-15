@@ -4,7 +4,6 @@
 
 ## TODO
 
-- permissions
 - missing queries/mutations?
 - testing
 - cleanup
