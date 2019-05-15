@@ -35,23 +35,6 @@ export default {
     currentUser: async (obj, args, { currentUser }) => {
       return await prisma.user({ id: currentUser.id });
     },
-    login: async (obj, { input: { email, password } }) => {
-      const user = await prisma.user({ email: email });
-      console.log(user);
-      if (!user) {
-        throw new Error("Email not found!");
-      }
-
-      const pwValid = await bcrypt.compare(password, user.password);
-
-      if (!pwValid) {
-        throw new Error("Password is invalid!");
-      }
-
-      const jwt = sign({ id: user.id, type: user.userType }, JWT_SECRET);
-
-      return { jwt };
-    },
     allUsers: async (obj, args, reg) => {
       return await prisma.users();
     },
@@ -69,6 +52,23 @@ export default {
     }
   },
   Mutation: {
+    login: async (obj, { input: { email, password } }) => {
+      const user = await prisma.user({ email: email });
+      console.log(user);
+      if (!user) {
+        throw new Error("Email not found!");
+      }
+
+      const pwValid = await bcrypt.compare(password, user.password);
+
+      if (!pwValid) {
+        throw new Error("Password is invalid!");
+      }
+
+      const jwt = sign({ id: user.id, type: user.userType }, JWT_SECRET);
+
+      return { jwt };
+    },
     userCreate: async (
       obj,
       {

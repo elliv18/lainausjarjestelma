@@ -82,9 +82,6 @@ export default `
         # ALL - return current user information
         currentUser: User
 
-        # ALL - login
-        login(input: LoginInput!): LoginPayload
-
         # ADMINS - List all users
         allUsers: [User]
 
@@ -106,6 +103,11 @@ export default `
     #############
 
     type Mutation {
+        ############# LOGIN #################
+
+        # ALL - login
+        login(input: LoginInput!): LoginPayload
+
         ############ CREATE #################
 
         # ADMINS - Create new user
@@ -135,16 +137,6 @@ export default `
     # Query inputs & payloads #
     ##############################
 
-    ################# LOGIN ########################
-
-    input LoginInput {
-        email: String!  
-        password: String!
-    }
-    type LoginPayload {
-        jwt: String
-    }
-
     ############### USER ######################
 
     input OneUserInput {
@@ -157,6 +149,16 @@ export default `
     ##############################
     # Mutation inputs & payloads #
     ##############################
+
+    ################# LOGIN ########################
+
+    input LoginInput {
+        email: String!  
+        password: String!
+    }
+    type LoginPayload {
+        jwt: String
+    }
 
     ############### USER ######################
 
