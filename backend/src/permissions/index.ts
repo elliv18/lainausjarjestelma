@@ -15,6 +15,7 @@ const isStudent = rule()(async (parent, args, { currentUser }) => {
   return currentUser.type === "STUDENT";
 });
 
+// Login mutation is only non auth site... not added here...
 export const permissions = shield({
   Query: {
     currentUser: isAuthenticated,
@@ -24,6 +25,7 @@ export const permissions = shield({
     allLoans: or(isAdmin, isStaff)
   },
   Mutation: {
+    createUser: isAdmin,
     categoryCreate: isAdmin,
     deviceCreate: or(isAdmin, isStaff),
     loanCreate: or(isAdmin, isStaff)
