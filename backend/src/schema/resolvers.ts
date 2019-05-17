@@ -286,7 +286,10 @@ export default {
       { input: { loandate, dueDate, devIdCode, loaner } },
       { currentUser }
     ) => {
+      console.log(currentUser.id);
+      console.log(currentUser);
       const loan = await prisma.createLoan({
+        isActive: true,
         loanDate: loandate,
         dueDate: dueDate,
         deviceId: {
@@ -307,44 +310,35 @@ export default {
       );
       return { loan };
     },
-    loanUpdate: async (
+    loanReturn: async (
       obj,
-      {
-        input: {
-          idCode,
-          loanDate,
-          returnDate,
-          dueDate,
-          deviceId,
-          loanerId,
-          supplierId,
-          returnerId
-        }
-      }
+      { input: { idCode, returnDate, returnerId } },
+      { currentUser }
     ) => {
-      const loanId = await prisma.device({ idCode }).loan();
+      const loanData = await prisma.device({ idCode }).loan();
 
-      /*const loan = await prisma.updateLoan({
+      const loan = await prisma.updateLoan({
         data: {
-          loanDate: loanDate,
+          isActive: false,
           returnDate: returnDate,
-          dueDate: dueDate,
-          deviceId: deviceId,
-          loanerId: loanerId,
-          supplierId: supplierId,
           returnerId: returnerId
         },
         where: {
-          id: loanId
+          id: loanData.id
         }
-      });*/
+      });
+
+      logger.log("info", "[LOAN RETURN] Loan %s returned", loanData.id);
+      return { loan };
     },
     loanDelete: async (obj, { input: { idCode } }) => {
       // get loan id
-      const loanId = await prisma.device({ idCode }).loan();
-      console.log(loanId);
+      const loanData = await prisma.device({ idCode }).loan();
 
-      //const loan = await prisma.deleteLoan({ loanId });
+      const loan = await prisma.deleteLoan({ id: loanData.id });
+
+      logger.log("info", "[LOAN DELETE] Loan %s have deleted", loanData.id);
+      return { loan };
     }
   }
 };

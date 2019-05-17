@@ -63,6 +63,7 @@ export default `
 
     type Loan {
         id: ID!
+        isActive: String!
         loandate: String!
         returnDate: String
         dueDate: String!
@@ -136,8 +137,10 @@ export default `
         # Update device
         deviceUpdate(input: DeviceUpdateInput!): DeviceUpdatePayload
 
-        # Update loan
-        loanUpdate(input: LoanUpdateInput!): LoanUpdatePayload
+        ########## RETURN LOAN ######################
+
+        # Return loan
+        loanReturn(input: LoanReturnInput!): LoanReturnPayload
 
         ############## DELETE ###############
 
@@ -304,17 +307,12 @@ export default `
         loan: Loan
     }
 
-    input LoanUpdateInput {
+    input LoanReturnInput {
         idCode: String!
-        loandate: String
         returnDate: String
-        dueDate: String
-        deviceId: String
-        loanerId: String
-        supplierId: String
         returnerId: String
     }
-    type LoanUpdatePayload {
+    type LoanReturnPayload {
         loan: Loan
     }
 

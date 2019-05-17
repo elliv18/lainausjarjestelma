@@ -46,6 +46,7 @@ type DevCategory {
 
 type Loan {
   id: ID! @id
+  isActive: Boolean @default(value: true)
   loanDate: DateTime!
   returnDate: DateTime
   dueDate: DateTime!
