@@ -35,6 +35,8 @@ import {
   equipmentsValues,
 } from '../src/demo-data/generator';
 import { string } from 'prop-types';
+import { Query } from 'react-apollo'
+import { EQUIPMENTS_QUERY } from '../lib/gql/queries'
 
 const styles = theme => ({
   lookupEditCell: {
@@ -188,7 +190,8 @@ class DemoBase extends React.PureComponent {
 
     this.state = {
       columns: [
-        { name: 'deviceCategory', title: 'Category' },
+        { name: 'idCode', title: 'ID Code'},
+        { name: 'deviceType', title: 'Category' },
         { name: 'manufacture', title: 'Manufacture' },
         { name: 'model', title: 'Model' },
         { name: 'info', title: 'Info', },
@@ -219,7 +222,6 @@ class DemoBase extends React.PureComponent {
       pageSize: 0,
       booleanColumns: ['loanStatus'],
       columnOrder: ['deviceCategory', 'manufacture', 'model', 'info', 'loanStatus'],
-      
     };
     const getStateRows = () => {
       const { rows } = this.state;
@@ -293,84 +295,111 @@ class DemoBase extends React.PureComponent {
     } = this.state;
 
     return (
-      <Paper className ={classes.root} elevation={5}>
-        <Grid
-          rows={rows}
-          columns={columns}
-          getRowId={getRowId}
-        >
-          <SortingState
-            sorting={sorting}
-            onSortingChange={this.changeSorting}
-          />
-          <PagingState
-            currentPage={currentPage}
-            onCurrentPageChange={this.changeCurrentPage}
-            pageSize={pageSize}
-            onPageSizeChange={this.changePageSize}
-          />
-          <EditingState
-            columnEditingEnabled={false}
-            columnExtensions={editingColumns}
-            editingRowIds={editingRowIds}
-            onEditingRowIdsChange={this.changeEditingRowIds}
-            rowChanges={rowChanges}
-            onRowChangesChange={this.changeRowChanges}
-            addedRows={addedRows}
-            onAddedRowsChange={this.changeAddedRows}
-            onCommitChanges={this.commitChanges}
-          />
-          <SearchState />
+      <Query query={EQUIPMENTS_QUERY} >
+            {({ loading, error, data }) => {
+              console.log(data)
 
-          <IntegratedFiltering />
-
-          <IntegratedSorting />
-
-          <IntegratedPaging />
-
-          <DragDropProvider />
-
-          <BooleanTypeProvider 
-          for={booleanColumns}
-          style={{paddingRight: '20px'}}/>
-
-          <VirtualTable
-            columnExtensions={tableColumnExtensions}
-            className={classes.table}
-          />
-          <TableColumnReordering
-            order={columnOrder}
-            onOrderChange={this.changeColumnOrder}
-          />
-          <TableHeaderRow showSortingControls />
-          <TableEditRow
-            cellComponent={EditCell}
-          />
-          <TableEditColumn
-            width={170}
-            showAddCommand={!addedRows.length}
-            showEditCommand
-            showDeleteCommand
-            commandComponent={Command}
-          />
-          <Getter
-          name="tableColumns"
-          computed={({ tableColumns }) => {
-            debugger
-            const result = [
-              ...tableColumns.filter(c => c.type !== TableEditColumn.COLUMN_TYPE),
-              { key: 'editCommand', type: TableEditColumn.COLUMN_TYPE, width: 140 }
-            ];
-            return result;
-          }
-          }
-        />
-          <Toolbar />
-
-          <SearchPanel />
-        
-        </Grid>
-      </Paper>
+            // Muokataan data sopivaksi taulukolle
+            var data2 = []
+            if(data.allDevices){
+              data.allDevices.map((obj,i) => (
+                data2[i] = {
+                  id: obj.id,
+                  idCode: obj.idCode,
+                  info: obj.info,
+                  loanStatus: obj.loanStatus,
+                  manufacture: obj.manufacture,
+                  model: obj.model,
+                  deviceType: obj.devCategory.deviceType
+                }
+              ))
+            }
+            if (error) return <div>Error</div> 
+            if (loading) return <div>Loading</div>
+            return (
+              <Paper className ={classes.root} elevation={5}>
+              <Grid
+                rows={data2}
+                columns={columns}
+                getRowId={getRowId}
+              >
+                <SortingState
+                  sorting={sorting}
+                  onSortingChange={this.changeSorting}
+                />
+                <PagingState
+                  currentPage={currentPage}
+                  onCurrentPageChange={this.changeCurrentPage}
+                  pageSize={pageSize}
+                  onPageSizeChange={this.changePageSize}
+                />
+                <EditingState
+                  columnEditingEnabled={false}
+                  columnExtensions={editingColumns}
+                  editingRowIds={editingRowIds}
+                  onEditingRowIdsChange={this.changeEditingRowIds}
+                  rowChanges={rowChanges}
+                  onRowChangesChange={this.changeRowChanges}
+                  addedRows={addedRows}
+                  onAddedRowsChange={this.changeAddedRows}
+                  onCommitChanges={this.commitChanges}
+                />
+                <SearchState />
+      
+                <IntegratedFiltering />
+      
+                <IntegratedSorting />
+      
+                <IntegratedPaging />
+      
+                <DragDropProvider />
+      
+                <BooleanTypeProvider 
+                for={booleanColumns}
+                style={{paddingRight: '20px'}}/>
+      
+                <VirtualTable
+                  columnExtensions={tableColumnExtensions}
+                  className={classes.table}
+                />
+                <TableColumnReordering
+                  order={columnOrder}
+                  onOrderChange={this.changeColumnOrder}
+                />
+                <TableHeaderRow showSortingControls />
+                <TableEditRow
+                  cellComponent={EditCell}
+                />
+                <TableEditColumn
+                  width={170}
+                  showAddCommand={!addedRows.length}
+                  showEditCommand
+                  showDeleteCommand
+                  commandComponent={Command}
+                />
+                <Getter
+                name="tableColumns"
+                computed={({ tableColumns }) => {
+                 
+                  const result = [
+                    ...tableColumns.filter(c => c.type !== TableEditColumn.COLUMN_TYPE),
+                    { key: 'editCommand', type: TableEditColumn.COLUMN_TYPE, width: 140 }
+                  ];
+                  return result;
+                }
+                }
+              />
+                <Toolbar />
+      
+                <SearchPanel />
+              
+              </Grid>
+            </Paper>
+            )
+            //
+            }}
+        </Query>
+     
     );
   }
 }

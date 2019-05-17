@@ -11,10 +11,15 @@ export const EQUIPMENTS_QUERY = gql`
   query{ 
     allDevices {
       id,
+      idCode,
       manufacture,
       model,
       info,
-      loanStatus, 
+      loanStatus
+        devCategory{
+          id,
+          deviceType
+        }
     }
   }`
 
