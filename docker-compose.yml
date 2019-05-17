@@ -32,7 +32,16 @@ services:
       - '3050:3050'
     volumes:
       - ./backend:/opt/app
-      - /opt/app/node_modules/bcrypt
+    environment:
+      NODE_ENV: development
+      BACKEND_HOST: ${BACKEND_HOST}
+      BACKEND_PORT: ${BACKEND_PORT}
+      JWT_SECRET: ${JWT_SECRET}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      SALT_ROUNDS: ${SALT_ROUNDS}
+    env_file: .env
     restart: always
   frontend:
     build:

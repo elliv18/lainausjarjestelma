@@ -1,6 +1,6 @@
 import { prisma } from "../generated/prisma-client";
 import * as bcrypt from "bcryptjs";
-import { JWT_SECRET, SALT_ROUNDS } from "../environment";
+import { ROOT_ADMIN_EMAIL, ROOT_ADMIN_PASS, SALT_ROUNDS } from "../environment";
 import logger from "./logger";
 
 export default async () => {
@@ -14,8 +14,8 @@ export default async () => {
     await prisma.createUser({
       isActive: true,
       userType: "ADMIN",
-      email: "1",
-      password: await bcrypt.hash("1", SALT_ROUNDS),
+      email: ROOT_ADMIN_EMAIL,
+      password: await bcrypt.hash(ROOT_ADMIN_PASS, SALT_ROUNDS),
       firstName: "Root",
       lastName: "Admin",
       address: "server",

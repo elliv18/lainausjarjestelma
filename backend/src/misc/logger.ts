@@ -2,9 +2,9 @@ import { createLogger, format, transports } from "winston";
 import dailyRotateFile from "winston-daily-rotate-file";
 import * as fs from "fs";
 import moment from "moment-timezone";
+import { NODE_ENV } from "../environment";
 
 const logDir = "logs";
-const env = process.env.NODE_ENV || "development";
 
 const { combine, timestamp, splat, printf } = format;
 
@@ -34,7 +34,7 @@ const logger = createLogger({
     new dailyRotateFile({
       filename: `${logDir}/%DATE%.log`,
       datePattern: "YYYY-MM-DD",
-      level: env === "development" ? "verbose" : "info",
+      level: NODE_ENV === "development" ? "verbose" : "info",
       maxFiles: "30d"
     })
   ]

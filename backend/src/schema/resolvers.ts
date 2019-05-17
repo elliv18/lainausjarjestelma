@@ -4,7 +4,6 @@ import { sign } from "jsonwebtoken";
 
 import { prisma } from "../generated/prisma-client";
 import { JWT_SECRET, SALT_ROUNDS } from "../environment";
-import { userInfo } from "os";
 import logger from "../misc/logger";
 
 export default {
@@ -148,6 +147,12 @@ export default {
       logger.log("info", "[USER UPDATE] User %s have updated", email);
       return { user };
     },
+    userDelete: async (obj, { input: { email } }) => {
+      const user = await prisma.deleteUser({ email: email });
+
+      logger.log("info", "[USER DELETE] User %s have deleted", email);
+      return user;
+    },
     userCreateStudent: async (
       obj,
       {
@@ -215,6 +220,18 @@ export default {
       );
       return { devCategory };
     },
+    categoryDelete: async (obj, { input: { deviceType } }) => {
+      const devCategory = await prisma.deleteDevCategory({
+        deviceType: deviceType
+      });
+
+      logger.log(
+        "info",
+        "[DEVICE CATEGORY DELETE] Device category %s have deleted",
+        deviceType
+      );
+      return devCategory;
+    },
     deviceCreate: async (
       obj,
       { input: { idCode, manufacture, model, info, devType } }
@@ -236,6 +253,18 @@ export default {
         idCode
       );
       return { device };
+    },
+    deviceUpdate: async (
+      obj,
+      { input: { idCode, manufacture, model, info, loanStatus, devCategory } }
+    ) => {
+      // TODO
+    },
+    deviceDelete: async (obj, { input: { idCode } }) => {
+      const device = await prisma.deleteDevice({ idCode });
+
+      logger.log("info", "[DEVICE] Device %s have deleted", idCode);
+      return device;
     },
     loanCreate: async (
       obj,
@@ -262,6 +291,30 @@ export default {
         devIdCode
       );
       return { loan };
+    },
+    loanUpdate: async (
+      obj,
+      {
+        input: {
+          idCode,
+          loanDate,
+          returnDate,
+          dueDate,
+          deviceId,
+          loanerId,
+          supplierId,
+          returnerId
+        }
+      }
+    ) => {
+      // TODO
+    },
+    loanDelete: async (obj, { input: { idCode } }) => {
+      // get loan id
+      const loanId = await prisma.device({ idCode }).loan();
+      console.log(loanId);
+
+      //const loan = await prisma.deleteLoan({ loanId });
     }
   }
 };

@@ -130,7 +130,28 @@ export default `
         # ADMINS - Update user
         userUpdate(input: UserUpdateInput!): UserUpdatePayload
 
+        # ADMINS - Update device category
         categoryUpdate(input: CategoryUpdateInput!): CategoryUpdatePayload
+
+        # Update device
+        deviceUpdate(input: DeviceUpdateInput!): DeviceUpdatePayload
+
+        # Update loan
+        loanUpdate(input: LoanUpdateInput!): LoanUpdatePayload
+
+        ############## DELETE ###############
+
+        # ADMINS - Delete user
+        userDelete(input: UserDeleteInput!): UserDeletePayload
+
+        # ADMINS - Delete device category
+        categoryDelete(input: CategoryDeleteInput!): CategoryDeletePayload
+
+        # ADMINS - Delete device
+        deviceDelete(input: DeviceDeleteInput!): DeviceDeletePayload
+
+        # ADMINS - Delete loan
+        loanDelete(input: LoanDeleteInput!): LoanDeletePayload
     }
 
     ##############################
@@ -192,6 +213,15 @@ export default `
         user: User
     }
 
+    input UserDeleteInput {
+        email: String!
+    }
+    type UserDeletePayload {
+        user: User
+    }
+
+    ########## STUDENT USER ##################
+
     input UserCreateStudentInput {
         email: String!
         password: String!
@@ -223,6 +253,13 @@ export default `
         devCategory: DevCategory
     }
 
+    input CategoryDeleteInput {
+        deviceType: String!
+    }
+    type CategoryDeletePayload {
+        devCategory: DevCategory
+    }
+
     ############# DEVICE ##################
 
     input DeviceCreateInput {
@@ -236,6 +273,25 @@ export default `
         device: Device
     }
 
+    input DeviceUpdateInput {
+        idCode: String!
+        manufacture: String
+        model: String
+        info: String
+        loanStatus: Boolean
+        devCategory: String
+    }
+    type DeviceUpdatePayload {
+        device: Device
+    }
+
+    input DeviceDeleteInput {
+        idCode: String!
+    }
+    type DeviceDeletePayload {
+        device: Device
+    }
+
     ################ LOAN #######################
 
     input LoanCreateInput {
@@ -245,6 +301,27 @@ export default `
         loaner: String!
     }
     type LoanCreatePayload {
+        loan: Loan
+    }
+
+    input LoanUpdateInput {
+        idCode: String!
+        loandate: String
+        returnDate: String
+        dueDate: String
+        deviceId: String
+        loanerId: String
+        supplierId: String
+        returnerId: String
+    }
+    type LoanUpdatePayload {
+        loan: Loan
+    }
+
+    input LoanDeleteInput {
+        idCode: String!
+    }
+    type LoanDeletePayload {
         loan: Loan
     }
 `;
