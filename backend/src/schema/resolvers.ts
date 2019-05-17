@@ -258,7 +258,22 @@ export default {
       obj,
       { input: { idCode, manufacture, model, info, loanStatus, devCategory } }
     ) => {
-      // TODO
+      const device = await prisma.updateDevice({
+        data: {
+          idCode: idCode,
+          manufacture: manufacture,
+          model: model,
+          info: info,
+          loanStatus: loanStatus,
+          devCategoryId: devCategory
+        },
+        where: {
+          idCode: idCode
+        }
+      });
+
+      logger.log("info", "[DEVICE UPDATE] Device %s have updated", idCode);
+      return device;
     },
     deviceDelete: async (obj, { input: { idCode } }) => {
       const device = await prisma.deleteDevice({ idCode });
@@ -307,7 +322,22 @@ export default {
         }
       }
     ) => {
-      // TODO
+      const loanId = await prisma.device({ idCode }).loan();
+
+      /*const loan = await prisma.updateLoan({
+        data: {
+          loanDate: loanDate,
+          returnDate: returnDate,
+          dueDate: dueDate,
+          deviceId: deviceId,
+          loanerId: loanerId,
+          supplierId: supplierId,
+          returnerId: returnerId
+        },
+        where: {
+          id: loanId
+        }
+      });*/
     },
     loanDelete: async (obj, { input: { idCode } }) => {
       // get loan id
