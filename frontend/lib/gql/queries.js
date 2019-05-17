@@ -1,13 +1,31 @@
 import gql from 'graphql-tag';
 
 export const testLogin = gql`
-  query {login (input: {email:"1", password:"1"}){
+  query {
+    login (input: {email:"1", password:"1"}){
   jwt
 }}`
 
-export const LOGIN_USERS = gql`
-  query loginQuery($email: String!, $password: String!){
-    login (input: {email:$email, password:$password}){
-    jwt
-  }}`
 
+export const EQUIPMENTS_QUERY = gql`
+  query{ 
+    allDevices {
+      id,
+      manufacture,
+      model,
+      info,
+      loanStatus, 
+    }
+  }`
+
+export const USERS_QUERY = gql`
+  query{ 
+    allUsers {
+      id,
+      isActive,
+      userType,
+      email,
+      firstName,
+      lastName,
+    }
+}`
