@@ -86,7 +86,8 @@ export default {
           personNumber,
           phone
         }
-      }
+      },
+      { currentUser }
     ) => {
       const user = await prisma.createUser({
         isActive: isActive,
@@ -100,7 +101,12 @@ export default {
         phone: phone
       });
 
-      logger.log("info", "[USER CREATE] New user created %s", email);
+      logger.log(
+        "info",
+        "[USER CREATE] New user %s created by %s",
+        email,
+        currentUser.id
+      );
       return { user };
     },
     userUpdate: async (
@@ -117,7 +123,8 @@ export default {
           personNumber,
           phone
         }
-      }
+      },
+      { currentUser }
     ) => {
       let pw;
       if (password != null) {
@@ -144,13 +151,23 @@ export default {
         }
       });
 
-      logger.log("info", "[USER UPDATE] User %s have updated", email);
+      logger.log(
+        "info",
+        "[USER UPDATE] User %s have updated by %s",
+        email,
+        currentUser.id
+      );
       return { user };
     },
-    userDelete: async (obj, { input: { email } }) => {
+    userDelete: async (obj, { input: { email } }, { currentUser }) => {
       const user = await prisma.deleteUser({ email: email });
 
-      logger.log("info", "[USER DELETE] User %s have deleted", email);
+      logger.log(
+        "info",
+        "[USER DELETE] User %s have deleted by %s",
+        email,
+        currentUser.id
+      );
       return user;
     },
     userCreateStudent: async (
@@ -186,7 +203,11 @@ export default {
       );
       return { user };
     },
-    categoryCreate: async (obj, { input: { deviceType, desription } }) => {
+    categoryCreate: async (
+      obj,
+      { input: { deviceType, desription } },
+      { currentUser }
+    ) => {
       const devCategory = await prisma.createDevCategory({
         deviceType: deviceType,
         desription: desription
@@ -194,12 +215,17 @@ export default {
 
       logger.log(
         "info",
-        "[CATEGORY CREATE] New category %s have been created",
-        deviceType
+        "[CATEGORY CREATE] New category %s have been created by %s",
+        deviceType,
+        currentUser.id
       );
       return { devCategory };
     },
-    categoryUpdate: async (obj, { input: { deviceType, desription } }) => {
+    categoryUpdate: async (
+      obj,
+      { input: { deviceType, desription } },
+      { currentUser }
+    ) => {
       const devCategory = await prisma.updateDevCategory({
         data: _.pickBy(
           {
@@ -215,26 +241,29 @@ export default {
 
       logger.log(
         "info",
-        "[CATEGORY UPDATE] Category %s have been updated",
-        deviceType
+        "[CATEGORY UPDATE] Category %s have been updated by %s",
+        deviceType,
+        currentUser.id
       );
       return { devCategory };
     },
-    categoryDelete: async (obj, { input: { deviceType } }) => {
+    categoryDelete: async (obj, { input: { deviceType } }, { currentUser }) => {
       const devCategory = await prisma.deleteDevCategory({
         deviceType: deviceType
       });
 
       logger.log(
         "info",
-        "[DEVICE CATEGORY DELETE] Device category %s have deleted",
-        deviceType
+        "[DEVICE CATEGORY DELETE] Device category %s have deleted by %s",
+        deviceType,
+        currentUser.id
       );
       return devCategory;
     },
     deviceCreate: async (
       obj,
-      { input: { idCode, manufacture, model, info, devType } }
+      { input: { idCode, manufacture, model, info, devType } },
+      { currentUser }
     ) => {
       const device = await prisma.createDevice({
         idCode: idCode,
@@ -249,14 +278,16 @@ export default {
 
       logger.log(
         "info",
-        "[DEVICE CREATE] New device %s have been created",
-        idCode
+        "[DEVICE CREATE] New device %s have been created by %s",
+        idCode,
+        currentUser.id
       );
       return { device };
     },
     deviceUpdate: async (
       obj,
-      { input: { idCode, manufacture, model, info, loanStatus, devCategory } }
+      { input: { idCode, manufacture, model, info, loanStatus, devCategory } },
+      { currentUser }
     ) => {
       const device = await prisma.updateDevice({
         data: _.pickBy(
@@ -275,13 +306,23 @@ export default {
         }
       });
 
-      logger.log("info", "[DEVICE UPDATE] Device %s have updated", idCode);
+      logger.log(
+        "info",
+        "[DEVICE UPDATE] Device %s have updated by %s",
+        idCode,
+        currentUser.id
+      );
       return device;
     },
-    deviceDelete: async (obj, { input: { idCode } }) => {
+    deviceDelete: async (obj, { input: { idCode } }, { currentUser }) => {
       const device = await prisma.deleteDevice({ idCode });
 
-      logger.log("info", "[DEVICE] Device %s have deleted", idCode);
+      logger.log(
+        "info",
+        "[DEVICE] Device %s have deleted by %s",
+        idCode,
+        currentUser.id
+      );
       return device;
     },
     loanCreate: async (
@@ -308,8 +349,9 @@ export default {
 
       logger.log(
         "info",
-        "[LOAN CREATE] New loan to device %s have been created",
-        devIdCode
+        "[LOAN CREATE] New loan to device %s have been created by %s",
+        devIdCode,
+        currentUser.id
       );
       return { loan };
     },
@@ -331,7 +373,12 @@ export default {
         }
       });
 
-      logger.log("info", "[LOAN RETURN] Loan %s returned", loanData.id);
+      logger.log(
+        "info",
+        "[LOAN RETURN] Loan %s returned by %s",
+        loanData.id,
+        currentUser.id
+      );
       return { loan };
     },
     loanUpdate: async (
@@ -373,16 +420,26 @@ export default {
         }
       });
 
-      logger.log("info", "[LOAN UPDATE] Loan %s have updated");
+      logger.log(
+        "info",
+        "[LOAN UPDATE] Loan %s have updated by %s",
+        loanData.id,
+        currentUser.id
+      );
       return { loan };
     },
-    loanDelete: async (obj, { input: { idCode } }) => {
+    loanDelete: async (obj, { input: { idCode } }, { currentUser }) => {
       // get loan id
       const loanData = await prisma.device({ idCode }).loan();
 
       const loan = await prisma.deleteLoan({ id: loanData.id });
 
-      logger.log("info", "[LOAN DELETE] Loan %s have deleted", loanData.id);
+      logger.log(
+        "info",
+        "[LOAN DELETE] Loan %s have deleted by %s",
+        loanData.id,
+        currentUser.id
+      );
       return { loan };
     }
   }
