@@ -125,7 +125,7 @@ const Command = ({ id, onExecute }) => {
 };
 
 const availableValues = {
-  deviceCategory: equipmentsValues.deviceCategory,
+  deviceType: equipmentsValues.deviceCategory,
   manufacture: equipmentsValues.manufacture,
   model: equipmentsValues.model,
 };
@@ -165,6 +165,7 @@ const EditCell = (props) => {
   return <TableEditRow.Cell {...props} />;
 };
 
+
 const BooleanTypeProvider = props => (
     <DataTypeProvider
       formatterComponent={BooleanFormatter}
@@ -190,7 +191,7 @@ class DemoBase extends React.PureComponent {
 
     this.state = {
       columns: [
-        { name: 'idCode', title: 'ID Code'},
+        { name: 'idCode', title: 'Serial number'},
         { name: 'deviceType', title: 'Category' },
         { name: 'manufacture', title: 'Manufacture' },
         { name: 'model', title: 'Model' },
@@ -198,14 +199,16 @@ class DemoBase extends React.PureComponent {
         { name: 'loanStatus', title: 'Loan' },
       ],
       tableColumnExtensions: [
-        { columnName: 'deviceCategory', wordWrapEnabled: true},
+        { columnName: 'idCode', wordWrapEnabled: true},
+        { columnName: 'deviceType', wordWrapEnabled: true},
         { columnName: 'manufacture', wordWrapEnabled: true},
         { columnName: 'model', wordWrapEnabled: true},
         { columnName: 'info', wordWrapEnabled: true},
         { columnName: 'loanStatus', wordWrapEnabled: true},
       ],
       editingColumns:[
-        { columnName: 'deviceCategory', editingEnabled: true },
+        { columnName: 'idCode', editingEnabled: true },
+        { columnName: 'deviceType', editingEnabled: true },
         { columnName: 'manufacture', editingEnabled: true },
         { columnName: 'model', editingEnabled: true },
         { columnName: 'info', editingEnabled: true },
@@ -215,13 +218,13 @@ class DemoBase extends React.PureComponent {
         length: 12,
       }),
       sorting: [],
-      editingRowIds: ['deviceCategory', 'manufacture', 'model', 'info'],
+      editingRowIds: ['idCode', 'deviceType', 'manufacture', 'model', 'info'],
       addedRows: [],
       rowChanges: {},
       currentPage: 0,
       pageSize: 0,
       booleanColumns: ['loanStatus'],
-      columnOrder: ['deviceCategory', 'manufacture', 'model', 'info', 'loanStatus'],
+      columnOrder: ['idCode', 'deviceType', 'manufacture', 'model', 'info', 'loanStatus'],
     };
     const getStateRows = () => {
       const { rows } = this.state;

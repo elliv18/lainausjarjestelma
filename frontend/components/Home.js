@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper';
 const styles = {
   root:{
     backgroundColor: '#051530',
-    position: 'absolute',
+    position: 'inherit',
     width: '100%',
     height: '100%',
     color: 'white',

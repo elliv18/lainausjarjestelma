@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import App from '../components/App';
 import classNames from 'classnames';
+
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,9 +11,9 @@ import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuIcon from '@material-ui/icons/Menu';
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew'
@@ -22,6 +23,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DevicesIcon from '@material-ui/icons/Devices';
+import GroupIcon from '@material-ui/icons/Group'
+
 import Link from 'next/link'
 //import {JWT} from '../lib/environment'
 import Router from'next/router'
@@ -32,11 +35,9 @@ import jwt from 'jwt-decode';
 const drawerWidth = 240;
 
 const styles = theme => ({
-  root: {
-  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: 'rgba(0,70,85,0.85)',
+    backgroundColor: 'rgba(0,70,85)',
     
   },
   appBarShift: {
@@ -90,9 +91,8 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    flexGrow: 1,
-    overflow: 'hidden',
-    paddingBottom: '16px'
+    marginTop: '40px',
+    paddingBottom: '100px',
     },
   myAccount:{
     right: 0,
@@ -110,7 +110,7 @@ const styles = theme => ({
       padding: '9px',
   },
   menuIcon:{
-    marginLeft: '8px',
+    paddingLeft: '8px',
   },
   paperDrawerClose: {
     paddingLeft: theme.spacing.unit * 7 + 1,
@@ -171,7 +171,7 @@ class MiniDrawer extends React.Component {
   
     if(this.state.ok){
     return (
-      <div className={classes.root}>
+      <div>
       
         <CssBaseline />
         <AppBar position="sticky" className={classes.appBar}>
@@ -198,7 +198,7 @@ class MiniDrawer extends React.Component {
                 </Button>
             </Toolbar>
         </AppBar>
-        <App>
+        <App >
         <Drawer
           variant="permanent"
           className={classNames(classes.drawer, {
@@ -240,6 +240,14 @@ class MiniDrawer extends React.Component {
               </ListItem>
               </Link>
           </List>
+          <List>
+              <Link href="/users">
+              <ListItem button key ="Users">
+                <ListItemIcon className={classes.menuIcon}><GroupIcon /></ListItemIcon>
+                <ListItemText primary="Users" />
+              </ListItem>
+              </Link>
+          </List>
         </Drawer>
           <div className={classNames({
             [classes.paperDrawerOpen]: this.state.open,
@@ -251,7 +259,9 @@ class MiniDrawer extends React.Component {
               [classes.paperDrawerClose]: !this.state.open,
             }),
           }}>
-            {children}
+            <div className={classes.content}>
+              {this.props.children}
+            </div>
           </div>
         </App>
       </div>
