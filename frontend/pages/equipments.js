@@ -1,8 +1,8 @@
 import MiniDrawer from '../components/MiniDrawer'
-import Equipments from '../components/Equipments'
+import Equipments2 from '../components/Equipments2'
 
 export default() => (
     <MiniDrawer> 
-        <Equipments/>
+        <Equipments2/>
     </MiniDrawer>
 )
