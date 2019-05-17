@@ -136,7 +136,7 @@ class LoginTab extends React.Component {
 
                                         if (localStorage.getItem('jwtToken') != null){
                                             Router.push({
-                                                pathname: '/users',
+                                                pathname: '/home',
                                             });
                                         }
                                     }
