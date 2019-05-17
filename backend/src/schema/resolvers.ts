@@ -259,14 +259,17 @@ export default {
       { input: { idCode, manufacture, model, info, loanStatus, devCategory } }
     ) => {
       const device = await prisma.updateDevice({
-        data: {
-          idCode: idCode,
-          manufacture: manufacture,
-          model: model,
-          info: info,
-          loanStatus: loanStatus,
-          devCategoryId: devCategory
-        },
+        data: _.pickBy(
+          {
+            idCode: idCode,
+            manufacture: manufacture,
+            model: model,
+            info: info,
+            loanStatus: loanStatus,
+            devCategoryId: devCategory
+          },
+          _.identity
+        ),
         where: {
           idCode: idCode
         }
@@ -329,6 +332,48 @@ export default {
       });
 
       logger.log("info", "[LOAN RETURN] Loan %s returned", loanData.id);
+      return { loan };
+    },
+    loanUpdate: async (
+      obj,
+      {
+        input: {
+          idCode,
+          isActive,
+          loanDate,
+          returnDate,
+          dueDate,
+          deviceId,
+          loanerId,
+          supplierId,
+          returnerId
+        }
+      },
+      { currentUser }
+    ) => {
+      // get loan id
+      const loanData = await prisma.device({ idCode }).loan();
+
+      const loan = await prisma.updateLoan({
+        data: _.pickBy(
+          {
+            isActive: isActive,
+            loanDate: loanDate,
+            returnDate: returnDate,
+            dueDate: dueDate,
+            deviceId: deviceId,
+            loanerId: loanerId,
+            supplierId: supplierId,
+            returnerId: returnerId
+          },
+          _.identity
+        ),
+        where: {
+          id: loanData.id
+        }
+      });
+
+      logger.log("info", "[LOAN UPDATE] Loan %s have updated");
       return { loan };
     },
     loanDelete: async (obj, { input: { idCode } }) => {
