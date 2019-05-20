@@ -32,6 +32,8 @@ class MyApp extends App {
 
   
   componentDidMount() {
+    //poistaa tokenin kun selain suljetaan
+    //window.localStorage.removeItem('jwtToken')
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles && jssStyles.parentNode) {

@@ -25,7 +25,7 @@ export const EQUIPMENTS_QUERY = gql`
 
 export const USERS_QUERY = gql`
   query{ 
-    allUsers {
+    allUsers{
       id,
       isActive,
       userType,
