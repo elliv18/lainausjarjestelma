@@ -1,13 +1,20 @@
 import { GraphQLServer } from "graphql-yoga";
 import { permissions } from "./permissions";
 import * as jwt from "jsonwebtoken";
-import { JWT_SECRET, BACKEND_PORT } from "./environment";
+import { JWT_SECRET, BACKEND_PORT, NODE_ENV } from "./environment";
 import { typeDefs, resolvers } from "./schema";
 import createRootAdmin from "./misc/rootAdmin";
 import logger from "./misc/logger";
+import RDG from "./misc/randomDataGenerator";
 
 // Creating root admin if db is empty...
 createRootAdmin();
+
+// Generate fake data if development is on
+if (NODE_ENV == "development") {
+  // paljonko generoidaan nro?
+  RDG(100);
+}
 
 const server = new GraphQLServer({
   typeDefs,
