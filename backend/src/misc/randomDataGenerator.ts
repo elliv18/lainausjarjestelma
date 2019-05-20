@@ -49,7 +49,7 @@ export default async (amount: number) => {
 
       // make new device
       const dev = await prisma.createDevice({
-        idCode: faker.random.number().toString(),
+        idCode: faker.random.number().toString() + i.toString(),
         manufacture: faker.commerce.productName(),
         model: faker.commerce.productMaterial(),
         info: faker.lorem.words(10),
