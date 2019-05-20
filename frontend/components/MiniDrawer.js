@@ -24,6 +24,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DevicesIcon from '@material-ui/icons/Devices';
 import GroupIcon from '@material-ui/icons/Group'
+import HomeIcon from '@material-ui/icons/Home'
 
 import Link from 'next/link'
 //import {JWT} from '../lib/environment'
@@ -91,7 +92,6 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    marginTop: '40px',
     paddingBottom: '100px',
     },
   myAccount:{
@@ -232,6 +232,14 @@ class MiniDrawer extends React.Component {
             </IconButton>
           </List>
           <Divider/>
+          <List>
+              <Link href="/">
+              <ListItem button key ="Home">
+                <ListItemIcon className={classes.menuIcon}><HomeIcon /></ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItem>
+              </Link>
+          </List>
           <List>
               <Link href="/equipments">
               <ListItem button key ="Equipments">
