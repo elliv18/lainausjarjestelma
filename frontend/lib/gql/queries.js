@@ -34,3 +34,8 @@ export const USERS_QUERY = gql`
       lastName,
     }
 }`
+
+export const LOANS_QUERY = gql`
+  query{
+    
+}`

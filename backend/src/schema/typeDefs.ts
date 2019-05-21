@@ -64,7 +64,7 @@ export default `
     type Loan {
         id: ID!
         isActive: String!
-        loandate: String!
+        loanDate: String!
         returnDate: String
         dueDate: String!
         deviceId: Device!
@@ -304,7 +304,7 @@ export default `
     input LoanUpdateInput {
         idCode: String!
         isActive: String
-        loandate: String
+        loanDate: String
         returnDate: String
         dueDate: String
         deviceId: String
