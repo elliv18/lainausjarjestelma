@@ -178,14 +178,18 @@ class MiniDrawer extends React.Component {
             <Toolbar>
                 <Link href="/">
                     <Typography className={classes.titleTypo}>
-                        <Button size="large" className={classes.titleText}>Loan System</Button>
+                        <Button size="large" className={classes.titleText} title="Home">
+                          Loan System
+                        </Button>
                     </Typography>
                 </Link>
-                <Button className={classes.myAccount} color="inherit" >
+                <Link href="/">
+                <Button className={classes.myAccount} color="inherit" title="My account">
                     <AccountCircle className={classes.group}>
                     </AccountCircle> My account
                 </Button>
-                <Button className={classes.myAccount} color="inherit" 
+                </Link>
+                <Button className={classes.myAccount} color="inherit" title="Logout"
                 onClick={()=>
                   localStorage.removeItem('jwtToken',
                   Router.push({
@@ -232,7 +236,7 @@ class MiniDrawer extends React.Component {
             </IconButton>
           </List>
           <Divider/>
-          <List>
+          <List title="Home">
               <Link href="/">
               <ListItem button key ="Home">
                 <ListItemIcon className={classes.menuIcon}><HomeIcon /></ListItemIcon>
@@ -240,7 +244,7 @@ class MiniDrawer extends React.Component {
               </ListItem>
               </Link>
           </List>
-          <List>
+          <List title="Equipments">
               <Link href="/equipments">
               <ListItem button key ="Equipments">
                 <ListItemIcon className={classes.menuIcon}><DevicesIcon /></ListItemIcon>
@@ -248,7 +252,7 @@ class MiniDrawer extends React.Component {
               </ListItem>
               </Link>
           </List>
-          <List>
+          <List title="Users">
               <Link href="/users">
               <ListItem button key ="Users">
                 <ListItemIcon className={classes.menuIcon}><GroupIcon /></ListItemIcon>
