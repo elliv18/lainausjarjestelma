@@ -1,66 +1,103 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import {
+  SearchState,
+  IntegratedFiltering,
+} from '@devexpress/dx-react-grid';
+import {
+  Grid as GridTable,
+  VirtualTable,
+  Toolbar,
+  SearchPanel,
+  TableHeaderRow,
+} from '@devexpress/dx-react-grid-material-ui';
+import { generateRows } from '../src/demo-data/generator';
 
 
 const styles = {
   root:{
-    backgroundColor: '#051530',
-    position: 'inherit',
-    width: '100%',
-    height: '100%',
-    color: 'white',
-    justify: 'center',
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '20px',
+    textAlign: 'center',
+    paddingTop: 10,
+    paddingBottom: 40,
   },
   paper: {
-    padding: 12,
-    textAlign: 'center',
-    color: "black",
+    height: 300,
     width: '100%',
-    height: '100%',
+    backgroundColor: 'lightGrey',
+    padding: 10,
+    marginLeft: 'auto',
+    marginRight:'auto',
+    marginBottom: '10px',
+    marginTop: '10px',
   },
-  text:{
-     color: 'black',
-     textAlign: 'center'
+  paperTable:{
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
-  Grid:{
-    wrap: "nowrap",
-    spacing: 16,
-  }
+  
 }
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
 
-
+    this.state = {
+      columns: [
+        { name: 'name', title: 'Device type' },
+        { name: 'sex', title: 'Loan date' },
+        { name: 'city', title: 'Due date' },
+        { name: 'car', title: 'Return date' },
+      ],
+      rows: generateRows({ length: 30 }),
+    };
+  }
 
   render() {
     const { classes } = this.props;
+    const { rows, columns } = this.state;
     return (
-     <div className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.root}>
         <h1>Summary</h1>
-        <Grid container spacing={24}>
-          <Grid item xs={6}>
-            <Paper className={classes.paper}>
-              User data
-            </Paper>
+        <Grid container spacing={12}
+              direction="row"
+              justify="space-evenly"
+              alignItems="center">
+          <Grid item xs={5}>
+              <Paper className={classes.paper}>
+                Account information
+              </Paper>
           </Grid>
-          <Grid item xs={6}>
-            <Paper className={classes.paper}>
-              info feed
-            </Paper>
+          <Grid item xs={5}>
+              <Paper className={classes.paper}>
+                Info table
+              </Paper>
           </Grid>
-          <h2>Loans</h2>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}>
-              loans
-            </Paper>
+          <Grid item xs ={12}>
+              <h2>Your loans</h2>
+            <Paper className={classes.paperTable}>
+              <GridTable
+                rows={rows}
+                columns={columns}
+              >
+                <SearchState />
+                <IntegratedFiltering />
+                <VirtualTable />
+                <TableHeaderRow />
+                <Toolbar />
+                <SearchPanel />
+              </GridTable>
+            </Paper>          
           </Grid>
         </Grid>
+
       </Paper>
-     </div>
     )
   };
 }
