@@ -34,7 +34,6 @@ import {
   generateRows,
   equipmentsValues,
 } from '../src/demo-data/generator';
-import { string } from 'prop-types';
 import { Query } from 'react-apollo'
 import { EQUIPMENTS_QUERY } from '../lib/gql/queries'
 
@@ -121,9 +120,9 @@ const Command = ({ id, onExecute }) => {
 };
 
 const availableValues = {
-  deviceType: equipmentsValues.deviceCategory,
+  /*deviceType: equipmentsValues.deviceCategory,
   manufacture: equipmentsValues.manufacture,
-  model: equipmentsValues.model,
+  model: equipmentsValues.model,*/
 };
 
 const LookupEditCellBase = ({
@@ -231,16 +230,14 @@ class DemoBase extends React.PureComponent {
     this.changeEditingRowIds = editingRowIds => this.setState({ editingRowIds });
     this.changeAddedRows = addedRows => this.setState({
       addedRows: addedRows.map(row => (Object.keys(row).length ? row : {
-        deviceCategory: availableValues.deviceCategory[0],
-        manufacture: availableValues.manufacture[0],
-        model: availableValues.model[0],
+        deviceCategory: '',
+        manufacture: '',
+        model: '',
         info: '',
 
       })),
     });
     this.changeRowChanges = rowChanges => this.setState({ rowChanges });
-    this.changeCurrentPage = currentPage => this.setState({ currentPage });
-    this.changePageSize = pageSize => this.setState({ pageSize });
     this.commitChanges = ({ added, changed, deleted }) => {
       let { rows } = this.state;
       if (added) {
@@ -279,7 +276,6 @@ class DemoBase extends React.PureComponent {
   render() {
     const{classes} = this.props
     const {
-      rows,
       columns,
       tableColumnExtensions,
       sorting,
@@ -394,7 +390,6 @@ class DemoBase extends React.PureComponent {
               </Grid>
             </Paper>
             )
-            //
             }}
         </Query>
      
