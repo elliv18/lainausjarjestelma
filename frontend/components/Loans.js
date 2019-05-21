@@ -185,13 +185,12 @@ const getRowId = row => row.id;
 
 const RowDetail = ({ row }) => (
     <div>
-      Details for
-      {' '}
-      {row.name}
-      {' '}
-      from
-      {' '}
-      {row.city}
+      Loaner firstname: {row.loanerFirstName}<br></br>
+      Loaner lastname: {row.loanerLastName}<br></br>
+      loaner email: {row.loanerEmail}<br></br>
+      Supplier firstname: {row.supplierFirstName}<br></br>
+      Supplier lastname: {row.supplierLastName}<br></br>
+      Supplier email: {row.supplierEmail}
     </div>
   );
 
@@ -221,17 +220,21 @@ class Loans extends React.PureComponent {
         { columnName: 'isActive', wordWrapEnabled: true},
       ],
       editingColumns:[
-        //{ columnName: 'userType', editingEnabled: true },
-        { columnName: 'firstName', editingEnabled: true },
-        { columnName: 'lastName', editingEnabled: true },
-        { columnName: 'email', editingEnabled: true },
+        { columnName: 'idCode', editingEnabled: true },
+        { columnName: 'deviceType', editingEnabled: true },
+        { columnName: 'manufacture', editingEnabled: true },
+        { columnName: 'model', editingEnabled: true },
+        { columnName: 'loanDate', editingEnabled: true },
+        { columnName: 'returnDate', editingEnabled: true },
+        { columnName: 'dueDate', editingEnabled: true },
+        { columnName: 'isActive', editingEnabled: true },
       ],
       rows: generateRows({
         columnValues: { id: ({ index }) => index, ...equipmentsValues },
         length: 12,
       }),
       sorting: [],
-      editingRowIds: ['firstName', 'lastName', 'email'],
+      editingRowIds: ['idCode', 'deviceType', 'manufacture', 'model', 'loanDate', 'returnDate', 'dueDate', 'isActive'],
       addedRows: [],
       rowChanges: {},
       currentPage: 0,
@@ -326,7 +329,13 @@ class Loans extends React.PureComponent {
                   idCode: obj.deviceId.idCode,
                   manufacture: obj.deviceId.manufacture,
                   model: obj.deviceId.model,
-                  deviceType: obj.deviceId.devCategory.deviceType
+                  deviceType: obj.deviceId.devCategory.deviceType,
+                  loanerFirstName: obj.loanerId.firstName,
+                    loanerLastName: obj.loanerId.lastName,
+                    loanerEmail: obj.loanerId.email,
+                    supplierFirstName: obj.supplierId.firstName,
+                    supplierLastName: obj.supplierId.lastName,
+                    supplierEmail: obj.supplierId.email
                 }
               ))
               console.log(data2)
