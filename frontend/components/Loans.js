@@ -6,13 +6,13 @@ import {
   SortingState, EditingState, PagingState, 
   IntegratedPaging, IntegratedSorting, 
   SearchState, IntegratedFiltering,
-  DataTypeProvider,
+  DataTypeProvider, RowDetailState,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
   VirtualTable, TableHeaderRow, TableEditRow, TableEditColumn,
   DragDropProvider, TableColumnReordering, SearchPanel,
-  Toolbar,
+  Toolbar, Table, TableRowDetail,
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
@@ -183,6 +183,18 @@ const BooleanFormatter = ({ value }) =>
 
 const getRowId = row => row.id;
 
+const RowDetail = ({ row }) => (
+    <div>
+      Details for
+      {' '}
+      {row.name}
+      {' '}
+      from
+      {' '}
+      {row.city}
+    </div>
+  );
+
 class Loans extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -328,6 +340,7 @@ class Loans extends React.PureComponent {
                 columns={columns}
                 getRowId={getRowId}
               >
+                <RowDetailState />
                 <SortingState
                   sorting={sorting}
                   onSortingChange={this.changeSorting}
@@ -372,6 +385,9 @@ class Loans extends React.PureComponent {
                   onOrderChange={this.changeColumnOrder}
                 />
                 <TableHeaderRow showSortingControls />
+                <TableRowDetail
+                contentComponent={RowDetail}
+                />
                 <TableEditRow
                   cellComponent={EditCell}
                 />

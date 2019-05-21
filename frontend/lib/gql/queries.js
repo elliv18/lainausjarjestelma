@@ -51,5 +51,15 @@ export const LOANS_QUERY = gql`
           deviceType
         }
       }
+      loanerId {
+      email,
+      firstName,
+      lastName
+      }
+      supplierId {
+        email,
+        firstName,
+        lastName
+      }
     }
   }`
