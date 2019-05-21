@@ -22,7 +22,7 @@ const server = new GraphQLServer({
   //middlewares: [permissions],
   context: async ctx => {
     const auth = ctx.request.get("Authorization");
-    let currentUser = {};
+    let currentUser = null;
     if (auth != null) {
       try {
         currentUser = await jwt.verify(auth.replace("Bearer ", ""), JWT_SECRET);

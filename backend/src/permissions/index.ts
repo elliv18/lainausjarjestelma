@@ -1,7 +1,8 @@
 import { rule, shield, and, or, not } from "graphql-shield";
 
 const isAuthenticated = rule()(async (parent, args, { currentUser }) => {
-  return currentUser != null;
+  console.log(currentUser);
+  return currentUser !== null;
 });
 const isAdmin = rule()(async (parent, args, { currentUser }) => {
   return currentUser.type === "ADMIN";
@@ -16,14 +17,14 @@ const isStudent = rule()(async (parent, args, { currentUser }) => {
 export const permissions = shield({
   Query: {
     currentUser: isAuthenticated,
-    allUsers: or(isAdmin, isStaff),
+    allUsers: and(isAuthenticated, or(isAdmin, isStaff)),
     allCategories: isAdmin,
     allDevices: or(isAdmin, isStaff),
     allLoans: or(isAdmin, isStaff),
     oneUser: or(isAdmin, isStaff)
   },
   Mutation: {
-    //login: not(isAuthenticated),
+    login: not(isAuthenticated),
     userCreate: isAdmin,
     userUpdate: isAdmin,
     userDelete: isAdmin,

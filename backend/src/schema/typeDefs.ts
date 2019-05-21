@@ -111,11 +111,8 @@ export default `
 
         ############ CREATE #################
 
-        # ADMINS - Create new user
+        # ADMINS/STAFF - Create new user
         userCreate(input: UserCreateInput!): UserCreatePayload
-
-        # STAFF - Create new student user
-        userCreateStudent(input: UserCreateStudentInput!): UserCreateStudentPayload
 
         # ADMINS - Create new device category
         categoryCreate(input: CategoryCreateInput!): CategoryCreatePayload
@@ -223,21 +220,6 @@ export default `
         email: String!
     }
     type UserDeletePayload {
-        user: User
-    }
-
-    ########## STUDENT USER ##################
-
-    input UserCreateStudentInput {
-        email: String!
-        password: String!
-        firstName: String!
-        lastName: String!
-        address: String
-        personNumber: String
-        phone: String!
-    }
-    type UserCreateStudentPayload {
         user: User
     }
 

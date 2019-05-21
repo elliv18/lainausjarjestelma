@@ -11,6 +11,7 @@ export default async (amount: number) => {
       .aggregate()
       .count()) < 1
   ) {
+    process.stdout.write("Generating random test data");
     for (let i = 0; i < amount; i += 1) {
       // make new staffs
       const user = await prisma.createUser({
@@ -24,7 +25,7 @@ export default async (amount: number) => {
         personNumber: faker.random.number().toString(),
         phone: faker.phone.phoneNumber()
       });
-      console.log("staff created");
+      process.stdout.write(".");
 
       // make new students
       const userS = await prisma.createUser({
@@ -38,14 +39,14 @@ export default async (amount: number) => {
         personNumber: faker.random.number().toString(),
         phone: faker.phone.phoneNumber()
       });
-      console.log("student created");
+      process.stdout.write(".");
 
       // make new category
       const cat = await prisma.createDevCategory({
         deviceType: faker.commerce.product() + i.toString(),
         desription: faker.lorem.words(10)
       });
-      console.log("cat created");
+      process.stdout.write(".");
 
       // make new device
       const dev = await prisma.createDevice({
@@ -58,7 +59,7 @@ export default async (amount: number) => {
           connect: { deviceType: cat.deviceType }
         }
       });
-      console.log("dev created");
+      process.stdout.write(".");
 
       // make new loan
       await prisma.createLoan({
@@ -75,8 +76,8 @@ export default async (amount: number) => {
           connect: { id: user.id }
         }
       });
-      console.log("loan created");
+      process.stdout.write(".");
     }
-    console.log("faker data created...");
+    console.log("faker data created!");
   }
 };

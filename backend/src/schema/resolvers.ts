@@ -1,12 +1,13 @@
 import * as bcrypt from "bcryptjs";
 import * as _ from "lodash";
 import { sign } from "jsonwebtoken";
-
+import { mustBeLoggedIn, mustBeAtleastLevel, UserLevels } from "../misc/auth";
 import { prisma } from "../generated/prisma-client";
 import { JWT_SECRET, SALT_ROUNDS } from "../environment";
 import logger from "../misc/logger";
 
 export default {
+  /************* RELATIONS *****************/
   User: {
     async loans(user) {
       return await prisma.user({ id: user.id }).loans();
@@ -31,26 +32,45 @@ export default {
       return await prisma.loan({ id: user.id }).returnerId();
     }
   },
+  /*************** QUERY **********************/
   Query: {
     currentUser: async (obj, args, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+
       return await prisma.user({ id: currentUser.id });
     },
-    allUsers: async (obj, args, reg) => {
+    allUsers: async (obj, args, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
       return await prisma.users();
     },
-    allCategories: async (obj, args, reg) => {
+    allCategories: async (obj, args, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
+
       return await prisma.devCategories();
     },
-    allDevices: async (obj, args, reg) => {
+    allDevices: async (obj, args, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
+
       return await prisma.devices();
     },
-    allLoans: async (obj, args, reg) => {
+    allLoans: async (obj, args, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
+
       return await prisma.loans();
     },
-    oneUser: async (obj, { input: { email } }) => {
+    oneUser: async (obj, { input: { email } }, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
+
       return await prisma.user({ email: email });
     }
   },
+  /************ MUTATIONS **************************/
   Mutation: {
     login: async (obj, { input: { email, password } }) => {
       const user = await prisma.user({ email: email });
@@ -89,9 +109,14 @@ export default {
       },
       { currentUser }
     ) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
+
+      const type = currentUser.type === "ADMIN" ? userType : "STUDENT";
+
       const user = await prisma.createUser({
         isActive: isActive,
-        userType: userType,
+        userType: type,
         email: email,
         password: await bcrypt.hash(password, SALT_ROUNDS),
         firstName: firstName,
@@ -103,7 +128,8 @@ export default {
 
       logger.log(
         "info",
-        "[USER CREATE] New user %s created by %s",
+        "[USER CREATE] New %s user %s created by %s",
+        type,
         email,
         currentUser.id
       );
@@ -126,6 +152,9 @@ export default {
       },
       { currentUser }
     ) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
       let pw;
       if (password != null) {
         pw = await bcrypt.hash(password, SALT_ROUNDS);
@@ -160,6 +189,9 @@ export default {
       return { user };
     },
     userDelete: async (obj, { input: { email } }, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
       const user = await prisma.deleteUser({ email: email });
 
       logger.log(
@@ -170,44 +202,14 @@ export default {
       );
       return user;
     },
-    userCreateStudent: async (
-      obj,
-      {
-        input: {
-          email,
-          password,
-          firstName,
-          lastName,
-          address,
-          personNumber,
-          phone
-        }
-      }
-    ) => {
-      const user = await prisma.createUser({
-        isActive: true,
-        userType: "STUDENT",
-        email: email,
-        password: await bcrypt.hash(password, SALT_ROUNDS),
-        firstName: firstName,
-        lastName: lastName,
-        address: address,
-        personNumber: personNumber,
-        phone: phone
-      });
-
-      logger.log(
-        "info",
-        "[STUDENT CREATE] Student user %s have been created",
-        email
-      );
-      return { user };
-    },
     categoryCreate: async (
       obj,
       { input: { deviceType, desription } },
       { currentUser }
     ) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
       const devCategory = await prisma.createDevCategory({
         deviceType: deviceType,
         desription: desription
@@ -226,6 +228,9 @@ export default {
       { input: { deviceType, desription } },
       { currentUser }
     ) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
       const devCategory = await prisma.updateDevCategory({
         data: _.pickBy(
           {
@@ -248,6 +253,9 @@ export default {
       return { devCategory };
     },
     categoryDelete: async (obj, { input: { deviceType } }, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
       const devCategory = await prisma.deleteDevCategory({
         deviceType: deviceType
       });
@@ -265,6 +273,9 @@ export default {
       { input: { idCode, manufacture, model, info, devType } },
       { currentUser }
     ) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
+
       const device = await prisma.createDevice({
         idCode: idCode,
         manufacture: manufacture,
@@ -289,6 +300,9 @@ export default {
       { input: { idCode, manufacture, model, info, loanStatus, devCategory } },
       { currentUser }
     ) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
+
       const device = await prisma.updateDevice({
         data: _.pickBy(
           {
@@ -315,6 +329,9 @@ export default {
       return device;
     },
     deviceDelete: async (obj, { input: { idCode } }, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
       const device = await prisma.deleteDevice({ idCode });
 
       logger.log(
@@ -330,8 +347,9 @@ export default {
       { input: { loandate, dueDate, devIdCode, loaner } },
       { currentUser }
     ) => {
-      console.log(currentUser.id);
-      console.log(currentUser);
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
+
       const loan = await prisma.createLoan({
         isActive: true,
         loanDate: loandate,
@@ -360,6 +378,9 @@ export default {
       { input: { idCode, returnDate, returnerId } },
       { currentUser }
     ) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
+
       const loanData = await prisma.device({ idCode }).loan();
 
       const loan = await prisma.updateLoan({
@@ -398,6 +419,9 @@ export default {
       },
       { currentUser }
     ) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
       // get loan id
       const loanData = await prisma.device({ idCode }).loan();
 
@@ -429,6 +453,9 @@ export default {
       return { loan };
     },
     loanDelete: async (obj, { input: { idCode } }, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
       // get loan id
       const loanData = await prisma.device({ idCode }).loan();
 
