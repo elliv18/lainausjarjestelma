@@ -307,7 +307,7 @@ class Loans extends React.PureComponent {
               data.allLoans.map((obj,i) => (
                 data2[i] = {
                   id: obj.id,
-                  loandate: obj.loanDate,
+                  loanDate: obj.loanDate,
                   returnDate: obj.returnDate,
                   dueDate: obj.dueDate,
                   isActive: obj.isActive,
@@ -317,6 +317,7 @@ class Loans extends React.PureComponent {
                   deviceType: obj.deviceId.devCategory.deviceType
                 }
               ))
+              console.log(data2)
             }
             if (error) return <div>Error</div> 
             if (loading) return <div>Loading</div>

@@ -1,8 +1,8 @@
 import MiniDrawer from '../components/MiniDrawer'
 import Loans from '../components/Loans'
 
-export default() => {
+export default() => (
     <MiniDrawer>
-        <Loans/>
+        <Loans />
     </MiniDrawer>
-}
+)

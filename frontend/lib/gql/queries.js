@@ -38,6 +38,7 @@ export const USERS_QUERY = gql`
 export const LOANS_QUERY = gql`
   query{
     allLoans{
+      id,
       isActive,
       loanDate,
       returnDate,

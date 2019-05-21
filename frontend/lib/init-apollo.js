@@ -16,7 +16,7 @@ function create (initialState) {
     link: new HttpLink({
       uri: 'http://localhost:3050', // Server URL (must be absolute)
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
-      //headers: { Authorization: JWT ? `Bearer ${JWT}` : null },
+      headers: { Authorization: JWT ? `Bearer ${JWT}` : null },
       // Use fetch() polyfill on the server
       fetch: !process.browser && fetch
     }),
