@@ -23,6 +23,7 @@
     "jss": "^9.8.7",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
+    "moment-timezone": "^0.5.25",
     "next": "^8.1.0",
     "prop-types": "^15.6.2",
     "react": "^16.8.6",

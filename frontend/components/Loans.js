@@ -38,6 +38,9 @@ import { string } from 'prop-types';
 import { Query } from 'react-apollo'
 import { LOANS_QUERY } from '../lib/gql/queries'
 
+import Moment from 'react-moment';
+import 'moment-timezone';
+
 const styles = theme => ({
   lookupEditCell: {
     paddingTop: theme.spacing.unit * 0.875,
@@ -322,9 +325,9 @@ class Loans extends React.PureComponent {
               data.allLoans.map((obj,i) => (
                 data2[i] = {
                   id: obj.id,
-                  loanDate: obj.loanDate,
-                  returnDate: obj.returnDate,
-                  dueDate: obj.dueDate,
+                  loanDate: obj.loanDate !== null ? <Moment>{obj.loanDate}</Moment> : null,
+                  returnDate: obj.returnDate !== null ? <Moment>{obj.returnDate}</Moment> : null,
+                  dueDate: obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
                   isActive: obj.isActive,
                   idCode: obj.deviceId.idCode,
                   manufacture: obj.deviceId.manufacture,
