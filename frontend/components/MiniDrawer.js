@@ -260,6 +260,14 @@ class MiniDrawer extends React.Component {
               </ListItem>
               </Link>
           </List>
+          <List title="Loans">
+              <Link href="/loans">
+              <ListItem button key ="Loans">
+                <ListItemIcon className={classes.menuIcon}><GroupIcon /></ListItemIcon>
+                <ListItemText primary="Loans" />
+              </ListItem>
+              </Link>
+          </List>
         </Drawer>
           <div className={classNames({
             [classes.paperDrawerOpen]: this.state.open,

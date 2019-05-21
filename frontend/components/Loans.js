@@ -36,7 +36,7 @@ import {
 } from '../src/demo-data/generator';
 import { string } from 'prop-types';
 import { Query } from 'react-apollo'
-import { USERS_QUERY } from '../lib/gql/queries'
+import { LOANS_QUERY } from '../lib/gql/queries'
 
 const styles = theme => ({
   lookupEditCell: {
@@ -298,20 +298,23 @@ class Loans extends React.PureComponent {
     } = this.state;
 
     return (
-      <Query query={USERS_QUERY} >
+      <Query query={LOANS_QUERY} >
             {({ loading, error, data }) => {
               console.log(data)
 
             // Muokataan data sopivaksi taulukolle
-            if(data.allUsers){
-              data.allUsers.map((obj,i) => (
+            if(data.allLoans){
+              data.allLoans.map((obj,i) => (
                 data2[i] = {
                   id: obj.id,
-                  userType: obj.userType,
+                  loandate: obj.loanDate,
+                  returnDate: obj.returnDate,
+                  dueDate: obj.dueDate,
                   isActive: obj.isActive,
-                  lastName: obj.lastName,
-                  email: obj.email,
-                  firstName: obj.firstName
+                  idCode: obj.deviceId.idCode,
+                  manufacture: obj.deviceId.manufacture,
+                  model: obj.deviceId.model,
+                  deviceType: obj.deviceId.devCategory.deviceType
                 }
               ))
             }

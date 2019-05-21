@@ -37,5 +37,18 @@ export const USERS_QUERY = gql`
 
 export const LOANS_QUERY = gql`
   query{
-    
-}`
+    allLoans{
+      isActive,
+      loanDate,
+      returnDate,
+      dueDate,
+      deviceId {
+        idCode,
+        manufacture,
+        model,
+        devCategory {
+          deviceType
+        }
+      }
+    }
+  }`
