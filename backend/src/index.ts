@@ -1,5 +1,4 @@
 import { GraphQLServer } from "graphql-yoga";
-import { permissions } from "./permissions";
 import * as jwt from "jsonwebtoken";
 import { JWT_SECRET, BACKEND_PORT, NODE_ENV } from "./environment";
 import { typeDefs, resolvers } from "./schema";
@@ -19,7 +18,6 @@ if (NODE_ENV == "development") {
 const server = new GraphQLServer({
   typeDefs,
   resolvers,
-  //middlewares: [permissions],
   context: async ctx => {
     const auth = ctx.request.get("Authorization");
     let currentUser = null;
