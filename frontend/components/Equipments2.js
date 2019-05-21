@@ -51,10 +51,6 @@ const styles = theme => ({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  table: {
-    height: '800px',
-    overflowY: 'auto',
-  },
   dialog: {
     width: 'calc(100% - 16px)',
   },
@@ -363,7 +359,6 @@ class DemoBase extends React.PureComponent {
       
                 <VirtualTable
                   columnExtensions={tableColumnExtensions}
-                  className={classes.table}
                 />
                 <TableColumnReordering
                   order={columnOrder}
