@@ -35,7 +35,7 @@ import {
   equipmentsValues,
 } from '../src/demo-data/generator';
 import { string } from 'prop-types';
-import { Query } from 'react-apollo'
+import { Query, withApollo } from 'react-apollo'
 import { USERS_QUERY } from '../lib/gql/queries'
 
 const styles = theme => ({
@@ -182,6 +182,8 @@ const BooleanFormatter = ({ value }) =>
         />;
 
 const getRowId = row => row.id;
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 class DemoBase extends React.PureComponent {
   constructor(props) {
@@ -192,15 +194,20 @@ class DemoBase extends React.PureComponent {
         { name: 'userType', title: 'Type'},
         { name: 'firstName', title: 'Firstname' },
         { name: 'lastName', title: 'Lastname' },
-        { name: 'email', title: 'email' },
+        { name: 'email', title: 'Email' },
         { name: 'isActive', title: 'Active status' },
+        { name: 'address', title: 'Address' },
+        { name: 'personNumber', title: 'Person number' },
+        { name: 'phone', title: 'Phone' },
+        { name: 'createdAt', title: 'Created' },
+        { name: 'updatedAt', title: 'Updated' }
       ],
       tableColumnExtensions: [
-        { columnName: 'userType', wordWrapEnabled: true},
-        { columnName: 'firstName', wordWrapEnabled: true},
-        { columnName: 'lastName', wordWrapEnabled: true},
-        { columnName: 'email', wordWrapEnabled: true},
-        { columnName: 'isActive', wordWrapEnabled: true},
+        { columnName: 'userType', wordWrapEnabled: true, width: 110},
+        { columnName: 'firstName', wordWrapEnabled: true, width: 120},
+        { columnName: 'lastName', wordWrapEnabled: true, width: 130},
+        { columnName: 'email', wordWrapEnabled: true, width: 250},
+        { columnName: 'isActive', wordWrapEnabled: true, width: 120},
       ],
       editingColumns:[
         //{ columnName: 'userType', editingEnabled: true },
@@ -220,6 +227,8 @@ class DemoBase extends React.PureComponent {
       pageSize: 0,
       booleanColumns: ['isActive'],
       columnOrder: ['userType', 'firstName', 'lastName', 'email', 'isActive'],
+      client: props.client,
+      data: []
     };
     const getStateRows = () => {
       const { rows } = this.state;
@@ -274,10 +283,31 @@ class DemoBase extends React.PureComponent {
     };
   }
 
+  async componentDidMount(){
+
+    let temp = await this.state.client.query({
+      query: USERS_QUERY
+    })
+    let temp2 = []
+    if(temp.data.allUsers){
+      temp.data.allUsers.map((obj,i) => (
+        temp2[i] = {
+          id: obj.id,
+          userType: obj.userType,
+          isActive: obj.isActive,
+          lastName: obj.lastName,
+          email: obj.email,
+          firstName: obj.firstName
+        }
+      ))
+    }
+    this.setState({data: temp2})
+  }
+
   render() {
     const{classes} = this.props
     const {
-      data2 = [],
+      data,
       columns,
       tableColumnExtensions,
       sorting,
@@ -291,112 +321,89 @@ class DemoBase extends React.PureComponent {
       editingColumns,
     } = this.state;
 
-    return (
-      <Query query={USERS_QUERY} >
-            {({ loading, error, data }) => {
-              console.log(data)
-
-            // Muokataan data sopivaksi taulukolle
-            if(data.allUsers){
-              data.allUsers.map((obj,i) => (
-                data2[i] = {
-                  id: obj.id,
-                  userType: obj.userType,
-                  isActive: obj.isActive,
-                  lastName: obj.lastName,
-                  email: obj.email,
-                  firstName: obj.firstName
-                }
-              ))
-            }
-            if (error) return <div>Error</div> 
-            if (loading) return <div>Loading</div>
-            return (
-              <Paper className ={classes.root} elevation={5}>
-              <Grid
-                rows={data2}
-                columns={columns}
-                getRowId={getRowId}
-              >
-                <SortingState
-                  sorting={sorting}
-                  onSortingChange={this.changeSorting}
-                />
-                <PagingState
-                  currentPage={currentPage}
-                  onCurrentPageChange={this.changeCurrentPage}
-                  pageSize={pageSize}
-                  onPageSizeChange={this.changePageSize}
-                />
-                <EditingState
-                  columnEditingEnabled={false}
-                  columnExtensions={editingColumns}
-                  editingRowIds={editingRowIds}
-                  onEditingRowIdsChange={this.changeEditingRowIds}
-                  rowChanges={rowChanges}
-                  onRowChangesChange={this.changeRowChanges}
-                  addedRows={addedRows}
-                  onAddedRowsChange={this.changeAddedRows}
-                  onCommitChanges={this.commitChanges}
-                />
-                <SearchState />
-      
-                <IntegratedFiltering />
-      
-                <IntegratedSorting />
-      
-                <IntegratedPaging />
-      
-                <DragDropProvider />
-      
-                <BooleanTypeProvider 
-                for={booleanColumns}
-                style={{paddingRight: '20px'}}/>
-      
-                <VirtualTable
-                  columnExtensions={tableColumnExtensions}
-                  className={classes.table}
-                />
-                <TableColumnReordering
-                  order={columnOrder}
-                  onOrderChange={this.changeColumnOrder}
-                />
-                <TableHeaderRow showSortingControls />
-                <TableEditRow
-                  cellComponent={EditCell}
-                />
-                <TableEditColumn
-                  width={170}
-                  showAddCommand={!addedRows.length}
-                  showEditCommand
-                  showDeleteCommand
-                  commandComponent={Command}
-                />
-                <Getter
-                name="tableColumns"
-                computed={({ tableColumns }) => {
-                 
-                  const result = [
-                    ...tableColumns.filter(c => c.type !== TableEditColumn.COLUMN_TYPE),
-                    { key: 'editCommand', type: TableEditColumn.COLUMN_TYPE, width: 140 }
-                  ];
-                  return result;
-                }
-                }
-              />
-                <Toolbar />
-      
-                <SearchPanel />
-              
-              </Grid>
-            </Paper>
-            )
-            //
-            }}
-        </Query>
+    
      
-    );
+      return (
+        <Paper className ={classes.root} elevation={5}>
+        <Grid
+          rows={data}
+          columns={columns}
+          getRowId={getRowId}
+        >
+          <SortingState
+            sorting={sorting}
+            onSortingChange={this.changeSorting}
+          />
+          <PagingState
+            currentPage={currentPage}
+            onCurrentPageChange={this.changeCurrentPage}
+            pageSize={pageSize}
+            onPageSizeChange={this.changePageSize}
+          />
+          <EditingState
+            columnEditingEnabled={false}
+            columnExtensions={editingColumns}
+            editingRowIds={editingRowIds}
+            onEditingRowIdsChange={this.changeEditingRowIds}
+            rowChanges={rowChanges}
+            onRowChangesChange={this.changeRowChanges}
+            addedRows={addedRows}
+            onAddedRowsChange={this.changeAddedRows}
+            onCommitChanges={this.commitChanges}
+          />
+          <SearchState />
+
+          <IntegratedFiltering />
+
+          <IntegratedSorting />
+
+          <IntegratedPaging />
+
+          <DragDropProvider />
+
+          <BooleanTypeProvider 
+          for={booleanColumns}
+          style={{paddingRight: '20px'}}/>
+
+          <VirtualTable
+            columnExtensions={tableColumnExtensions}
+          />
+          <TableColumnReordering
+            order={columnOrder}
+            onOrderChange={this.changeColumnOrder}
+          />
+          <TableHeaderRow showSortingControls />
+          <TableEditRow
+            cellComponent={EditCell}
+          />
+          <TableEditColumn
+            width={170}
+            showAddCommand={!addedRows.length}
+            showEditCommand
+            showDeleteCommand
+            commandComponent={Command}
+          />
+          <Getter
+          name="tableColumns"
+          computed={({ tableColumns }) => {
+            
+            const result = [
+              ...tableColumns.filter(c => c.type !== TableEditColumn.COLUMN_TYPE),
+              { key: 'editCommand', type: TableEditColumn.COLUMN_TYPE, width: 140 }
+            ];
+            return result;
+          }
+          }
+        />
+          <Toolbar />
+
+          <SearchPanel />
+        
+        </Grid>
+      </Paper>
+      
+  );
   }
 }
 
-export default withStyles(styles, { name: 'ControlledModeDemo' })(DemoBase);
+export default withStyles(styles, { name: 'ControlledModeDemo' })(withApollo(DemoBase));

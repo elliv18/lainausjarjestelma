@@ -32,6 +32,11 @@ export const USERS_QUERY = gql`
       email,
       firstName,
       lastName,
+      address,
+      personNumber,
+      phone,
+      createdAt,
+      updatedAt
     }
 }`
 
