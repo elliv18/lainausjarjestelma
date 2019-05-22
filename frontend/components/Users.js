@@ -37,6 +37,9 @@ import {
 import { string } from 'prop-types';
 import { Query, withApollo } from 'react-apollo'
 import { USERS_QUERY } from '../lib/gql/queries'
+import Moment from 'react-moment';
+import 'moment-timezone';
+
 
 const styles = theme => ({
   lookupEditCell: {
@@ -199,34 +202,46 @@ class DemoBase extends React.PureComponent {
         { name: 'address', title: 'Address' },
         { name: 'personNumber', title: 'Person number' },
         { name: 'phone', title: 'Phone' },
-        { name: 'createdAt', title: 'Created' },
-        { name: 'updatedAt', title: 'Updated' }
+      //  { name: 'createdAt', title: 'Created' },
+     //   { name: 'updatedAt', title: 'Updated' }
       ],
       tableColumnExtensions: [
         { columnName: 'userType', wordWrapEnabled: true, width: 110},
         { columnName: 'firstName', wordWrapEnabled: true, width: 120},
         { columnName: 'lastName', wordWrapEnabled: true, width: 130},
-        { columnName: 'email', wordWrapEnabled: true, width: 250},
-        { columnName: 'isActive', wordWrapEnabled: true, width: 120},
+        { columnName: 'email', wordWrapEnabled: true, width: 300},
+        { columnName: 'isActive', wordWrapEnabled: true},
+        { columnName: 'address', wordWrapEnabled: true},
+        { columnName: 'personNumber', wordWrapEnabled: true},
+        { columnName: 'phone', wordWrapEnabled: true},
+        { columnName: 'createdAt', wordWrapEnabled: true},
+        { columnName: 'updatedAt', wordWrapEnabled: true}
+
       ],
       editingColumns:[
-        //{ columnName: 'userType', editingEnabled: true },
+        { columnName: 'userType', editingEnabled: true },
         { columnName: 'firstName', editingEnabled: true },
         { columnName: 'lastName', editingEnabled: true },
         { columnName: 'email', editingEnabled: true },
+        { columnName: 'isActive', editingEnabled: true },
+        { columnName: 'address', editingEnabled: true },
+        { columnName: 'personNumber', editingEnabled: true },
+        { columnName: 'phone', editingEnabled: true },
+        { columnName: 'createdAt', editingEnabled: false },
+        { columnName: 'updatedAt', editingEnabled: false },
       ],
       rows: generateRows({
         columnValues: { id: ({ index }) => index, ...equipmentsValues },
         length: 12,
       }),
       sorting: [],
-      editingRowIds: ['firstName', 'lastName', 'email'],
+      editingRowIds: [],
       addedRows: [],
       rowChanges: {},
       currentPage: 0,
       pageSize: 0,
       booleanColumns: ['isActive'],
-      columnOrder: ['userType', 'firstName', 'lastName', 'email', 'isActive'],
+      columnOrder: ['userType', 'firstName', 'lastName', 'email', 'phone', 'isActive', 'address', 'personNumber', 'createdAt', 'updatedAt'],
       client: props.client,
       data: []
     };
@@ -249,11 +264,12 @@ class DemoBase extends React.PureComponent {
     this.changeCurrentPage = currentPage => this.setState({ currentPage });
     this.changePageSize = pageSize => this.setState({ pageSize });
     this.commitChanges = ({ added, changed, deleted }) => {
-      let { rows } = this.state;
+      let { rows, data } = this.state;
       if (added) {
         const startingAddedId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
-        rows = [
-          ...rows,
+        data = [
+          console.log('DATA', data),
+          ...data,
           ...added.map((row, index) => ({
             id: startingAddedId + index,
             ...row,
@@ -297,7 +313,12 @@ class DemoBase extends React.PureComponent {
           isActive: obj.isActive,
           lastName: obj.lastName,
           email: obj.email,
-          firstName: obj.firstName
+          firstName: obj.firstName,
+          address: obj.address,
+          phone: obj.phone,
+          personNumber: obj.personNumber,
+          createdAt: obj.createdAt !== null ? <Moment>{obj.createdAt}</Moment> : null,
+          updatedAt: obj.updatedAt!== null ? <Moment>{obj.updatedAt}</Moment> : null,
         }
       ))
     }
