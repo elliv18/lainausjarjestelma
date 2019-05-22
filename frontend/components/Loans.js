@@ -35,7 +35,7 @@ import {
   equipmentsValues,
 } from '../src/demo-data/generator';
 import { string } from 'prop-types';
-import { Query } from 'react-apollo'
+import { Query, withApollo } from 'react-apollo'
 import { LOANS_QUERY } from '../lib/gql/queries'
 
 import Moment from 'react-moment';
@@ -197,6 +197,8 @@ const RowDetail = ({ row }) => (
     </div>
   );
 
+/****************************** CLASS ********************************************************/
+
 class Loans extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -244,6 +246,8 @@ class Loans extends React.PureComponent {
       pageSize: 0,
       booleanColumns: ['isActive'],
       columnOrder: ['idCode', 'deviceType', 'manufacture', 'model', 'loanDate', 'returnDate', 'dueDate', 'isActive'],
+      client: props.client,
+      data: [],
     };
     const getStateRows = () => {
       const { rows } = this.state;
@@ -274,6 +278,8 @@ class Loans extends React.PureComponent {
             ...row,
           })),
         ];
+        //
+        console.log(rows)
       }
       if (changed) {
         rows = rows.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
@@ -296,12 +302,44 @@ class Loans extends React.PureComponent {
     this.changeColumnOrder = (order) => {
       this.setState({ columnOrder: order });
     };
+
+
   }
 
+  async componentDidMount() {
+    const temp = await this.state.client.query({ query: LOANS_QUERY })
+    
+    let temp2 = []
+    if (temp.data) {
+      temp.data.allLoans.map((obj,i) => (
+          temp2[i] = {
+            id: obj.id,
+            loanDate: obj.loanDate !== null ? <Moment>{obj.loanDate}</Moment> : null,
+            returnDate: obj.returnDate !== null ? <Moment>{obj.returnDate}</Moment> : null,
+            dueDate: obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
+            isActive: obj.isActive,
+            idCode: obj.deviceId.idCode,
+            manufacture: obj.deviceId.manufacture,
+            model: obj.deviceId.model,
+            deviceType: obj.deviceId.devCategory.deviceType,
+            loanerFirstName: obj.loanerId.firstName,
+            loanerLastName: obj.loanerId.lastName,
+            loanerEmail: obj.loanerId.email,
+            supplierFirstName: obj.supplierId.firstName,
+            supplierLastName: obj.supplierId.lastName,
+            supplierEmail: obj.supplierId.email
+          }
+        
+      ))
+    }
+    this.setState({ data: temp2 })
+  }
+
+// RENDER
   render() {
     const{classes} = this.props
     const {
-      data2 = [],
+      data,
       columns,
       tableColumnExtensions,
       sorting,
@@ -316,125 +354,91 @@ class Loans extends React.PureComponent {
     } = this.state;
 
     return (
-      <Query query={LOANS_QUERY} >
-            {({ loading, error, data }) => {
-              console.log(data)
+      <Paper className ={classes.root} elevation={5}>
+      <Grid
+        rows={data}
+        columns={columns}
+        getRowId={getRowId}
+      >
+        <RowDetailState />
+        <SortingState
+          sorting={sorting}
+          onSortingChange={this.changeSorting}
+        />
+        <PagingState
+          currentPage={currentPage}
+          onCurrentPageChange={this.changeCurrentPage}
+          pageSize={pageSize}
+          onPageSizeChange={this.changePageSize}
+        />
+        <EditingState
+          columnEditingEnabled={false}
+          columnExtensions={editingColumns}
+          editingRowIds={editingRowIds}
+          onEditingRowIdsChange={this.changeEditingRowIds}
+          rowChanges={rowChanges}
+          onRowChangesChange={this.changeRowChanges}
+          addedRows={addedRows}
+          onAddedRowsChange={this.changeAddedRows}
+          onCommitChanges={this.commitChanges}
+        />
+        <SearchState />
 
-            // Muokataan data sopivaksi taulukolle
-            if(data.allLoans){
-              data.allLoans.map((obj,i) => (
-                data2[i] = {
-                  id: obj.id,
-                  loanDate: obj.loanDate !== null ? <Moment>{obj.loanDate}</Moment> : null,
-                  returnDate: obj.returnDate !== null ? <Moment>{obj.returnDate}</Moment> : null,
-                  dueDate: obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
-                  isActive: obj.isActive,
-                  idCode: obj.deviceId.idCode,
-                  manufacture: obj.deviceId.manufacture,
-                  model: obj.deviceId.model,
-                  deviceType: obj.deviceId.devCategory.deviceType,
-                  loanerFirstName: obj.loanerId.firstName,
-                    loanerLastName: obj.loanerId.lastName,
-                    loanerEmail: obj.loanerId.email,
-                    supplierFirstName: obj.supplierId.firstName,
-                    supplierLastName: obj.supplierId.lastName,
-                    supplierEmail: obj.supplierId.email
-                }
-              ))
-              console.log(data2)
-            }
-            if (error) return <div>Error</div> 
-            if (loading) return <div>Loading</div>
-            return (
-              <Paper className ={classes.root} elevation={5}>
-              <Grid
-                rows={data2}
-                columns={columns}
-                getRowId={getRowId}
-              >
-                <RowDetailState />
-                <SortingState
-                  sorting={sorting}
-                  onSortingChange={this.changeSorting}
-                />
-                <PagingState
-                  currentPage={currentPage}
-                  onCurrentPageChange={this.changeCurrentPage}
-                  pageSize={pageSize}
-                  onPageSizeChange={this.changePageSize}
-                />
-                <EditingState
-                  columnEditingEnabled={false}
-                  columnExtensions={editingColumns}
-                  editingRowIds={editingRowIds}
-                  onEditingRowIdsChange={this.changeEditingRowIds}
-                  rowChanges={rowChanges}
-                  onRowChangesChange={this.changeRowChanges}
-                  addedRows={addedRows}
-                  onAddedRowsChange={this.changeAddedRows}
-                  onCommitChanges={this.commitChanges}
-                />
-                <SearchState />
+        <IntegratedFiltering />
+
+        <IntegratedSorting />
+
+        <IntegratedPaging />
+
+        <DragDropProvider />
+
+        <BooleanTypeProvider 
+        for={booleanColumns}
+        style={{paddingRight: '20px'}}/>
+
+        <VirtualTable
+          columnExtensions={tableColumnExtensions}
+          className={classes.table}
+        />
+        <TableColumnReordering
+          order={columnOrder}
+          onOrderChange={this.changeColumnOrder}
+        />
+        <TableHeaderRow showSortingControls />
+        <TableRowDetail
+        contentComponent={RowDetail}
+        />
+        <TableEditRow
+          cellComponent={EditCell}
+        />
+        <TableEditColumn
+          width={170}
+          showAddCommand={!addedRows.length}
+          showEditCommand
+          showDeleteCommand
+          commandComponent={Command}
+        />
+        <Getter
+        name="tableColumns"
+        computed={({ tableColumns }) => {
+          
+          const result = [
+            ...tableColumns.filter(c => c.type !== TableEditColumn.COLUMN_TYPE),
+            { key: 'editCommand', type: TableEditColumn.COLUMN_TYPE, width: 140 }
+          ];
+          return result;
+        }
+        }
+      />
+        <Toolbar />
+
+        <SearchPanel />
       
-                <IntegratedFiltering />
-      
-                <IntegratedSorting />
-      
-                <IntegratedPaging />
-      
-                <DragDropProvider />
-      
-                <BooleanTypeProvider 
-                for={booleanColumns}
-                style={{paddingRight: '20px'}}/>
-      
-                <VirtualTable
-                  columnExtensions={tableColumnExtensions}
-                  className={classes.table}
-                />
-                <TableColumnReordering
-                  order={columnOrder}
-                  onOrderChange={this.changeColumnOrder}
-                />
-                <TableHeaderRow showSortingControls />
-                <TableRowDetail
-                contentComponent={RowDetail}
-                />
-                <TableEditRow
-                  cellComponent={EditCell}
-                />
-                <TableEditColumn
-                  width={170}
-                  showAddCommand={!addedRows.length}
-                  showEditCommand
-                  showDeleteCommand
-                  commandComponent={Command}
-                />
-                <Getter
-                name="tableColumns"
-                computed={({ tableColumns }) => {
-                 
-                  const result = [
-                    ...tableColumns.filter(c => c.type !== TableEditColumn.COLUMN_TYPE),
-                    { key: 'editCommand', type: TableEditColumn.COLUMN_TYPE, width: 140 }
-                  ];
-                  return result;
-                }
-                }
-              />
-                <Toolbar />
-      
-                <SearchPanel />
-              
-              </Grid>
-            </Paper>
-            )
-            //
-            }}
-        </Query>
-     
+      </Grid>
+    </Paper>
+    
     );
   }
 }
 
-export default withStyles(styles, { name: 'ControlledModeDemo' })(Loans);
+export default withStyles(styles, { name: 'ControlledModeDemo' })(withApollo(Loans));
