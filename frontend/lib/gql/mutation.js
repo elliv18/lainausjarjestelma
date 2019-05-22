@@ -36,3 +36,13 @@ export const USERS_ADD_MUTATION = gql`
     }
   }
 `;
+
+export const EQUIPMENT_ADD_MUTATION = gql`
+  mutation addMutation() {
+    deviceCreate(input: {
+
+    }) {
+      
+    }
+  }
+`

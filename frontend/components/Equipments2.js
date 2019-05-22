@@ -32,6 +32,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo'
 import { EQUIPMENTS_QUERY } from '../lib/gql/queries'
+import { EQUIPMENT_ADD_MUTATION } from '../lib/gql/mutation';
 
 const styles = theme => ({
   lookupEditCell: {
@@ -235,7 +236,7 @@ class DemoBase extends React.PureComponent {
     });
     this.changeRowChanges = rowChanges => this.setState({ rowChanges });
     this.commitChanges = ({ added, changed, deleted }) => {
-      let { rows } = this.state;
+      let { rows, data, client } = this.state;
       if (added) {
         const startingAddedId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
         rows = [
@@ -245,6 +246,15 @@ class DemoBase extends React.PureComponent {
             ...row,
           })),
         ];
+
+        added.map(row => {
+          client.mutate({
+            variables: {},  // kesken
+            mutation: EQUIPMENT_ADD_MUTATION
+          })
+          .catch(error => console.log(error))
+        })
+        this.setState({ data: data })
       }
       if (changed) {
         rows = rows.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
