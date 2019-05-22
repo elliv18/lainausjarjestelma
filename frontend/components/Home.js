@@ -14,6 +14,8 @@ import {
   TableHeaderRow,
 } from '@devexpress/dx-react-grid-material-ui';
 import { generateRows } from '../src/demo-data/generator';
+import { withApollo } from 'react-apollo';
+import {} from '../lib/gql/queries';
 
 
 const styles = {
@@ -44,6 +46,7 @@ const styles = {
   
 }
 
+/******************************** CLASS ******************************/
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -56,7 +59,14 @@ class Home extends React.Component {
         { name: 'car', title: 'Return date' },
       ],
       rows: generateRows({ length: 30 }),
+
+      client: props.client,
+      data: []
     };
+  }
+
+  async componentDidMount(){
+    let temp = await this.state.client
   }
 
   render() {
