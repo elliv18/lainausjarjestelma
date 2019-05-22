@@ -114,13 +114,13 @@ export default {
 
       let type;
       if (currentUser.type === "ADMIN" && userType === "ADMIN") {
-        type = UserLevels.ADMIN;
+        type = UserLevels[UserLevels.ADMIN];
       } else if (currentUser.type === "ADMIN" && userType === "STAFF") {
-        type = UserLevels.STAFF;
+        type = UserLevels[UserLevels.STAFF];
       } else if (currentUser.type === "ADMIN" && userType === "STUDENT") {
-        type = UserLevels.STUDENT;
+        type = UserLevels[UserLevels.STUDENT];
       } else if (currentUser.type === "STAFF") {
-        type = UserLevels.STUDENT;
+        type = UserLevels[UserLevels.STUDENT];
       } else {
         logger.log(
           "info",
@@ -175,11 +175,11 @@ export default {
       let type;
       if (userType != null) {
         if (currentUser.type === "ADMIN" && userType === "ADMIN") {
-          type = UserLevels.ADMIN;
+          type = UserLevels[UserLevels.ADMIN];
         } else if (currentUser.type === "ADMIN" && userType === "STAFF") {
-          type = UserLevels.STAFF;
+          type = UserLevels[UserLevels.STAFF];
         } else if (currentUser.type === "ADMIN" && userType === "STUDENT") {
-          type = UserLevels.STUDENT;
+          type = UserLevels[UserLevels.STUDENT];
         } else {
           logger.log(
             "info",

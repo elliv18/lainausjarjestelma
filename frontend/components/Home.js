@@ -1,7 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import { shadows } from '@material-ui/system';
 import {
   SearchState,
   SortingState,
@@ -48,7 +53,9 @@ const styles = {
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  
+  card: {
+    textAlign: 'left',
+  },
 }
 
 /******************************** CLASS ******************************/
@@ -124,28 +131,27 @@ class Home extends React.Component {
               direction="row"
               justify="space-evenly"
               alignItems="center">
-          <Grid item xs={5}>
-              <Paper className={classes.paper}>
-                <h1>Account information</h1>
-                <p>
+          <Grid item xs={11}>
+            <Card className={classes.card} elevation={4}>
+              <CardContent>
+                <Typography variant="h3"  gutterBottom>
+                  Account information
+                </Typography>
+                <Typography variant="h5" component="h2">
                   User type: {data_user.userType} {<br></br>}
                   First name: {data_user.firstName} {<br></br>}
                   Last name: {data_user.lastName} {<br></br>}
                   Email: {data_user.email} {<br></br>}
-                  Address: {data_user.address} {<br></br>}
-                  Person number: {data_user.personNumber} {<br></br>}
-                  Phone: {data_user.phone}
-                </p>
-              </Paper>
-          </Grid>
-          <Grid item xs={5}>
-              <Paper className={classes.paper}>
-                <h1>Info table</h1>
-              </Paper>
+                  Address: {data_user.address} {<br></br>}        
+                  Phone: {data_user.phone} {<br></br>}
+                  Person number: {data_user.personNumber} 
+                </Typography>
+              </CardContent>
+            </Card>
           </Grid>
           <Grid item xs ={12}>
               <h2>Your loans</h2>
-            <Paper className={classes.paperTable}>
+            <Paper className={classes.paperTable} elevation={6}>
               <GridTable
                 rows={data_loans}
                 columns={columns}
