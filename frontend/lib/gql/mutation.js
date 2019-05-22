@@ -36,3 +36,19 @@ export const USERS_ADD_MUTATION = gql`
     }
   }
 `;
+
+export const EQUIPMENT_ADD_MUTATION = gql`
+  mutation addMutation($idCode: String!, $manufacture: String, $model: String, $info: String, $devType: String!) {
+    deviceCreate(input: {
+      idCode: $idCode
+      manufacture: $manufacture
+      model: $model
+      info: $info
+      devType: $devType
+    }) {
+      device {
+        id
+      }
+    }
+  }
+`
