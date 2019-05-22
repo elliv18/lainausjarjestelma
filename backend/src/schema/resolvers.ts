@@ -14,21 +14,21 @@ export default {
     }
   },
   Device: {
-    async devCategory(device) {
+    async category(device) {
       return await prisma.device({ id: device.id }).devCategoryId();
     }
   },
   Loan: {
-    async deviceId(device) {
+    async device(device) {
       return await prisma.loan({ id: device.id }).deviceId();
     },
-    async loanerId(user) {
+    async loaner(user) {
       return await prisma.loan({ id: user.id }).loanerId();
     },
-    async supplierId(user) {
+    async supplier(user) {
       return await prisma.loan({ id: user.id }).supplierId();
     },
-    async returnerId(user) {
+    async returner(user) {
       return await prisma.loan({ id: user.id }).returnerId();
     }
   },
@@ -112,7 +112,24 @@ export default {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
-      const type = currentUser.type === "ADMIN" ? userType : "STUDENT";
+      let type;
+      if (currentUser.type === "ADMIN" && userType === "ADMIN") {
+        type = UserLevels.ADMIN;
+      } else if (currentUser.type === "ADMIN" && userType === "STAFF") {
+        type = UserLevels.STAFF;
+      } else if (currentUser.type === "ADMIN" && userType === "STUDENT") {
+        type = UserLevels.STUDENT;
+      } else if (currentUser.type === "STAFF") {
+        type = UserLevels.STUDENT;
+      } else {
+        logger.log(
+          "info",
+          "[USER CREATE] No permissions by %s or user type %s is invalid!",
+          currentUser.id,
+          userType
+        );
+        throw new Error("No permissions or user type is invalid!");
+      }
 
       const user = await prisma.createUser({
         isActive: isActive,
@@ -155,6 +172,25 @@ export default {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
+      let type;
+      if (userType != null) {
+        if (currentUser.type === "ADMIN" && userType === "ADMIN") {
+          type = UserLevels.ADMIN;
+        } else if (currentUser.type === "ADMIN" && userType === "STAFF") {
+          type = UserLevels.STAFF;
+        } else if (currentUser.type === "ADMIN" && userType === "STUDENT") {
+          type = UserLevels.STUDENT;
+        } else {
+          logger.log(
+            "info",
+            "[USER CREATE] No permissions by %s or user type %s is invalid!",
+            currentUser.id,
+            userType
+          );
+          throw new Error("No permissions or user type is invalid!");
+        }
+      }
+
       let pw;
       if (password != null) {
         pw = await bcrypt.hash(password, SALT_ROUNDS);
@@ -164,7 +200,7 @@ export default {
         data: _.pickBy(
           {
             isActive: isActive,
-            userType: userType,
+            userType: type,
             email: email,
             password: pw,
             firstName: firstName,
@@ -210,7 +246,7 @@ export default {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
-      const devCategory = await prisma.createDevCategory({
+      const category = await prisma.createDevCategory({
         deviceType: deviceType,
         desription: desription
       });
@@ -221,7 +257,7 @@ export default {
         deviceType,
         currentUser.id
       );
-      return { devCategory };
+      return { category };
     },
     categoryUpdate: async (
       obj,
@@ -231,7 +267,7 @@ export default {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
-      const devCategory = await prisma.updateDevCategory({
+      const category = await prisma.updateDevCategory({
         data: _.pickBy(
           {
             deviceType: deviceType,
@@ -250,13 +286,13 @@ export default {
         deviceType,
         currentUser.id
       );
-      return { devCategory };
+      return { category };
     },
     categoryDelete: async (obj, { input: { deviceType } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
-      const devCategory = await prisma.deleteDevCategory({
+      const category = await prisma.deleteDevCategory({
         deviceType: deviceType
       });
 
@@ -266,7 +302,7 @@ export default {
         deviceType,
         currentUser.id
       );
-      return devCategory;
+      return category;
     },
     deviceCreate: async (
       obj,

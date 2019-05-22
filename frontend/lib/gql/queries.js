@@ -15,11 +15,13 @@ export const EQUIPMENTS_QUERY = gql`
       manufacture,
       model,
       info,
-      loanStatus
-        devCategory{
-          id,
-          deviceType
-        }
+      loanStatus,
+      createdAt,
+      updatedAt,
+      category {
+        id,
+        deviceType
+      }
     }
   }`
 
@@ -48,20 +50,22 @@ export const LOANS_QUERY = gql`
       loanDate,
       returnDate,
       dueDate,
-      deviceId {
+      createdAt,
+      updatedAt,
+      device {
         idCode,
         manufacture,
         model,
-        devCategory {
+        category {
           deviceType
         }
       }
-      loanerId {
-      email,
-      firstName,
-      lastName
+      loaner {
+        email,
+        firstName,
+        lastName
       }
-      supplierId {
+      supplier {
         email,
         firstName,
         lastName
@@ -85,11 +89,11 @@ export const LOANS_QUERY = gql`
           loanDate,
           returnDate,
           dueDate,
-          deviceId {
+          device {
             idCode,
             manufacture,
             model,
-            devCategory {
+            category {
               deviceType
             }
           }

@@ -40,7 +40,7 @@ export default `
         model: String
         info: String
         loanStatus: Boolean!
-        devCategory: DevCategory!
+        category: Category!
         createdAt: String!
         updatedAt: String!
     }
@@ -49,7 +49,7 @@ export default `
     # DevCategory #
     ###############
 
-    type DevCategory {
+    type Category {
         id: ID!
         deviceType: String!
         desription: String
@@ -67,10 +67,10 @@ export default `
         loanDate: String!
         returnDate: String
         dueDate: String!
-        deviceId: Device!
-        loanerId: User!
-        supplierId: User!
-        returnerId: User
+        device: Device!
+        loaner: User!
+        supplier: User!
+        returner: User
         createdAt: String!
         updatedAt: String!
     }
@@ -87,7 +87,7 @@ export default `
         allUsers: [User]
 
         # ADMINS - List all categories
-        allCategories: [DevCategory]
+        allCategories: [Category]
 
         # ADMINS/STAFF - List all devices
         allDevices: [Device]
@@ -188,7 +188,7 @@ export default `
 
     input UserCreateInput {
         isActive: Boolean!
-        userType: UserType!
+        userType: String!
         email: String!
         password: String!
         firstName: String!
@@ -203,7 +203,7 @@ export default `
 
     input UserUpdateInput {
         isActive: Boolean
-        userType: UserType
+        userType: String
         email: String!
         password: String
         firstName: String
@@ -230,7 +230,7 @@ export default `
         desription: String
     }
     type CategoryCreatePayload {
-        devCategory: DevCategory
+        category: Category
     }
 
     input CategoryUpdateInput {
@@ -238,14 +238,14 @@ export default `
         desription: String
     }
     type CategoryUpdatePayload {
-        devCategory: DevCategory
+        category: Category
     }
 
     input CategoryDeleteInput {
         deviceType: String!
     }
     type CategoryDeletePayload {
-        devCategory: DevCategory
+        category: Category
     }
 
     ############# DEVICE ##################

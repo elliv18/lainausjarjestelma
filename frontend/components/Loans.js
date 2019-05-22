@@ -308,16 +308,16 @@ class Loans extends React.PureComponent {
             returnDate: obj.returnDate !== null ? <Moment>{obj.returnDate}</Moment> : null,
             dueDate: obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
             isActive: obj.isActive,
-            idCode: obj.deviceId.idCode,
-            manufacture: obj.deviceId.manufacture,
-            model: obj.deviceId.model,
-            deviceType: obj.deviceId.devCategory.deviceType,
-            loanerFirstName: obj.loanerId.firstName,
-            loanerLastName: obj.loanerId.lastName,
-            loanerEmail: obj.loanerId.email,
-            supplierFirstName: obj.supplierId.firstName,
-            supplierLastName: obj.supplierId.lastName,
-            supplierEmail: obj.supplierId.email
+            idCode: obj.device.idCode,
+            manufacture: obj.device.manufacture,
+            model: obj.device.model,
+            deviceType: obj.device.category.deviceType,
+            loanerFirstName: obj.loaner.firstName,
+            loanerLastName: obj.loaner.lastName,
+            loanerEmail: obj.loaner.email,
+            supplierFirstName: obj.supplier.firstName,
+            supplierLastName: obj.supplier.lastName,
+            supplierEmail: obj.supplier.email
           }
         
       ))

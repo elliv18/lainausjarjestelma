@@ -97,9 +97,9 @@ class Home extends React.Component {
             returnDate: obj.returnDate !== null ? <Moment>{obj.returnDate}</Moment> : null,
             dueDate: obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
             idCode: obj.deviceId.idCode,
-            manufacture: obj.deviceId.manufacture,
+            manufacture: obj.device.manufacture,
             model: obj.deviceId.model,
-            deviceType: obj.deviceId.devCategory.deviceType
+            deviceType: obj.device.category.deviceType
           }
         }
       })

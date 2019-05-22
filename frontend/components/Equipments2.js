@@ -290,7 +290,7 @@ class DemoBase extends React.PureComponent {
           loanStatus: obj.loanStatus,
           manufacture: obj.manufacture,
           model: obj.model,
-          deviceType: obj.devCategory.deviceType
+          deviceType: obj.category.deviceType
         }
       ))
     }
