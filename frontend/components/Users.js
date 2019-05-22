@@ -267,7 +267,6 @@ class DemoBase extends React.PureComponent {
     this.commitChanges = ({ added, changed, deleted }) => {
       let { rows, data, client } = this.state;
       if (added) {
-        /*
         const startingAddedId = data.length > 0 ? data[rows.length - 1].id + 1 : 0;
         data = [
           ...data,
@@ -275,17 +274,19 @@ class DemoBase extends React.PureComponent {
             id: startingAddedId + index,
             ...row,
           })),
-        ];*/
+        ];
         
-        console.log('ADDED', added[0].isActive)
-      /*  client.mutate({
-          variables: { isActive: true, userType: "ADMIN", email: '@email2233', password: 'psd',
-                        firstName: 'first', lastName: 'last', address: 'katu',
-                        personNumber: '4321', phone: '050123'},
-          mutation: USERS_ADD_MUTATION
+        added.map(row => {
+          client.mutate({
+            variables: { isActive: true, userType: row.userType, email: row.email, password: "FUCK",
+                          firstName: row.firstName, lastName: row.lastName, address: row.address,
+                          personNumber: row.personNumber, phone: row.phone},
+            mutation: USERS_ADD_MUTATION
+          })
+          .then(result => console.log('RESULT ', result))
+          .catch(error => { console.log(error) });
         })
-        .then(result => console.log('RESULT ', result))
-        .catch(error => { console.log(error) });*/
+        this.setState({ data: data })
       }
       if (changed) {
         rows = rows.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
