@@ -37,6 +37,7 @@ import {
 import { string } from 'prop-types';
 import { Query, withApollo } from 'react-apollo'
 import { USERS_QUERY } from '../lib/gql/queries'
+import { USERS_ADD_MUTATION } from '../lib/gql/mutation'
 import Moment from 'react-moment';
 import 'moment-timezone';
 
@@ -264,17 +265,27 @@ class DemoBase extends React.PureComponent {
     this.changeCurrentPage = currentPage => this.setState({ currentPage });
     this.changePageSize = pageSize => this.setState({ pageSize });
     this.commitChanges = ({ added, changed, deleted }) => {
-      let { rows, data } = this.state;
+      let { rows, data, client } = this.state;
       if (added) {
-        const startingAddedId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
+        /*
+        const startingAddedId = data.length > 0 ? data[rows.length - 1].id + 1 : 0;
         data = [
-          console.log('DATA', data),
           ...data,
           ...added.map((row, index) => ({
             id: startingAddedId + index,
             ...row,
           })),
-        ];
+        ];*/
+        
+        console.log('ADDED', added[0].isActive)
+      /*  client.mutate({
+          variables: { isActive: true, userType: "ADMIN", email: '@email2233', password: 'psd',
+                        firstName: 'first', lastName: 'last', address: 'katu',
+                        personNumber: '4321', phone: '050123'},
+          mutation: USERS_ADD_MUTATION
+        })
+        .then(result => console.log('RESULT ', result))
+        .catch(error => { console.log(error) });*/
       }
       if (changed) {
         rows = rows.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row));

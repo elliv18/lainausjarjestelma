@@ -2,6 +2,7 @@ import { ApolloClient, InMemoryCache, HttpLink } from 'apollo-boost'
 import fetch from 'isomorphic-unfetch'
 import { IS_BROWSER} from '../lib/environment'
 
+
 let apolloClient = null
 
 
