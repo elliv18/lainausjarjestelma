@@ -16,7 +16,6 @@ import {
   SearchPanel,
   TableHeaderRow,
 } from '@devexpress/dx-react-grid-material-ui';
-import { generateRows } from '../src/demo-data/generator';
 import { withApollo } from 'react-apollo';
 import { CURRENTUSER } from '../lib/gql/queries';
 
@@ -67,9 +66,7 @@ class Home extends React.Component {
         { name: 'returnDate', title: 'return date' },
         { name: 'dueDate', title: 'Due date' },
       ],
-      rows: generateRows({ length: 30 }),
       
-
       client: props.client,
       data_user: {},
       data_loans: []

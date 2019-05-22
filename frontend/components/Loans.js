@@ -30,10 +30,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
-import {
-  generateRows,
-  equipmentsValues,
-} from '../src/demo-data/generator';
 import { string } from 'prop-types';
 import { Query, withApollo } from 'react-apollo'
 import { LOANS_QUERY } from '../lib/gql/queries'
@@ -234,10 +230,6 @@ class Loans extends React.PureComponent {
         { columnName: 'dueDate', editingEnabled: true },
         { columnName: 'isActive', editingEnabled: true },
       ],
-      rows: generateRows({
-        columnValues: { id: ({ index }) => index, ...equipmentsValues },
-        length: 12,
-      }),
       sorting: [],
       editingRowIds: ['idCode', 'deviceType', 'manufacture', 'model', 'loanDate', 'returnDate', 'dueDate', 'isActive'],
       addedRows: [],
