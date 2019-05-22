@@ -80,6 +80,7 @@ export const LOANS_QUERY = gql`
         personNumber,
         phone
         loans {
+          id,
           isActive,
           loanDate,
           returnDate,
