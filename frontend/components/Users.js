@@ -171,8 +171,24 @@ const EditCell = (props) => {
 const BooleanTypeProvider = props => (
     <DataTypeProvider
       formatterComponent={BooleanFormatter}
+      editorComponent={BooleanEditor}
       {...props}
     />
+  );
+  const BooleanEditor = ({ value, onValueChange }) => (
+    <Select
+      input={<Input />}
+      value={value ? 'false' : 'true'}
+      onChange={event => onValueChange(event.target.value === 'false')}
+      style={{ width: '100%' }}
+    >
+      <MenuItem value="true">
+        true
+      </MenuItem>
+      <MenuItem value="false">
+        False
+      </MenuItem>
+    </Select>
   );
 
 const BooleanFormatter = ({ value }) => 
