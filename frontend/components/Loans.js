@@ -302,15 +302,13 @@ class Loans extends React.PureComponent {
     this.changeColumnOrder = (order) => {
       this.setState({ columnOrder: order });
     };
-
-
   }
 
   async componentDidMount() {
-    const temp = await this.state.client.query({ query: LOANS_QUERY })
+    let temp = await this.state.client.query({ query: LOANS_QUERY })
     
     let temp2 = []
-    if (temp.data) {
+    if (temp.data.allLoans) {
       temp.data.allLoans.map((obj,i) => (
           temp2[i] = {
             id: obj.id,
@@ -429,11 +427,9 @@ class Loans extends React.PureComponent {
           return result;
         }
         }
-      />
+        />
         <Toolbar />
-
-        <SearchPanel />
-      
+        <SearchPanel />     
       </Grid>
     </Paper>
     
