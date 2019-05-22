@@ -31,7 +31,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { string } from 'prop-types';
-import { Query, withApollo } from 'react-apollo'
+import { withApollo } from 'react-apollo'
 import { LOANS_QUERY } from '../lib/gql/queries'
 
 import Moment from 'react-moment';

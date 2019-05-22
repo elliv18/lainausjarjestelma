@@ -30,11 +30,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
-import {
-  generateRows,
-  equipmentsValues,
-} from '../src/demo-data/generator';
-import { Query, withApollo } from 'react-apollo'
+import { withApollo } from 'react-apollo'
 import { EQUIPMENTS_QUERY } from '../lib/gql/queries'
 
 const styles = theme => ({
@@ -210,10 +206,6 @@ class DemoBase extends React.PureComponent {
         { columnName: 'model', editingEnabled: true },
         { columnName: 'info', editingEnabled: true },
       ],
-      rows: generateRows({
-        columnValues: { id: ({ index }) => index, ...equipmentsValues },
-        length: 12,
-      }),
       sorting: [],
       editingRowIds: ['idCode', 'deviceType', 'manufacture', 'model', 'info'],
       addedRows: [],
