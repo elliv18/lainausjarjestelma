@@ -160,7 +160,6 @@ export default {
           isActive,
           userType,
           email,
-          password,
           firstName,
           lastName,
           address,
@@ -173,8 +172,6 @@ export default {
       console.log("We");
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
-
-      console.log(isActive, email);
 
       let type;
       if (userType != null) {
@@ -195,18 +192,12 @@ export default {
         }
       }
 
-      let pw;
-      if (password != null) {
-        pw = await bcrypt.hash(password, SALT_ROUNDS);
-      }
-
       const user = await prisma.updateUser({
         data: _.pickBy(
           {
             isActive: isActive,
             userType: type,
             email: email,
-            password: pw,
             firstName: firstName,
             lastName: lastName,
             address: address,
@@ -224,6 +215,27 @@ export default {
         "info",
         "[USER UPDATE] User %s have updated by %s",
         email,
+        currentUser.id
+      );
+      return { user };
+    },
+    userUpdatePW: async (obj, { input: { id, password } }, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
+      const user = await prisma.updateUser({
+        data: {
+          password: await bcrypt.hash(password, SALT_ROUNDS)
+        },
+        where: {
+          id: id
+        }
+      });
+
+      logger.log(
+        "info",
+        "[USER UPDATE PW] User %s password have been updated by %s",
+        id,
         currentUser.id
       );
       return { user };

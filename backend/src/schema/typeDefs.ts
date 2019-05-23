@@ -128,6 +128,9 @@ export default `
         # ADMINS - Update user
         userUpdate(input: UserUpdateInput!): UserUpdatePayload
 
+        # ADMINS - Update password
+        userUpdatePW(input: UserUpdatePWInput!): UserUpdatePWPayload
+
         # ADMINS - Update device category
         categoryUpdate(input: CategoryUpdateInput!): CategoryUpdatePayload
 
@@ -206,7 +209,6 @@ export default `
         isActive: Boolean
         userType: String
         email: String
-        password: String
         firstName: String
         lastName: String
         address: String
@@ -221,6 +223,14 @@ export default `
         email: String!
     }
     type UserDeletePayload {
+        user: User
+    }
+
+    input UserUpdatePWInput {
+        id: ID!
+        password: String!
+    }
+    type UserUpdatePWPayload {
         user: User
     }
 
