@@ -115,6 +115,7 @@ class Home extends React.Component {
 
   async componentDidMount() {
     let temp = await this.state.client.query({ query: CURRENTUSER });
+    console.log(temp);
     let temp_user;
     let temp_loans = [];
     if (temp.data.currentUser) {
@@ -156,15 +157,24 @@ class Home extends React.Component {
   };
 
   handleClose = async () => {
+    console.log(this.state.password);
     this.state.client
       .mutate({
         variables: {
-          firstName: this.state.data_user.firstName,
-          lastName: this.state.data_user.lastName,
-          address: this.state.data_user.address,
-          phone: this.state.data_user.phone,
-          password: this.state.password,
-          old_password: this.state.old_password,
+          firstName: this.state.data_user.firstName
+            ? this.state.data_user.firstName
+            : null,
+          lastName: this.state.data_user.lastName
+            ? this.state.data_user.lastName
+            : null,
+          address: this.state.data_user.address
+            ? this.state.data_user.address
+            : null,
+          phone: this.state.data_user.phone ? this.state.data_user.phone : null,
+          password: this.state.password ? this.state.password : null,
+          old_password: this.state.old_password
+            ? this.state.old_password
+            : null,
         },
         mutation: CURRENTUSER_UPDATE_MUTATION,
       })

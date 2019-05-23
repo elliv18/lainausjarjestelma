@@ -79,13 +79,19 @@ export default {
     ) => {
       mustBeLoggedIn(currentUser);
 
-      if (!(await bcrypt.compare(oldPassword, currentUser.password))) {
-        logger.log(
-          "warn",
-          "[CURRENTUSER UPDATE] Old password is invalid from user %s",
-          currentUser.id
-        );
-        throw new Error("Password is invalid!");
+      if (oldPassword != null && password != null) {
+        if (!(await bcrypt.compare(oldPassword, currentUser.password))) {
+          logger.log(
+            "warn",
+            "[CURRENTUSER UPDATE] Old password is invalid from user %s",
+            currentUser.id
+          );
+          throw new Error("Password is invalid!");
+        }
+      }
+
+      if (oldPassword == null) {
+        password = null;
       }
 
       const user = await prisma.updateUser({
@@ -95,7 +101,9 @@ export default {
             lastName: lastName,
             address: address,
             phone: phone,
-            password: await bcrypt.hash(password, SALT_ROUNDS)
+            password: password
+              ? await bcrypt.hash(password, SALT_ROUNDS)
+              : currentUser.password
           },
           _.identity
         ),
