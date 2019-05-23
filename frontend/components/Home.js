@@ -111,7 +111,6 @@ class Home extends React.Component {
 
   async componentDidMount() {
     let temp = await this.state.client.query({ query: CURRENTUSER });
-    console.log(temp);
     let temp_user;
     let temp_loans = [];
     if (temp.data.currentUser) {
@@ -211,17 +210,29 @@ class Home extends React.Component {
                 <Grid container spacing={24}>
                   <Grid item xs={6}>
                     <Typography variant="h5" component="h2">
-                      First name: {data_user.firstName} {<br />}
-                      Last name: {data_user.lastName} {<br />}
-                      Address: {data_user.address} {<br />}
-                      Phone: {data_user.phone} {<br />}
+                      First name:{' '}
+                      {data_user.firstName ? data_user.firstName : ''} {<br />}
+                      Last name: {data_user.lastName
+                        ? data_user.lastName
+                        : ''}{' '}
+                      {<br />}
+                      Address: {data_user.address ? data_user.address : ''}{' '}
+                      {<br />}
+                      Phone: {data_user.phone ? data_user.phone : ''} {<br />}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="h5" component="h2">
-                      Email: {data_user.email} {<br />}
-                      Person number: {data_user.personNumber} {<br />}
-                      User type: {data_user.userType} {<br />}
+                      Email: {data_user.email ? data_user.email : ''} {<br />}
+                      Person number:{' '}
+                      {data_user.personNumber
+                        ? data_user.personNumber
+                        : ''}{' '}
+                      {<br />}
+                      User type: {data_user.userType
+                        ? data_user.userType
+                        : ''}{' '}
+                      {<br />}
                     </Typography>
                   </Grid>
                 </Grid>
