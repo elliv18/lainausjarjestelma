@@ -168,7 +168,13 @@ class MiniDrawer extends React.Component {
           <CssBaseline />
           <AppBar position="sticky" className={classes.appBar}>
             <Toolbar>
-              <Typography className={classes.titleTypo}>Loan System</Typography>
+              <Link href="/">
+                <Typography className={classes.titleTypo}>
+                    <Button size="large" className={classes.titleText} title="Home">
+                      Loan System
+                    </Button>
+                </Typography>
+              </Link>
               <Button
                 className={classes.myAccount}
                 color="inherit"
