@@ -68,6 +68,13 @@ const styles = theme => ({
   },
   inputRoot: {
     width: "100%"
+  },
+  toolbarTitle: {
+    display: "flex",
+    alignItems: "center",
+    color: theme.palette.action.active,
+    color: "red",
+    marginLeft: "5%"
   }
 });
 
@@ -254,7 +261,8 @@ class DemoBase extends React.PureComponent {
       ],
       client: props.client,
       data: [],
-      loading: true
+      loading: true,
+      errorMsgAdded: null
     };
     const getStateRows = () => {
       const { rows } = this.state;
@@ -280,16 +288,19 @@ class DemoBase extends React.PureComponent {
     this.commitChanges = ({ added, changed, deleted }) => {
       let { rows, data, client } = this.state;
       if (added) {
-        const startingAddedId =
-          data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [
-          ...data,
-          ...added.map((row, index) => ({
-            id: startingAddedId + index,
-            ...row
-          }))
-        ];
-
+        try {
+          const startingAddedId =
+            data.length > 0 ? data[data.length - 1].id + 1 : 0;
+          data = [
+            ...data,
+            ...added.map((row, index) => ({
+              id: startingAddedId + index,
+              ...row
+            }))
+          ];
+        } catch (e) {
+          console.log("ERROR: ", e);
+        }
         added.map(row => {
           client
             .mutate({
@@ -309,8 +320,10 @@ class DemoBase extends React.PureComponent {
             .then(result => console.log("RESULT ", result))
             .catch(error => {
               console.log(error);
+              this.setState({ errorMsgAdded: "User add failed!" });
             });
         });
+
         this.setState({ data: data });
       }
       if (changed) {
@@ -490,7 +503,9 @@ class DemoBase extends React.PureComponent {
             />
             <Toolbar />
             <ColumnChooser />
-
+            <div className={classes.toolbarTitle}>
+              {this.state.errorMsgAdded}
+            </div>
             <SearchPanel />
           </Grid>
         </Paper>
