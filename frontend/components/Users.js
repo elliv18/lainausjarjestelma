@@ -19,7 +19,9 @@ import {
   DragDropProvider,
   TableColumnReordering,
   SearchPanel,
-  Toolbar
+  Toolbar,
+  ColumnChooser,
+  TableColumnVisibility
 } from "@devexpress/dx-react-grid-material-ui";
 import Paper from "@material-ui/core/Paper";
 import Chip from "@material-ui/core/Chip";
@@ -234,6 +236,7 @@ class DemoBase extends React.PureComponent {
       sorting: [],
       editingRowIds: [],
       addedRows: [],
+      defaultHiddenColumnNames: [],
       rowChanges: {},
       pageSize: 0,
       booleanColumns: ["isActive"],
@@ -278,7 +281,7 @@ class DemoBase extends React.PureComponent {
       let { rows, data, client } = this.state;
       if (added) {
         const startingAddedId =
-          data.length > 0 ? data[rows.length - 1].id + 1 : 0;
+          data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [
           ...data,
           ...added.map((row, index) => ({
@@ -408,7 +411,8 @@ class DemoBase extends React.PureComponent {
       columnOrder,
       booleanColumns,
       editingColumns,
-      loading
+      loading,
+      defaultHiddenColumnNames
     } = this.state;
 
     if (loading) {
@@ -481,7 +485,11 @@ class DemoBase extends React.PureComponent {
                 return result;
               }}
             />
+            <TableColumnVisibility
+              defaultHiddenColumnNames={defaultHiddenColumnNames}
+            />
             <Toolbar />
+            <ColumnChooser />
 
             <SearchPanel />
           </Grid>

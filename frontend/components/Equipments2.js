@@ -19,7 +19,9 @@ import {
   DragDropProvider,
   TableColumnReordering,
   SearchPanel,
-  Toolbar
+  Toolbar,
+  ColumnChooser,
+  TableColumnVisibility
 } from "@devexpress/dx-react-grid-material-ui";
 import Paper from "@material-ui/core/Paper";
 import Chip from "@material-ui/core/Chip";
@@ -219,6 +221,8 @@ class DemoBase extends React.PureComponent {
       currentPage: 0,
       pageSize: 0,
       booleanColumns: ["loanStatus"],
+      defaultHiddenColumnNames: [],
+
       columnOrder: [
         "idCode",
         "deviceType",
@@ -337,7 +341,8 @@ class DemoBase extends React.PureComponent {
       columnOrder,
       booleanColumns,
       editingColumns,
-      loading
+      loading,
+      defaultHiddenColumnNames
     } = this.state;
 
     if (loading) {
@@ -412,7 +417,11 @@ class DemoBase extends React.PureComponent {
                 return result;
               }}
             />
+            <TableColumnVisibility
+              defaultHiddenColumnNames={defaultHiddenColumnNames}
+            />
             <Toolbar />
+            <ColumnChooser />
 
             <SearchPanel />
           </Grid>

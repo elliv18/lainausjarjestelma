@@ -1,38 +1,27 @@
-import React from "react";
-import {
-  Paper,
-  Grid,
-  TextField,
-  Button,
-  FormControlLabel,
-  Checkbox
-} from "@material-ui/core";
-import {
-  withStyles,
-  MuiThemeProvider,
-  createMuiTheme
-} from "@material-ui/core/styles";
+import React from 'react';
+import { Paper } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { WaveSpinner } from 'react-spinners-kit';
 
 const styles = theme => ({
   root: {
     padding: theme.spacing.unit,
-    width: "30%",
-    minWidth: "230px",
-    position: "fixed",
-    left: "35%",
-    top: "30%",
-    margin: "auto",
-    textAlign: "center"
-  }
+    margin: 'auto',
+    position: 'absolute',
+    left: '43%',
+    top: '44%',
+    width: '100%',
+    textAlign: 'center',
+  },
 });
 class Loading extends React.Component {
   render() {
     const { classes } = this.props;
 
     return (
-      <Paper className={classes.root} elevation={7}>
-        <h3>LOADING...</h3>
-      </Paper>
+      <div className={classes.root} elevation={7}>
+        <WaveSpinner size={70} color="#004655" loading={true} />
+      </div>
     );
   }
 }
