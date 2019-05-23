@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "react-app",
+    "prettier/react",
+    "prettier",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["prettier", "react"],
+  "rules": {
+    "react/jsx-uses-react": "error",
+    "prettier/prettier": "error"
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  }
+}
