@@ -1,79 +1,79 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import {
   SearchState,
   SortingState,
   IntegratedFiltering,
-  IntegratedSorting
-} from "@devexpress/dx-react-grid";
+  IntegratedSorting,
+} from '@devexpress/dx-react-grid';
 import {
   Grid as GridTable,
   VirtualTable,
   Toolbar,
   SearchPanel,
-  TableHeaderRow
-} from "@devexpress/dx-react-grid-material-ui";
-import { withApollo } from "react-apollo";
-import { CURRENTUSER } from "../lib/gql/queries";
-import { CURRENTUSER_UPDATE_MUTATION } from "../lib/gql/mutation";
+  TableHeaderRow,
+} from '@devexpress/dx-react-grid-material-ui';
+import { withApollo } from 'react-apollo';
+import { CURRENTUSER } from '../lib/gql/queries';
+import { CURRENTUSER_UPDATE_MUTATION } from '../lib/gql/mutation';
 
-import Moment from "react-moment";
-import "moment-timezone";
+import Moment from 'react-moment';
+import 'moment-timezone';
 
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Loading from "./Loading";
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Loading from './Loading';
 
 const styles = {
   root: {
-    width: "90%",
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginTop: "20px",
-    textAlign: "center",
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '20px',
+    textAlign: 'center',
     paddingTop: 10,
-    paddingBottom: 40
+    paddingBottom: 40,
   },
   paper: {
     height: 300,
-    width: "100%",
-    backgroundColor: "lightGrey",
+    width: '100%',
+    backgroundColor: 'lightGrey',
     padding: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginBottom: "10px",
-    marginTop: "10px"
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '10px',
+    marginTop: '10px',
   },
   paperTable: {
-    width: "90%",
-    marginLeft: "auto",
-    marginRight: "auto"
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   card: {
-    textAlign: "left"
+    textAlign: 'left',
   },
   input: {
-    display: "none"
+    display: 'none',
   },
   actions: {
-    justify: "right"
+    justify: 'right',
   },
   message: {
-    textAlign: "center",
-    color: "red"
-  }
+    textAlign: 'center',
+    color: 'red',
+  },
 };
 
 /******************************** CLASS ******************************/
@@ -83,41 +83,40 @@ class Home extends React.Component {
 
     this.state = {
       columns: [
-        { name: "deviceType", title: "Device type" },
-        { name: "idCode", title: "ID code" },
-        { name: "manufacture", title: "Manufacture" },
-        { name: "model", title: "Model" },
-        { name: "loanDate", title: "Loan date" },
-        { name: "returnDate", title: "return date" },
-        { name: "dueDate", title: "Due date" }
+        { name: 'deviceType', title: 'Device type' },
+        { name: 'idCode', title: 'ID code' },
+        { name: 'manufacture', title: 'Manufacture' },
+        { name: 'model', title: 'Model' },
+        { name: 'loanDate', title: 'Loan date' },
+        { name: 'returnDate', title: 'return date' },
+        { name: 'dueDate', title: 'Due date' },
       ],
 
       client: props.client,
       data_user: {
-        userType: "",
-        email: "",
-        firstName: "",
-        lastName: "",
-        address: "",
-        phone: "",
-        personNumber: ""
+        userType: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        address: '',
+        phone: '',
+        personNumber: '',
       },
       data_loans: [],
       open: false,
       client: props.client,
 
-      old_password: "",
-      password: "",
-      alertMsg: "",
-      alertMsgMain: "",
-      loading: true
+      old_password: '',
+      password: '',
+      alertMsg: '',
+      alertMsgMain: '',
+      loading: true,
     };
     this.changeSorting = sorting => this.setState({ sorting });
   }
 
   async componentDidMount() {
     let temp = await this.state.client.query({ query: CURRENTUSER });
-    console.log(temp);
     let temp_user;
     let temp_loans = [];
     if (temp.data.currentUser) {
@@ -128,10 +127,10 @@ class Home extends React.Component {
         lastName: temp.data.currentUser.lastName,
         address: temp.data.currentUser.address,
         personNumber: temp.data.currentUser.personNumber,
-        phone: temp.data.currentUser.phone
+        phone: temp.data.currentUser.phone,
       };
       temp.data.currentUser.loans.map((obj, i) => {
-        if (obj.isActive === "true") {
+        if (obj.isActive === 'true') {
           temp_loans[i] = {
             id: obj.id,
             loanDate:
@@ -145,7 +144,7 @@ class Home extends React.Component {
             idCode: obj.deviceId.idCode,
             manufacture: obj.device.manufacture,
             model: obj.deviceId.model,
-            deviceType: obj.device.category.deviceType
+            deviceType: obj.device.category.deviceType,
           };
         }
       });
@@ -153,7 +152,7 @@ class Home extends React.Component {
     this.setState({
       data_user: temp_user,
       data_loans: temp_loans,
-      loading: false
+      loading: false,
     });
   }
 
@@ -162,7 +161,6 @@ class Home extends React.Component {
   };
 
   handleClose = async () => {
-    console.log(this.state.password);
     this.state.client
       .mutate({
         variables: {
@@ -177,12 +175,14 @@ class Home extends React.Component {
             : null,
           phone: this.state.data_user.phone ? this.state.data_user.phone : null,
           password: this.state.password ? this.state.password : null,
-          old_password: this.state.old_password ? this.state.old_password : null
+          old_password: this.state.old_password
+            ? this.state.old_password
+            : null,
         },
-        mutation: CURRENTUSER_UPDATE_MUTATION
+        mutation: CURRENTUSER_UPDATE_MUTATION,
       })
       .catch(error => {
-        this.setState({ alertMsgMain: "Personal information update failed!" });
+        this.setState({ alertMsgMain: 'Personal information update failed!' });
         console.log(error);
       });
 
@@ -194,8 +194,8 @@ class Home extends React.Component {
     this.setState(state => ({
       data_user: {
         ...state.data_user,
-        firstName: value
-      }
+        firstName: value,
+      },
     }));
   };
 
@@ -204,8 +204,8 @@ class Home extends React.Component {
     this.setState(state => ({
       data_user: {
         ...state.data_user,
-        lastName: value
-      }
+        lastName: value,
+      },
     }));
   };
 
@@ -214,8 +214,8 @@ class Home extends React.Component {
     this.setState(state => ({
       data_user: {
         ...state.data_user,
-        address: value
-      }
+        address: value,
+      },
     }));
   };
 
@@ -224,8 +224,8 @@ class Home extends React.Component {
     this.setState(state => ({
       data_user: {
         ...state.data_user,
-        phone: value
-      }
+        phone: value,
+      },
     }));
   };
 
@@ -239,9 +239,9 @@ class Home extends React.Component {
 
   setNewPWCheck = e => {
     if (this.state.password !== e.target.value) {
-      this.setState({ alertMsg: "Password dont match!" });
+      this.setState({ alertMsg: 'Password dont match!' });
     } else {
-      this.setState({ alertMsg: "" });
+      this.setState({ alertMsg: '' });
     }
   };
 
