@@ -1,19 +1,19 @@
-
-
 # BACKEND
 
 ## TODO
 
+- ADMIN:lle users salasanan vaihto
+- Loans taulu lainan status returndaten mukaan
 - missing queries/mutations?
 - testing
 - cleanup
-    - dockerfiles
+  - dockerfiles
 - remote server?
-    - configs
+  - configs
 - env
-    - docker-compose
-        - dev
-        - prod
+  - docker-compose
+    - dev
+    - prod
 - remove hardcode
 - api readme
 - jwt secret and other secrets better ones
@@ -36,10 +36,8 @@ Site header must...
 
 Bearer <token>
 
-
 ## address
 
 api: localhost:3050
 
-db admin: localhost:3060/_admin
-
+db admin: localhost:3060/\_admin
