@@ -72,6 +72,31 @@ export default {
   },
   /************ MUTATIONS **************************/
   Mutation: {
+    currentUserUpdate: async (
+      obj,
+      { input: { firstName, lastName, address, phone, password } },
+      { currentUser }
+    ) => {
+      mustBeLoggedIn(currentUser);
+
+      const user = await prisma.updateUser({
+        data: _.pickBy(
+          {
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            phone: phone,
+            password: password
+          },
+          _.identity
+        ),
+        where: {
+          id: currentUser.id
+        }
+      });
+
+      return { user };
+    },
     login: async (obj, { input: { email, password } }) => {
       const user = await prisma.user({ email: email });
 

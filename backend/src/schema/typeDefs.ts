@@ -104,6 +104,11 @@ export default `
     #############
 
     type Mutation {
+        ############# CURRENTUSER #################
+
+        # CURRENTUSER - Update personal information
+        currentUserUpdate(input: currentUserUpdateInput): currentUserUpdatePayload
+
         ############# LOGIN #################
 
         # ALL - login
@@ -176,6 +181,19 @@ export default `
     ##############################
     # Mutation inputs & payloads #
     ##############################
+
+    ############### CURRENTUSER ####################
+
+    input currentUserUpdateInput {
+        firstName: String
+        lastName: String
+        address: String
+        phone: String
+        password: String
+    }
+    type currentUserUpdatePayload {
+        user: User
+    }
 
     ################# LOGIN ########################
 
