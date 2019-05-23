@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const LOGIN_MUTATION = gql`
   mutation loginMutation($email: String!, $password: String!) {
@@ -107,6 +107,32 @@ export const EQUIPMENT_ADD_MUTATION = gql`
       }
     ) {
       device {
+        id
+      }
+    }
+  }
+`;
+
+export const CURRENTUSER_UPDATE_MUTATION = gql`
+  mutation updateMutation(
+    $firstName: String
+    $lastName: String
+    $address: String
+    $phone: String
+    $password: String
+    $oldPassword: String
+  ) {
+    currentUserUpdate(
+      input: {
+        firstName: $firstName
+        lastName: $lastName
+        address: $address
+        phone: $phone
+        password: $password
+        oldPassword: $oldPassword
+      }
+    ) {
+      user {
         id
       }
     }

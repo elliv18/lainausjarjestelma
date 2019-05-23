@@ -23,6 +23,7 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 import { withApollo } from 'react-apollo';
 import { CURRENTUSER } from '../lib/gql/queries';
+import { CURRENTUSER_UPDATE_MUTATION } from '../lib/gql/mutation';
 
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -70,7 +71,6 @@ const styles = {
   },
   message: {
     textAlign: 'center',
-    padding: '10px',
     color: 'red',
   },
 };
@@ -92,17 +92,23 @@ class Home extends React.Component {
       ],
 
       client: props.client,
-      data_user: {},
+      data_user: {
+        userType: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        address: '',
+        phone: '',
+        personNumber: '',
+      },
       data_loans: [],
       open: false,
+      client: props.client,
 
-      firstName: '',
-      lastName: '',
-      address: '',
-      phone: '',
       old_password: '',
       password: '',
       alertMsg: '',
+      alertMsgMain: '',
     };
     this.changeSorting = sorting => this.setState({ sorting });
   }
@@ -149,25 +155,65 @@ class Home extends React.Component {
     this.setState({ open: true });
   };
 
-  handleClose = () => {
-    console.log(this.state.firstName);
+  handleClose = async () => {
+    this.state.client
+      .mutate({
+        variables: {
+          firstName: this.state.data_user.firstName,
+          lastName: this.state.data_user.lastName,
+          address: this.state.data_user.address,
+          phone: this.state.data_user.phone,
+          password: this.state.password,
+          old_password: this.state.old_password,
+        },
+        mutation: CURRENTUSER_UPDATE_MUTATION,
+      })
+      .catch(error => {
+        this.setState({ alertMsgMain: 'Personal information update failed!' });
+        console.log(error);
+      });
+
     this.setState({ open: false });
   };
 
   setFirstName = e => {
-    this.setState({ firstName: e.target.value });
+    const value = e.target.value;
+    this.setState(state => ({
+      data_user: {
+        ...state.data_user,
+        firstName: value,
+      },
+    }));
   };
 
   setLastName = e => {
-    this.setState({ lastName: e.target.value });
+    const value = e.target.value;
+    this.setState(state => ({
+      data_user: {
+        ...state.data_user,
+        lastName: value,
+      },
+    }));
   };
 
   setAddress = e => {
-    this.setState({ address: e.target.value });
+    const value = e.target.value;
+    this.setState(state => ({
+      data_user: {
+        ...state.data_user,
+        address: value,
+      },
+    }));
   };
 
   setPhone = e => {
-    this.setState({ phone: e.target.value });
+    const value = e.target.value;
+    this.setState(state => ({
+      data_user: {
+        ...state.data_user,
+        phone: value,
+      },
+    }));
   };
 
   setOldPW = e => {
@@ -191,6 +237,7 @@ class Home extends React.Component {
     const { data_user, data_loans, rows, columns, sorting } = this.state;
     return (
       <Paper className={classes.root}>
+        <div className={classes.message}>{this.state.alertMsgMain}</div>
         <h1>Summary</h1>
         <Grid
           container
@@ -208,29 +255,17 @@ class Home extends React.Component {
                 <Grid container spacing={24}>
                   <Grid item xs={6}>
                     <Typography variant="h5" component="h2">
-                      First name:{' '}
-                      {data_user.firstName ? data_user.firstName : ''} {<br />}
-                      Last name: {data_user.lastName
-                        ? data_user.lastName
-                        : ''}{' '}
-                      {<br />}
-                      Address: {data_user.address ? data_user.address : ''}{' '}
-                      {<br />}
-                      Phone: {data_user.phone ? data_user.phone : ''} {<br />}
+                      First name: {data_user.firstName} {<br />}
+                      Last name: {data_user.lastName} {<br />}
+                      Address: {data_user.address} {<br />}
+                      Phone: {data_user.phone} {<br />}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="h5" component="h2">
-                      Email: {data_user.email ? data_user.email : ''} {<br />}
-                      Person number:{' '}
-                      {data_user.personNumber
-                        ? data_user.personNumber
-                        : ''}{' '}
-                      {<br />}
-                      User type: {data_user.userType
-                        ? data_user.userType
-                        : ''}{' '}
-                      {<br />}
+                      Email: {data_user.email} {<br />}
+                      Person number: {data_user.personNumber} {<br />}
+                      User type: {data_user.userType} {<br />}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -336,10 +371,7 @@ class Home extends React.Component {
                       </DialogContent>
                       <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
-                          Cancel
-                        </Button>
-                        <Button onClick={this.handleClose} color="primary">
-                          Change
+                          Save
                         </Button>
                       </DialogActions>
                     </Dialog>

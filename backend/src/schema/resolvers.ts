@@ -74,10 +74,19 @@ export default {
   Mutation: {
     currentUserUpdate: async (
       obj,
-      { input: { firstName, lastName, address, phone, password } },
+      { input: { firstName, lastName, address, phone, password, oldPassword } },
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
+
+      if (!(await bcrypt.compare(oldPassword, currentUser.password))) {
+        logger.log(
+          "warn",
+          "[CURRENTUSER UPDATE] Old password is invalid from user %s",
+          currentUser.id
+        );
+        throw new Error("Password is invalid!");
+      }
 
       const user = await prisma.updateUser({
         data: _.pickBy(
@@ -86,7 +95,7 @@ export default {
             lastName: lastName,
             address: address,
             phone: phone,
-            password: password
+            password: await bcrypt.hash(password, SALT_ROUNDS)
           },
           _.identity
         ),

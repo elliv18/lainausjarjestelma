@@ -2,9 +2,7 @@
 
 ## TODO
 
-- ADMIN:lle users salasanan vaihto
 - Loans taulu lainan status returndaten mukaan
-- missing queries/mutations?
 - testing
 - cleanup
   - dockerfiles
@@ -14,9 +12,9 @@
   - docker-compose
     - dev
     - prod
-- remove hardcode
 - api readme
 - jwt secret and other secrets better ones
+- jwt time?
 - fix package.json | remove prisma force...
 
 ## Teknologies

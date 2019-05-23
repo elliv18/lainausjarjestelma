@@ -190,6 +190,7 @@ export default `
         address: String
         phone: String
         password: String
+        oldPassword: String
     }
     type currentUserUpdatePayload {
         user: User
