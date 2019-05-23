@@ -170,9 +170,13 @@ class MiniDrawer extends React.Component {
             <Toolbar>
               <Link href="/">
                 <Typography className={classes.titleTypo}>
-                    <Button size="large" className={classes.titleText} title="Home">
-                      Loan System
-                    </Button>
+                  <Button
+                    size="large"
+                    className={classes.titleText}
+                    title="Home"
+                  >
+                    Loan System
+                  </Button>
                 </Typography>
               </Link>
               <Button
@@ -248,16 +252,6 @@ class MiniDrawer extends React.Component {
                   </ListItem>
                 </Link>
               </List>
-              <List title="Users">
-                <Link href="/users">
-                  <ListItem button key="Users">
-                    <ListItemIcon className={classes.menuIcon}>
-                      <GroupIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Users" />
-                  </ListItem>
-                </Link>
-              </List>
               <List title="Loans">
                 <Link href="/loans">
                   <ListItem button key="Loans">
@@ -265,6 +259,16 @@ class MiniDrawer extends React.Component {
                       <LoansIcon />
                     </ListItemIcon>
                     <ListItemText primary="Loans" />
+                  </ListItem>
+                </Link>
+              </List>
+              <List title="Users">
+                <Link href="/users">
+                  <ListItem button key="Users">
+                    <ListItemIcon className={classes.menuIcon}>
+                      <GroupIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Users" />
                   </ListItem>
                 </Link>
               </List>

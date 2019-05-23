@@ -251,27 +251,16 @@ class Loans extends React.PureComponent {
         { columnName: 'deviceType', editingEnabled: true },
         { columnName: 'manufacture', editingEnabled: true },
         { columnName: 'model', editingEnabled: true },
-        { columnName: 'loaner', editingEnabled: false },
+        { columnName: 'loaner', editingEnabled: true },
         { columnName: 'loanDate', editingEnabled: true },
         { columnName: 'returnDate', editingEnabled: true },
         { columnName: 'dueDate', editingEnabled: true },
         { columnName: 'isActive', editingEnabled: false },
       ],
       sorting: [],
-      editingRowIds: [
-        'idCode',
-        'deviceType',
-        'manufacture',
-        'model',
-        'loanDate',
-        'returnDate',
-        'dueDate',
-        'isActive',
-      ],
+      editingRowIds: [],
       addedRows: [],
       rowChanges: {},
-      currentPage: 0,
-      pageSize: 0,
       booleanColumns: ['isActive'],
       columnOrder: [
         'idCode',
@@ -297,24 +286,9 @@ class Loans extends React.PureComponent {
       this.setState({ editingRowIds });
     this.changeAddedRows = addedRows =>
       this.setState({
-        addedRows: addedRows.map(row =>
-          Object.keys(row).length
-            ? row
-            : {
-                loanDate: '',
-                returnDate: '',
-                dueDate: '',
-                isActive: '',
-                idCode: '',
-                manufacture: '',
-                model: '',
-                deviceType: '',
-                loaner: '',
-              }
-        ),
+        addedRows: addedRows.map(row => (Object.keys(row).length ? row : {})),
       });
     this.changeRowChanges = rowChanges => this.setState({ rowChanges });
-    this.changeCurrentPage = currentPage => this.setState({ currentPage });
     this.changePageSize = pageSize => this.setState({ pageSize });
     this.commitChanges = ({ added, changed, deleted }) => {
       let { rows } = this.state;
@@ -402,7 +376,6 @@ class Loans extends React.PureComponent {
       editingRowIds,
       addedRows,
       rowChanges,
-      currentPage,
       pageSize,
       columnOrder,
       booleanColumns,
@@ -418,8 +391,6 @@ class Loans extends React.PureComponent {
             onSortingChange={this.changeSorting}
           />
           <PagingState
-            currentPage={currentPage}
-            onCurrentPageChange={this.changeCurrentPage}
             pageSize={pageSize}
             onPageSizeChange={this.changePageSize}
           />
