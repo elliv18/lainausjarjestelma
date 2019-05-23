@@ -278,7 +278,7 @@ class DemoBase extends React.PureComponent {
       let { rows, data, client } = this.state;
       if (added) {
         const startingAddedId =
-          data.length > 0 ? data[rows.length - 1].id + 1 : 0;
+          data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [
           ...data,
           ...added.map((row, index) => ({
