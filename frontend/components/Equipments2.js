@@ -1,67 +1,71 @@
-import React from 'react';
+import React from "react";
+import { Getter } from "@devexpress/dx-react-core";
 import {
-    Getter,
-  } from '@devexpress/dx-react-core';
-import {
-  SortingState, EditingState, PagingState, 
-  IntegratedPaging, IntegratedSorting, 
-  SearchState, IntegratedFiltering,
-  DataTypeProvider,
-} from '@devexpress/dx-react-grid';
+  SortingState,
+  EditingState,
+  PagingState,
+  IntegratedPaging,
+  IntegratedSorting,
+  SearchState,
+  IntegratedFiltering,
+  DataTypeProvider
+} from "@devexpress/dx-react-grid";
 import {
   Grid,
-  VirtualTable, TableHeaderRow, TableEditRow, TableEditColumn,
-  DragDropProvider, TableColumnReordering, SearchPanel,
-  Toolbar,
-} from '@devexpress/dx-react-grid-material-ui';
-import Paper from '@material-ui/core/Paper';
-import Chip from '@material-ui/core/Chip';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import TableCell from '@material-ui/core/TableCell';
+  VirtualTable,
+  TableHeaderRow,
+  TableEditRow,
+  TableEditColumn,
+  DragDropProvider,
+  TableColumnReordering,
+  SearchPanel,
+  Toolbar
+} from "@devexpress/dx-react-grid-material-ui";
+import Paper from "@material-ui/core/Paper";
+import Chip from "@material-ui/core/Chip";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import Input from "@material-ui/core/Input";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import TableCell from "@material-ui/core/TableCell";
 
-import CheckIcon from '@material-ui/icons/Check'
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import SaveIcon from '@material-ui/icons/Save';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { withStyles } from '@material-ui/core/styles';
+import CheckIcon from "@material-ui/icons/Check";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import SaveIcon from "@material-ui/icons/Save";
+import CancelIcon from "@material-ui/icons/Cancel";
+import { withStyles } from "@material-ui/core/styles";
 
-import { withApollo } from 'react-apollo'
-import { EQUIPMENTS_QUERY } from '../lib/gql/queries'
-import { EQUIPMENT_ADD_MUTATION } from '../lib/gql/mutation';
+import { withApollo } from "react-apollo";
+import { EQUIPMENTS_QUERY } from "../lib/gql/queries";
+import { EQUIPMENT_ADD_MUTATION } from "../lib/gql/mutation";
+import Loading from "./Loading";
 
 const styles = theme => ({
   lookupEditCell: {
     paddingTop: theme.spacing.unit * 0.875,
     paddingRight: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit
   },
   root: {
-    width: '90%',
+    width: "90%",
     marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    overflowX: "auto",
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   dialog: {
-    width: 'calc(100% - 16px)',
+    width: "calc(100% - 16px)"
   },
   inputRoot: {
-    width: '100%',
-  },
+    width: "100%"
+  }
 });
 
 const AddButton = ({ onExecute }) => (
-  <div style={{ textAlign: 'center' }}>
-    <Button
-      color="primary"
-      onClick={onExecute}
-      title="Create new row"
-    >
+  <div style={{ textAlign: "center" }}>
+    <Button color="primary" onClick={onExecute} title="Create new row">
       New
     </Button>
   </div>
@@ -77,7 +81,7 @@ const DeleteButton = ({ onExecute }) => (
   <IconButton
     onClick={() => {
       // eslint-disable-next-line
-      if (window.confirm('Are you sure you want to delete this row?')) {
+      if (window.confirm("Are you sure you want to delete this row?")) {
         onExecute();
       }
     }}
@@ -104,16 +108,12 @@ const commandComponents = {
   edit: EditButton,
   delete: DeleteButton,
   commit: CommitButton,
-  cancel: CancelButton,
+  cancel: CancelButton
 };
 
 const Command = ({ id, onExecute }) => {
   const CommandButton = commandComponents[id];
-  return (
-    <CommandButton
-      onExecute={onExecute}
-    />
-  );
+  return <CommandButton onExecute={onExecute} />;
 };
 
 const availableValues = {
@@ -123,19 +123,16 @@ const availableValues = {
 };
 
 const LookupEditCellBase = ({
-  availableColumnValues, value, onValueChange, classes,
+  availableColumnValues,
+  value,
+  onValueChange,
+  classes
 }) => (
-  <TableCell
-    className={classes.lookupEditCell}
-  >
+  <TableCell className={classes.lookupEditCell}>
     <Select
       value={value}
       onChange={event => onValueChange(event.target.value)}
-      input={(
-        <Input
-          classes={{ root: classes.inputRoot }}
-        />
-)}
+      input={<Input classes={{ root: classes.inputRoot }} />}
     >
       {availableColumnValues.map(item => (
         <MenuItem key={item} value={item}>
@@ -145,38 +142,46 @@ const LookupEditCellBase = ({
     </Select>
   </TableCell>
 );
-export const LookupEditCell = withStyles(styles, { name: 'ControlledModeDemo' })(LookupEditCellBase);
+export const LookupEditCell = withStyles(styles, {
+  name: "ControlledModeDemo"
+})(LookupEditCellBase);
 
-
-const EditCell = (props) => {
+const EditCell = props => {
   const { column } = props;
   const availableColumnValues = availableValues[column.name];
   if (availableColumnValues) {
-    return <LookupEditCell {...props} availableColumnValues={availableColumnValues} />;
+    return (
+      <LookupEditCell
+        {...props}
+        availableColumnValues={availableColumnValues}
+      />
+    );
   }
   return <TableEditRow.Cell {...props} />;
 };
 
-
 const BooleanTypeProvider = props => (
-    <DataTypeProvider
-      formatterComponent={BooleanFormatter}
-      {...props}
-    />
-  );
+  <DataTypeProvider formatterComponent={BooleanFormatter} {...props} />
+);
 
-const BooleanFormatter = ({ value }) => 
-  <Chip color={value? 'primary' : 'secondary'} 
-        label={value ? 'Loaned' : 'Available'} 
-        icon={value ? <CancelIcon /> : <CheckIcon />}
-        style={value? {backgroundColor:'rgba(204,0,0,0.85)', 
-                        width: '115px', 
-                        justifyContent: 'left'}
-        :{backgroundColor: 'rgba(0,128,0,0.75)'}}
-        />;
+const BooleanFormatter = ({ value }) => (
+  <Chip
+    color={value ? "primary" : "secondary"}
+    label={value ? "Loaned" : "Available"}
+    icon={value ? <CancelIcon /> : <CheckIcon />}
+    style={
+      value
+        ? {
+            backgroundColor: "rgba(204,0,0,0.85)",
+            width: "115px",
+            justifyContent: "left"
+          }
+        : { backgroundColor: "rgba(0,128,0,0.75)" }
+    }
+  />
+);
 
 const getRowId = row => row.id;
-
 
 /******************************** CLASS ***************************************/
 class DemoBase extends React.PureComponent {
@@ -185,38 +190,46 @@ class DemoBase extends React.PureComponent {
 
     this.state = {
       columns: [
-        { name: 'idCode', title: 'Serial number'},
-        { name: 'deviceType', title: 'Category' },
-        { name: 'manufacture', title: 'Manufacture' },
-        { name: 'model', title: 'Model' },
-        { name: 'info', title: 'Info', },
-        { name: 'loanStatus', title: 'Loan' },
+        { name: "idCode", title: "Serial number" },
+        { name: "deviceType", title: "Category" },
+        { name: "manufacture", title: "Manufacture" },
+        { name: "model", title: "Model" },
+        { name: "info", title: "Info" },
+        { name: "loanStatus", title: "Loan" }
       ],
       tableColumnExtensions: [
-        { columnName: 'idCode', wordWrapEnabled: true},
-        { columnName: 'deviceType', wordWrapEnabled: true},
-        { columnName: 'manufacture', wordWrapEnabled: true},
-        { columnName: 'model', wordWrapEnabled: true},
-        { columnName: 'info', wordWrapEnabled: true},
-        { columnName: 'loanStatus', wordWrapEnabled: true},
+        { columnName: "idCode", wordWrapEnabled: true },
+        { columnName: "deviceType", wordWrapEnabled: true },
+        { columnName: "manufacture", wordWrapEnabled: true },
+        { columnName: "model", wordWrapEnabled: true },
+        { columnName: "info", wordWrapEnabled: true },
+        { columnName: "loanStatus", wordWrapEnabled: true }
       ],
-      editingColumns:[
-        { columnName: 'idCode', editingEnabled: true },
-        { columnName: 'deviceType', editingEnabled: true },
-        { columnName: 'manufacture', editingEnabled: true },
-        { columnName: 'model', editingEnabled: true },
-        { columnName: 'info', editingEnabled: true },
+      editingColumns: [
+        { columnName: "idCode", editingEnabled: true },
+        { columnName: "deviceType", editingEnabled: true },
+        { columnName: "manufacture", editingEnabled: true },
+        { columnName: "model", editingEnabled: true },
+        { columnName: "info", editingEnabled: true }
       ],
       sorting: [],
-      editingRowIds: ['idCode', 'deviceType', 'manufacture', 'model', 'info'],
+      editingRowIds: ["idCode", "deviceType", "manufacture", "model", "info"],
       addedRows: [],
       rowChanges: {},
       currentPage: 0,
       pageSize: 0,
-      booleanColumns: ['loanStatus'],
-      columnOrder: ['idCode', 'deviceType', 'manufacture', 'model', 'info', 'loanStatus'],
+      booleanColumns: ["loanStatus"],
+      columnOrder: [
+        "idCode",
+        "deviceType",
+        "manufacture",
+        "model",
+        "info",
+        "loanStatus"
+      ],
       client: props.client,
-      data: []
+      data: [],
+      loading: true
     };
     const getStateRows = () => {
       const { rows } = this.state;
@@ -224,49 +237,58 @@ class DemoBase extends React.PureComponent {
     };
 
     this.changeSorting = sorting => this.setState({ sorting });
-    this.changeEditingRowIds = editingRowIds => this.setState({ editingRowIds });
-    this.changeAddedRows = addedRows => this.setState({
-      addedRows: addedRows.map(row => (Object.keys(row).length ? row : {
-        deviceCategory: '',
-        manufacture: '',
-        model: '',
-        info: '',
-
-      })),
-    });
+    this.changeEditingRowIds = editingRowIds =>
+      this.setState({ editingRowIds });
+    this.changeAddedRows = addedRows =>
+      this.setState({
+        addedRows: addedRows.map(row =>
+          Object.keys(row).length
+            ? row
+            : {
+                deviceCategory: "",
+                manufacture: "",
+                model: "",
+                info: ""
+              }
+        )
+      });
     this.changeRowChanges = rowChanges => this.setState({ rowChanges });
     this.commitChanges = ({ added, changed, deleted }) => {
       let { rows, data, client } = this.state;
       if (added) {
-        const startingAddedId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
+        const startingAddedId =
+          rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
         rows = [
           ...rows,
           ...added.map((row, index) => ({
             id: startingAddedId + index,
-            ...row,
-          })),
+            ...row
+          }))
         ];
 
         added.map(row => {
-          client.mutate({
-            variables: {},  // kesken
-            mutation: EQUIPMENT_ADD_MUTATION
-          })
-          .catch(error => console.log(error))
-        })
-        this.setState({ data: data })
+          client
+            .mutate({
+              variables: {}, // kesken
+              mutation: EQUIPMENT_ADD_MUTATION
+            })
+            .catch(error => console.log(error));
+        });
+        this.setState({ data: data });
       }
       if (changed) {
-        rows = rows.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
+        rows = rows.map(row =>
+          changed[row.id] ? { ...row, ...changed[row.id] } : row
+        );
       }
       if (deleted) {
         rows = this.deleteRows(deleted);
       }
       this.setState({ rows });
     };
-    this.deleteRows = (deletedIds) => {
+    this.deleteRows = deletedIds => {
       const rows = getStateRows().slice();
-      deletedIds.forEach((rowId) => {
+      deletedIds.forEach(rowId => {
         const index = rows.findIndex(row => row.id === rowId);
         if (index > -1) {
           rows.splice(index, 1);
@@ -274,33 +296,34 @@ class DemoBase extends React.PureComponent {
       });
       return rows;
     };
-    this.changeColumnOrder = (order) => {
+    this.changeColumnOrder = order => {
       this.setState({ columnOrder: order });
     };
   }
 
   async componentDidMount() {
-    let temp = await this.state.client.query({ query: EQUIPMENTS_QUERY })
+    let temp = await this.state.client.query({ query: EQUIPMENTS_QUERY });
 
-    let temp2 = []
+    let temp2 = [];
     if (temp.data.allDevices) {
-      temp.data.allDevices.map((obj,i) => (
-        temp2[i] = {
-          id: obj.id,
-          idCode: obj.idCode,
-          info: obj.info,
-          loanStatus: obj.loanStatus,
-          manufacture: obj.manufacture,
-          model: obj.model,
-          deviceType: obj.category.deviceType
-        }
-      ))
+      temp.data.allDevices.map(
+        (obj, i) =>
+          (temp2[i] = {
+            id: obj.id,
+            idCode: obj.idCode,
+            info: obj.info,
+            loanStatus: obj.loanStatus,
+            manufacture: obj.manufacture,
+            model: obj.model,
+            deviceType: obj.category.deviceType
+          })
+      );
     }
-    this.setState({ data: temp2 })
+    this.setState({ data: temp2, loading: false });
   }
 
   render() {
-    const{classes} = this.props
+    const { classes } = this.props;
     const {
       data,
       columns,
@@ -314,88 +337,91 @@ class DemoBase extends React.PureComponent {
       columnOrder,
       booleanColumns,
       editingColumns,
+      loading
     } = this.state;
 
-    return (
-      <Paper className ={classes.root} elevation={5}>
-      <Grid
-        rows={data}
-        columns={columns}
-        getRowId={getRowId}
-      >
-        <SortingState
-          sorting={sorting}
-          onSortingChange={this.changeSorting}
-        />
-        <PagingState
-          currentPage={currentPage}
-          onCurrentPageChange={this.changeCurrentPage}
-          pageSize={pageSize}
-          onPageSizeChange={this.changePageSize}
-        />
-        <EditingState
-          columnEditingEnabled={false}
-          columnExtensions={editingColumns}
-          editingRowIds={editingRowIds}
-          onEditingRowIdsChange={this.changeEditingRowIds}
-          rowChanges={rowChanges}
-          onRowChangesChange={this.changeRowChanges}
-          addedRows={addedRows}
-          onAddedRowsChange={this.changeAddedRows}
-          onCommitChanges={this.commitChanges}
-        />
-        <SearchState />
+    if (loading) {
+      return <Loading />;
+    } else {
+      return (
+        <Paper className={classes.root} elevation={5}>
+          <Grid rows={data} columns={columns} getRowId={getRowId}>
+            <SortingState
+              sorting={sorting}
+              onSortingChange={this.changeSorting}
+            />
+            <PagingState
+              currentPage={currentPage}
+              onCurrentPageChange={this.changeCurrentPage}
+              pageSize={pageSize}
+              onPageSizeChange={this.changePageSize}
+            />
+            <EditingState
+              columnEditingEnabled={false}
+              columnExtensions={editingColumns}
+              editingRowIds={editingRowIds}
+              onEditingRowIdsChange={this.changeEditingRowIds}
+              rowChanges={rowChanges}
+              onRowChangesChange={this.changeRowChanges}
+              addedRows={addedRows}
+              onAddedRowsChange={this.changeAddedRows}
+              onCommitChanges={this.commitChanges}
+            />
+            <SearchState />
 
-        <IntegratedFiltering />
+            <IntegratedFiltering />
 
-        <IntegratedSorting />
+            <IntegratedSorting />
 
-        <IntegratedPaging />
+            <IntegratedPaging />
 
-        <DragDropProvider />
+            <DragDropProvider />
 
-        <BooleanTypeProvider 
-        for={booleanColumns}
-        style={{paddingRight: '20px'}}/>
+            <BooleanTypeProvider
+              for={booleanColumns}
+              style={{ paddingRight: "20px" }}
+            />
 
-        <VirtualTable
-          columnExtensions={tableColumnExtensions}
-        />
-        <TableColumnReordering
-          order={columnOrder}
-          onOrderChange={this.changeColumnOrder}
-        />
-        <TableHeaderRow showSortingControls />
-        <TableEditRow
-          cellComponent={EditCell}
-        />
-        <TableEditColumn
-          width={170}
-          showAddCommand={!addedRows.length}
-          showEditCommand
-          showDeleteCommand
-          commandComponent={Command}
-        />
-        <Getter
-        name="tableColumns"
-        computed={({ tableColumns }) => {
-          
-          const result = [
-            ...tableColumns.filter(c => c.type !== TableEditColumn.COLUMN_TYPE),
-            { key: 'editCommand', type: TableEditColumn.COLUMN_TYPE, width: 140 }
-          ];
-          return result;
-        }
-        }
-      />
-        <Toolbar />
+            <VirtualTable columnExtensions={tableColumnExtensions} />
+            <TableColumnReordering
+              order={columnOrder}
+              onOrderChange={this.changeColumnOrder}
+            />
+            <TableHeaderRow showSortingControls />
+            <TableEditRow cellComponent={EditCell} />
+            <TableEditColumn
+              width={170}
+              showAddCommand={!addedRows.length}
+              showEditCommand
+              showDeleteCommand
+              commandComponent={Command}
+            />
+            <Getter
+              name="tableColumns"
+              computed={({ tableColumns }) => {
+                const result = [
+                  ...tableColumns.filter(
+                    c => c.type !== TableEditColumn.COLUMN_TYPE
+                  ),
+                  {
+                    key: "editCommand",
+                    type: TableEditColumn.COLUMN_TYPE,
+                    width: 140
+                  }
+                ];
+                return result;
+              }}
+            />
+            <Toolbar />
 
-        <SearchPanel />
-      
-      </Grid>
-    </Paper>
-    );
+            <SearchPanel />
+          </Grid>
+        </Paper>
+      );
+    }
   }
 }
 
-export default withStyles(styles, { name: 'ControlledModeDemo' })(withApollo(DemoBase));
+export default withStyles(styles, { name: "ControlledModeDemo" })(
+  withApollo(DemoBase)
+);
