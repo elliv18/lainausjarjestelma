@@ -14,25 +14,24 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
-import AccountCircle from '@material-ui/icons/AccountCircle'
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
-import LogoutIcon from '@material-ui/icons/PowerSettingsNew'
+import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DevicesIcon from '@material-ui/icons/Devices';
-import GroupIcon from '@material-ui/icons/Group'
-import HomeIcon from '@material-ui/icons/Home'
-import LoansIcon from '@material-ui/icons/ImportContacts'
+import GroupIcon from '@material-ui/icons/Group';
+import HomeIcon from '@material-ui/icons/Home';
+import LoansIcon from '@material-ui/icons/ImportContacts';
 
-import Link from 'next/link'
+import Link from 'next/link';
 //import {JWT} from '../lib/environment'
-import Router from'next/router'
+import Router from 'next/router';
 import redirect from '../lib/redirect';
 import jwt from 'jwt-decode';
-
 
 const drawerWidth = 240;
 
@@ -40,16 +39,13 @@ const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     backgroundColor: 'rgba(0,70,85)',
-    
   },
   appBarShift: {
     margin: 0,
     width: '100%',
-    
   },
   menuButton: {
     marginLeft: 12,
-    
   },
   hide: {
     display: 'none',
@@ -94,23 +90,26 @@ const styles = theme => ({
   },
   content: {
     paddingBottom: '100px',
-    },
-  myAccount:{
+  },
+  myAccount: {
     right: 0,
   },
-  group:{
+  group: {
     marginRight: 10,
   },
-  titleTypo:{
+  titleTypo: {
     flexGrow: 1,
+    color: 'white',
+    fontSize: '24px',
+    textTransform: 'uppercase',
   },
-  titleText:{
-      color: 'white',
-      fontSize: '24px',
-      margin: '2px',
-      padding: '9px',
+  titleText: {
+    color: 'white',
+    fontSize: '24px',
+    margin: '2px',
+    padding: '9px',
   },
-  menuIcon:{
+  menuIcon: {
     paddingLeft: '8px',
   },
   paperDrawerClose: {
@@ -126,24 +125,22 @@ const styles = theme => ({
     width: '100%',
     transition: 'padding-left 0.4s',
   },
-
 });
 
 class MiniDrawer extends React.Component {
-
   state = {
     open: false,
     ok: false,
-};
-   
-  async componentDidMount(){
-    try{
-      const JWT = localStorage.getItem('jwtToken')
-      await jwt(JWT)
+  };
 
-      this.setLoginOk()
-    } catch (e){
-      console.log('catch error mini')
+  async componentDidMount() {
+    try {
+      const JWT = localStorage.getItem('jwtToken');
+      await jwt(JWT);
+
+      this.setLoginOk();
+    } catch (e) {
+      console.log('catch error mini');
       Router.push({
         pathname: '/login',
       });
@@ -151,8 +148,8 @@ class MiniDrawer extends React.Component {
   }
 
   setLoginOk = () => {
-    this.setState({ok: true })
-  }
+    this.setState({ ok: true });
+  };
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -161,135 +158,131 @@ class MiniDrawer extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
-  
-  
 
-  render (){
-
-    
-    
+  render() {
     const { children, classes, theme } = this.props;
-  
-    if(this.state.ok){
-    return (
-      <div>
-      
-        <CssBaseline />
-        <AppBar position="sticky" className={classes.appBar}>
+
+    if (this.state.ok) {
+      return (
+        <div>
+          <CssBaseline />
+          <AppBar position="sticky" className={classes.appBar}>
             <Toolbar>
-                <Link href="/">
-                    <Typography className={classes.titleTypo}>
-                        <Button size="large" className={classes.titleText} title="Home">
-                          Loan System
-                        </Button>
-                    </Typography>
-                </Link>
-                <Link href="/">
-                <Button className={classes.myAccount} color="inherit" title="My account">
-                    <AccountCircle className={classes.group}>
-                    </AccountCircle> My account
-                </Button>
-                </Link>
-                <Button className={classes.myAccount} color="inherit" title="Logout"
-                onClick={()=>
-                  localStorage.removeItem('jwtToken',
-                  Router.push({
-                  pathname: '/login'
-                })
-                )}
-                >
-                <LogoutIcon className={classes.group}/> Logout
-             
-                </Button>
-            </Toolbar>
-        </AppBar>
-        <App >
-        <Drawer
-          variant="permanent"
-          className={classNames(classes.drawer, {
-            [classes.drawerOpen]: this.state.open,
-            [classes.drawerClose]: !this.state.open,
-          })}
-          classes={{
-            paper: classNames(classes.paper, {
-              [classes.drawerOpen]: this.state.open,
-              [classes.drawerClose]: !this.state.open,
-            }),
-          }}
-          open={this.state.open}
-        >
-          <List>
-            <IconButton
+              <Typography className={classes.titleTypo}>Loan System</Typography>
+              <Button
+                className={classes.myAccount}
                 color="inherit"
-                aria-label="Open drawer"
-                onClick={this.handleDrawerOpen}
-                className={classNames(classes.menuButton, {
+                title="Logout"
+                onClick={() =>
+                  localStorage.removeItem(
+                    'jwtToken',
+                    Router.push({
+                      pathname: '/login',
+                    })
+                  )
+                }
+              >
+                <LogoutIcon className={classes.group} /> Logout
+              </Button>
+            </Toolbar>
+          </AppBar>
+          <App>
+            <Drawer
+              variant="permanent"
+              className={classNames(classes.drawer, {
+                [classes.drawerOpen]: this.state.open,
+                [classes.drawerClose]: !this.state.open,
+              })}
+              classes={{
+                paper: classNames(classes.paper, {
+                  [classes.drawerOpen]: this.state.open,
+                  [classes.drawerClose]: !this.state.open,
+                }),
+              }}
+              open={this.state.open}
+            >
+              <List>
+                <IconButton
+                  color="inherit"
+                  aria-label="Open drawer"
+                  onClick={this.handleDrawerOpen}
+                  className={classNames(classes.menuButton, {
                     [classes.hide]: this.state.open,
-                })}
+                  })}
                 >
-                <MenuIcon />
-            </IconButton>
-            <IconButton onClick={this.handleDrawerClose}
-                className={classNames(classes.menuButton, {
+                  <MenuIcon />
+                </IconButton>
+                <IconButton
+                  onClick={this.handleDrawerClose}
+                  className={classNames(classes.menuButton, {
                     [classes.hide]: !this.state.open,
-                })}>
-                <ChevronLeftIcon />
-            </IconButton>
-          </List>
-          <Divider/>
-          <List title="Home">
-              <Link href="/">
-              <ListItem button key ="Home">
-                <ListItemIcon className={classes.menuIcon}><HomeIcon /></ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItem>
-              </Link>
-          </List>
-          <List title="Equipments">
-              <Link href="/equipments">
-              <ListItem button key ="Equipments">
-                <ListItemIcon className={classes.menuIcon}><DevicesIcon /></ListItemIcon>
-                <ListItemText primary="Equipments" />
-              </ListItem>
-              </Link>
-          </List>
-          <List title="Users">
-              <Link href="/users">
-              <ListItem button key ="Users">
-                <ListItemIcon className={classes.menuIcon}><GroupIcon /></ListItemIcon>
-                <ListItemText primary="Users" />
-              </ListItem>
-              </Link>
-          </List>
-          <List title="Loans">
-              <Link href="/loans">
-              <ListItem button key ="Loans">
-                <ListItemIcon className={classes.menuIcon}><LoansIcon /></ListItemIcon>
-                <ListItemText primary="Loans" />
-              </ListItem>
-              </Link>
-          </List>
-        </Drawer>
-          <div className={classNames({
-            [classes.paperDrawerOpen]: this.state.open,
-            [classes.paperDrawerClose]: !this.state.open,
-          })}
-          classes={{
-            paper: classNames(classes.paper, {
-              [classes.paperDrawerOpen]: this.state.open,
-              [classes.paperDrawerClose]: !this.state.open,
-            }),
-          }}>
-            <div className={classes.content}>
-              {this.props.children}
+                  })}
+                >
+                  <ChevronLeftIcon />
+                </IconButton>
+              </List>
+              <Divider />
+              <List title="Home">
+                <Link href="/">
+                  <ListItem button key="Home">
+                    <ListItemIcon className={classes.menuIcon}>
+                      <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                  </ListItem>
+                </Link>
+              </List>
+              <List title="Equipments">
+                <Link href="/equipments">
+                  <ListItem button key="Equipments">
+                    <ListItemIcon className={classes.menuIcon}>
+                      <DevicesIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Equipments" />
+                  </ListItem>
+                </Link>
+              </List>
+              <List title="Users">
+                <Link href="/users">
+                  <ListItem button key="Users">
+                    <ListItemIcon className={classes.menuIcon}>
+                      <GroupIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Users" />
+                  </ListItem>
+                </Link>
+              </List>
+              <List title="Loans">
+                <Link href="/loans">
+                  <ListItem button key="Loans">
+                    <ListItemIcon className={classes.menuIcon}>
+                      <LoansIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Loans" />
+                  </ListItem>
+                </Link>
+              </List>
+            </Drawer>
+            <div
+              className={classNames({
+                [classes.paperDrawerOpen]: this.state.open,
+                [classes.paperDrawerClose]: !this.state.open,
+              })}
+              classes={{
+                paper: classNames(classes.paper, {
+                  [classes.paperDrawerOpen]: this.state.open,
+                  [classes.paperDrawerClose]: !this.state.open,
+                }),
+              }}
+            >
+              <div className={classes.content}>{this.props.children}</div>
             </div>
-          </div>
-        </App>
-      </div>
-    )
-        } else {
-          return null
-        }
+          </App>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
