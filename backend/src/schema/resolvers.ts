@@ -170,8 +170,11 @@ export default {
       },
       { currentUser }
     ) => {
+      console.log("We");
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
+      console.log(isActive, email);
 
       let type;
       if (userType != null) {

@@ -32,6 +32,7 @@ import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TableCell from '@material-ui/core/TableCell';
+import TextField from '@material-ui/core/TextField';
 
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -40,7 +41,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
-import { string } from 'prop-types';
 import { withApollo } from 'react-apollo';
 import { LOANS_QUERY } from '../lib/gql/queries';
 
@@ -172,13 +172,13 @@ const BooleanTypeProvider = props => (
 const BooleanFormatter = ({ value }) => (
   <Chip
     color={value ? 'primary' : 'secondary'}
-    label={value ? 'Active' : 'Inactive'}
+    label={value ? 'Active' : 'Returned'}
     icon={value ? <CheckIcon /> : <CancelIcon />}
     style={
       value
         ? {
             backgroundColor: 'rgba(0,128,0,0.75)',
-            width: '105px',
+            width: '110px',
             justifyContent: 'left',
           }
         : { backgroundColor: 'rgba(204,0,0,0.85)' }
@@ -189,19 +189,32 @@ const BooleanFormatter = ({ value }) => (
 const getRowId = row => row.id;
 
 const RowDetail = ({ row }) => (
-  <div>
-    Loaner firstname: {row.loanerFirstName}
-    <br />
-    Loaner lastname: {row.loanerLastName}
-    <br />
-    loaner email: {row.loanerEmail}
-    <br />
-    Supplier firstname: {row.supplierFirstName}
-    <br />
-    Supplier lastname: {row.supplierLastName}
-    <br />
-    Supplier email: {row.supplierEmail}
-  </div>
+  <Grid
+    rows={[
+      {
+        loaner: row.loanerFirstName + ' ' + row.loanerLastName,
+        loanerEmail: row.loanerEmail,
+        supplier: row.supplierFirstName + ' ' + row.supplierLastName,
+        supplierEmail: row.supplierEmail,
+      },
+    ]}
+    columns={[
+      { name: 'loaner', title: 'Loaner' },
+      { name: 'loanerEmail', title: 'Email' },
+      { name: 'supplier', title: 'Supplier' },
+      { name: 'supplierEmail', title: 'Email' },
+    ]}
+  >
+    <Table
+      columnExtensions={[
+        { columnName: 'loaner', wordWrapEnabled: true, width: 170 },
+        { columnName: 'loanerEmail', width: 300 },
+        { columnName: 'supplier', wordWrapEnabled: true, width: 170 },
+        { columnName: 'supplierEmail', width: 300 },
+      ]}
+    />
+    <TableHeaderRow />
+  </Grid>
 );
 
 /****************************** CLASS ********************************************************/
@@ -216,6 +229,7 @@ class Loans extends React.PureComponent {
         { name: 'deviceType', title: 'Category' },
         { name: 'manufacture', title: 'Manufacture' },
         { name: 'model', title: 'Model' },
+        { name: 'loaner', title: 'Loaner' },
         { name: 'loanDate', title: 'Loan date' },
         { name: 'returnDate', title: 'Return date' },
         { name: 'dueDate', title: 'Due date' },
@@ -226,6 +240,7 @@ class Loans extends React.PureComponent {
         { columnName: 'deviceType', wordWrapEnabled: true },
         { columnName: 'manufacture', wordWrapEnabled: true },
         { columnName: 'model', wordWrapEnabled: true },
+        { columnName: 'loaner', wordWrapEnabled: true },
         { columnName: 'loanDate', wordWrapEnabled: true },
         { columnName: 'returnDate', wordWrapEnabled: true },
         { columnName: 'dueDate', wordWrapEnabled: true },
@@ -236,10 +251,11 @@ class Loans extends React.PureComponent {
         { columnName: 'deviceType', editingEnabled: true },
         { columnName: 'manufacture', editingEnabled: true },
         { columnName: 'model', editingEnabled: true },
+        { columnName: 'loaner', editingEnabled: false },
         { columnName: 'loanDate', editingEnabled: true },
         { columnName: 'returnDate', editingEnabled: true },
         { columnName: 'dueDate', editingEnabled: true },
-        { columnName: 'isActive', editingEnabled: true },
+        { columnName: 'isActive', editingEnabled: false },
       ],
       sorting: [],
       editingRowIds: [
@@ -262,6 +278,7 @@ class Loans extends React.PureComponent {
         'deviceType',
         'manufacture',
         'model',
+        'loaner',
         'loanDate',
         'returnDate',
         'dueDate',
@@ -284,9 +301,15 @@ class Loans extends React.PureComponent {
           Object.keys(row).length
             ? row
             : {
-                firstName: '',
-                lastName: '',
-                email: '',
+                loanDate: '',
+                returnDate: '',
+                dueDate: '',
+                isActive: '',
+                idCode: '',
+                manufacture: '',
+                model: '',
+                deviceType: '',
+                loaner: '',
               }
         ),
       });
@@ -355,6 +378,7 @@ class Loans extends React.PureComponent {
             manufacture: obj.device.manufacture,
             model: obj.device.model,
             deviceType: obj.device.category.deviceType,
+            loaner: obj.loaner.firstName + ' ' + obj.loaner.lastName,
             loanerFirstName: obj.loaner.firstName,
             loanerLastName: obj.loaner.lastName,
             loanerEmail: obj.loaner.email,

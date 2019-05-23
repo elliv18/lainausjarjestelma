@@ -41,7 +41,7 @@ import { generateRows, equipmentsValues } from "../src/demo-data/generator";
 import { string } from "prop-types";
 import { Query, withApollo } from "react-apollo";
 import { USERS_QUERY } from "../lib/gql/queries";
-import { USERS_ADD_MUTATION } from "../lib/gql/mutation";
+import { USERS_ADD_MUTATION, USERS_UPDATE_MUTATION } from "../lib/gql/mutation";
 import Moment from "react-moment";
 import "moment-timezone";
 
@@ -316,9 +316,39 @@ class DemoBase extends React.PureComponent {
         this.setState({ data: data });
       }
       if (changed) {
-        rows = rows.map(row =>
+        let id = null;
+
+        data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
         );
+        console.log("CHANGED", changed);
+        //  console.log("ID", id);
+
+        data.map(row => {
+          changed[row.id] ? (id = row.id) : row;
+          if (row.id === id) {
+            client
+              .mutate({
+                variables: {
+                  isActive: row.isActive,
+                  userType: row.userType,
+                  email: row.email,
+                  firstName: row.firstName,
+                  lastName: row.lastName,
+                  address: row.address,
+                  personNumber: row.personNumber,
+                  phone: row.phone
+                },
+                mutation: USERS_UPDATE_MUTATION
+              })
+              .then(result => console.log("RESULT ", result))
+              .catch(error => {
+                console.log(error);
+              });
+          }
+        });
+
+        this.setState({ data: data });
       }
       if (deleted) {
         rows = this.deleteRows(deleted);
