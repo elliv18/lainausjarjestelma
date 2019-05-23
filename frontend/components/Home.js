@@ -70,6 +70,11 @@ const styles = {
   actions: {
     justify: 'right',
   },
+  message: {
+    textAlign: 'center',
+    padding: '10px',
+    color: 'red',
+  },
 };
 
 /******************************** CLASS ******************************/
@@ -92,6 +97,14 @@ class Home extends React.Component {
       data_user: {},
       data_loans: [],
       open: false,
+
+      firstName: '',
+      lastName: '',
+      address: '',
+      phone: '',
+      old_password: '',
+      password: '',
+      alertMsg: '',
     };
     this.changeSorting = sorting => this.setState({ sorting });
   }
@@ -140,7 +153,40 @@ class Home extends React.Component {
   };
 
   handleClose = () => {
+    console.log(this.state.firstName);
     this.setState({ open: false });
+  };
+
+  setFirstName = e => {
+    this.setState({ firstName: e.target.value });
+  };
+
+  setLastName = e => {
+    this.setState({ lastName: e.target.value });
+  };
+
+  setAddress = e => {
+    this.setState({ address: e.target.value });
+  };
+
+  setPhone = e => {
+    this.setState({ phone: e.target.value });
+  };
+
+  setOldPW = e => {
+    this.setState({ old_password: e.target.value });
+  };
+
+  setNewPW = e => {
+    this.setState({ password: e.target.value });
+  };
+
+  setNewPWCheck = e => {
+    if (this.state.password !== e.target.value) {
+      this.setState({ alertMsg: 'Password dont match!' });
+    } else {
+      this.setState({ alertMsg: '' });
+    }
   };
 
   render() {
@@ -211,6 +257,7 @@ class Home extends React.Component {
                           label="First name"
                           type="String"
                           fullWidth
+                          onChange={this.setFirstName}
                         />
                         <TextField
                           autoFocus
@@ -219,6 +266,7 @@ class Home extends React.Component {
                           label="Last name"
                           type="String"
                           fullWidth
+                          onChange={this.setLastName}
                         />
                         <TextField
                           autoFocus
@@ -227,6 +275,7 @@ class Home extends React.Component {
                           label="Address"
                           type="String"
                           fullWidth
+                          onChange={this.setAddress}
                         />
                         <TextField
                           autoFocus
@@ -235,7 +284,15 @@ class Home extends React.Component {
                           label="Phone"
                           type="String"
                           fullWidth
+                          onChange={this.setPhone}
                         />
+                        <DialogTitle id="form-dialog-title-pw">
+                          Change password
+                        </DialogTitle>
+                        <DialogContentText className={classes.message}>
+                          <br />
+                          {this.state.alertMsg}
+                        </DialogContentText>
                         <DialogContentText>
                           <br />
                           <b>Give old and new pass word two times</b>
@@ -247,6 +304,7 @@ class Home extends React.Component {
                           label="Old password"
                           type="password"
                           fullWidth
+                          onChange={this.setOldPW}
                         />
                         <TextField
                           autoFocus
@@ -255,6 +313,7 @@ class Home extends React.Component {
                           label="New password"
                           type="password"
                           fullWidth
+                          onChange={this.setNewPW}
                         />
                         <TextField
                           autoFocus
@@ -263,6 +322,7 @@ class Home extends React.Component {
                           label="Again new password"
                           type="password"
                           fullWidth
+                          onChange={this.setNewPWCheck}
                         />
                       </DialogContent>
                       <DialogActions>

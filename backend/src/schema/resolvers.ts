@@ -156,6 +156,7 @@ export default {
       obj,
       {
         input: {
+          id,
           isActive,
           userType,
           email,
@@ -212,7 +213,7 @@ export default {
           _.identity
         ),
         where: {
-          email: email
+          id: id
         }
       });
 

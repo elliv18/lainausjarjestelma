@@ -202,9 +202,10 @@ export default `
     }
 
     input UserUpdateInput {
+        id: ID!
         isActive: Boolean
         userType: String
-        email: String!
+        email: String
         password: String
         firstName: String
         lastName: String
