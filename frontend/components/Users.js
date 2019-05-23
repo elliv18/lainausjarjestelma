@@ -316,7 +316,7 @@ class DemoBase extends React.PureComponent {
         this.setState({ data: data });
       }
       if (changed) {
-        let id = null;
+        let idUser = null;
 
         data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
@@ -325,11 +325,12 @@ class DemoBase extends React.PureComponent {
         //  console.log("ID", id);
 
         data.map(row => {
-          changed[row.id] ? (id = row.id) : row;
-          if (row.id === id) {
+          changed[row.id] ? (idUser = row.id) : row;
+          if (row.id === idUser) {
             client
               .mutate({
                 variables: {
+                  id: row.id,
                   isActive: row.isActive,
                   userType: row.userType,
                   email: row.email,

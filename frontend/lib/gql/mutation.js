@@ -50,10 +50,10 @@ export const USERS_ADD_MUTATION = gql`
 
 export const USERS_UPDATE_MUTATION = gql`
   mutation updateMutation(
+    $id: ID!
     $isActive: Boolean
     $userType: String
-    $email: String!
-    $password: String
+    $email: String
     $firstName: String
     $lastName: String
     $address: String
@@ -62,10 +62,10 @@ export const USERS_UPDATE_MUTATION = gql`
   ) {
     userUpdate(
       input: {
+        id: $id
         isActive: $isActive
         userType: $userType
         email: $email
-        password: $password
         firstName: $firstName
         lastName: $lastName
         address: $address
