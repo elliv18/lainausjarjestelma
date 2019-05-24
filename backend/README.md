@@ -11,15 +11,11 @@
   - docker-compose
     - dev
     - prod
-- api readme
-- jwt secret and other secrets better ones
-- jwt time?
 - fix package.json | remove prisma force...
 
 ## Teknologies
 
 - graphql-yoda https://github.com/prisma/graphql-yoga
-- graphql-shield https://github.com/maticzav/graphql-shield
 - prisma https://www.prisma.io/
 - postgresql
 - nodejs
@@ -29,12 +25,13 @@
 
 ## JWT
 
-Site header must...
+Site header must have jwt token.
 
-Bearer <token>
+`{ Authorization: Bearer '<token>' }`
 
 ## address
 
-api: localhost:3050
-
-db admin: localhost:3060/\_admin
+graphql api: localhost:3050
+graphiql api ui (only dev mode): localhost:3050
+prisma db graphiql ui (only dev mode): localhost:3060
+prisma db admin (only dev mode): localhost:3060/\_admin
