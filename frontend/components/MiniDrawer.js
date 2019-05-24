@@ -33,7 +33,7 @@ import Router from 'next/router';
 import redirect from '../lib/redirect';
 import jwt from 'jwt-decode';
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const styles = theme => ({
   appBar: {
