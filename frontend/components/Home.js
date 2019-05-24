@@ -117,7 +117,6 @@ class Home extends React.Component {
 
   async componentDidMount() {
     let temp = await this.state.client.query({ query: CURRENTUSER });
-    console.log(temp);
     let temp_user;
     let temp_loans = [];
     if (temp.data.currentUser) {
@@ -162,7 +161,6 @@ class Home extends React.Component {
   };
 
   handleClose = async () => {
-    console.log(this.state.password);
     this.state.client
       .mutate({
         variables: {
