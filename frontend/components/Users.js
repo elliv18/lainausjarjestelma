@@ -1,5 +1,5 @@
-import React from "react";
-import { Getter } from "@devexpress/dx-react-core";
+import React from 'react';
+import { Getter } from '@devexpress/dx-react-core';
 import {
   SortingState,
   EditingState,
@@ -8,8 +8,8 @@ import {
   IntegratedSorting,
   SearchState,
   IntegratedFiltering,
-  DataTypeProvider
-} from "@devexpress/dx-react-grid";
+  DataTypeProvider,
+} from '@devexpress/dx-react-grid';
 import {
   Grid,
   VirtualTable,
@@ -21,65 +21,65 @@ import {
   SearchPanel,
   Toolbar,
   ColumnChooser,
-  TableColumnVisibility
-} from "@devexpress/dx-react-grid-material-ui";
-import Paper from "@material-ui/core/Paper";
-import Chip from "@material-ui/core/Chip";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Input from "@material-ui/core/Input";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import TableCell from "@material-ui/core/TableCell";
+  TableColumnVisibility,
+} from '@devexpress/dx-react-grid-material-ui';
+import Paper from '@material-ui/core/Paper';
+import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import TableCell from '@material-ui/core/TableCell';
 
-import CheckIcon from "@material-ui/icons/Check";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import SaveIcon from "@material-ui/icons/Save";
-import CancelIcon from "@material-ui/icons/Cancel";
-import { withStyles } from "@material-ui/core/styles";
+import CheckIcon from '@material-ui/icons/Check';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { withStyles } from '@material-ui/core/styles';
 
-import { withApollo } from "react-apollo";
-import { USERS_QUERY } from "../lib/gql/queries";
-import { USERS_ADD_MUTATION, USERS_UPDATE_MUTATION } from "../lib/gql/mutation";
-import Moment from "react-moment";
-import "moment-timezone";
-import Loading from "./Loading";
+import { withApollo } from 'react-apollo';
+import { USERS_QUERY } from '../lib/gql/queries';
+import { USERS_ADD_MUTATION, USERS_UPDATE_MUTATION } from '../lib/gql/mutation';
+import Moment from 'react-moment';
+import 'moment-timezone';
+import Loading from './Loading';
 
 const styles = theme => ({
   lookupEditCell: {
     paddingTop: theme.spacing.unit * 0.875,
     paddingRight: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit
+    paddingLeft: theme.spacing.unit,
   },
   root: {
-    width: "90%",
+    width: '90%',
     marginTop: theme.spacing.unit * 3,
-    overflowX: "auto",
-    marginLeft: "auto",
-    marginRight: "auto"
+    overflowX: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   table: {
-    height: "800px",
-    overflowY: "auto"
+    height: '800px',
+    overflowY: 'auto',
   },
   dialog: {
-    width: "calc(100% - 16px)"
+    width: 'calc(100% - 16px)',
   },
   inputRoot: {
-    width: "100%"
+    width: '100%',
   },
   toolbarTitle: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
     color: theme.palette.action.active,
-    color: "red",
-    marginLeft: "5%"
-  }
+    color: 'red',
+    marginLeft: '5%',
+  },
 });
 
 const AddButton = ({ onExecute }) => (
-  <div style={{ textAlign: "center" }}>
+  <div style={{ textAlign: 'center' }}>
     <Button color="primary" onClick={onExecute} title="Create new row">
       New
     </Button>
@@ -96,7 +96,7 @@ const DeleteButton = ({ onExecute }) => (
   <IconButton
     onClick={() => {
       // eslint-disable-next-line
-      if (window.confirm("Are you sure you want to delete this row?")) {
+      if (window.confirm('Are you sure you want to delete this row?')) {
         onExecute();
       }
     }}
@@ -123,7 +123,7 @@ const commandComponents = {
   edit: EditButton,
   delete: DeleteButton,
   commit: CommitButton,
-  cancel: CancelButton
+  cancel: CancelButton,
 };
 
 const Command = ({ id, onExecute }) => {
@@ -132,14 +132,14 @@ const Command = ({ id, onExecute }) => {
 };
 
 const availableValues = {
-  userType: ["ADMIN", "STAFF", "STUDENT"]
+  userType: ['ADMIN', 'STAFF', 'STUDENT'],
 };
 
 const LookupEditCellBase = ({
   availableColumnValues,
   value,
   onValueChange,
-  classes
+  classes,
 }) => (
   <TableCell className={classes.lookupEditCell}>
     <Select
@@ -156,7 +156,7 @@ const LookupEditCellBase = ({
   </TableCell>
 );
 export const LookupEditCell = withStyles(styles, {
-  name: "ControlledModeDemo"
+  name: 'ControlledModeDemo',
 })(LookupEditCellBase);
 
 const EditCell = props => {
@@ -179,17 +179,17 @@ const BooleanTypeProvider = props => (
 
 const BooleanFormatter = ({ value }) => (
   <Chip
-    color={value ? "primary" : "secondary"}
-    label={value ? "Active" : "Inactive"}
+    color={value ? 'primary' : 'secondary'}
+    label={value ? 'Active' : 'Inactive'}
     icon={value ? <CheckIcon /> : <CancelIcon />}
     style={
       value
         ? {
-            backgroundColor: "rgba(0,128,0,0.75)",
-            width: "105px",
-            justifyContent: "left"
+            backgroundColor: 'rgba(0,128,0,0.75)',
+            width: '105px',
+            justifyContent: 'left',
           }
-        : { backgroundColor: "rgba(204,0,0,0.85)" }
+        : { backgroundColor: 'rgba(204,0,0,0.85)' }
     }
   />
 );
@@ -198,46 +198,46 @@ const getRowId = row => row.id;
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
-class DemoBase extends React.PureComponent {
+class Users extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
       columns: [
-        { name: "userType", title: "Type" },
-        { name: "firstName", title: "Firstname" },
-        { name: "lastName", title: "Lastname" },
-        { name: "email", title: "Email" },
-        { name: "isActive", title: "Active status" },
-        { name: "address", title: "Address" },
-        { name: "personNumber", title: "Person number" },
-        { name: "phone", title: "Phone" }
+        { name: 'userType', title: 'Type' },
+        { name: 'firstName', title: 'Firstname' },
+        { name: 'lastName', title: 'Lastname' },
+        { name: 'email', title: 'Email' },
+        { name: 'isActive', title: 'Active status' },
+        { name: 'address', title: 'Address' },
+        { name: 'personNumber', title: 'Person number' },
+        { name: 'phone', title: 'Phone' },
         //  { name: 'createdAt', title: 'Created' },
         //   { name: 'updatedAt', title: 'Updated' }
       ],
       tableColumnExtensions: [
-        { columnName: "userType", wordWrapEnabled: true, width: 130 },
-        { columnName: "firstName", wordWrapEnabled: true, width: 120 },
-        { columnName: "lastName", wordWrapEnabled: true, width: 130 },
-        { columnName: "email", wordWrapEnabled: true, width: 300 },
-        { columnName: "isActive", wordWrapEnabled: true },
-        { columnName: "address", wordWrapEnabled: true },
-        { columnName: "personNumber", wordWrapEnabled: true },
-        { columnName: "phone", wordWrapEnabled: true },
-        { columnName: "createdAt", wordWrapEnabled: true },
-        { columnName: "updatedAt", wordWrapEnabled: true }
+        { columnName: 'userType', wordWrapEnabled: true, width: 130 },
+        { columnName: 'firstName', wordWrapEnabled: true, width: 120 },
+        { columnName: 'lastName', wordWrapEnabled: true, width: 130 },
+        { columnName: 'email', wordWrapEnabled: true, width: 300 },
+        { columnName: 'isActive', wordWrapEnabled: true },
+        { columnName: 'address', wordWrapEnabled: true },
+        { columnName: 'personNumber', wordWrapEnabled: true },
+        { columnName: 'phone', wordWrapEnabled: true },
+        { columnName: 'createdAt', wordWrapEnabled: true },
+        { columnName: 'updatedAt', wordWrapEnabled: true },
       ],
       editingColumns: [
-        { columnName: "userType", editingEnabled: true },
-        { columnName: "firstName", editingEnabled: true },
-        { columnName: "lastName", editingEnabled: true },
-        { columnName: "email", editingEnabled: true },
-        { columnName: "isActive", editingEnabled: false },
-        { columnName: "address", editingEnabled: true },
-        { columnName: "personNumber", editingEnabled: true },
-        { columnName: "phone", editingEnabled: true },
-        { columnName: "createdAt", editingEnabled: false },
-        { columnName: "updatedAt", editingEnabled: false }
+        { columnName: 'userType', editingEnabled: true },
+        { columnName: 'firstName', editingEnabled: true },
+        { columnName: 'lastName', editingEnabled: true },
+        { columnName: 'email', editingEnabled: true },
+        { columnName: 'isActive', editingEnabled: false },
+        { columnName: 'address', editingEnabled: true },
+        { columnName: 'personNumber', editingEnabled: true },
+        { columnName: 'phone', editingEnabled: true },
+        { columnName: 'createdAt', editingEnabled: false },
+        { columnName: 'updatedAt', editingEnabled: false },
       ],
       rows: [],
       sorting: [],
@@ -246,23 +246,23 @@ class DemoBase extends React.PureComponent {
       defaultHiddenColumnNames: [],
       rowChanges: {},
       pageSize: 0,
-      booleanColumns: ["isActive"],
+      booleanColumns: ['isActive'],
       columnOrder: [
-        "userType",
-        "firstName",
-        "lastName",
-        "email",
-        "phone",
-        "address",
-        "personNumber",
-        "isActive",
-        "createdAt",
-        "updatedAt"
+        'userType',
+        'firstName',
+        'lastName',
+        'email',
+        'phone',
+        'address',
+        'personNumber',
+        'isActive',
+        'createdAt',
+        'updatedAt',
       ],
       client: props.client,
       data: [],
       loading: true,
-      errorMsgAdded: null
+      errorMsgAdded: null,
     };
     const getStateRows = () => {
       const { rows } = this.state;
@@ -279,9 +279,9 @@ class DemoBase extends React.PureComponent {
             ? row
             : {
                 userType: availableValues.userType[2],
-                isActive: true
+                isActive: true,
               }
-        )
+        ),
       });
     this.changeRowChanges = rowChanges => this.setState({ rowChanges });
     this.changePageSize = pageSize => this.setState({ pageSize });
@@ -295,8 +295,8 @@ class DemoBase extends React.PureComponent {
             ...data,
             ...added.map((row, index) => ({
               id: startingAddedId + index,
-              ...row
-            }))
+              ...row,
+            })),
           ];
 
           added.map(row => {
@@ -306,25 +306,25 @@ class DemoBase extends React.PureComponent {
                   isActive: true,
                   userType: row.userType,
                   email: row.email,
-                  password: "FUCK",
+                  password: 'FUCK',
                   firstName: row.firstName,
                   lastName: row.lastName,
                   address: row.address,
                   personNumber: row.personNumber,
-                  phone: row.phone
+                  phone: row.phone,
                 },
-                mutation: USERS_ADD_MUTATION
+                mutation: USERS_ADD_MUTATION,
               })
-              .then(result => console.log("RESULT ", result))
+              .then(result => console.log('RESULT ', result))
               .catch(error => {
                 console.log(error);
-                this.setState({ errorMsgAdded: "User add failed!" });
+                this.setState({ errorMsgAdded: 'User add failed!' });
               });
           });
 
           this.setState({ data: data });
         } catch (e) {
-          console.log("ERROR: ", e);
+          console.log('ERROR: ', e);
         }
       }
       if (changed) {
@@ -333,7 +333,7 @@ class DemoBase extends React.PureComponent {
         data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
         );
-        console.log("CHANGED", changed);
+        console.log('CHANGED', changed);
         //  console.log("ID", id);
 
         data.map(row => {
@@ -350,11 +350,11 @@ class DemoBase extends React.PureComponent {
                   lastName: row.lastName,
                   address: row.address,
                   personNumber: row.personNumber,
-                  phone: row.phone
+                  phone: row.phone,
                 },
-                mutation: USERS_UPDATE_MUTATION
+                mutation: USERS_UPDATE_MUTATION,
               })
-              .then(result => console.log("RESULT ", result))
+              .then(result => console.log('RESULT ', result))
               .catch(error => {
                 console.log(error);
               });
@@ -385,7 +385,7 @@ class DemoBase extends React.PureComponent {
 
   async componentDidMount() {
     let temp = await this.state.client.query({
-      query: USERS_QUERY
+      query: USERS_QUERY,
     });
     let temp2 = [];
     if (temp.data.allUsers) {
@@ -404,7 +404,7 @@ class DemoBase extends React.PureComponent {
             createdAt:
               obj.createdAt !== null ? <Moment>{obj.createdAt}</Moment> : null,
             updatedAt:
-              obj.updatedAt !== null ? <Moment>{obj.updatedAt}</Moment> : null
+              obj.updatedAt !== null ? <Moment>{obj.updatedAt}</Moment> : null,
           })
       );
     }
@@ -426,7 +426,7 @@ class DemoBase extends React.PureComponent {
       booleanColumns,
       editingColumns,
       loading,
-      defaultHiddenColumnNames
+      defaultHiddenColumnNames,
     } = this.state;
 
     if (loading) {
@@ -466,7 +466,7 @@ class DemoBase extends React.PureComponent {
 
             <BooleanTypeProvider
               for={booleanColumns}
-              style={{ paddingRight: "20px" }}
+              style={{ paddingRight: '20px' }}
             />
 
             <VirtualTable columnExtensions={tableColumnExtensions} />
@@ -491,10 +491,10 @@ class DemoBase extends React.PureComponent {
                     c => c.type !== TableEditColumn.COLUMN_TYPE
                   ),
                   {
-                    key: "editCommand",
+                    key: 'editCommand',
                     type: TableEditColumn.COLUMN_TYPE,
-                    width: 140
-                  }
+                    width: 140,
+                  },
                 ];
                 return result;
               }}
@@ -515,6 +515,6 @@ class DemoBase extends React.PureComponent {
   }
 }
 
-export default withStyles(styles, { name: "ControlledModeDemo" })(
-  withApollo(DemoBase)
+export default withStyles(styles, { name: 'ControlledModeDemo' })(
+  withApollo(Users)
 );

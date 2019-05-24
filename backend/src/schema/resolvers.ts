@@ -459,6 +459,15 @@ export default {
         }
       });
 
+      await prisma.updateDevice({
+        data: {
+          loanStatus: true
+        },
+        where: {
+          idCode: devIdCode
+        }
+      });
+
       logger.log(
         "info",
         "[LOAN CREATE] New loan to device %s have been created by %s",
@@ -485,6 +494,15 @@ export default {
         },
         where: {
           id: loanData.id
+        }
+      });
+
+      await prisma.updateDevice({
+        data: {
+          loanStatus: false
+        },
+        where: {
+          idCode: idCode
         }
       });
 
@@ -540,6 +558,17 @@ export default {
           id: loanData.id
         }
       });
+
+      if (returnDate || loanData.returnDate) {
+        await prisma.updateDevice({
+          data: {
+            loanStatus: false
+          },
+          where: {
+            idCode: idCode
+          }
+        });
+      }
 
       logger.log(
         "info",
