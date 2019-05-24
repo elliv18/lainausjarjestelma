@@ -5,4 +5,6 @@ COPY ./frontend /opt/app
 
 WORKDIR /opt/app
 
+RUN yarn build
+
 CMD ["yarn", "start"]
