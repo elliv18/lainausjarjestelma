@@ -22,10 +22,14 @@ const server = new GraphQLServer({
     const auth = ctx.request.get("Authorization");
     let currentUser = null;
     if (auth != null) {
-      logger.log("info", "[JWT] got JWT = %s", auth);
+      logger.log("info", "[JWT] Got JWT = %s", auth);
       try {
         currentUser = await jwt.verify(auth.replace("Bearer ", ""), JWT_SECRET);
-        logger.log("info", "[JWT] JWT validate is ok %s", currentUser.id);
+        logger.log(
+          "info",
+          "[JWT] JWT validate is ok to user = %s",
+          currentUser.id
+        );
       } catch (e) {
         logger.log("warn", "[JWT] JWT token is invalid");
       }
