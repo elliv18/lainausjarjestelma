@@ -116,44 +116,49 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    let temp = await this.state.client.query({ query: CURRENTUSER });
-    let temp_user;
-    let temp_loans = [];
-    if (temp.data.currentUser) {
-      temp_user = {
-        userType: temp.data.currentUser.userType,
-        email: temp.data.currentUser.email,
-        firstName: temp.data.currentUser.firstName,
-        lastName: temp.data.currentUser.lastName,
-        address: temp.data.currentUser.address,
-        personNumber: temp.data.currentUser.personNumber,
-        phone: temp.data.currentUser.phone,
-      };
-      temp.data.currentUser.loans.map((obj, i) => {
-        if (obj.isActive === 'true') {
-          temp_loans[i] = {
-            id: obj.id,
-            loanDate:
-              obj.loanDate !== null ? <Moment>{obj.loanDate}</Moment> : null,
-            returnDate:
-              obj.returnDate !== null ? (
-                <Moment>{obj.returnDate}</Moment>
-              ) : null,
-            dueDate:
-              obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
-            idCode: obj.deviceId.idCode,
-            manufacture: obj.device.manufacture,
-            model: obj.deviceId.model,
-            deviceType: obj.device.category.deviceType,
-          };
-        }
+    const JWT = localStorage.getItem('jwtToken');
+    console.log('Home', JWT);
+    if (JWT !== null) {
+      let temp = await this.state.client.query({ query: CURRENTUSER });
+      console.log(temp);
+      let temp_user;
+      let temp_loans = [];
+      if (temp.data.currentUser) {
+        temp_user = {
+          userType: temp.data.currentUser.userType,
+          email: temp.data.currentUser.email,
+          firstName: temp.data.currentUser.firstName,
+          lastName: temp.data.currentUser.lastName,
+          address: temp.data.currentUser.address,
+          personNumber: temp.data.currentUser.personNumber,
+          phone: temp.data.currentUser.phone,
+        };
+        temp.data.currentUser.loans.map((obj, i) => {
+          if (obj.isActive === 'true') {
+            temp_loans[i] = {
+              id: obj.id,
+              loanDate:
+                obj.loanDate !== null ? <Moment>{obj.loanDate}</Moment> : null,
+              returnDate:
+                obj.returnDate !== null ? (
+                  <Moment>{obj.returnDate}</Moment>
+                ) : null,
+              dueDate:
+                obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
+              idCode: obj.deviceId.idCode,
+              manufacture: obj.device.manufacture,
+              model: obj.deviceId.model,
+              deviceType: obj.device.category.deviceType,
+            };
+          }
+        });
+      }
+      this.setState({
+        data_user: temp_user,
+        data_loans: temp_loans,
+        loading: false,
       });
     }
-    this.setState({
-      data_user: temp_user,
-      data_loans: temp_loans,
-      loading: false,
-    });
   }
 
   handleClickOpen = () => {
@@ -161,6 +166,7 @@ class Home extends React.Component {
   };
 
   handleClose = async () => {
+    console.log(this.state.password);
     this.state.client
       .mutate({
         variables: {
@@ -255,8 +261,7 @@ class Home extends React.Component {
       sorting,
       loading,
     } = this.state;
-
-    if (loading && !data_user.firstName) {
+    if (loading) {
       return <Loading />;
     } else {
       return (
