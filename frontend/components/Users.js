@@ -298,33 +298,34 @@ class DemoBase extends React.PureComponent {
               ...row
             }))
           ];
+
+          added.map(row => {
+            client
+              .mutate({
+                variables: {
+                  isActive: true,
+                  userType: row.userType,
+                  email: row.email,
+                  password: "FUCK",
+                  firstName: row.firstName,
+                  lastName: row.lastName,
+                  address: row.address,
+                  personNumber: row.personNumber,
+                  phone: row.phone
+                },
+                mutation: USERS_ADD_MUTATION
+              })
+              .then(result => console.log("RESULT ", result))
+              .catch(error => {
+                console.log(error);
+                this.setState({ errorMsgAdded: "User add failed!" });
+              });
+          });
+
+          this.setState({ data: data });
         } catch (e) {
           console.log("ERROR: ", e);
         }
-        added.map(row => {
-          client
-            .mutate({
-              variables: {
-                isActive: true,
-                userType: row.userType,
-                email: row.email,
-                password: "FUCK",
-                firstName: row.firstName,
-                lastName: row.lastName,
-                address: row.address,
-                personNumber: row.personNumber,
-                phone: row.phone
-              },
-              mutation: USERS_ADD_MUTATION
-            })
-            .then(result => console.log("RESULT ", result))
-            .catch(error => {
-              console.log(error);
-              this.setState({ errorMsgAdded: "User add failed!" });
-            });
-        });
-
-        this.setState({ data: data });
       }
       if (changed) {
         let idUser = null;
