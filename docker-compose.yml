@@ -1,14 +1,14 @@
-version: '3.5'
+version: "3.5"
 
 services:
   prisma:
     image: prismagraphql/prisma:1.32
     restart: always
     ports:
-      - '3060:3060'
+      - "${PRISMA_PORT}:${PRISMA_PORT}"
     environment:
       PRISMA_CONFIG: |
-        port: 3060
+        port: ${PRISMA_PORT}
         databases:
           default:
             connector: postgres
@@ -29,7 +29,7 @@ services:
       context: ./
       dockerfile: .dockerfiles/backendDev
     ports:
-      - '3050:3050'
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     volumes:
       - ./backend:/opt/app
     environment:
@@ -47,8 +47,8 @@ services:
     build:
       context: ./
       dockerfile: .dockerfiles/frontendDev
-    ports: 
-      - '3000:3000' 
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     volumes:
       - ./frontend:/opt/app
       - /opt/app/node_modules/.cache/
