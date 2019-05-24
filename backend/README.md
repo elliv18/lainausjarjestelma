@@ -2,7 +2,6 @@
 
 ## TODO
 
-- Loans taulu lainan status returndaten mukaan
 - testing
 - cleanup
   - dockerfiles

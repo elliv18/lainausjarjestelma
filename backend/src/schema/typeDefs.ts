@@ -325,7 +325,6 @@ export default `
     input LoanReturnInput {
         idCode: String!
         returnDate: String
-        returnerId: String
     }
     type LoanReturnPayload {
         loan: Loan
@@ -333,7 +332,6 @@ export default `
 
     input LoanUpdateInput {
         idCode: String!
-        isActive: String
         loanDate: String
         returnDate: String
         dueDate: String

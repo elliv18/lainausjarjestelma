@@ -469,7 +469,7 @@ export default {
     },
     loanReturn: async (
       obj,
-      { input: { idCode, returnDate, returnerId } },
+      { input: { idCode, returnDate } },
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
@@ -481,7 +481,7 @@ export default {
         data: {
           isActive: false,
           returnDate: returnDate,
-          returnerId: returnerId
+          returnerId: currentUser.id
         },
         where: {
           id: loanData.id
@@ -501,7 +501,6 @@ export default {
       {
         input: {
           idCode,
-          isActive,
           loanDate,
           returnDate,
           dueDate,
@@ -519,10 +518,14 @@ export default {
       // get loan id
       const loanData = await prisma.device({ idCode }).loan();
 
+      if (loanData.returnDate && returnDate == null) {
+        returnDate = loanData.returnDate;
+      }
+
       const loan = await prisma.updateLoan({
         data: _.pickBy(
           {
-            isActive: isActive,
+            isActive: returnDate ? false : true,
             loanDate: loanDate,
             returnDate: returnDate,
             dueDate: dueDate,
