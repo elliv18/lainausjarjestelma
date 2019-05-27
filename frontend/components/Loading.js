@@ -7,13 +7,13 @@ import { WaveSpinner } from 'react-spinners-kit';
 
 const styles = theme => ({
   root: {
-    padding: theme.spacing.unit,
     margin: 'auto',
     position: 'absolute',
     left: '43%',
     top: '44%',
     width: '100%',
     textAlign: 'center',
+    backgroundColor: 'lightGrey',
   },
 });
 

@@ -60,7 +60,6 @@ const styles = theme => ({
   },
   root: {
     width: '90%',
-    marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     marginLeft: 'auto',
     marginRight: 'auto',

@@ -94,6 +94,7 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
   },
   content: {
+    paddingTop: theme.spacing.unit * 3,
     paddingBottom: '100px',
     backgroundColor: 'lightGrey',
   },
