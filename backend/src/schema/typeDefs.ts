@@ -18,7 +18,6 @@ export default `
         isActive: Boolean
         userType: UserType
         email: String
-        password: String!
         firstName: String
         lastName: String
         address: String

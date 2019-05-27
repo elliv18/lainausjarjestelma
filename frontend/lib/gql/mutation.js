@@ -42,7 +42,6 @@ export const USERS_ADD_MUTATION = gql`
         isActive
         userType
         email
-        password
         firstName
         lastName
         address
@@ -82,7 +81,6 @@ export const USERS_UPDATE_MUTATION = gql`
         isActive
         userType
         email
-        password
         firstName
         lastName
         address

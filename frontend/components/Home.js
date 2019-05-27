@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
@@ -48,6 +49,7 @@ const styles = {
     textAlign: 'center',
     paddingTop: 20,
     paddingBottom: 40,
+    backgroundColor: '#E7EEEF',
   },
   paper: {
     height: 300,
@@ -67,11 +69,18 @@ const styles = {
   card: {
     width: '90%',
     textAlign: 'left',
-    padding: 10,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: '10px',
     marginTop: '10px',
+  },
+  cardContent: {
+    padding: 20,
+  },
+  cardTitle: {
+    backgroundColor: 'lightGrey',
+    textAlign: 'left',
+    padding: 20,
   },
   input: {
     display: 'none',
@@ -287,10 +296,12 @@ class Home extends React.Component {
           >
             <Grid item xs={12}>
               <Card className={classes.card} elevation={4}>
-                <CardContent>
-                  <Typography variant="h3" gutterBottom>
-                    Account information
-                  </Typography>
+                <CardHeader
+                  title="Account information"
+                  titleTypographyProps={{ variant: 'h4' }}
+                  className={classes.cardTitle}
+                />
+                <CardContent className={classes.cardContent}>
                   <Grid container spacing={24}>
                     <Grid item xs={6}>
                       <Typography variant="h5" component="h2">
