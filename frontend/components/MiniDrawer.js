@@ -26,6 +26,7 @@ import DevicesIcon from '@material-ui/icons/Devices';
 import GroupIcon from '@material-ui/icons/Group';
 import HomeIcon from '@material-ui/icons/Home';
 import LoansIcon from '@material-ui/icons/ImportContacts';
+import DeviceCategoriesIcon from '@material-ui/icons/DevicesOther';
 
 import Link from 'next/link';
 //import {JWT} from '../lib/environment'
@@ -252,6 +253,16 @@ class MiniDrawer extends React.Component {
                   </ListItem>
                 </Link>
               </List>
+              <List title="Category">
+                <Link href="/category">
+                  <ListItem button key="Category">
+                    <ListItemIcon className={classes.menuIcon}>
+                      <DeviceCategoriesIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Category" />
+                  </ListItem>
+                </Link>
+              </List>
               <List title="Loans">
                 <Link href="/loans">
                   <ListItem button key="Loans">
@@ -259,16 +270,6 @@ class MiniDrawer extends React.Component {
                       <LoansIcon />
                     </ListItemIcon>
                     <ListItemText primary="Loans" />
-                  </ListItem>
-                </Link>
-              </List>
-              <List title="Category">
-                <Link href="/category">
-                  <ListItem button key="Category">
-                    <ListItemIcon className={classes.menuIcon}>
-                      <LoansIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Category" />
                   </ListItem>
                 </Link>
               </List>
