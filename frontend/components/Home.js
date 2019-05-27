@@ -1,4 +1,5 @@
 import React from 'react';
+import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -269,7 +270,7 @@ class Home extends React.Component {
   render() {
     const { classes } = this.props;
     const { data_user, data_loans, columns, sorting, loading } = this.state;
-    if (loading) {
+    if (loading && (data_user || {}.firstName)) {
       return <Loading />;
     } else {
       return (
