@@ -34,7 +34,11 @@ import Router from 'next/router';
 import redirect from '../lib/redirect';
 import jwt from 'jwt-decode';
 
+/*********************** GLOBAL VARIABLES *************************/
+
 const drawerWidth = 220;
+
+/****************************** STYLES *****************************/
 
 const styles = theme => ({
   appBar: {
@@ -128,12 +132,17 @@ const styles = theme => ({
   },
 });
 
+/******************************** CLASS ****************************/
+
 class MiniDrawer extends React.Component {
+  // STATE
   state = {
     open: false,
     ok: false,
   };
+  // STATE ENDS
 
+  // STARTING STUFF
   async componentDidMount() {
     try {
       const JWT = localStorage.getItem('jwtToken');
@@ -160,6 +169,7 @@ class MiniDrawer extends React.Component {
     this.setState({ open: false });
   };
 
+  // RENDER
   render() {
     const { children, classes, theme } = this.props;
 
@@ -307,9 +317,11 @@ class MiniDrawer extends React.Component {
   }
 }
 
+// Props types
 MiniDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
+// EXPORT
 export default withStyles(styles, { withTheme: true })(MiniDrawer);

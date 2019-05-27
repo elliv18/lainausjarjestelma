@@ -3,6 +3,8 @@ import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { WaveSpinner } from 'react-spinners-kit';
 
+/************************* STYLES *************************/
+
 const styles = theme => ({
   root: {
     padding: theme.spacing.unit,
@@ -14,6 +16,9 @@ const styles = theme => ({
     textAlign: 'center',
   },
 });
+
+/************************ CLASS ********************************/
+
 class Loading extends React.Component {
   render() {
     const { classes } = this.props;
@@ -26,4 +31,5 @@ class Loading extends React.Component {
   }
 }
 
+// EXPORT
 export default withStyles(styles)(Loading);
