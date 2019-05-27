@@ -7,13 +7,12 @@ import { WaveSpinner } from 'react-spinners-kit';
 
 const styles = theme => ({
   root: {
+    padding: theme.spacing.unit,
     margin: 'auto',
     position: 'absolute',
     left: '43%',
     top: '44%',
-    width: '100%',
     textAlign: 'center',
-    backgroundColor: 'lightGrey',
   },
 });
 
@@ -24,7 +23,7 @@ class Loading extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.root} elevation={7}>
+      <div className={classes.root}>
         <WaveSpinner size={70} color="#004655" loading={true} />
       </div>
     );

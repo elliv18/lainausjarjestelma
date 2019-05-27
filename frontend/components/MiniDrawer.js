@@ -68,6 +68,12 @@ const styles = theme => ({
     overflow: 'auto',
     left: 0,
   },
+  drawerPaper: {
+    top: '64px',
+    overflow: 'auto',
+    left: 0,
+    backgroundColor: '#E7EEEF',
+  },
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create('width', {
@@ -96,7 +102,7 @@ const styles = theme => ({
   content: {
     paddingTop: theme.spacing.unit * 3,
     paddingBottom: '100px',
-    backgroundColor: 'lightGrey',
+    backgroundColor: '#B9CCD0',
     minHeight: 'calc(100vh - 64px)',
   },
   myAccount: {
@@ -218,7 +224,7 @@ class MiniDrawer extends React.Component {
                 [classes.drawerClose]: !this.state.open,
               })}
               classes={{
-                paper: classNames(classes.paper, {
+                paper: classNames(classes.drawerPaper, {
                   [classes.drawerOpen]: this.state.open,
                   [classes.drawerClose]: !this.state.open,
                 }),
