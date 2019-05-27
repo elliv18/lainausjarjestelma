@@ -26,6 +26,7 @@ import DevicesIcon from '@material-ui/icons/Devices';
 import GroupIcon from '@material-ui/icons/Group';
 import HomeIcon from '@material-ui/icons/Home';
 import LoansIcon from '@material-ui/icons/ImportContacts';
+import DeviceCategoriesIcon from '@material-ui/icons/DevicesOther';
 
 import Link from 'next/link';
 //import {JWT} from '../lib/environment'
@@ -33,7 +34,11 @@ import Router from 'next/router';
 import redirect from '../lib/redirect';
 import jwt from 'jwt-decode';
 
+/*********************** GLOBAL VARIABLES *************************/
+
 const drawerWidth = 220;
+
+/****************************** STYLES *****************************/
 
 const styles = theme => ({
   appBar: {
@@ -127,12 +132,17 @@ const styles = theme => ({
   },
 });
 
+/******************************** CLASS ****************************/
+
 class MiniDrawer extends React.Component {
+  // STATE
   state = {
     open: false,
     ok: false,
   };
+  // STATE ENDS
 
+  // STARTING STUFF
   async componentDidMount() {
     try {
       const JWT = localStorage.getItem('jwtToken');
@@ -159,6 +169,7 @@ class MiniDrawer extends React.Component {
     this.setState({ open: false });
   };
 
+  // RENDER
   render() {
     const { children, classes, theme } = this.props;
 
@@ -252,6 +263,16 @@ class MiniDrawer extends React.Component {
                   </ListItem>
                 </Link>
               </List>
+              <List title="Category">
+                <Link href="/category">
+                  <ListItem button key="Category">
+                    <ListItemIcon className={classes.menuIcon}>
+                      <DeviceCategoriesIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Category" />
+                  </ListItem>
+                </Link>
+              </List>
               <List title="Loans">
                 <Link href="/loans">
                   <ListItem button key="Loans">
@@ -296,9 +317,11 @@ class MiniDrawer extends React.Component {
   }
 }
 
+// Props types
 MiniDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
+// EXPORT
 export default withStyles(styles, { withTheme: true })(MiniDrawer);

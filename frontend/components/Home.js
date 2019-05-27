@@ -36,6 +36,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Loading from './Loading';
 
+/********************* STYLES ***********************/
+
 const styles = {
   root: {
     width: '90%',
@@ -62,7 +64,13 @@ const styles = {
     marginRight: 'auto',
   },
   card: {
+    width: '90%',
     textAlign: 'left',
+    padding: 10,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '10px',
+    marginTop: '10px',
   },
   input: {
     display: 'none',
@@ -77,10 +85,12 @@ const styles = {
 };
 
 /******************************** CLASS ******************************/
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
 
+    // STATE
     this.state = {
       columns: [
         { name: 'deviceType', title: 'Device type' },
@@ -115,6 +125,9 @@ class Home extends React.Component {
     this.changeSorting = sorting => this.setState({ sorting });
   }
 
+  // STATE ENDS
+
+  // STARTING QUERY
   async componentDidMount() {
     const JWT = localStorage.getItem('jwtToken');
     console.log('Home', JWT);
@@ -160,6 +173,8 @@ class Home extends React.Component {
       });
     }
   }
+
+  // FUNCTIONS
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -251,16 +266,10 @@ class Home extends React.Component {
     }
   };
 
+  // RENDER
   render() {
     const { classes } = this.props;
-    const {
-      data_user,
-      data_loans,
-      rows,
-      columns,
-      sorting,
-      loading,
-    } = this.state;
+    const { data_user, data_loans, columns, sorting, loading } = this.state;
     if (loading) {
       return <Loading />;
     } else {
@@ -275,7 +284,7 @@ class Home extends React.Component {
             justify="space-evenly"
             alignItems="center"
           >
-            <Grid item xs={11}>
+            <Grid item xs={12}>
               <Card className={classes.card} elevation={4}>
                 <CardContent>
                   <Typography variant="h3" gutterBottom>
@@ -410,7 +419,7 @@ class Home extends React.Component {
               </Card>
             </Grid>
             <Grid item xs={12}>
-              <h2>Your loans</h2>
+              <h2>Active loans</h2>
               <Paper className={classes.paperTable} elevation={6}>
                 <GridTable rows={data_loans} columns={columns}>
                   <SearchState />
@@ -434,4 +443,5 @@ class Home extends React.Component {
   }
 }
 
+// EXPORT
 export default withStyles(styles)(withApollo(Home));

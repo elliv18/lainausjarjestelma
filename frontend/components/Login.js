@@ -19,6 +19,8 @@ import Router from 'next/router';
 import green from '@material-ui/core/colors/green';
 import { primaryColor } from '../src/theme/color';
 
+/********************** STYLES ****************************/
+
 const styles = theme => ({
   margin: {
     margin: theme.spacing.unit * 2,
@@ -40,6 +42,8 @@ const styles = theme => ({
   },
 });
 
+/************************ THEME ***************************/
+
 const theme = createMuiTheme({
   palette: {
     primary: primaryColor,
@@ -49,15 +53,20 @@ const theme = createMuiTheme({
   },
 });
 
+/************************** CLASS *******************************/
+
 class LoginTab extends React.Component {
   constructor(props) {
     super(props);
+
+    // STATE
     this.state = {
       email: '',
       password: '',
       alertMsg: null,
       loggedIn: false,
     };
+    // STATE ENDS
   }
 
   setEmail = e => {
@@ -68,6 +77,7 @@ class LoginTab extends React.Component {
     this.setState({ password: e.target.value });
   };
 
+  // RENDER
   render() {
     const { classes } = this.props;
     return (
@@ -178,4 +188,5 @@ class LoginTab extends React.Component {
   }
 }
 
+// EXPORT
 export default withStyles(styles)(LoginTab);
