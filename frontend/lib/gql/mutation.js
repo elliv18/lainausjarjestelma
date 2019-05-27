@@ -38,6 +38,7 @@ export const USERS_ADD_MUTATION = gql`
       }
     ) {
       user {
+        id
         isActive
         userType
         email
@@ -93,8 +94,8 @@ export const USERS_UPDATE_MUTATION = gql`
 `;
 
 export const USER_DELETE_MUTATION = gql`
-  mutation deleteMutation($email: String!) {
-    userDelete(input: { email: $email }) {
+  mutation deleteMutation($id: ID!) {
+    userDelete(input: { id: $id }) {
       user {
         id
       }
