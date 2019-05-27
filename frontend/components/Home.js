@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -92,6 +91,9 @@ const styles = {
     textAlign: 'center',
     color: 'red',
   },
+  dialogTitle: {
+    backgroundColor: 'lightGrey',
+  },
 };
 
 /******************************** CLASS ******************************/
@@ -126,6 +128,10 @@ class Home extends React.Component {
       open: false,
       client: props.client,
 
+      firstName: '',
+      lastName: '',
+      address: '',
+      phone: '',
       old_password: '',
       password: '',
       alertMsg: '',
@@ -140,10 +146,8 @@ class Home extends React.Component {
   // STARTING QUERY
   async componentDidMount() {
     const JWT = localStorage.getItem('jwtToken');
-    console.log('Home', JWT);
     if (JWT !== null) {
       let temp = await this.state.client.query({ query: CURRENTUSER });
-      console.log(temp);
       let temp_user;
       let temp_loans = [];
       if (temp.data.currentUser) {
@@ -190,27 +194,32 @@ class Home extends React.Component {
     this.setState({ open: true });
   };
 
-  handleClose = async () => {
-    console.log(this.state.password);
+  handleCloseSave = async () => {
     this.state.client
       .mutate({
         variables: {
-          firstName: this.state.data_user.firstName
-            ? this.state.data_user.firstName
-            : null,
-          lastName: this.state.data_user.lastName
-            ? this.state.data_user.lastName
-            : null,
-          address: this.state.data_user.address
-            ? this.state.data_user.address
-            : null,
-          phone: this.state.data_user.phone ? this.state.data_user.phone : null,
+          firstName: this.state.firstName ? this.state.firstName : null,
+          lastName: this.state.lastName ? this.state.lastName : null,
+          address: this.state.address ? this.state.address : null,
+          phone: this.state.phone ? this.state.phone : null,
           password: this.state.password ? this.state.password : null,
           old_password: this.state.old_password
             ? this.state.old_password
             : null,
         },
         mutation: CURRENTUSER_UPDATE_MUTATION,
+      })
+      .then(result => {
+        console.log('result', result);
+        this.setState(state => ({
+          data_user: {
+            ...state.data_user,
+            firstName: result.data.currentUserUpdate.user.firstName,
+            lastName: result.data.currentUserUpdate.user.lastName,
+            address: result.data.currentUserUpdate.user.address,
+            phone: result.data.currentUserUpdate.user.phone,
+          },
+        }));
       })
       .catch(error => {
         this.setState({ alertMsgMain: 'Personal information update failed!' });
@@ -220,44 +229,24 @@ class Home extends React.Component {
     this.setState({ open: false });
   };
 
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   setFirstName = e => {
-    const value = e.target.value;
-    this.setState(state => ({
-      data_user: {
-        ...state.data_user,
-        firstName: value,
-      },
-    }));
+    this.setState({ firstName: e.target.value });
   };
 
   setLastName = e => {
-    const value = e.target.value;
-    this.setState(state => ({
-      data_user: {
-        ...state.data_user,
-        lastName: value,
-      },
-    }));
+    this.setState({ lastName: e.target.value });
   };
 
   setAddress = e => {
-    const value = e.target.value;
-    this.setState(state => ({
-      data_user: {
-        ...state.data_user,
-        address: value,
-      },
-    }));
+    this.setState({ address: e.target.value });
   };
 
   setPhone = e => {
-    const value = e.target.value;
-    this.setState(state => ({
-      data_user: {
-        ...state.data_user,
-        phone: value,
-      },
-    }));
+    this.setState({ phone: e.target.value });
   };
 
   setOldPW = e => {
@@ -280,7 +269,7 @@ class Home extends React.Component {
   render() {
     const { classes } = this.props;
     const { data_user, data_loans, columns, sorting, loading } = this.state;
-    if (loading) {
+    if (loading && (data_user || {}.firstName)) {
       return <Loading />;
     } else {
       return (
@@ -333,7 +322,10 @@ class Home extends React.Component {
                         onClose={this.handleClose}
                         aria-labelledby="form-dialog-title-cpi"
                       >
-                        <DialogTitle id="form-dialog-title-cpi">
+                        <DialogTitle
+                          className={classes.dialogTitle}
+                          id="form-dialog-title-cpi"
+                        >
                           Change personal information
                         </DialogTitle>
                         <DialogContent>
@@ -341,11 +333,8 @@ class Home extends React.Component {
                             Change only new content fields, others can leave
                             empty.
                             <br />
-                            <br />
-                            <b>Give new information</b>
                           </DialogContentText>
                           <TextField
-                            autoFocus
                             margin="dense"
                             id="fn"
                             label="First name"
@@ -354,7 +343,6 @@ class Home extends React.Component {
                             onChange={this.setFirstName}
                           />
                           <TextField
-                            autoFocus
                             margin="dense"
                             id="ln"
                             label="Last name"
@@ -363,7 +351,6 @@ class Home extends React.Component {
                             onChange={this.setLastName}
                           />
                           <TextField
-                            autoFocus
                             margin="dense"
                             id="address"
                             label="Address"
@@ -372,7 +359,6 @@ class Home extends React.Component {
                             onChange={this.setAddress}
                           />
                           <TextField
-                            autoFocus
                             margin="dense"
                             id="phone"
                             label="Phone"
@@ -380,19 +366,22 @@ class Home extends React.Component {
                             fullWidth
                             onChange={this.setPhone}
                           />
-                          <DialogTitle id="form-dialog-title-pw">
-                            Change password
-                          </DialogTitle>
+                        </DialogContent>
+                        <DialogTitle
+                          className={classes.dialogTitle}
+                          id="form-dialog-title-pw"
+                        >
+                          Change password
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            Give old and new pass word two times
+                          </DialogContentText>
                           <DialogContentText className={classes.message}>
                             <br />
                             {this.state.alertMsg}
                           </DialogContentText>
-                          <DialogContentText>
-                            <br />
-                            <b>Give old and new pass word two times</b>
-                          </DialogContentText>
                           <TextField
-                            autoFocus
                             margin="dense"
                             id="old_pw"
                             label="Old password"
@@ -401,7 +390,6 @@ class Home extends React.Component {
                             onChange={this.setOldPW}
                           />
                           <TextField
-                            autoFocus
                             margin="dense"
                             id="new_pw"
                             label="New password"
@@ -410,7 +398,6 @@ class Home extends React.Component {
                             onChange={this.setNewPW}
                           />
                           <TextField
-                            autoFocus
                             margin="dense"
                             id="new_pw_check"
                             label="Again new password"
@@ -420,8 +407,14 @@ class Home extends React.Component {
                           />
                         </DialogContent>
                         <DialogActions>
-                          <Button onClick={this.handleClose} color="primary">
+                          <Button
+                            onClick={this.handleCloseSave}
+                            color="primary"
+                          >
                             Save
+                          </Button>
+                          <Button onClick={this.handleClose} color="primary">
+                            Cancel
                           </Button>
                         </DialogActions>
                       </Dialog>

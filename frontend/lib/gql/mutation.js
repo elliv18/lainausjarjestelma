@@ -194,6 +194,10 @@ export const CURRENTUSER_UPDATE_MUTATION = gql`
     ) {
       user {
         id
+        firstName
+        lastName
+        address
+        phone
       }
     }
   }
