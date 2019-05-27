@@ -3,7 +3,7 @@ import * as _ from "lodash";
 import { sign } from "jsonwebtoken";
 import { mustBeLoggedIn, mustBeAtleastLevel, UserLevels } from "../misc/auth";
 import { prisma } from "../generated/prisma-client";
-import { JWT_SECRET, SALT_ROUNDS } from "../environment";
+import { JWT_SECRET, JWT_TIME, SALT_ROUNDS } from "../environment";
 import logger from "../misc/logger";
 
 export default {
@@ -129,7 +129,9 @@ export default {
         throw new Error("Password is invalid!");
       }
 
-      const jwt = sign({ id: user.id, type: user.userType }, JWT_SECRET);
+      const jwt = sign({ id: user.id, type: user.userType }, JWT_SECRET, {
+        expiresIn: JWT_TIME
+      });
 
       logger.log("info", "[LOGIN] Login succesful! Logged user is: %s", email);
       return { jwt };

@@ -105,3 +105,14 @@ export const CURRENTUSER = gql`
     }
   }
 `;
+
+export const CATEGORY_QUERY = gql`
+  query {
+    allCategories {
+      deviceType
+      desription
+      createdAt
+      updatedAt
+    }
+  }
+`;
