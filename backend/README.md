@@ -2,6 +2,7 @@
 
 ## TODO
 
+- root admin cant delete
 - testing
 - cleanup
   - dockerfiles

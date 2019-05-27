@@ -72,6 +72,7 @@ export default {
   },
   /************ MUTATIONS **************************/
   Mutation: {
+    // CURRENTUSER UPDATE
     currentUserUpdate: async (
       obj,
       { input: { firstName, lastName, address, phone, password, oldPassword } },
@@ -114,6 +115,7 @@ export default {
 
       return { user };
     },
+    // LOGIN
     login: async (obj, { input: { email, password } }) => {
       const user = await prisma.user({ email: email });
 
@@ -136,6 +138,7 @@ export default {
       logger.log("info", "[LOGIN] Login succesful! Logged user is: %s", email);
       return { jwt };
     },
+    // USER CREATE
     userCreate: async (
       obj,
       {
@@ -196,6 +199,7 @@ export default {
       );
       return { user };
     },
+    // USER UPDATE
     userUpdate: async (
       obj,
       {
@@ -263,6 +267,7 @@ export default {
       );
       return { user };
     },
+    // USER PASSWORD UPDATE
     userUpdatePW: async (obj, { input: { id, password } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
@@ -284,20 +289,22 @@ export default {
       );
       return { user };
     },
-    userDelete: async (obj, { input: { email } }, { currentUser }) => {
+    // USER DELETE
+    userDelete: async (obj, { input: { id } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
-      const user = await prisma.deleteUser({ email: email });
+      const user = await prisma.deleteUser({ id: id });
 
       logger.log(
         "info",
         "[USER DELETE] User %s have deleted by %s",
-        email,
+        id,
         currentUser.id
       );
       return user;
     },
+    // CATEGORY CREATE
     categoryCreate: async (
       obj,
       { input: { deviceType, desription } },
@@ -319,6 +326,7 @@ export default {
       );
       return { category };
     },
+    // CATEGORY UPDATE
     categoryUpdate: async (
       obj,
       { input: { deviceType, desription } },
@@ -348,22 +356,24 @@ export default {
       );
       return { category };
     },
-    categoryDelete: async (obj, { input: { deviceType } }, { currentUser }) => {
+    // CATEGORY DELETE
+    categoryDelete: async (obj, { input: { id } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
       const category = await prisma.deleteDevCategory({
-        deviceType: deviceType
+        id: id
       });
 
       logger.log(
         "info",
         "[DEVICE CATEGORY DELETE] Device category %s have deleted by %s",
-        deviceType,
+        category.deviceType,
         currentUser.id
       );
       return category;
     },
+    // DEVICE CREATE
     deviceCreate: async (
       obj,
       { input: { idCode, manufacture, model, info, devType } },
@@ -391,6 +401,7 @@ export default {
       );
       return { device };
     },
+    // DEVICE UPDATE
     deviceUpdate: async (
       obj,
       { input: { idCode, manufacture, model, info, loanStatus, devCategory } },
@@ -424,20 +435,22 @@ export default {
       );
       return device;
     },
-    deviceDelete: async (obj, { input: { idCode } }, { currentUser }) => {
+    // DEVICE DELETE
+    deviceDelete: async (obj, { input: { id } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
-      const device = await prisma.deleteDevice({ idCode });
+      const device = await prisma.deleteDevice({ id });
 
       logger.log(
         "info",
         "[DEVICE] Device %s have deleted by %s",
-        idCode,
+        device.idCode,
         currentUser.id
       );
       return device;
     },
+    // LOAN CREATE
     loanCreate: async (
       obj,
       { input: { loandate, dueDate, devIdCode, loaner } },
@@ -478,6 +491,7 @@ export default {
       );
       return { loan };
     },
+    // LOAN RETURN
     loanReturn: async (
       obj,
       { input: { idCode, returnDate } },
@@ -516,6 +530,7 @@ export default {
       );
       return { loan };
     },
+    // LOAN UPDATE
     loanUpdate: async (
       obj,
       {
@@ -580,12 +595,13 @@ export default {
       );
       return { loan };
     },
-    loanDelete: async (obj, { input: { idCode } }, { currentUser }) => {
+    // LOAN DELETE
+    loanDelete: async (obj, { input: { id } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
       // get loan id
-      const loanData = await prisma.device({ idCode }).loan();
+      const loanData = await prisma.device({ id }).loan();
 
       const loan = await prisma.deleteLoan({ id: loanData.id });
 

@@ -373,22 +373,16 @@ class Category extends React.PureComponent {
 
   async componentDidMount() {
     let temp = await this.state.client.query({
-      query: USERS_QUERY,
+      query: CATEGORY_QUERY,
     });
     let temp2 = [];
-    if (temp.data.allUsers) {
-      temp.data.allUsers.map(
+    if (temp.data.allCategories) {
+      temp.data.allCategories.map(
         (obj, i) =>
           (temp2[i] = {
             id: obj.id,
-            userType: obj.userType,
-            isActive: obj.isActive,
-            lastName: obj.lastName,
-            email: obj.email,
-            firstName: obj.firstName,
-            address: obj.address,
-            phone: obj.phone,
-            personNumber: obj.personNumber,
+            userType: obj.deviceType,
+            isActive: obj.desription,
             createdAt:
               obj.createdAt !== null ? <Moment>{obj.createdAt}</Moment> : null,
             updatedAt:

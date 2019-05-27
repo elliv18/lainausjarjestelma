@@ -239,7 +239,7 @@ export default `
     }
 
     input UserDeleteInput {
-        email: String!
+        id: ID!
     }
     type UserDeletePayload {
         user: User
@@ -272,7 +272,7 @@ export default `
     }
 
     input CategoryDeleteInput {
-        deviceType: String!
+        id: ID!
     }
     type CategoryDeletePayload {
         category: Category
@@ -304,7 +304,7 @@ export default `
     }
 
     input DeviceDeleteInput {
-        idCode: String!
+        id: ID!
     }
     type DeviceDeletePayload {
         device: Device
@@ -345,7 +345,7 @@ export default `
     }
 
     input LoanDeleteInput {
-        idCode: String!
+        id: ID!
     }
     type LoanDeletePayload {
         loan: Loan
