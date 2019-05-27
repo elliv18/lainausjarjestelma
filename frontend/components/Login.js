@@ -86,7 +86,7 @@ class LoginTab extends React.Component {
                       id="usernameInput"
                       label="Email"
                       type="email"
-                      //autoComplete = "email"
+                      autoComplete="email"
                       fullWidth
                       autoFocus
                       required
@@ -103,7 +103,7 @@ class LoginTab extends React.Component {
                       id="passwordInput"
                       label="Password"
                       type="password"
-                      //autoComplete = "password"
+                      autoComplete="password"
                       fullWidth
                       required
                       onChange={this.setPassword}

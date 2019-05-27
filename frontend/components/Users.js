@@ -306,7 +306,7 @@ class Users extends React.PureComponent {
                   isActive: true,
                   userType: row.userType,
                   email: row.email,
-                  password: 'FUCK',
+                  password: 'Salasana',
                   firstName: row.firstName,
                   lastName: row.lastName,
                   address: row.address,

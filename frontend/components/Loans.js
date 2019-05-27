@@ -1,5 +1,5 @@
-import React from "react";
-import { Getter } from "@devexpress/dx-react-core";
+import React from 'react';
+import { Getter } from '@devexpress/dx-react-core';
 import {
   SortingState,
   EditingState,
@@ -9,8 +9,8 @@ import {
   SearchState,
   IntegratedFiltering,
   DataTypeProvider,
-  RowDetailState
-} from "@devexpress/dx-react-grid";
+  RowDetailState,
+} from '@devexpress/dx-react-grid';
 import {
   Grid,
   VirtualTable,
@@ -24,59 +24,59 @@ import {
   Table,
   TableRowDetail,
   ColumnChooser,
-  TableColumnVisibility
-} from "@devexpress/dx-react-grid-material-ui";
-import Paper from "@material-ui/core/Paper";
-import Chip from "@material-ui/core/Chip";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Input from "@material-ui/core/Input";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import TableCell from "@material-ui/core/TableCell";
-import TextField from "@material-ui/core/TextField";
+  TableColumnVisibility,
+} from '@devexpress/dx-react-grid-material-ui';
+import Paper from '@material-ui/core/Paper';
+import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import TableCell from '@material-ui/core/TableCell';
+import TextField from '@material-ui/core/TextField';
 
-import CheckIcon from "@material-ui/icons/Check";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import SaveIcon from "@material-ui/icons/Save";
-import CancelIcon from "@material-ui/icons/Cancel";
-import { withStyles } from "@material-ui/core/styles";
+import CheckIcon from '@material-ui/icons/Check';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { withStyles } from '@material-ui/core/styles';
 
-import { withApollo } from "react-apollo";
-import { LOANS_QUERY } from "../lib/gql/queries";
+import { withApollo } from 'react-apollo';
+import { LOANS_QUERY } from '../lib/gql/queries';
 
-import Moment from "react-moment";
-import "moment-timezone";
-import Loading from "./Loading";
+import Moment from 'react-moment';
+import 'moment-timezone';
+import Loading from './Loading';
 
 const styles = theme => ({
   lookupEditCell: {
     paddingTop: theme.spacing.unit * 0.875,
     paddingRight: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit
+    paddingLeft: theme.spacing.unit,
   },
   root: {
-    width: "90%",
+    width: '90%',
     marginTop: theme.spacing.unit * 3,
-    overflowX: "auto",
-    marginLeft: "auto",
-    marginRight: "auto"
+    overflowX: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   table: {
-    height: "800px",
-    overflowY: "auto"
+    height: '800px',
+    overflowY: 'auto',
   },
   dialog: {
-    width: "calc(100% - 16px)"
+    width: 'calc(100% - 16px)',
   },
   inputRoot: {
-    width: "100%"
-  }
+    width: '100%',
+  },
 });
 
 const AddButton = ({ onExecute }) => (
-  <div style={{ textAlign: "center" }}>
+  <div style={{ textAlign: 'center' }}>
     <Button color="primary" onClick={onExecute} title="Create new row">
       New
     </Button>
@@ -93,7 +93,7 @@ const DeleteButton = ({ onExecute }) => (
   <IconButton
     onClick={() => {
       // eslint-disable-next-line
-      if (window.confirm("Are you sure you want to delete this row?")) {
+      if (window.confirm('Are you sure you want to delete this row?')) {
         onExecute();
       }
     }}
@@ -120,7 +120,7 @@ const commandComponents = {
   edit: EditButton,
   delete: DeleteButton,
   commit: CommitButton,
-  cancel: CancelButton
+  cancel: CancelButton,
 };
 
 const Command = ({ id, onExecute }) => {
@@ -128,30 +128,23 @@ const Command = ({ id, onExecute }) => {
   return <CommandButton onExecute={onExecute} />;
 };
 
-const availableValues = {};
+const availableValues = { loanDate: Date, returnDate: Date, dueDate: Date };
 
-const LookupEditCellBase = ({
-  availableColumnValues,
-  value,
-  onValueChange,
-  classes
-}) => (
+const LookupEditCellBase = ({ onValueChange, classes }) => (
   <TableCell className={classes.lookupEditCell}>
-    <Select
-      value={value}
+    <TextField
+      id="date"
+      type="date"
       onChange={event => onValueChange(event.target.value)}
-      input={<Input classes={{ root: classes.inputRoot }} />}
-    >
-      {availableColumnValues.map(item => (
-        <MenuItem key={item} value={item}>
-          {item}
-        </MenuItem>
-      ))}
-    </Select>
+      InputLabelProps={{
+        shrink: true,
+      }}
+      fullWidth="true"
+    />
   </TableCell>
 );
 export const LookupEditCell = withStyles(styles, {
-  name: "ControlledModeDemo"
+  name: 'ControlledModeDemo',
 })(LookupEditCellBase);
 
 const EditCell = props => {
@@ -174,17 +167,17 @@ const BooleanTypeProvider = props => (
 
 const BooleanFormatter = ({ value }) => (
   <Chip
-    color={value ? "primary" : "secondary"}
-    label={value ? "Active" : "Returned"}
+    color={value ? 'primary' : 'secondary'}
+    label={value ? 'Active' : 'Returned'}
     icon={value ? <CheckIcon /> : <CancelIcon />}
     style={
       value
         ? {
-            backgroundColor: "rgba(0,128,0,0.75)",
-            width: "110px",
-            justifyContent: "left"
+            backgroundColor: 'rgba(0,128,0,0.75)',
+            width: '110px',
+            justifyContent: 'left',
           }
-        : { backgroundColor: "rgba(204,0,0,0.85)" }
+        : { backgroundColor: 'rgba(204,0,0,0.85)' }
     }
   />
 );
@@ -195,25 +188,25 @@ const RowDetail = ({ row }) => (
   <Grid
     rows={[
       {
-        loaner: row.loanerFirstName + " " + row.loanerLastName,
+        loaner: row.loanerFirstName + ' ' + row.loanerLastName,
         loanerEmail: row.loanerEmail,
-        supplier: row.supplierFirstName + " " + row.supplierLastName,
-        supplierEmail: row.supplierEmail
-      }
+        supplier: row.supplierFirstName + ' ' + row.supplierLastName,
+        supplierEmail: row.supplierEmail,
+      },
     ]}
     columns={[
-      { name: "loaner", title: "Loaner" },
-      { name: "loanerEmail", title: "Email" },
-      { name: "supplier", title: "Supplier" },
-      { name: "supplierEmail", title: "Email" }
+      { name: 'loaner', title: 'Loaner' },
+      { name: 'loanerEmail', title: 'Email' },
+      { name: 'supplier', title: 'Supplier' },
+      { name: 'supplierEmail', title: 'Email' },
     ]}
   >
     <Table
       columnExtensions={[
-        { columnName: "loaner", wordWrapEnabled: true, width: 170 },
-        { columnName: "loanerEmail", width: 300 },
-        { columnName: "supplier", wordWrapEnabled: true, width: 170 },
-        { columnName: "supplierEmail", width: 300 }
+        { columnName: 'loaner', wordWrapEnabled: true, width: 170 },
+        { columnName: 'loanerEmail', width: 300 },
+        { columnName: 'supplier', wordWrapEnabled: true, width: 170 },
+        { columnName: 'supplierEmail', width: 300 },
       ]}
     />
     <TableHeaderRow />
@@ -228,70 +221,70 @@ class Loans extends React.PureComponent {
 
     this.state = {
       columns: [
-        { name: "idCode", title: "ID Code" },
-        { name: "deviceType", title: "Category" },
-        { name: "manufacture", title: "Manufacture" },
-        { name: "model", title: "Model" },
-        { name: "loaner", title: "Loaner" },
-        { name: "loanDate", title: "Loan date" },
-        { name: "returnDate", title: "Return date" },
-        { name: "dueDate", title: "Due date" },
-        { name: "isActive", title: "Active status" }
+        { name: 'idCode', title: 'ID Code' },
+        { name: 'deviceType', title: 'Category' },
+        { name: 'manufacture', title: 'Manufacture' },
+        { name: 'model', title: 'Model' },
+        { name: 'loaner', title: 'Loaner' },
+        { name: 'loanDate', title: 'Loan date' },
+        { name: 'returnDate', title: 'Return date' },
+        { name: 'dueDate', title: 'Due date' },
+        { name: 'isActive', title: 'Active status' },
       ],
       tableColumnExtensions: [
-        { columnName: "idCode", wordWrapEnabled: true },
-        { columnName: "deviceType", wordWrapEnabled: true },
-        { columnName: "manufacture", wordWrapEnabled: true },
-        { columnName: "model", wordWrapEnabled: true },
-        { columnName: "loaner", wordWrapEnabled: true },
-        { columnName: "loanDate", wordWrapEnabled: true },
-        { columnName: "returnDate", wordWrapEnabled: true },
-        { columnName: "dueDate", wordWrapEnabled: true },
-        { columnName: "isActive", wordWrapEnabled: true }
+        { columnName: 'idCode', wordWrapEnabled: true },
+        { columnName: 'deviceType', wordWrapEnabled: true },
+        { columnName: 'manufacture', wordWrapEnabled: true },
+        { columnName: 'model', wordWrapEnabled: true },
+        { columnName: 'loaner', wordWrapEnabled: true },
+        { columnName: 'loanDate', wordWrapEnabled: true, width: 165 },
+        { columnName: 'returnDate', wordWrapEnabled: true, width: 165 },
+        { columnName: 'dueDate', wordWrapEnabled: true, width: 165 },
+        { columnName: 'isActive', wordWrapEnabled: true },
       ],
       editingColumns: [
-        { columnName: "idCode", editingEnabled: true },
-        { columnName: "deviceType", editingEnabled: true },
-        { columnName: "manufacture", editingEnabled: true },
-        { columnName: "model", editingEnabled: true },
-        { columnName: "loaner", editingEnabled: false },
-        { columnName: "loanDate", editingEnabled: true },
-        { columnName: "returnDate", editingEnabled: true },
-        { columnName: "dueDate", editingEnabled: true },
-        { columnName: "isActive", editingEnabled: false }
+        { columnName: 'idCode', editingEnabled: true },
+        { columnName: 'deviceType', editingEnabled: true },
+        { columnName: 'manufacture', editingEnabled: true },
+        { columnName: 'model', editingEnabled: true },
+        { columnName: 'loaner', editingEnabled: false },
+        { columnName: 'loanDate', editingEnabled: true },
+        { columnName: 'returnDate', editingEnabled: true },
+        { columnName: 'dueDate', editingEnabled: true },
+        { columnName: 'isActive', editingEnabled: false },
       ],
       sorting: [],
       editingRowIds: [
-        "idCode",
-        "deviceType",
-        "manufacture",
-        "model",
-        "loanDate",
-        "returnDate",
-        "dueDate",
-        "isActive"
+        'idCode',
+        'deviceType',
+        'manufacture',
+        'model',
+        'loanDate',
+        'returnDate',
+        'dueDate',
+        'isActive',
       ],
       addedRows: [],
       defaultHiddenColumnNames: [],
-
+      dateColumns: ['loanDate', 'returnDate', 'dueDate'],
       rowChanges: {},
       currentPage: 0,
       pageSize: 0,
-      booleanColumns: ["isActive"],
+      booleanColumns: ['isActive'],
       columnOrder: [
-        "idCode",
-        "deviceType",
-        "manufacture",
-        "model",
-        "loaner",
-        "loanDate",
-        "returnDate",
-        "dueDate",
-        "isActive"
+        'idCode',
+        'deviceType',
+        'manufacture',
+        'model',
+        'loaner',
+        'loanDate',
+        'returnDate',
+        'dueDate',
+        'isActive',
       ],
       client: props.client,
       data: [],
-      loading: true
+      loading: true,
     };
     const getStateRows = () => {
       const { rows } = this.state;
@@ -307,23 +300,23 @@ class Loans extends React.PureComponent {
           Object.keys(row).length
             ? row
             : {
-                loanDate: "",
-                returnDate: "",
-                dueDate: "",
-                isActive: "",
-                idCode: "",
-                manufacture: "",
-                model: "",
-                deviceType: "",
-                loaner: ""
+                loanDate: '',
+                returnDate: '',
+                dueDate: '',
+                isActive: '',
+                idCode: '',
+                manufacture: '',
+                model: '',
+                deviceType: '',
+                loaner: '',
               }
-        )
+        ),
       });
     this.changeRowChanges = rowChanges => this.setState({ rowChanges });
     this.changeCurrentPage = currentPage => this.setState({ currentPage });
     this.changePageSize = pageSize => this.setState({ pageSize });
     this.commitChanges = ({ added, changed, deleted }) => {
-      let { rows } = this.state;
+      let { data } = this.state;
       if (added) {
         const startingAddedId =
           rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
@@ -331,21 +324,22 @@ class Loans extends React.PureComponent {
           ...rows,
           ...added.map((row, index) => ({
             id: startingAddedId + index,
-            ...row
-          }))
+            ...row,
+          })),
         ];
         //
         console.log(rows);
       }
       if (changed) {
-        rows = rows.map(row =>
+        data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
         );
+        console.log('changed ', changed);
       }
       if (deleted) {
         rows = this.deleteRows(deleted);
       }
-      this.setState({ rows });
+      this.setState({ data });
     };
     this.deleteRows = deletedIds => {
       const rows = getStateRows().slice();
@@ -372,25 +366,29 @@ class Loans extends React.PureComponent {
           (temp2[i] = {
             id: obj.id,
             loanDate:
-              obj.loanDate !== null ? <Moment>{obj.loanDate}</Moment> : null,
+              obj.loanDate !== null ? (
+                <Moment format="DD-MM-YYYY">{obj.loanDate}</Moment>
+              ) : null,
             returnDate:
               obj.returnDate !== null ? (
-                <Moment>{obj.returnDate}</Moment>
+                <Moment format="DD-MM-YYYY">{obj.returnDate}</Moment>
               ) : null,
             dueDate:
-              obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
+              obj.dueDate !== null ? (
+                <Moment format="DD-MM-YYYY">{obj.dueDate}</Moment>
+              ) : null,
             isActive: obj.isActive,
             idCode: obj.device.idCode,
             manufacture: obj.device.manufacture,
             model: obj.device.model,
             deviceType: obj.device.category.deviceType,
-            loaner: obj.loaner.firstName + " " + obj.loaner.lastName,
+            loaner: obj.loaner.firstName + ' ' + obj.loaner.lastName,
             loanerFirstName: obj.loaner.firstName,
             loanerLastName: obj.loaner.lastName,
             loanerEmail: obj.loaner.email,
             supplierFirstName: obj.supplier.firstName,
             supplierLastName: obj.supplier.lastName,
-            supplierEmail: obj.supplier.email
+            supplierEmail: obj.supplier.email,
           })
       );
     }
@@ -414,7 +412,8 @@ class Loans extends React.PureComponent {
       booleanColumns,
       editingColumns,
       loading,
-      defaultHiddenColumnNames
+      defaultHiddenColumnNames,
+      dateColumns,
     } = this.state;
 
     if (loading) {
@@ -457,7 +456,7 @@ class Loans extends React.PureComponent {
 
             <BooleanTypeProvider
               for={booleanColumns}
-              style={{ paddingRight: "20px" }}
+              style={{ paddingRight: '20px' }}
             />
 
             <VirtualTable
@@ -486,10 +485,10 @@ class Loans extends React.PureComponent {
                     c => c.type !== TableEditColumn.COLUMN_TYPE
                   ),
                   {
-                    key: "editCommand",
+                    key: 'editCommand',
                     type: TableEditColumn.COLUMN_TYPE,
-                    width: 140
-                  }
+                    width: 140,
+                  },
                 ];
                 return result;
               }}
@@ -508,6 +507,6 @@ class Loans extends React.PureComponent {
   }
 }
 
-export default withStyles(styles, { name: "ControlledModeDemo" })(
+export default withStyles(styles, { name: 'ControlledModeDemo' })(
   withApollo(Loans)
 );
