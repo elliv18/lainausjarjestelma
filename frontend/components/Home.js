@@ -1,6 +1,4 @@
 import React from 'react';
-import Router from 'next/router';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -145,10 +143,8 @@ class Home extends React.Component {
   // STARTING QUERY
   async componentDidMount() {
     const JWT = localStorage.getItem('jwtToken');
-    console.log('Home', JWT);
     if (JWT !== null) {
       let temp = await this.state.client.query({ query: CURRENTUSER });
-      console.log(temp);
       let temp_user;
       let temp_loans = [];
       if (temp.data.currentUser) {
