@@ -94,7 +94,8 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    paddingBottom: '0px',
+    paddingBottom: '100px',
+    backgroundColor: 'lightGrey',
   },
   myAccount: {
     right: 0,
