@@ -191,7 +191,7 @@ const getRowId = row => row.id;
 
 /******************************** CLASS ***************************************/
 
-class DemoBase extends React.PureComponent {
+class Equipments extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -446,5 +446,5 @@ class DemoBase extends React.PureComponent {
 
 // EXPORT
 export default withStyles(styles, { name: 'ControlledModeDemo' })(
-  withApollo(DemoBase)
+  withApollo(Equipments)
 );
