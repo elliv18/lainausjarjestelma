@@ -84,7 +84,13 @@ const TableRow = ({ row, ...restProps }) => (
     {...restProps}
     style={{
       backgroundColor:
-        row.dueDate < moment().format() && isActive ? 'red' : undefined,
+        moment(row.dueDate).format('YYYY MM DD') <
+          moment().format('YYYY MM DD') && row.isActive
+          ? '#DB2B39'
+          : moment(row.dueDate).format('YYYY MM DD') ==
+              moment().format('YYYY MM DD') && row.isActive
+          ? '#F6BF52'
+          : undefined,
     }}
   />
 );
@@ -187,13 +193,20 @@ const BooleanFormatter = ({ value }) => (
     style={
       value
         ? {
-            backgroundColor: 'rgba(0,128,0,0.75)',
+            backgroundColor: 'rgba(0,128,0)',
             width: '110px',
             justifyContent: 'left',
           }
-        : { backgroundColor: 'rgba(204,0,0,0.85)' }
+        : { backgroundColor: 'rgba(204,0,0)' }
     }
   />
+);
+
+//////////////////////////////// DATE///////////////////////////////
+const DateFormatter = ({ value }) => moment(value).format('DD-MM-YYYY');
+
+const DateTypeProvider = props => (
+  <DataTypeProvider formatterComponent={DateFormatter} {...props} />
 );
 
 const getRowId = row => row.id;
@@ -385,18 +398,9 @@ class Loans extends React.PureComponent {
         (obj, i) =>
           (temp2[i] = {
             id: obj.id,
-            loanDate:
-              obj.loanDate !== null ? (
-                <Moment format="DD-MM-YYYY">{obj.loanDate}</Moment>
-              ) : null,
-            returnDate:
-              obj.returnDate !== null ? (
-                <Moment format="DD-MM-YYYY">{obj.returnDate}</Moment>
-              ) : null,
-            dueDate:
-              obj.dueDate !== null ? (
-                <Moment format="DD-MM-YYYY">{obj.dueDate}</Moment>
-              ) : null,
+            loanDate: obj.loanDate !== null ? obj.loanDate : null,
+            returnDate: obj.returnDate !== null ? obj.returnDate : null,
+            dueDate: obj.dueDate !== null ? obj.dueDate : null,
             isActive: obj.isActive,
             idCode: obj.device.idCode,
             manufacture: obj.device.manufacture,
@@ -478,6 +482,7 @@ class Loans extends React.PureComponent {
               for={booleanColumns}
               style={{ paddingRight: '20px' }}
             />
+            <DateTypeProvider for={dateColumns} />
 
             <VirtualTable
               columnExtensions={tableColumnExtensions}

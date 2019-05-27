@@ -316,7 +316,6 @@ class Users extends React.PureComponent {
               .then(result => {
                 console.log('RESULT ', result),
                   (id = result.data.userCreate.user.id);
-                console.log('ID paska ', id);
 
                 data = [
                   ...data,
