@@ -41,7 +41,11 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
 import { USERS_QUERY } from '../lib/gql/queries';
-import { USERS_ADD_MUTATION, USERS_UPDATE_MUTATION } from '../lib/gql/mutation';
+import {
+  USERS_ADD_MUTATION,
+  USERS_UPDATE_MUTATION,
+  USER_DELETE_MUTATION,
+} from '../lib/gql/mutation';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
@@ -264,9 +268,10 @@ class Users extends React.PureComponent {
       loading: true,
       errorMsgAdded: null,
     };
+
     const getStateRows = () => {
-      const { rows } = this.state;
-      return rows;
+      const { data } = this.state;
+      return data;
     };
 
     this.changeSorting = sorting => this.setState({ sorting });
@@ -288,16 +293,10 @@ class Users extends React.PureComponent {
     this.commitChanges = ({ added, changed, deleted }) => {
       let { rows, data, client } = this.state;
       if (added) {
+        let id = null;
         try {
-          const startingAddedId =
-            data.length > 0 ? data[data.length - 1].id + 1 : 0;
-          data = [
-            ...data,
-            ...added.map((row, index) => ({
-              id: startingAddedId + index,
-              ...row,
-            })),
-          ];
+          //const startingAddedId =
+          //data.length > 0 ? data[data.length - 1].id + 1 : 0;
 
           added.map(row => {
             client
@@ -315,14 +314,26 @@ class Users extends React.PureComponent {
                 },
                 mutation: USERS_ADD_MUTATION,
               })
-              .then(result => console.log('RESULT ', result))
+              .then(result => {
+                console.log('RESULT ', result),
+                  (id = result.data.userCreate.user.id);
+                console.log('ID paska ', id);
+
+                data = [
+                  ...data,
+                  ...added.map((row, index) => ({
+                    id: id,
+                    ...row,
+                  })),
+                ];
+
+                this.setState({ data: data });
+              })
               .catch(error => {
                 console.log(error);
                 this.setState({ errorMsgAdded: 'User add failed!' });
               });
           });
-
-          this.setState({ data: data });
         } catch (e) {
           console.log('ERROR: ', e);
         }
@@ -364,19 +375,35 @@ class Users extends React.PureComponent {
         this.setState({ data: data });
       }
       if (deleted) {
-        rows = this.deleteRows(deleted);
+        data = this.deleteRows(deleted);
+        console.log(deleted[0]);
+
+        console.log('data', data);
+
+        client.mutate({
+          variables: { id: deleted[0] },
+          mutation: USER_DELETE_MUTATION,
+        });
+
+        this.setState({ data: data });
       }
-      this.setState({ rows });
+      // this.setState({ rows });
     };
+
     this.deleteRows = deletedIds => {
-      const rows = getStateRows().slice();
+      const data = getStateRows().slice();
       deletedIds.forEach(rowId => {
-        const index = rows.findIndex(row => row.id === rowId);
+        console.log('deletedID', deletedIds);
+        const index = data.findIndex(row => row.id === rowId);
         if (index > -1) {
-          rows.splice(index, 1);
+          console.log('dataSplice', data);
+
+          data.splice(index, 1);
         }
       });
-      return rows;
+      //console.log('data', data);
+
+      return data;
     };
     this.changeColumnOrder = order => {
       this.setState({ columnOrder: order });

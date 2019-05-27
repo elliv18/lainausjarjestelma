@@ -78,6 +78,17 @@ const styles = theme => ({
 });
 
 /***************************** FUNCTIONS *****************************/
+var moment = require('moment');
+
+const TableRow = ({ row, ...restProps }) => (
+  <Table.Row
+    {...restProps}
+    style={{
+      backgroundColor:
+        row.dueDate < moment().format() && isActive ? 'red' : undefined,
+    }}
+  />
+);
 
 const AddButton = ({ onExecute }) => (
   <div style={{ textAlign: 'center' }}>
@@ -472,6 +483,7 @@ class Loans extends React.PureComponent {
             <VirtualTable
               columnExtensions={tableColumnExtensions}
               className={classes.table}
+              rowComponent={TableRow}
             />
             <TableColumnReordering
               order={columnOrder}
