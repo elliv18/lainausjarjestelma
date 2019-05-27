@@ -203,8 +203,6 @@ const BooleanFormatter = ({ value }) => (
 );
 
 const getRowId = row => row.id;
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
 
 /************************* MAIN CLASS ************************************/
 
@@ -222,10 +220,10 @@ class Category extends React.PureComponent {
         { name: 'updatedAt', title: 'Updated' },
       ],
       tableColumnExtensions: [
-        { columnName: 'deviceType', wordWrapEnabled: true, width: 130 },
-        { columnName: 'desription', wordWrapEnabled: true, width: 120 },
-        { columnName: 'createdAt', wordWrapEnabled: true },
-        { columnName: 'updatedAt', wordWrapEnabled: true },
+        { columnName: 'deviceType', wordWrapEnabled: true, width: 150 },
+        { columnName: 'desription', wordWrapEnabled: true },
+        { columnName: 'createdAt', wordWrapEnabled: true, width: 130 },
+        { columnName: 'updatedAt', wordWrapEnabled: true, width: 130 },
       ],
       editingColumns: [
         { columnName: 'deviceType', editingEnabled: true },
@@ -291,22 +289,15 @@ class Category extends React.PureComponent {
             client
               .mutate({
                 variables: {
-                  isActive: true,
-                  userType: row.userType,
-                  email: row.email,
-                  password: 'FUCK',
-                  firstName: row.firstName,
-                  lastName: row.lastName,
-                  address: row.address,
-                  personNumber: row.personNumber,
-                  phone: row.phone,
+                  deviceType: row.deviceType,
+                  desription: row.desription,
                 },
-                mutation: USERS_ADD_MUTATION,
+                mutation: CATEGORY_ADD_MUTATION,
               })
               .then(result => console.log('RESULT ', result))
               .catch(error => {
                 console.log(error);
-                this.setState({ errorMsgAdded: 'User add failed!' });
+                this.setState({ errorMsgAdded: 'Category add failed!' });
               });
           });
 
@@ -316,7 +307,7 @@ class Category extends React.PureComponent {
         }
       }
       if (changed) {
-        let idUser = null;
+        let idCategory = null;
 
         data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
@@ -325,22 +316,16 @@ class Category extends React.PureComponent {
         //  console.log("ID", id);
 
         data.map(row => {
-          changed[row.id] ? (idUser = row.id) : row;
+          changed[row.id] ? (idCategory = row.id) : row;
           if (row.id === idUser) {
             client
               .mutate({
                 variables: {
                   id: row.id,
-                  isActive: row.isActive,
-                  userType: row.userType,
-                  email: row.email,
-                  firstName: row.firstName,
-                  lastName: row.lastName,
-                  address: row.address,
-                  personNumber: row.personNumber,
-                  phone: row.phone,
+                  deviceType: row.deviceType,
+                  desription: row.desription,
                 },
-                mutation: USERS_UPDATE_MUTATION,
+                mutation: CATEGORY_UPDATE_MUTATION,
               })
               .then(result => console.log('RESULT ', result))
               .catch(error => {
@@ -371,28 +356,35 @@ class Category extends React.PureComponent {
     };
   }
 
+  // STARTING DATA GET
   async componentDidMount() {
     let temp = await this.state.client.query({
       query: CATEGORY_QUERY,
     });
+    console.log(temp);
     let temp2 = [];
     if (temp.data.allCategories) {
       temp.data.allCategories.map(
         (obj, i) =>
           (temp2[i] = {
             id: obj.id,
-            userType: obj.deviceType,
-            isActive: obj.desription,
+            deviceType: obj.deviceType,
+            desription: obj.desription,
             createdAt:
-              obj.createdAt !== null ? <Moment>{obj.createdAt}</Moment> : null,
+              obj.createdAt !== null ? (
+                <Moment format="DD-MM-YYYY HH:mm">{obj.createdAt}</Moment>
+              ) : null,
             updatedAt:
-              obj.updatedAt !== null ? <Moment>{obj.updatedAt}</Moment> : null,
+              obj.updatedAt !== null ? (
+                <Moment format="DD-MM-YYYY HH:mm">{obj.updatedAt}</Moment>
+              ) : null,
           })
       );
     }
     this.setState({ data: temp2, loading: false });
   }
 
+  // RENDER
   render() {
     const { classes } = this.props;
     const {
@@ -497,6 +489,7 @@ class Category extends React.PureComponent {
   }
 }
 
+// EXPORT
 export default withStyles(styles, { name: 'ControlledModeDemo' })(
   withApollo(Category)
 );

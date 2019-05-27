@@ -109,6 +109,7 @@ export const CURRENTUSER = gql`
 export const CATEGORY_QUERY = gql`
   query {
     allCategories {
+      id
       deviceType
       desription
       createdAt

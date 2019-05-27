@@ -262,6 +262,16 @@ class MiniDrawer extends React.Component {
                   </ListItem>
                 </Link>
               </List>
+              <List title="Category">
+                <Link href="/category">
+                  <ListItem button key="Category">
+                    <ListItemIcon className={classes.menuIcon}>
+                      <LoansIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Category" />
+                  </ListItem>
+                </Link>
+              </List>
               <List title="Users">
                 <Link href="/users">
                   <ListItem button key="Users">
