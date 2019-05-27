@@ -9,7 +9,8 @@ export default async () => {
     (await prisma
       .usersConnection()
       .aggregate()
-      .count()) < 1
+      .count()) < 1 ||
+    (await prisma.user({ email: ROOT_ADMIN_EMAIL })) === null
   ) {
     await prisma.createUser({
       isActive: true,
