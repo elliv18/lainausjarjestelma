@@ -203,7 +203,8 @@ const BooleanFormatter = ({ value }) => (
 );
 
 //////////////////////////////// DATE///////////////////////////////
-const DateFormatter = ({ value }) => moment(value).format('DD-MM-YYYY');
+const DateFormatter = ({ value }) =>
+  value !== null ? moment(value).format('DD-MM-YYYY') : value;
 
 const DateTypeProvider = props => (
   <DataTypeProvider formatterComponent={DateFormatter} {...props} />
@@ -306,8 +307,8 @@ class Loans extends React.PureComponent {
         'model',
         'loaner',
         'loanDate',
-        'returnDate',
         'dueDate',
+        'returnDate',
         'isActive',
       ],
       client: props.client,
