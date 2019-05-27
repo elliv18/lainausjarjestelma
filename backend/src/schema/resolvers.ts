@@ -3,7 +3,12 @@ import * as _ from "lodash";
 import { sign } from "jsonwebtoken";
 import { mustBeLoggedIn, mustBeAtleastLevel, UserLevels } from "../misc/auth";
 import { prisma } from "../generated/prisma-client";
-import { JWT_SECRET, JWT_TIME, SALT_ROUNDS } from "../environment";
+import {
+  JWT_SECRET,
+  JWT_TIME,
+  SALT_ROUNDS,
+  ROOT_ADMIN_EMAIL
+} from "../environment";
 import logger from "../misc/logger";
 
 export default {
@@ -293,6 +298,11 @@ export default {
     userDelete: async (obj, { input: { id } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
+      if ((await prisma.user({ id }).email()) === ROOT_ADMIN_EMAIL) {
+        logger.log("warn", "[USER DELETE] Root admin cannot be deleted!");
+        throw new Error("ROOT ADMIN Cannot deleted!");
+      }
 
       const user = await prisma.deleteUser({ id: id });
 
