@@ -91,6 +91,9 @@ const styles = {
     textAlign: 'center',
     color: 'red',
   },
+  dialogTitle: {
+    backgroundColor: 'lightGrey',
+  },
 };
 
 /******************************** CLASS ******************************/
@@ -319,7 +322,10 @@ class Home extends React.Component {
                         onClose={this.handleClose}
                         aria-labelledby="form-dialog-title-cpi"
                       >
-                        <DialogTitle id="form-dialog-title-cpi">
+                        <DialogTitle
+                          className={classes.dialogTitle}
+                          id="form-dialog-title-cpi"
+                        >
                           Change personal information
                         </DialogTitle>
                         <DialogContent>
@@ -327,8 +333,6 @@ class Home extends React.Component {
                             Change only new content fields, others can leave
                             empty.
                             <br />
-                            <br />
-                            <b>Give new information</b>
                           </DialogContentText>
                           <TextField
                             margin="dense"
@@ -362,16 +366,20 @@ class Home extends React.Component {
                             fullWidth
                             onChange={this.setPhone}
                           />
-                          <DialogTitle id="form-dialog-title-pw">
-                            Change password
-                          </DialogTitle>
+                        </DialogContent>
+                        <DialogTitle
+                          className={classes.dialogTitle}
+                          id="form-dialog-title-pw"
+                        >
+                          Change password
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            Give old and new pass word two times
+                          </DialogContentText>
                           <DialogContentText className={classes.message}>
                             <br />
                             {this.state.alertMsg}
-                          </DialogContentText>
-                          <DialogContentText>
-                            <br />
-                            <b>Give old and new pass word two times</b>
                           </DialogContentText>
                           <TextField
                             margin="dense"
