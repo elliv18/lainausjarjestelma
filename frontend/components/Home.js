@@ -36,6 +36,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Loading from './Loading';
 
+/********************* STYLES ***********************/
+
 const styles = {
   root: {
     width: '90%',
@@ -77,10 +79,12 @@ const styles = {
 };
 
 /******************************** CLASS ******************************/
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
 
+    // STATE
     this.state = {
       columns: [
         { name: 'deviceType', title: 'Device type' },
@@ -115,6 +119,9 @@ class Home extends React.Component {
     this.changeSorting = sorting => this.setState({ sorting });
   }
 
+  // STATE ENDS
+
+  // STARTING QUERY
   async componentDidMount() {
     const JWT = localStorage.getItem('jwtToken');
     console.log('Home', JWT);
@@ -160,6 +167,8 @@ class Home extends React.Component {
       });
     }
   }
+
+  // FUNCTIONS
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -251,6 +260,7 @@ class Home extends React.Component {
     }
   };
 
+  // RENDER
   render() {
     const { classes } = this.props;
     const {
@@ -434,4 +444,5 @@ class Home extends React.Component {
   }
 }
 
+// EXPORT
 export default withStyles(styles)(withApollo(Home));

@@ -1,5 +1,5 @@
-import React from "react";
-import { Getter } from "@devexpress/dx-react-core";
+import React from 'react';
+import { Getter } from '@devexpress/dx-react-core';
 import {
   SortingState,
   EditingState,
@@ -8,8 +8,8 @@ import {
   IntegratedSorting,
   SearchState,
   IntegratedFiltering,
-  DataTypeProvider
-} from "@devexpress/dx-react-grid";
+  DataTypeProvider,
+} from '@devexpress/dx-react-grid';
 import {
   Grid,
   VirtualTable,
@@ -21,52 +21,56 @@ import {
   SearchPanel,
   Toolbar,
   ColumnChooser,
-  TableColumnVisibility
-} from "@devexpress/dx-react-grid-material-ui";
-import Paper from "@material-ui/core/Paper";
-import Chip from "@material-ui/core/Chip";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Input from "@material-ui/core/Input";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import TableCell from "@material-ui/core/TableCell";
+  TableColumnVisibility,
+} from '@devexpress/dx-react-grid-material-ui';
+import Paper from '@material-ui/core/Paper';
+import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import TableCell from '@material-ui/core/TableCell';
 
-import CheckIcon from "@material-ui/icons/Check";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import SaveIcon from "@material-ui/icons/Save";
-import CancelIcon from "@material-ui/icons/Cancel";
-import { withStyles } from "@material-ui/core/styles";
+import CheckIcon from '@material-ui/icons/Check';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { withStyles } from '@material-ui/core/styles';
 
-import { withApollo } from "react-apollo";
-import { EQUIPMENTS_QUERY } from "../lib/gql/queries";
-import { EQUIPMENT_ADD_MUTATION } from "../lib/gql/mutation";
-import Loading from "./Loading";
+import { withApollo } from 'react-apollo';
+import { EQUIPMENTS_QUERY } from '../lib/gql/queries';
+import { EQUIPMENT_ADD_MUTATION } from '../lib/gql/mutation';
+import Loading from './Loading';
+
+/********************* STYLES **************************/
 
 const styles = theme => ({
   lookupEditCell: {
     paddingTop: theme.spacing.unit * 0.875,
     paddingRight: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit
+    paddingLeft: theme.spacing.unit,
   },
   root: {
-    width: "90%",
+    width: '90%',
     marginTop: theme.spacing.unit * 3,
-    overflowX: "auto",
-    marginLeft: "auto",
-    marginRight: "auto"
+    overflowX: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   dialog: {
-    width: "calc(100% - 16px)"
+    width: 'calc(100% - 16px)',
   },
   inputRoot: {
-    width: "100%"
-  }
+    width: '100%',
+  },
 });
 
+/***************************** FUNCTIONS ***************************/
+
 const AddButton = ({ onExecute }) => (
-  <div style={{ textAlign: "center" }}>
+  <div style={{ textAlign: 'center' }}>
     <Button color="primary" onClick={onExecute} title="Create new row">
       New
     </Button>
@@ -83,7 +87,7 @@ const DeleteButton = ({ onExecute }) => (
   <IconButton
     onClick={() => {
       // eslint-disable-next-line
-      if (window.confirm("Are you sure you want to delete this row?")) {
+      if (window.confirm('Are you sure you want to delete this row?')) {
         onExecute();
       }
     }}
@@ -110,7 +114,7 @@ const commandComponents = {
   edit: EditButton,
   delete: DeleteButton,
   commit: CommitButton,
-  cancel: CancelButton
+  cancel: CancelButton,
 };
 
 const Command = ({ id, onExecute }) => {
@@ -128,7 +132,7 @@ const LookupEditCellBase = ({
   availableColumnValues,
   value,
   onValueChange,
-  classes
+  classes,
 }) => (
   <TableCell className={classes.lookupEditCell}>
     <Select
@@ -145,7 +149,7 @@ const LookupEditCellBase = ({
   </TableCell>
 );
 export const LookupEditCell = withStyles(styles, {
-  name: "ControlledModeDemo"
+  name: 'ControlledModeDemo',
 })(LookupEditCellBase);
 
 const EditCell = props => {
@@ -168,17 +172,17 @@ const BooleanTypeProvider = props => (
 
 const BooleanFormatter = ({ value }) => (
   <Chip
-    color={value ? "primary" : "secondary"}
-    label={value ? "Loaned" : "Available"}
+    color={value ? 'primary' : 'secondary'}
+    label={value ? 'Loaned' : 'Available'}
     icon={value ? <CancelIcon /> : <CheckIcon />}
     style={
       value
         ? {
-            backgroundColor: "rgba(204,0,0,0.85)",
-            width: "115px",
-            justifyContent: "left"
+            backgroundColor: 'rgba(204,0,0,0.85)',
+            width: '115px',
+            justifyContent: 'left',
           }
-        : { backgroundColor: "rgba(0,128,0,0.75)" }
+        : { backgroundColor: 'rgba(0,128,0,0.75)' }
     }
   />
 );
@@ -186,55 +190,62 @@ const BooleanFormatter = ({ value }) => (
 const getRowId = row => row.id;
 
 /******************************** CLASS ***************************************/
+
 class DemoBase extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    // STATE
     this.state = {
       columns: [
-        { name: "idCode", title: "Serial number" },
-        { name: "deviceType", title: "Category" },
-        { name: "manufacture", title: "Manufacture" },
-        { name: "model", title: "Model" },
-        { name: "info", title: "Info" },
-        { name: "loanStatus", title: "Loan" }
+        { name: 'idCode', title: 'Serial number' },
+        { name: 'deviceType', title: 'Category' },
+        { name: 'manufacture', title: 'Manufacture' },
+        { name: 'model', title: 'Model' },
+        { name: 'info', title: 'Info' },
+        { name: 'loanStatus', title: 'Loan' },
       ],
       tableColumnExtensions: [
-        { columnName: "idCode", wordWrapEnabled: true },
-        { columnName: "deviceType", wordWrapEnabled: true },
-        { columnName: "manufacture", wordWrapEnabled: true },
-        { columnName: "model", wordWrapEnabled: true },
-        { columnName: "info", wordWrapEnabled: true },
-        { columnName: "loanStatus", wordWrapEnabled: true }
+        { columnName: 'idCode', wordWrapEnabled: true },
+        { columnName: 'deviceType', wordWrapEnabled: true },
+        { columnName: 'manufacture', wordWrapEnabled: true },
+        { columnName: 'model', wordWrapEnabled: true },
+        { columnName: 'info', wordWrapEnabled: true },
+        { columnName: 'loanStatus', wordWrapEnabled: true },
       ],
       editingColumns: [
-        { columnName: "idCode", editingEnabled: true },
-        { columnName: "deviceType", editingEnabled: true },
-        { columnName: "manufacture", editingEnabled: true },
-        { columnName: "model", editingEnabled: true },
-        { columnName: "info", editingEnabled: true }
+        { columnName: 'idCode', editingEnabled: true },
+        { columnName: 'deviceType', editingEnabled: true },
+        { columnName: 'manufacture', editingEnabled: true },
+        { columnName: 'model', editingEnabled: true },
+        { columnName: 'info', editingEnabled: true },
       ],
       sorting: [],
-      editingRowIds: ["idCode", "deviceType", "manufacture", "model", "info"],
+      editingRowIds: ['idCode', 'deviceType', 'manufacture', 'model', 'info'],
       addedRows: [],
       rowChanges: {},
       currentPage: 0,
       pageSize: 0,
-      booleanColumns: ["loanStatus"],
+      booleanColumns: ['loanStatus'],
       defaultHiddenColumnNames: [],
 
       columnOrder: [
-        "idCode",
-        "deviceType",
-        "manufacture",
-        "model",
-        "info",
-        "loanStatus"
+        'idCode',
+        'deviceType',
+        'manufacture',
+        'model',
+        'info',
+        'loanStatus',
       ],
       client: props.client,
       data: [],
-      loading: true
+      loading: true,
     };
+
+    // STATE ENDS
+
+    // FUNCTIONS
+
     const getStateRows = () => {
       const { rows } = this.state;
       return rows;
@@ -249,12 +260,12 @@ class DemoBase extends React.PureComponent {
           Object.keys(row).length
             ? row
             : {
-                deviceCategory: "",
-                manufacture: "",
-                model: "",
-                info: ""
+                deviceCategory: '',
+                manufacture: '',
+                model: '',
+                info: '',
               }
-        )
+        ),
       });
     this.changeRowChanges = rowChanges => this.setState({ rowChanges });
     this.commitChanges = ({ added, changed, deleted }) => {
@@ -266,15 +277,15 @@ class DemoBase extends React.PureComponent {
           ...rows,
           ...added.map((row, index) => ({
             id: startingAddedId + index,
-            ...row
-          }))
+            ...row,
+          })),
         ];
 
         added.map(row => {
           client
             .mutate({
               variables: {}, // kesken
-              mutation: EQUIPMENT_ADD_MUTATION
+              mutation: EQUIPMENT_ADD_MUTATION,
             })
             .catch(error => console.log(error));
         });
@@ -305,6 +316,7 @@ class DemoBase extends React.PureComponent {
     };
   }
 
+  // STARTING QUERY
   async componentDidMount() {
     let temp = await this.state.client.query({ query: EQUIPMENTS_QUERY });
 
@@ -319,13 +331,14 @@ class DemoBase extends React.PureComponent {
             loanStatus: obj.loanStatus,
             manufacture: obj.manufacture,
             model: obj.model,
-            deviceType: obj.category.deviceType
+            deviceType: obj.category.deviceType,
           })
       );
     }
     this.setState({ data: temp2, loading: false });
   }
 
+  // RENDER
   render() {
     const { classes } = this.props;
     const {
@@ -342,7 +355,7 @@ class DemoBase extends React.PureComponent {
       booleanColumns,
       editingColumns,
       loading,
-      defaultHiddenColumnNames
+      defaultHiddenColumnNames,
     } = this.state;
 
     if (loading) {
@@ -384,7 +397,7 @@ class DemoBase extends React.PureComponent {
 
             <BooleanTypeProvider
               for={booleanColumns}
-              style={{ paddingRight: "20px" }}
+              style={{ paddingRight: '20px' }}
             />
 
             <VirtualTable columnExtensions={tableColumnExtensions} />
@@ -409,10 +422,10 @@ class DemoBase extends React.PureComponent {
                     c => c.type !== TableEditColumn.COLUMN_TYPE
                   ),
                   {
-                    key: "editCommand",
+                    key: 'editCommand',
                     type: TableEditColumn.COLUMN_TYPE,
-                    width: 140
-                  }
+                    width: 140,
+                  },
                 ];
                 return result;
               }}
@@ -431,6 +444,7 @@ class DemoBase extends React.PureComponent {
   }
 }
 
-export default withStyles(styles, { name: "ControlledModeDemo" })(
+// EXPORT
+export default withStyles(styles, { name: 'ControlledModeDemo' })(
   withApollo(DemoBase)
 );

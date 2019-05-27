@@ -50,6 +50,8 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
 
+/********************* STYLES ************************************/
+
 const styles = theme => ({
   lookupEditCell: {
     paddingTop: theme.spacing.unit * 0.875,
@@ -74,6 +76,8 @@ const styles = theme => ({
     width: '100%',
   },
 });
+
+/***************************** FUNCTIONS *****************************/
 
 const AddButton = ({ onExecute }) => (
   <div style={{ textAlign: 'center' }}>
@@ -219,6 +223,7 @@ class Loans extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    // STATE
     this.state = {
       columns: [
         { name: 'idCode', title: 'ID Code' },
@@ -286,6 +291,10 @@ class Loans extends React.PureComponent {
       data: [],
       loading: true,
     };
+    // STATE ENS
+
+    // FUNCTIONS
+
     const getStateRows = () => {
       const { rows } = this.state;
       return rows;
@@ -356,6 +365,7 @@ class Loans extends React.PureComponent {
     };
   }
 
+  // STARTING QUERY
   async componentDidMount() {
     let temp = await this.state.client.query({ query: LOANS_QUERY });
 
@@ -507,6 +517,7 @@ class Loans extends React.PureComponent {
   }
 }
 
+// EXPORT
 export default withStyles(styles, { name: 'ControlledModeDemo' })(
   withApollo(Loans)
 );
