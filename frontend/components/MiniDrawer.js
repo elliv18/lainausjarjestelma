@@ -97,6 +97,7 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 3,
     paddingBottom: '100px',
     backgroundColor: 'lightGrey',
+    minHeight: 'calc(100vh - 64px)',
   },
   myAccount: {
     right: 0,
