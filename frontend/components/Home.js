@@ -40,25 +40,13 @@ import Loading from './Loading';
 
 const styles = {
   root: {
-    width: '100%',
-    height: '100%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-    textAlign: 'center',
-    paddingTop: 20,
-    paddingBottom: 40,
-    backgroundColor: 'lightGrey',
-  },
-  rootPaper: {
     width: '90%',
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 'auto',
     marginBottom: 'auto',
     textAlign: 'center',
-    paddingTop: 10,
+    paddingTop: 20,
     paddingBottom: 40,
   },
   paper: {
@@ -287,172 +275,170 @@ class Home extends React.Component {
       return <Loading />;
     } else {
       return (
-        <div className={classes.root}>
-          <Paper className={classes.rootPaper}>
-            <div className={classes.message}>{this.state.alertMsgMain}</div>
-            <h1>Summary</h1>
-            <Grid
-              container
-              spacing={16}
-              direction="row"
-              justify="space-evenly"
-              alignItems="center"
-            >
-              <Grid item xs={12}>
-                <Card className={classes.card} elevation={4}>
-                  <CardContent>
-                    <Typography variant="h3" gutterBottom>
-                      Account information
-                    </Typography>
-                    <Grid container spacing={24}>
-                      <Grid item xs={6}>
-                        <Typography variant="h5" component="h2">
-                          First name: {data_user.firstName} {<br />}
-                          Last name: {data_user.lastName} {<br />}
-                          Address: {data_user.address} {<br />}
-                          Phone: {data_user.phone} {<br />}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography variant="h5" component="h2">
-                          Email: {data_user.email} {<br />}
-                          Person number: {data_user.personNumber} {<br />}
-                          User type: {data_user.userType} {<br />}
-                        </Typography>
-                      </Grid>
+        <Paper className={classes.root}>
+          <div className={classes.message}>{this.state.alertMsgMain}</div>
+          <h1>Summary</h1>
+          <Grid
+            container
+            spacing={16}
+            direction="row"
+            justify="space-evenly"
+            alignItems="center"
+          >
+            <Grid item xs={12}>
+              <Card className={classes.card} elevation={4}>
+                <CardContent>
+                  <Typography variant="h3" gutterBottom>
+                    Account information
+                  </Typography>
+                  <Grid container spacing={24}>
+                    <Grid item xs={6}>
+                      <Typography variant="h5" component="h2">
+                        First name: {data_user.firstName} {<br />}
+                        Last name: {data_user.lastName} {<br />}
+                        Address: {data_user.address} {<br />}
+                        Phone: {data_user.phone} {<br />}
+                      </Typography>
                     </Grid>
-                  </CardContent>
-                  <Grid item xs={12}>
-                    <Grid container justify="flex-end">
-                      <CardActions>
-                        <Grid item>
-                          <Button onClick={this.handleClickOpen}>
-                            Change personal information
-                          </Button>
-                        </Grid>
-                        <Dialog
-                          open={this.state.open}
-                          onClose={this.handleClose}
-                          aria-labelledby="form-dialog-title-cpi"
-                        >
-                          <DialogTitle id="form-dialog-title-cpi">
-                            Change personal information
-                          </DialogTitle>
-                          <DialogContent>
-                            <DialogContentText>
-                              Change only new content fields, others can leave
-                              empty.
-                              <br />
-                              <br />
-                              <b>Give new information</b>
-                            </DialogContentText>
-                            <TextField
-                              autoFocus
-                              margin="dense"
-                              id="fn"
-                              label="First name"
-                              type="String"
-                              fullWidth
-                              onChange={this.setFirstName}
-                            />
-                            <TextField
-                              autoFocus
-                              margin="dense"
-                              id="ln"
-                              label="Last name"
-                              type="String"
-                              fullWidth
-                              onChange={this.setLastName}
-                            />
-                            <TextField
-                              autoFocus
-                              margin="dense"
-                              id="address"
-                              label="Address"
-                              type="String"
-                              fullWidth
-                              onChange={this.setAddress}
-                            />
-                            <TextField
-                              autoFocus
-                              margin="dense"
-                              id="phone"
-                              label="Phone"
-                              type="String"
-                              fullWidth
-                              onChange={this.setPhone}
-                            />
-                            <DialogTitle id="form-dialog-title-pw">
-                              Change password
-                            </DialogTitle>
-                            <DialogContentText className={classes.message}>
-                              <br />
-                              {this.state.alertMsg}
-                            </DialogContentText>
-                            <DialogContentText>
-                              <br />
-                              <b>Give old and new pass word two times</b>
-                            </DialogContentText>
-                            <TextField
-                              autoFocus
-                              margin="dense"
-                              id="old_pw"
-                              label="Old password"
-                              type="password"
-                              fullWidth
-                              onChange={this.setOldPW}
-                            />
-                            <TextField
-                              autoFocus
-                              margin="dense"
-                              id="new_pw"
-                              label="New password"
-                              type="password"
-                              fullWidth
-                              onChange={this.setNewPW}
-                            />
-                            <TextField
-                              autoFocus
-                              margin="dense"
-                              id="new_pw_check"
-                              label="Again new password"
-                              type="password"
-                              fullWidth
-                              onChange={this.setNewPWCheck}
-                            />
-                          </DialogContent>
-                          <DialogActions>
-                            <Button onClick={this.handleClose} color="primary">
-                              Save
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-                      </CardActions>
+                    <Grid item xs={6}>
+                      <Typography variant="h5" component="h2">
+                        Email: {data_user.email} {<br />}
+                        Person number: {data_user.personNumber} {<br />}
+                        User type: {data_user.userType} {<br />}
+                      </Typography>
                     </Grid>
                   </Grid>
-                </Card>
-              </Grid>
-              <Grid item xs={12}>
-                <h2>Active loans</h2>
-                <Paper className={classes.paperTable} elevation={6}>
-                  <GridTable rows={data_loans} columns={columns}>
-                    <SearchState />
-                    <SortingState
-                      sorting={sorting}
-                      onSortingChange={this.changeSorting}
-                    />
-                    <IntegratedFiltering />
-                    <IntegratedSorting />
-                    <VirtualTable />
-                    <TableHeaderRow showSortingControls />
-                    <Toolbar />
-                    <SearchPanel />
-                  </GridTable>
-                </Paper>
-              </Grid>
+                </CardContent>
+                <Grid item xs={12}>
+                  <Grid container justify="flex-end">
+                    <CardActions>
+                      <Grid item>
+                        <Button onClick={this.handleClickOpen}>
+                          Change personal information
+                        </Button>
+                      </Grid>
+                      <Dialog
+                        open={this.state.open}
+                        onClose={this.handleClose}
+                        aria-labelledby="form-dialog-title-cpi"
+                      >
+                        <DialogTitle id="form-dialog-title-cpi">
+                          Change personal information
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            Change only new content fields, others can leave
+                            empty.
+                            <br />
+                            <br />
+                            <b>Give new information</b>
+                          </DialogContentText>
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="fn"
+                            label="First name"
+                            type="String"
+                            fullWidth
+                            onChange={this.setFirstName}
+                          />
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="ln"
+                            label="Last name"
+                            type="String"
+                            fullWidth
+                            onChange={this.setLastName}
+                          />
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="address"
+                            label="Address"
+                            type="String"
+                            fullWidth
+                            onChange={this.setAddress}
+                          />
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="phone"
+                            label="Phone"
+                            type="String"
+                            fullWidth
+                            onChange={this.setPhone}
+                          />
+                          <DialogTitle id="form-dialog-title-pw">
+                            Change password
+                          </DialogTitle>
+                          <DialogContentText className={classes.message}>
+                            <br />
+                            {this.state.alertMsg}
+                          </DialogContentText>
+                          <DialogContentText>
+                            <br />
+                            <b>Give old and new pass word two times</b>
+                          </DialogContentText>
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="old_pw"
+                            label="Old password"
+                            type="password"
+                            fullWidth
+                            onChange={this.setOldPW}
+                          />
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="new_pw"
+                            label="New password"
+                            type="password"
+                            fullWidth
+                            onChange={this.setNewPW}
+                          />
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="new_pw_check"
+                            label="Again new password"
+                            type="password"
+                            fullWidth
+                            onChange={this.setNewPWCheck}
+                          />
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={this.handleClose} color="primary">
+                            Save
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </CardActions>
+                  </Grid>
+                </Grid>
+              </Card>
             </Grid>
-          </Paper>
-        </div>
+            <Grid item xs={12}>
+              <h2>Active loans</h2>
+              <Paper className={classes.paperTable} elevation={6}>
+                <GridTable rows={data_loans} columns={columns}>
+                  <SearchState />
+                  <SortingState
+                    sorting={sorting}
+                    onSortingChange={this.changeSorting}
+                  />
+                  <IntegratedFiltering />
+                  <IntegratedSorting />
+                  <VirtualTable />
+                  <TableHeaderRow showSortingControls />
+                  <Toolbar />
+                  <SearchPanel />
+                </GridTable>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Paper>
       );
     }
   }
