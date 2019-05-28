@@ -49,6 +49,7 @@ import {
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
+import ToolbarTitle from '../src/ToolbarTitle';
 
 /*********************** STYLES *****************************/
 
@@ -477,10 +478,8 @@ class Category extends React.PureComponent {
             />
             <Toolbar />
             <ColumnChooser />
-            <div className={classes.toolbarTitle}>
-              {this.state.errorMsgAdded}
-            </div>
             <SearchPanel />
+            <ToolbarTitle title="Device Categories" />
           </Grid>
         </Paper>
       );

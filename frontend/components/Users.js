@@ -31,6 +31,7 @@ import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TableCell from '@material-ui/core/TableCell';
+import ToolbarTitle from '../src/ToolbarTitle';
 
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -46,6 +47,7 @@ import {
   USERS_UPDATE_MUTATION,
   USER_DELETE_MUTATION,
 } from '../lib/gql/mutation';
+
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
@@ -529,10 +531,8 @@ class Users extends React.PureComponent {
             />
             <Toolbar />
             <ColumnChooser />
-            <div className={classes.toolbarTitle}>
-              {this.state.errorMsgAdded}
-            </div>
             <SearchPanel />
+            <ToolbarTitle title="Users" />
           </Grid>
         </Paper>
       );

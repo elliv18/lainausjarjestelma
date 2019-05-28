@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
@@ -8,6 +9,15 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Loading from './Loading';
+import ToolbarTitle from '../src/ToolbarTitle';
+
 import {
   SearchState,
   SortingState,
@@ -21,20 +31,13 @@ import {
   SearchPanel,
   TableHeaderRow,
 } from '@devexpress/dx-react-grid-material-ui';
+
 import { withApollo } from 'react-apollo';
 import { CURRENTUSER } from '../lib/gql/queries';
 import { CURRENTUSER_UPDATE_MUTATION } from '../lib/gql/mutation';
 
 import Moment from 'react-moment';
 import 'moment-timezone';
-
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Loading from './Loading';
 
 /********************* STYLES ***********************/
 
@@ -424,7 +427,6 @@ class Home extends React.Component {
               </Card>
             </Grid>
             <Grid item xs={12}>
-              <h2>Active loans</h2>
               <Paper className={classes.paperTable} elevation={6}>
                 <GridTable rows={data_loans} columns={columns}>
                   <SearchState />
@@ -438,6 +440,7 @@ class Home extends React.Component {
                   <TableHeaderRow showSortingControls />
                   <Toolbar />
                   <SearchPanel />
+                  <ToolbarTitle title="Active loans" />
                 </GridTable>
               </Paper>
             </Grid>
