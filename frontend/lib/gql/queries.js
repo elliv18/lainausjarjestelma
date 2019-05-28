@@ -8,6 +8,14 @@ export const testLogin = gql`
   }
 `;
 
+export const BACKENDTEST_QUERY = gql`
+  query {
+    backendTest {
+      up
+    }
+  }
+`;
+
 export const EQUIPMENTS_QUERY = gql`
   query {
     allDevices {
