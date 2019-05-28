@@ -14,7 +14,6 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
 
@@ -31,7 +30,6 @@ import DeviceCategoriesIcon from '@material-ui/icons/DevicesOther';
 import Link from 'next/link';
 //import {JWT} from '../lib/environment'
 import Router from 'next/router';
-import redirect from '../lib/redirect';
 import jwt from 'jwt-decode';
 
 /*********************** GLOBAL VARIABLES *************************/
@@ -180,7 +178,7 @@ class MiniDrawer extends React.Component {
 
   // RENDER
   render() {
-    const { children, classes, theme } = this.props;
+    const { classes } = this.props;
 
     if (this.state.ok) {
       return (
@@ -253,8 +251,12 @@ class MiniDrawer extends React.Component {
               </List>
               <Divider />
               <List title="Home">
-                <Link prefetch href="/">
-                  <ListItem button key="Home">
+                <Link href="/">
+                  <ListItem
+                    button
+                    key="Home"
+                    selected={window.location.pathname == '/'}
+                  >
                     <ListItemIcon className={classes.menuIcon}>
                       <HomeIcon />
                     </ListItemIcon>
@@ -264,7 +266,11 @@ class MiniDrawer extends React.Component {
               </List>
               <List title="Equipments">
                 <Link prefetch href="/equipments">
-                  <ListItem button key="Equipments">
+                  <ListItem
+                    button
+                    key="Equipments"
+                    selected={window.location.pathname == '/equipments'}
+                  >
                     <ListItemIcon className={classes.menuIcon}>
                       <DevicesIcon />
                     </ListItemIcon>
@@ -274,7 +280,11 @@ class MiniDrawer extends React.Component {
               </List>
               <List title="Category">
                 <Link prefetch href="/category">
-                  <ListItem button key="Category">
+                  <ListItem
+                    button
+                    key="Category"
+                    selected={window.location.pathname == '/category'}
+                  >
                     <ListItemIcon className={classes.menuIcon}>
                       <DeviceCategoriesIcon />
                     </ListItemIcon>
@@ -284,7 +294,11 @@ class MiniDrawer extends React.Component {
               </List>
               <List title="Loans">
                 <Link prefetch href="/loans">
-                  <ListItem button key="Loans">
+                  <ListItem
+                    button
+                    key="Loans"
+                    selected={window.location.pathname == '/loans'}
+                  >
                     <ListItemIcon className={classes.menuIcon}>
                       <LoansIcon />
                     </ListItemIcon>
@@ -294,7 +308,11 @@ class MiniDrawer extends React.Component {
               </List>
               <List title="Users">
                 <Link prefetch href="/users">
-                  <ListItem button key="Users">
+                  <ListItem
+                    button
+                    key="Users"
+                    selected={window.location.pathname == '/users'}
+                  >
                     <ListItemIcon className={classes.menuIcon}>
                       <GroupIcon />
                     </ListItemIcon>
