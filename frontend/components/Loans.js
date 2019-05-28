@@ -171,21 +171,30 @@ function editEmails() {
   return temp;
 }
 
-const LookupEditCellBase = ({ onValueChange, classes }) => (
-  <TableCell className={classes.lookupEditCell}>
-    <TextField
-      id="date"
-      type="date"
-      onChange={event => onValueChange(event.target.value)}
-      InputLabelProps={{
-        shrink: true,
-      }}
-      fullWidth="true"
-    />
+const LookupEditCellBase = ({ onValueChange, classes, column }) =>
+  column.name == 'loaner' ? (
+    <TableCell className={classes.lookupEditCell}>
+      <Select
+        options={(arrayEmails = editEmails())}
+        //onChange={opt => console.log(opt.label, opt.value)}
+        onChange={opt => console.log(opt.label, opt.value)}
+        onChange={event => onValueChange(event.value)}
+      />
+    </TableCell>
+  ) : (
+    <TableCell className={classes.lookupEditCell}>
+      <TextField
+        id="date"
+        type="date"
+        onChange={event => onValueChange(event.target.value)}
+        InputLabelProps={{
+          shrink: true,
+        }}
+        fullWidth={true}
+      />
+    </TableCell>
+  );
 
-    <Select options={(arrayEmails = editEmails())} />
-  </TableCell>
-);
 export const LookupEditCell = withStyles(styles, {
   name: 'ControlledModeDemo',
 })(LookupEditCellBase);
@@ -380,17 +389,17 @@ class Loans extends React.PureComponent {
     this.commitChanges = ({ added, changed, deleted }) => {
       let { data } = this.state;
       if (added) {
+        console.log('ADDED', added);
         const startingAddedId =
-          rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
-        rows = [
-          ...rows,
+          data.length > 0 ? data[data.length - 1].id + 1 : 0;
+        data = [
+          ...data,
           ...added.map((row, index) => ({
             id: startingAddedId + index,
             ...row,
           })),
         ];
         //
-        console.log(rows);
       }
       if (changed) {
         data = data.map(row =>
