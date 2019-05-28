@@ -186,7 +186,7 @@ class MiniDrawer extends React.Component {
           <CssBaseline />
           <AppBar position="sticky" className={classes.appBar}>
             <Toolbar>
-              <Link href="/">
+              <Link prefetch href="/">
                 <Typography className={classes.titleTypo}>
                   <Button
                     size="large"
@@ -251,7 +251,7 @@ class MiniDrawer extends React.Component {
               </List>
               <Divider />
               <List title="Home">
-                <Link href="/">
+                <Link prefetch href="/">
                   <ListItem
                     button
                     key="Home"
