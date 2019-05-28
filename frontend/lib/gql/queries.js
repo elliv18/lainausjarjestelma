@@ -44,6 +44,13 @@ export const USERS_QUERY = gql`
     }
   }
 `;
+export const EMAILS_QUERY = gql`
+  query {
+    allUsers {
+      email
+    }
+  }
+`;
 
 export const LOANS_QUERY = gql`
   query {
