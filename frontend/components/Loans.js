@@ -35,6 +35,7 @@ import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import TableCell from '@material-ui/core/TableCell';
 import TextField from '@material-ui/core/TextField';
+import ToolbarTitle from '../src/ToolbarTitle';
 
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -566,8 +567,8 @@ class Loans extends React.PureComponent {
             />
             <Toolbar />
             <ColumnChooser />
-
             <SearchPanel />
+            <ToolbarTitle title="Loans" />
           </Grid>
         </Paper>
       );
