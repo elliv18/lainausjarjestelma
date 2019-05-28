@@ -253,7 +253,7 @@ class MiniDrawer extends React.Component {
               </List>
               <Divider />
               <List title="Home">
-                <Link href="/">
+                <Link prefetch href="/">
                   <ListItem button key="Home">
                     <ListItemIcon className={classes.menuIcon}>
                       <HomeIcon />
@@ -263,7 +263,7 @@ class MiniDrawer extends React.Component {
                 </Link>
               </List>
               <List title="Equipments">
-                <Link href="/equipments">
+                <Link prefetch href="/equipments">
                   <ListItem button key="Equipments">
                     <ListItemIcon className={classes.menuIcon}>
                       <DevicesIcon />
@@ -273,7 +273,7 @@ class MiniDrawer extends React.Component {
                 </Link>
               </List>
               <List title="Category">
-                <Link href="/category">
+                <Link prefetch href="/category">
                   <ListItem button key="Category">
                     <ListItemIcon className={classes.menuIcon}>
                       <DeviceCategoriesIcon />
@@ -283,7 +283,7 @@ class MiniDrawer extends React.Component {
                 </Link>
               </List>
               <List title="Loans">
-                <Link href="/loans">
+                <Link prefetch href="/loans">
                   <ListItem button key="Loans">
                     <ListItemIcon className={classes.menuIcon}>
                       <LoansIcon />
@@ -293,7 +293,7 @@ class MiniDrawer extends React.Component {
                 </Link>
               </List>
               <List title="Users">
-                <Link href="/users">
+                <Link prefetch href="/users">
                   <ListItem button key="Users">
                     <ListItemIcon className={classes.menuIcon}>
                       <GroupIcon />
