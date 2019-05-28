@@ -31,7 +31,7 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
-import Select from '@material-ui/core/Select';
+//import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TableCell from '@material-ui/core/TableCell';
 import TextField from '@material-ui/core/TextField';
@@ -44,11 +44,12 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
-import { LOANS_QUERY } from '../lib/gql/queries';
+import { LOANS_QUERY, EMAILS_QUERY } from '../lib/gql/queries';
 
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
+import Select from 'react-select';
 
 /********************* STYLES ************************************/
 
@@ -148,7 +149,27 @@ const Command = ({ id, onExecute }) => {
   return <CommandButton onExecute={onExecute} />;
 };
 
-const availableValues = { loanDate: Date, returnDate: Date, dueDate: Date };
+const availableValues = {
+  loanDate: Date,
+  returnDate: Date,
+  dueDate: Date,
+  loaner: String,
+};
+
+let arrayEmails = null;
+
+let emails = [];
+
+function editEmails() {
+  let temp = [];
+  emails.map((row, i) => {
+    temp[i] = {
+      label: row.email,
+      value: row.email,
+    };
+  });
+  return temp;
+}
 
 const LookupEditCellBase = ({ onValueChange, classes }) => (
   <TableCell className={classes.lookupEditCell}>
@@ -161,6 +182,8 @@ const LookupEditCellBase = ({ onValueChange, classes }) => (
       }}
       fullWidth="true"
     />
+
+    <Select options={(arrayEmails = editEmails())} />
   </TableCell>
 );
 export const LookupEditCell = withStyles(styles, {
@@ -294,7 +317,13 @@ class Loans extends React.PureComponent {
         'isActive',
       ],
       addedRows: [],
-      defaultHiddenColumnNames: [],
+      defaultHiddenColumnNames: [
+        'idCode',
+        'deviceType',
+        'manufacture',
+        'model',
+        'loanDate',
+      ],
       dateColumns: ['loanDate', 'returnDate', 'dueDate'],
       rowChanges: {},
       currentPage: 0,
@@ -392,6 +421,7 @@ class Loans extends React.PureComponent {
   // STARTING QUERY
   async componentDidMount() {
     let temp = await this.state.client.query({ query: LOANS_QUERY });
+    let tempEmails = await this.state.client.query({ query: EMAILS_QUERY });
 
     let temp2 = [];
     if (temp.data.allLoans) {
@@ -417,6 +447,8 @@ class Loans extends React.PureComponent {
           })
       );
     }
+    //console.log('emails', tempEmails);
+    emails = tempEmails.data.allUsers;
     this.setState({ data: temp2, loading: false });
   }
 
