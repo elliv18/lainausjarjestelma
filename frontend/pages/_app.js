@@ -1,36 +1,31 @@
-import App, { Container } from 'next/app'
-import React from 'react'
+import App, { Container } from 'next/app';
+import React from 'react';
 import Head from 'next/head';
-import withApolloClient from '../lib/with-apollo-client'
-import { ApolloProvider } from 'react-apollo'
+import withApolloClient from '../lib/with-apollo-client';
+import { ApolloProvider } from 'react-apollo';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
 import getPageContext from '../src/getPageContext';
-import {JWT} from '../lib/environment'
-import Router from'next/router'
 
 const fakeAuth = {
   isAuthenticated: false,
   authenticate(cb) {
-    this.isAuthenticated = true
-    setTimeout(cb, 100) // fake async
+    this.isAuthenticated = true;
+    setTimeout(cb, 100); // fake async
   },
   signout(cb) {
-    this.isAuthenticated = false
-    setTimeout(cb, 100) // fake async
-  }
-}
-
+    this.isAuthenticated = false;
+    setTimeout(cb, 100); // fake async
+  },
+};
 
 class MyApp extends App {
   constructor() {
     super();
     this.pageContext = getPageContext();
-    
   }
 
-  
   componentDidMount() {
     //poistaa tokenin kun selain suljetaan
     //window.localStorage.removeItem('jwtToken')
@@ -38,18 +33,17 @@ class MyApp extends App {
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
-    }  
+    }
   }
 
-
-  render () {
-    const { Component, pageProps, apolloClient } = this.props
+  render() {
+    const { Component, pageProps, apolloClient } = this.props;
     return (
       <Container>
         <Head>
           <title>Loan system</title>
         </Head>
-        
+
         {/* Wrap every page in Jss and Theme providers */}
         <JssProvider
           registry={this.pageContext.sheetsRegistry}
@@ -65,15 +59,14 @@ class MyApp extends App {
             <CssBaseline />
             {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server-side. */}
-              <ApolloProvider client={apolloClient}>
-                <Component pageContext={this.pageContext} {...pageProps} />
-              </ApolloProvider>
+            <ApolloProvider client={apolloClient}>
+              <Component pageContext={this.pageContext} {...pageProps} />
+            </ApolloProvider>
           </MuiThemeProvider>
-        </JssProvider>  
-        
+        </JssProvider>
       </Container>
-    )
+    );
   }
 }
 
-export default withApolloClient(MyApp)
+export default withApolloClient(MyApp);

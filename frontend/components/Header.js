@@ -1,13 +1,27 @@
-import Link from 'next/link'
-import { withRouter } from 'next/router'
+import Link from 'next/link';
+import { withRouter } from 'next/router';
 
 const Header = ({ router: { pathname } }) => (
   <header>
-    <Link prefetch href='/'>
+    <Link prefetch href="/">
       <a className={pathname === '/' ? 'is-active' : ''}>Home</a>
     </Link>
-    <Link prefetch href='/about'>
-      <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
+    <Link prefetch href="/equipments">
+      <a className={pathname === '/equipments' ? 'is-active' : ''}>
+        Equipments
+      </a>
+    </Link>
+    <Link prefetch href="/category">
+      <a className={pathname === '/category' ? 'is-active' : ''}>Category</a>
+    </Link>
+    <Link prefetch href="/loans">
+      <a className={pathname === '/loans' ? 'is-active' : ''}>Loans</a>
+    </Link>
+    <Link prefetch href="/users">
+      <a className={pathname === '/users' ? 'is-active' : ''}>Users</a>
+    </Link>
+    <Link prefetch href="/login">
+      <a className={pathname === '/login' ? 'is-active' : ''}>Login</a>
     </Link>
     <style jsx>{`
       header {
@@ -23,6 +37,6 @@ const Header = ({ router: { pathname } }) => (
       }
     `}</style>
   </header>
-)
+);
 
-export default withRouter(Header)
+export default withRouter(Header);
