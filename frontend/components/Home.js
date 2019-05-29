@@ -148,6 +148,7 @@ class Home extends React.Component {
 
   // STARTING QUERY
   async componentDidMount() {
+    console.log(this.props.data);
     const JWT = localStorage.getItem('jwtToken');
     if (JWT !== null) {
       let temp = await this.state.client.query({ query: CURRENTUSER });
