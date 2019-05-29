@@ -243,14 +243,14 @@ export const CATEGORY_DELETE_MUTATION = gql`
 
 export const LOAN_ADD_MUTATION = gql`
   mutation createMutation(
-    $loandate: String!
+    $loanDate: String!
     $dueDate: String!
     $devIdCode: String!
     $loaner: String!
   ) {
     loanCreate(
       input: {
-        loanDate: $loandate
+        loandate: $loanDate
         dueDate: $dueDate
         devIdCode: $devIdCode
         loaner: $loaner

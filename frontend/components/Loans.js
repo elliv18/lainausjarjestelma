@@ -46,7 +46,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
 import { LOANS_QUERY, EMAILS_QUERY, DEVICE_ID_QUERY } from '../lib/gql/queries';
-
+import { LOAN_ADD_MUTATION } from '../lib/gql/mutation';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
@@ -350,13 +350,7 @@ class Loans extends React.PureComponent {
         'isActive',
       ],
       addedRows: [],
-      defaultHiddenColumnNames: [
-        'idCode',
-        'deviceType',
-        'manufacture',
-        'model',
-        'loanDate',
-      ],
+      defaultHiddenColumnNames: ['deviceType', 'manufacture', 'model'],
       dateColumns: ['loanDate', 'returnDate', 'dueDate'],
       rowChanges: {},
       currentPage: 0,
@@ -412,11 +406,43 @@ class Loans extends React.PureComponent {
     this.changeCurrentPage = currentPage => this.setState({ currentPage });
     this.changePageSize = pageSize => this.setState({ pageSize });
     this.commitChanges = ({ added, changed, deleted }) => {
-      let { data } = this.state;
+      let { data, client } = this.state;
       if (added) {
         console.log(added);
+        let id = null;
+
         try {
-          added.map(row => {});
+          added.map(row => {
+            console.log('row', row.idCode);
+            client
+              .mutate({
+                variables: {
+                  loanDate: row.loanDate,
+                  dueDate: row.dueDate,
+                  devIdCode: row.idCode,
+                  loaner: row.loaner,
+                },
+                mutation: LOAN_ADD_MUTATION,
+              })
+              .then(result => {
+                console.log('RESULT ', result),
+                  (id = result.data.loanCreate.loan.id);
+                console.log('RowID', id);
+                data = [
+                  ...data,
+                  ...added.map((row, index) => ({
+                    id: id,
+                    ...row,
+                  })),
+                ];
+
+                this.setState({ data: data });
+              })
+              .catch(error => {
+                console.log(error);
+                // this.setState({ errorMsgAdded: 'Loan add failed!' });
+              });
+          });
         } catch (e) {
           console.log(e);
         }
