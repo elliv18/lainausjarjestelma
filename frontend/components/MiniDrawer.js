@@ -28,9 +28,11 @@ import LoansIcon from '@material-ui/icons/ImportContacts';
 import DeviceCategoriesIcon from '@material-ui/icons/DevicesOther';
 
 import Link from 'next/link';
-//import {JWT} from '../lib/environment'
 import Router from 'next/router';
 import jwt from 'jwt-decode';
+
+import { withApollo } from 'react-apollo';
+import { CURRENTUSER } from '../lib/gql/queries';
 
 /*********************** GLOBAL VARIABLES *************************/
 
@@ -142,22 +144,27 @@ const styles = theme => ({
 /******************************** CLASS ****************************/
 
 class MiniDrawer extends React.Component {
-  // STATE
-  state = {
-    open: false,
-    ok: false,
-  };
-  // STATE ENDS
+  constructor(props) {
+    super(props);
+    // STATE
+    this.state = {
+      open: false,
+      ok: false,
+      client: props.client,
+    };
+    // STATE ENDS
+  }
 
   // STARTING STUFF
   async componentDidMount() {
     try {
+      await this.state.client.query({ query: CURRENTUSER });
+
       const JWT = localStorage.getItem('jwtToken');
       await jwt(JWT);
 
       this.setLoginOk();
     } catch (e) {
-      console.log('catch error mini');
       Router.push({
         pathname: '/login',
       });
@@ -351,4 +358,4 @@ MiniDrawer.propTypes = {
 };
 
 // EXPORT
-export default withStyles(styles, { withTheme: true })(MiniDrawer);
+export default withStyles(styles, { withTheme: true })(withApollo(MiniDrawer));
