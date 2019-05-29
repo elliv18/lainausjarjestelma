@@ -1,9 +1,9 @@
 variables:
   REMOTE_HOST: deploy@172.16.12.222
-  REMOTE_DIR: oma-valmentaja-proto
+  REMOTE_DIR: lainausjarjestelma-proto
   BACKEND_IMAGE: ${CI_REGISTRY_IMAGE}/backend
   FRONTEND_IMAGE: ${CI_REGISTRY_IMAGE}/frontend
-  PROD_DOMAIN: omavalmentaja.iotlab.tamk.fi
+  PROD_DOMAIN: lainausjarjestelma.iotlab.tamk.fi
 
 stages:
   - env
@@ -31,13 +31,16 @@ env_prod:
     - echo "BACKEND_PORT=3050" >> "${REMOTE_DIR}/.env"
     - echo "BACKEND_HOST=api.${PROD_DOMAIN}" >> "${REMOTE_DIR}/.env"
     - echo "JWT_SECRET=${JWT_SECRET}" >> "${REMOTE_DIR}/.env"
+    - echo "JWT_TIME=${JWT_TIME}" >> "${REMOTE_DIR}/.env"
+    - echo "SALT_ROUNDS=${SALT_ROUNDS}" >> "${REMOTE_DIR}/.env"
     - echo "ROOT_ADMIN_EMAIL=${ROOT_ADMIN_EMAIL}" >> "${REMOTE_DIR}/.env"
     - echo "ROOT_ADMIN_PASS=${ROOT_ADMIN_PASS}" >> "${REMOTE_DIR}/.env"
     # DATABASE ENVS
     - echo "DB_USERNAME=${DB_USERNAME}" >> "${REMOTE_DIR}/.env"
     - echo "DB_PASSWORD=${DB_PASSWORD}" >> "${REMOTE_DIR}/.env"
     - echo "DB_NAME=${DB_NAME}" >> "${REMOTE_DIR}/.env"
-    - echo "DB_RESET=${DB_RESET}" >> "${REMOTE_DIR}/.env"
+    # PRISMA
+    - echo "PRISMA_PORT=3060" >> "${REMOTE_DIR}/.env"
     # FRONTEND ENVS
     - echo "FRONTEND_IMAGE=${FRONTEND_IMAGE}" >> "${REMOTE_DIR}/.env"
     - echo "FRONTEND_PORT=3000" >> "${REMOTE_DIR}/.env"
@@ -71,7 +74,7 @@ deploy_backend:
     - docker push "${BACKEND_IMAGE}"
     # Prepare files for transfer
     - cp docker-compose.prod.yml "${REMOTE_DIR}/docker-compose.yml"
-    # Copy files to server - permissionit kusee, miksi?
+    # Copy files to server
     - rsync -r "${REMOTE_DIR}" "${REMOTE_HOST}:./"
     # Run container-setup.sh to set up Docker environment on the remote server
     - ssh ${REMOTE_HOST} /bin/bash "
