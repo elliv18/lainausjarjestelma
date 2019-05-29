@@ -326,16 +326,19 @@ class Equipments extends React.PureComponent {
       }
       if (changed) {
         let idDevice = null;
-
         data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
         );
+        console.log('DATA', data);
 
         console.log('CHANGED', changed);
 
         data.map(row => {
           changed[row.id] ? (idDevice = row.id) : row;
+
           if (row.id === idDevice) {
+            console.log('ID', idDevice);
+            console.log('idCode', row.deviceCategory);
             client
               .mutate({
                 variables: {
@@ -343,7 +346,7 @@ class Equipments extends React.PureComponent {
                   manufacture: row.manufacture,
                   model: row.model,
                   info: row.info,
-                  devType: row.deviceCategory,
+                  deviceCategory: row.deviceCategory,
                 },
                 mutation: EQUIPMENT_UPDATE_MUTATION,
               })
@@ -353,13 +356,17 @@ class Equipments extends React.PureComponent {
               });
           }
         });
-        console.log('CHANGED', changed);
         this.setState({ data: data });
       }
       if (deleted) {
-        rows = this.deleteRows(deleted);
+        data = this.deleteRows(deleted);
+
+        client.mutate({
+          variables: { id: deleted[0] },
+          mutation: EQUIPMENT_DELETE_MUTATION,
+        });
       }
-      this.setState({ rows });
+      this.setState({ data: data });
     };
     this.deleteRows = deletedIds => {
       const rows = getStateRows().slice();
