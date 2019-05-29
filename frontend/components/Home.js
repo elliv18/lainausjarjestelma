@@ -203,10 +203,10 @@ class Home extends React.Component {
                 ) : null,
               dueDate:
                 obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
-              idCode: obj.deviceId.idCode,
+              idCode: obj.device.idCode,
               manufacture: obj.device.manufacture,
-              model: obj.deviceId.model,
-              deviceType: obj.device.category.deviceType,
+              model: obj.device.model,
+              deviceType: obj.device.category.deviceCategory,
             };
           }
         });

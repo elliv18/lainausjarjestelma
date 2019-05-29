@@ -141,9 +141,6 @@ export default `
         # Update device
         deviceUpdate(input: DeviceUpdateInput!): DeviceUpdatePayload
 
-        # ADMINS - Update loan
-        loanUpdate(input: LoanUpdateInput!): LoanUpdatePayload
-
         ########## RETURN LOAN ######################
 
         # Return loan
@@ -325,20 +322,6 @@ export default `
         returnDate: String
     }
     type LoanReturnPayload {
-        loan: Loan
-    }
-
-    input LoanUpdateInput {
-        idCode: String!
-        loanDate: String
-        returnDate: String
-        dueDate: String
-        deviceId: String
-        loanerId: String
-        supplierId: String
-        returnerId: String
-    }
-    type LoanUpdatePayload {
         loan: Loan
     }
 

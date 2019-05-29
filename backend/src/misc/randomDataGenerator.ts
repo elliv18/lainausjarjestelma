@@ -67,13 +67,22 @@ export default async (amount: number) => {
         loanDate: faker.date.past(),
         dueDate: faker.date.future(),
         deviceId: {
-          connect: { idCode: dev.idCode }
+          connect: { id: dev.id }
         },
         loanerId: {
           connect: { id: userS.id }
         },
         supplierId: {
           connect: { id: user.id }
+        }
+      });
+
+      await prisma.updateDevice({
+        data: {
+          loanStatus: true
+        },
+        where: {
+          id: dev.id
         }
       });
       process.stdout.write(".");
