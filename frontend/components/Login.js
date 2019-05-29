@@ -80,7 +80,7 @@ class LoginTab extends React.Component {
   };
 
   async componentDidMount() {
-    //localStorage.removeItem('jwtToken');
+    localStorage.removeItem('jwtToken');
     // TODO - is backend up?
     this.setState({ loading: false });
   }

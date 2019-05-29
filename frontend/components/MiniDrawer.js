@@ -29,7 +29,6 @@ import DeviceCategoriesIcon from '@material-ui/icons/DevicesOther';
 
 import Link from 'next/link';
 import Router from 'next/router';
-import jwt from 'jwt-decode';
 
 import { withApollo } from 'react-apollo';
 import { CURRENTUSER } from '../lib/gql/queries';
@@ -159,26 +158,16 @@ class MiniDrawer extends React.Component {
   // STARTING STUFF
   async componentDidMount() {
     try {
-      // handshake current jwt
+      // get logged user data
       let temp = await this.state.client.query({ query: CURRENTUSER });
 
-      console.log(temp);
-      // get jwt and decompose it
-      //const JWT = localStorage.getItem('jwtToken');
-      //let temp = await jwt(JWT);
-      //this.setState({ currentUserId: temp.id, currentUserType: temp.type });
-
-      this.setLoginOk();
+      this.setState({ currentUser: temp.data.currentUser, ok: true });
     } catch (e) {
       Router.push({
         pathname: '/login',
       });
     }
   }
-
-  setLoginOk = () => {
-    this.setState({ ok: true });
-  };
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -191,8 +180,9 @@ class MiniDrawer extends React.Component {
   // RENDER
   render() {
     const { classes } = this.props;
+    const { ok, currentUser } = this.state;
 
-    if (this.state.ok) {
+    if (ok) {
       return (
         <div>
           <CssBaseline />
@@ -276,62 +266,73 @@ class MiniDrawer extends React.Component {
                   </ListItem>
                 </Link>
               </List>
-              <List title="Equipments">
-                <Link prefetch href="/equipments">
-                  <ListItem
-                    button
-                    key="Equipments"
-                    selected={window.location.pathname == '/equipments'}
-                  >
-                    <ListItemIcon className={classes.menuIcon}>
-                      <DevicesIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Equipments" />
-                  </ListItem>
-                </Link>
-              </List>
-              <List title="Category">
-                <Link prefetch href="/category">
-                  <ListItem
-                    button
-                    key="Category"
-                    selected={window.location.pathname == '/category'}
-                  >
-                    <ListItemIcon className={classes.menuIcon}>
-                      <DeviceCategoriesIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Category" />
-                  </ListItem>
-                </Link>
-              </List>
-              <List title="Loans">
-                <Link prefetch href="/loans">
-                  <ListItem
-                    button
-                    key="Loans"
-                    selected={window.location.pathname == '/loans'}
-                  >
-                    <ListItemIcon className={classes.menuIcon}>
-                      <LoansIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Loans" />
-                  </ListItem>
-                </Link>
-              </List>
-              <List title="Users">
-                <Link prefetch href="/users">
-                  <ListItem
-                    button
-                    key="Users"
-                    selected={window.location.pathname == '/users'}
-                  >
-                    <ListItemIcon className={classes.menuIcon}>
-                      <GroupIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Users" />
-                  </ListItem>
-                </Link>
-              </List>
+              {currentUser.userType === 'ADMIN' ||
+              currentUser.userType === 'STAFF' ? (
+                <List title="Equipments">
+                  <Link prefetch href="/equipments">
+                    <ListItem
+                      button
+                      key="Equipments"
+                      selected={window.location.pathname == '/equipments'}
+                    >
+                      <ListItemIcon className={classes.menuIcon}>
+                        <DevicesIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Equipments" />
+                    </ListItem>
+                  </Link>
+                </List>
+              ) : null}
+              {currentUser.userType === 'ADMIN' ? (
+                <List title="Category">
+                  <Link prefetch href="/category">
+                    <ListItem
+                      button
+                      key="Category"
+                      selected={window.location.pathname == '/category'}
+                    >
+                      <ListItemIcon className={classes.menuIcon}>
+                        <DeviceCategoriesIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Category" />
+                    </ListItem>
+                  </Link>
+                </List>
+              ) : null}
+              {currentUser.userType === 'ADMIN' ||
+              currentUser.userType === 'STAFF' ? (
+                <List title="Loans">
+                  <Link prefetch href="/loans">
+                    <ListItem
+                      button
+                      key="Loans"
+                      selected={window.location.pathname == '/loans'}
+                    >
+                      <ListItemIcon className={classes.menuIcon}>
+                        <LoansIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Loans" />
+                    </ListItem>
+                  </Link>
+                </List>
+              ) : null}
+              {currentUser.userType === 'ADMIN' ||
+              currentUser.userType === 'STAFF' ? (
+                <List title="Users">
+                  <Link prefetch href="/users">
+                    <ListItem
+                      button
+                      key="Users"
+                      selected={window.location.pathname == '/users'}
+                    >
+                      <ListItemIcon className={classes.menuIcon}>
+                        <GroupIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Users" />
+                    </ListItem>
+                  </Link>
+                </List>
+              ) : null}
             </Drawer>
             <div
               className={classNames({
