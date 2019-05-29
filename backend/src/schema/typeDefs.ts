@@ -50,7 +50,7 @@ export default `
 
     type Category {
         id: ID!
-        deviceType: String!
+        deviceCategory: String!
         desription: String
         createdAt: String!
         updatedAt: String!
@@ -255,7 +255,7 @@ export default `
     ########### CATEGORY #####################
 
     input CategoryCreateInput {
-        deviceType: String!
+        deviceCategory: String!
         desription: String
     }
     type CategoryCreatePayload {
@@ -263,7 +263,7 @@ export default `
     }
 
     input CategoryUpdateInput {
-        deviceType: String!
+        deviceCategory: String!
         desription: String
     }
     type CategoryUpdatePayload {
@@ -284,7 +284,7 @@ export default `
         manufacture: String
         model: String
         info: String
-        devType: String!
+        deviceCategory: String!
     }
     type DeviceCreatePayload {
         device: Device
@@ -296,7 +296,7 @@ export default `
         model: String
         info: String
         loanStatus: Boolean
-        devCategory: String
+        deviceCategory: String
     }
     type DeviceUpdatePayload {
         device: Device

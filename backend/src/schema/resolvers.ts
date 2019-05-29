@@ -339,7 +339,7 @@ export default {
     // CATEGORY UPDATE
     categoryUpdate: async (
       obj,
-      { input: { deviceType, desription } },
+      { input: { deviceCategory, desription } },
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
@@ -348,20 +348,20 @@ export default {
       const category = await prisma.updateDevCategory({
         data: _.pickBy(
           {
-            deviceType: deviceType,
+            deviceType: deviceCategory,
             desription: desription
           },
           _.identity
         ),
         where: {
-          deviceType: deviceType
+          deviceType: deviceCategory
         }
       });
 
       logger.log(
         "info",
         "[CATEGORY UPDATE] Category %s have been updated by %s",
-        deviceType,
+        deviceCategory,
         currentUser.id
       );
       return { category };
@@ -414,7 +414,9 @@ export default {
     // DEVICE UPDATE
     deviceUpdate: async (
       obj,
-      { input: { idCode, manufacture, model, info, loanStatus, devCategory } },
+      {
+        input: { idCode, manufacture, model, info, loanStatus, deviceCategory }
+      },
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
@@ -428,7 +430,7 @@ export default {
             model: model,
             info: info,
             loanStatus: loanStatus,
-            devCategoryId: devCategory
+            devCategoryId: deviceCategory
           },
           _.identity
         ),
