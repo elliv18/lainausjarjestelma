@@ -140,3 +140,10 @@ export const CATEGORY_QUERY = gql`
     }
   }
 `;
+export const CATEGORY_NAME_QUERY = gql`
+  query {
+    allCategories {
+      deviceType
+    }
+  }
+`;
