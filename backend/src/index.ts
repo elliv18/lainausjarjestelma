@@ -9,7 +9,6 @@ import RDG from "./misc/randomDataGenerator";
 // Creating root admin if db is empty...
 createRootAdmin();
 
-console.log(NODE_ENV);
 // Generate fake data if development is on
 if (NODE_ENV == "development") {
   // paljonko generoidaan nro?

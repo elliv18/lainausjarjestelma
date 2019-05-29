@@ -29,17 +29,17 @@ type Device {
   model: String
   info: String
   loanStatus: Boolean! @default(value: false)
-  devCategoryId: DevCategory! @relation(name: "DevCat")
+  categoryId: Category! @relation(name: "Cat")
   loan: Loan @relation(name: "DevLoan")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
 
-type DevCategory {
+type Category {
   id: ID! @id
-  deviceType: String @unique
+  deviceCategory: String @unique
   desription: String
-  devices: [Device]! @relation(name: "DevCat")
+  devices: [Device]! @relation(name: "Cat")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

@@ -42,8 +42,8 @@ export default async (amount: number) => {
       process.stdout.write(".");
 
       // make new category
-      const cat = await prisma.createDevCategory({
-        deviceType: faker.commerce.product() + i.toString(),
+      const cat = await prisma.createCategory({
+        deviceCategory: faker.commerce.product() + i.toString(),
         desription: faker.lorem.words(10)
       });
       process.stdout.write(".");
@@ -55,8 +55,8 @@ export default async (amount: number) => {
         model: faker.commerce.productMaterial(),
         info: faker.lorem.words(10),
         loanStatus: false,
-        devCategoryId: {
-          connect: { deviceType: cat.deviceType }
+        categoryId: {
+          connect: { deviceCategory: cat.deviceCategory }
         }
       });
       process.stdout.write(".");

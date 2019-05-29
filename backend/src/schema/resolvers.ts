@@ -20,7 +20,7 @@ export default {
   },
   Device: {
     async category(device) {
-      return await prisma.device({ id: device.id }).devCategoryId();
+      return await prisma.device({ id: device.id }).categoryId();
     }
   },
   Loan: {
@@ -54,7 +54,7 @@ export default {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
-      return await prisma.devCategories();
+      return await prisma.categories();
     },
     allDevices: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
@@ -317,21 +317,21 @@ export default {
     // CATEGORY CREATE
     categoryCreate: async (
       obj,
-      { input: { deviceType, desription } },
+      { input: { deviceCategory, desription } },
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
-      const category = await prisma.createDevCategory({
-        deviceType: deviceType,
+      const category = await prisma.createCategory({
+        deviceCategory: deviceCategory,
         desription: desription
       });
 
       logger.log(
         "info",
         "[CATEGORY CREATE] New category %s have been created by %s",
-        deviceType,
+        deviceCategory,
         currentUser.id
       );
       return { category };
@@ -345,7 +345,7 @@ export default {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
-      const category = await prisma.updateDevCategory({
+      const category = await prisma.updateCategory({
         data: _.pickBy(
           {
             deviceType: deviceCategory,
@@ -354,7 +354,7 @@ export default {
           _.identity
         ),
         where: {
-          deviceType: deviceCategory
+          deviceCategory: deviceCategory
         }
       });
 
@@ -371,14 +371,14 @@ export default {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
-      const category = await prisma.deleteDevCategory({
+      const category = await prisma.deleteCategory({
         id: id
       });
 
       logger.log(
         "info",
         "[DEVICE CATEGORY DELETE] Device category %s have deleted by %s",
-        category.deviceType,
+        category.deviceCategory,
         currentUser.id
       );
       return category;
@@ -386,7 +386,7 @@ export default {
     // DEVICE CREATE
     deviceCreate: async (
       obj,
-      { input: { idCode, manufacture, model, info, devType } },
+      { input: { idCode, manufacture, model, info, deviceCategory } },
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
@@ -398,8 +398,8 @@ export default {
         model: model,
         info: info,
         loanStatus: false,
-        devCategoryId: {
-          connect: { deviceType: devType }
+        categoryId: {
+          connect: { deviceCategory: deviceCategory }
         }
       });
 
