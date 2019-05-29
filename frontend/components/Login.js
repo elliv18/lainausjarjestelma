@@ -178,7 +178,7 @@ class LoginTab extends React.Component {
                       Router.push({
                         pathname: '/',
                       });
-                      //window.location.href = '/';
+                      window.location.href = '/';
                     }
                   }}
                   variant="outlined"
