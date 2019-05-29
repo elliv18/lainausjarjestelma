@@ -430,7 +430,7 @@ export default {
             model: model,
             info: info,
             loanStatus: loanStatus,
-            devCategoryId: deviceCategory
+            categoryId: deviceCategory
           },
           _.identity
         ),
