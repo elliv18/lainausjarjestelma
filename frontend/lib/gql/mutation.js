@@ -119,7 +119,7 @@ export const EQUIPMENT_ADD_MUTATION = gql`
     $manufacture: String
     $model: String
     $info: String
-    $devType: String!
+    $deviceCategory: String!
   ) {
     deviceCreate(
       input: {
@@ -127,7 +127,7 @@ export const EQUIPMENT_ADD_MUTATION = gql`
         manufacture: $manufacture
         model: $model
         info: $info
-        devType: $devType
+        deviceCategory: $deviceCategory
       }
     ) {
       device {
@@ -143,7 +143,7 @@ export const EQUIPMENT_UPDATE_MUTATION = gql`
     $manufacture: String
     $model: String
     $info: String
-    $devCategory: ID
+    $deviceCategory: ID
   ) {
     deviceUpdate(
       input: {
@@ -151,7 +151,7 @@ export const EQUIPMENT_UPDATE_MUTATION = gql`
         manufacture: $manufacture
         model: $model
         info: $info
-        devCategory: $devCategory
+        deviceCategory: $deviceCategory
       }
     ) {
       device {

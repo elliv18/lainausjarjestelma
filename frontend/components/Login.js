@@ -144,6 +144,7 @@ class LoginTab extends React.Component {
                     style={{ textTransform: 'none' }}
                     variant="text"
                     color="primary"
+                    onClick={() => localStorage.removeItem('jwtToken')}
                   >
                     Forgot password ?
                   </Button>

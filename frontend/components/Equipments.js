@@ -41,7 +41,11 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
 import { EQUIPMENTS_QUERY, CATEGORY_NAME_QUERY } from '../lib/gql/queries';
-import { EQUIPMENT_ADD_MUTATION } from '../lib/gql/mutation';
+import {
+  EQUIPMENT_ADD_MUTATION,
+  EQUIPMENT_UPDATE_MUTATION,
+  EQUIPMENT_DELETE_MUTATION,
+} from '../lib/gql/mutation';
 import Loading from './Loading';
 import Select from 'react-select';
 
@@ -123,7 +127,7 @@ const Command = ({ id, onExecute }) => {
 };
 
 const availableValues = {
-  deviceType: String,
+  deviceCategory: String,
 };
 
 let categoryNames = [];
@@ -133,8 +137,8 @@ function editCategories() {
   let temp = [];
   categoryNames.map((row, i) => {
     temp[i] = {
-      label: row.deviceType,
-      value: row.deviceType,
+      label: row.deviceCategory,
+      value: row.deviceCategory,
     };
   });
   return temp;
@@ -206,7 +210,7 @@ class Equipments extends React.PureComponent {
     this.state = {
       columns: [
         { name: 'idCode', title: 'Serial number' },
-        { name: 'deviceType', title: 'Category' },
+        { name: 'deviceCategory', title: 'Category' },
         { name: 'manufacture', title: 'Manufacture' },
         { name: 'model', title: 'Model' },
         { name: 'info', title: 'Info' },
@@ -214,7 +218,7 @@ class Equipments extends React.PureComponent {
       ],
       tableColumnExtensions: [
         { columnName: 'idCode', wordWrapEnabled: true },
-        { columnName: 'deviceType', wordWrapEnabled: true },
+        { columnName: 'deviceCategory', wordWrapEnabled: true },
         { columnName: 'manufacture', wordWrapEnabled: true },
         { columnName: 'model', wordWrapEnabled: true },
         { columnName: 'info', wordWrapEnabled: true },
@@ -222,13 +226,19 @@ class Equipments extends React.PureComponent {
       ],
       editingColumns: [
         { columnName: 'idCode', editingEnabled: true },
-        { columnName: 'deviceType', editingEnabled: true },
+        { columnName: 'deviceCategory', editingEnabled: true },
         { columnName: 'manufacture', editingEnabled: true },
         { columnName: 'model', editingEnabled: true },
         { columnName: 'info', editingEnabled: true },
       ],
       sorting: [],
-      editingRowIds: ['idCode', 'deviceType', 'manufacture', 'model', 'info'],
+      editingRowIds: [
+        'idCode',
+        'deviceCategory',
+        'manufacture',
+        'model',
+        'info',
+      ],
       addedRows: [],
       rowChanges: {},
       currentPage: 0,
@@ -238,7 +248,7 @@ class Equipments extends React.PureComponent {
 
       columnOrder: [
         'idCode',
-        'deviceType',
+        'deviceCategory',
         'manufacture',
         'model',
         'info',
@@ -281,7 +291,7 @@ class Equipments extends React.PureComponent {
         let id = null;
 
         added.map(row => {
-          console.log(row.deviceType);
+          console.log(row.deviceCategory);
           client
             .mutate({
               variables: {
@@ -289,7 +299,7 @@ class Equipments extends React.PureComponent {
                 manufacture: row.manufacture,
                 model: row.model,
                 info: row.info,
-                devType: row.deviceType,
+                deviceCategory: row.deviceCategory,
               },
               mutation: EQUIPMENT_ADD_MUTATION,
             })
@@ -315,9 +325,36 @@ class Equipments extends React.PureComponent {
         this.setState({ data: data });
       }
       if (changed) {
-        rows = rows.map(row =>
+        let idDevice = null;
+
+        data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
         );
+
+        console.log('CHANGED', changed);
+
+        data.map(row => {
+          changed[row.id] ? (idDevice = row.id) : row;
+          if (row.id === idDevice) {
+            client
+              .mutate({
+                variables: {
+                  idCode: row.idCode,
+                  manufacture: row.manufacture,
+                  model: row.model,
+                  info: row.info,
+                  devType: row.deviceCategory,
+                },
+                mutation: EQUIPMENT_UPDATE_MUTATION,
+              })
+              .then(result => console.log('RESULT ', result))
+              .catch(error => {
+                console.log(error);
+              });
+          }
+        });
+        console.log('CHANGED', changed);
+        this.setState({ data: data });
       }
       if (deleted) {
         rows = this.deleteRows(deleted);
@@ -357,7 +394,7 @@ class Equipments extends React.PureComponent {
             loanStatus: obj.loanStatus,
             manufacture: obj.manufacture,
             model: obj.model,
-            deviceType: obj.category.deviceType,
+            deviceCategory: obj.category.deviceCategory,
           })
       );
     }
