@@ -429,7 +429,10 @@ export default {
             manufacture: manufacture,
             model: model,
             info: info,
-            categoryId: catId.id
+            loanStatus: null,
+            categoryId: {
+              connect: { id: catId.id }
+            }
           },
           _.identity
         ),

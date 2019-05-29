@@ -20,3 +20,7 @@
 - categories
 - loans
 
+## Remote server
+
+- user: laianus
+- pass: proto19
