@@ -162,8 +162,8 @@ export const EQUIPMENT_UPDATE_MUTATION = gql`
 `;
 
 export const EQUIPMENT_DELETE_MUTATION = gql`
-  mutation deleteMutation($idCode: String!) {
-    deviceDelete(input: { idCode: $idCode }) {
+  mutation deleteMutation($id: ID!) {
+    deviceDelete(input: { id: $id }) {
       device {
         id
       }

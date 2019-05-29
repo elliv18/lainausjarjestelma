@@ -29,6 +29,7 @@ import {
   VirtualTable,
   Toolbar,
   SearchPanel,
+  Table,
   TableHeaderRow,
 } from '@devexpress/dx-react-grid-material-ui';
 

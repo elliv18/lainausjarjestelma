@@ -132,6 +132,8 @@ const availableValues = {
 
 let categoryNames = [];
 let arrayCategoryNames = [];
+let selectedValue = '';
+let selectedRowNumber = null;
 
 function editCategories() {
   let temp = [];
@@ -154,7 +156,8 @@ const LookupEditCellBase = ({
     <Select
       options={(arrayCategoryNames = editCategories())}
       //onChange={opt => console.log(opt.label, opt.value)}
-      onChange={opt => console.log(opt.label, opt.value)}
+      defaultInputValue="123"
+      // onChange={opt => console.log(opt.label, opt.value)}
       onChange={event => onValueChange(event.value)}
     />
   </TableCell>
@@ -264,8 +267,8 @@ class Equipments extends React.PureComponent {
     // FUNCTIONS
 
     const getStateRows = () => {
-      const { rows } = this.state;
-      return rows;
+      const { data } = this.state;
+      return data;
     };
 
     this.changeSorting = sorting => this.setState({ sorting });
@@ -273,15 +276,7 @@ class Equipments extends React.PureComponent {
       this.setState({ editingRowIds });
     this.changeAddedRows = addedRows =>
       this.setState({
-        addedRows: addedRows.map(row =>
-          Object.keys(row).length
-            ? row
-            : {
-                manufacture: '',
-                model: '',
-                info: '',
-              }
-        ),
+        addedRows: addedRows.map(row => (Object.keys(row).length ? row : {})),
       });
     this.changeRowChanges = rowChanges => this.setState({ rowChanges });
     this.commitChanges = ({ added, changed, deleted }) => {
@@ -333,12 +328,13 @@ class Equipments extends React.PureComponent {
 
         console.log('CHANGED', changed);
 
-        data.map(row => {
+        data.map((row, i) => {
           changed[row.id] ? (idDevice = row.id) : row;
 
           if (row.id === idDevice) {
-            console.log('ID', idDevice);
-            console.log('idCode', row.deviceCategory);
+            console.log('number', selectedRowNumber);
+            //console.log('ID', idDevice);
+            //console.log('idCode', row.deviceCategory);
             client
               .mutate({
                 variables: {
@@ -360,23 +356,28 @@ class Equipments extends React.PureComponent {
       }
       if (deleted) {
         data = this.deleteRows(deleted);
+        console.log(deleted[0]);
+
+        // console.log('data', data);
 
         client.mutate({
           variables: { id: deleted[0] },
           mutation: EQUIPMENT_DELETE_MUTATION,
         });
+
+        this.setState({ data: data });
       }
       this.setState({ data: data });
     };
     this.deleteRows = deletedIds => {
-      const rows = getStateRows().slice();
+      const data = getStateRows().slice();
       deletedIds.forEach(rowId => {
-        const index = rows.findIndex(row => row.id === rowId);
+        const index = data.findIndex(row => row.id === rowId);
         if (index > -1) {
-          rows.splice(index, 1);
+          data.splice(index, 1);
         }
       });
-      return rows;
+      return data;
     };
     this.changeColumnOrder = order => {
       this.setState({ columnOrder: order });
@@ -405,7 +406,8 @@ class Equipments extends React.PureComponent {
           })
       );
     }
-    console.log(tempCategories.data.allCategories);
+    // console.log(tempCategories.data.allCategories);
+    console.log(temp2);
     categoryNames = tempCategories.data.allCategories;
     this.setState({ data: temp2, loading: false });
   }
