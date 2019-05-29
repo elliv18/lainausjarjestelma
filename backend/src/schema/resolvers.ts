@@ -414,9 +414,7 @@ export default {
     // DEVICE UPDATE
     deviceUpdate: async (
       obj,
-      {
-        input: { idCode, manufacture, model, info, loanStatus, deviceCategory }
-      },
+      { input: { idCode, manufacture, model, info, deviceCategory } },
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
@@ -429,7 +427,6 @@ export default {
             manufacture: manufacture,
             model: model,
             info: info,
-            loanStatus: loanStatus,
             categoryId: deviceCategory
           },
           _.identity
