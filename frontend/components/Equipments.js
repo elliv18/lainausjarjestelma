@@ -28,7 +28,6 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
-import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TableCell from '@material-ui/core/TableCell';
 import ToolbarTitle from '../src/ToolbarTitle';
@@ -41,9 +40,10 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
-import { EQUIPMENTS_QUERY } from '../lib/gql/queries';
+import { EQUIPMENTS_QUERY, CATEGORY_NAME_QUERY } from '../lib/gql/queries';
 import { EQUIPMENT_ADD_MUTATION } from '../lib/gql/mutation';
 import Loading from './Loading';
+import Select from 'react-select';
 
 /********************* STYLES **************************/
 
@@ -123,10 +123,22 @@ const Command = ({ id, onExecute }) => {
 };
 
 const availableValues = {
-  /*deviceType: equipmentsValues.deviceCategory,
-  manufacture: equipmentsValues.manufacture,
-  model: equipmentsValues.model,*/
+  deviceType: String,
 };
+
+let categoryNames = [];
+let arrayCategoryNames = [];
+
+function editCategories() {
+  let temp = [];
+  categoryNames.map((row, i) => {
+    temp[i] = {
+      label: row.deviceType,
+      value: row.deviceType,
+    };
+  });
+  return temp;
+}
 
 const LookupEditCellBase = ({
   availableColumnValues,
@@ -136,16 +148,11 @@ const LookupEditCellBase = ({
 }) => (
   <TableCell className={classes.lookupEditCell}>
     <Select
-      value={value}
-      onChange={event => onValueChange(event.target.value)}
-      input={<Input classes={{ root: classes.inputRoot }} />}
-    >
-      {availableColumnValues.map(item => (
-        <MenuItem key={item} value={item}>
-          {item}
-        </MenuItem>
-      ))}
-    </Select>
+      options={(arrayCategoryNames = editCategories())}
+      //onChange={opt => console.log(opt.label, opt.value)}
+      onChange={opt => console.log(opt.label, opt.value)}
+      onChange={event => onValueChange(event.value)}
+    />
   </TableCell>
 );
 export const LookupEditCell = withStyles(styles, {
@@ -260,7 +267,6 @@ class Equipments extends React.PureComponent {
           Object.keys(row).length
             ? row
             : {
-                deviceCategory: '',
                 manufacture: '',
                 model: '',
                 info: '',
@@ -271,23 +277,40 @@ class Equipments extends React.PureComponent {
     this.commitChanges = ({ added, changed, deleted }) => {
       let { rows, data, client } = this.state;
       if (added) {
-        const startingAddedId =
-          rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
-        rows = [
-          ...rows,
-          ...added.map((row, index) => ({
-            id: startingAddedId + index,
-            ...row,
-          })),
-        ];
+        console.log('added', added);
+        let id = null;
 
         added.map(row => {
+          console.log(row.deviceType);
           client
             .mutate({
-              variables: {}, // kesken
+              variables: {
+                idCode: row.idCode,
+                manufacture: row.manufacture,
+                model: row.model,
+                info: row.info,
+                devType: row.deviceType,
+              },
               mutation: EQUIPMENT_ADD_MUTATION,
             })
-            .catch(error => console.log(error));
+            .then(result => {
+              console.log('RESULT ', result),
+                (id = result.data.deviceCreate.device.id);
+              console.log('RowID', id);
+              data = [
+                ...data,
+                ...added.map((row, index) => ({
+                  id: id,
+                  ...row,
+                })),
+              ];
+
+              this.setState({ data: data });
+            })
+            .catch(error => {
+              console.log(error);
+              // this.setState({ errorMsgAdded: 'Loan add failed!' });
+            });
         });
         this.setState({ data: data });
       }
@@ -319,6 +342,9 @@ class Equipments extends React.PureComponent {
   // STARTING QUERY
   async componentDidMount() {
     let temp = await this.state.client.query({ query: EQUIPMENTS_QUERY });
+    let tempCategories = await this.state.client.query({
+      query: CATEGORY_NAME_QUERY,
+    });
 
     let temp2 = [];
     if (temp.data.allDevices) {
@@ -335,6 +361,8 @@ class Equipments extends React.PureComponent {
           })
       );
     }
+    console.log(tempCategories.data.allCategories);
+    categoryNames = tempCategories.data.allCategories;
     this.setState({ data: temp2, loading: false });
   }
 
