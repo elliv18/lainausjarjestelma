@@ -45,8 +45,8 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
-import { LOANS_QUERY, EMAILS_QUERY } from '../lib/gql/queries';
-
+import { LOANS_QUERY, EMAILS_QUERY, DEVICE_ID_QUERY } from '../lib/gql/queries';
+import { LOAN_ADD_MUTATION } from '../lib/gql/mutation';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
@@ -155,11 +155,14 @@ const availableValues = {
   returnDate: Date,
   dueDate: Date,
   loaner: String,
+  idCode: String,
 };
 
 let arrayEmails = null;
+let arrayIdCodes = null;
 
 let emails = [];
+let idCodes = [];
 
 function editEmails() {
   let temp = [];
@@ -172,11 +175,31 @@ function editEmails() {
   return temp;
 }
 
+function editIdCodes() {
+  let temp = [];
+  idCodes.map((row, i) => {
+    temp[i] = {
+      label: row.idCode,
+      value: row.idCode,
+    };
+  });
+  return temp;
+}
+
 const LookupEditCellBase = ({ onValueChange, classes, column }) =>
   column.name == 'loaner' ? (
     <TableCell className={classes.lookupEditCell}>
       <Select
         options={(arrayEmails = editEmails())}
+        //onChange={opt => console.log(opt.label, opt.value)}
+        onChange={opt => console.log(opt.label, opt.value)}
+        onChange={event => onValueChange(event.value)}
+      />
+    </TableCell>
+  ) : column.name == 'idCode' ? (
+    <TableCell className={classes.lookupEditCell}>
+      <Select
+        options={(arrayIdCodes = editIdCodes())}
         //onChange={opt => console.log(opt.label, opt.value)}
         onChange={opt => console.log(opt.label, opt.value)}
         onChange={event => onValueChange(event.value)}
@@ -298,7 +321,7 @@ class Loans extends React.PureComponent {
         { columnName: 'deviceType', wordWrapEnabled: true },
         { columnName: 'manufacture', wordWrapEnabled: true },
         { columnName: 'model', wordWrapEnabled: true },
-        { columnName: 'loaner', wordWrapEnabled: true },
+        { columnName: 'loaner', wordWrapEnabled: true, width: 170 },
         { columnName: 'loanDate', wordWrapEnabled: true, width: 165 },
         { columnName: 'returnDate', wordWrapEnabled: true, width: 165 },
         { columnName: 'dueDate', wordWrapEnabled: true, width: 165 },
@@ -306,10 +329,10 @@ class Loans extends React.PureComponent {
       ],
       editingColumns: [
         { columnName: 'idCode', editingEnabled: true },
-        { columnName: 'deviceType', editingEnabled: true },
-        { columnName: 'manufacture', editingEnabled: true },
-        { columnName: 'model', editingEnabled: true },
-        { columnName: 'loaner', editingEnabled: false },
+        { columnName: 'deviceType', editingEnabled: false },
+        { columnName: 'manufacture', editingEnabled: false },
+        { columnName: 'model', editingEnabled: false },
+        { columnName: 'loaner', editingEnabled: true },
         { columnName: 'loanDate', editingEnabled: true },
         { columnName: 'returnDate', editingEnabled: true },
         { columnName: 'dueDate', editingEnabled: true },
@@ -327,13 +350,7 @@ class Loans extends React.PureComponent {
         'isActive',
       ],
       addedRows: [],
-      defaultHiddenColumnNames: [
-        'idCode',
-        'deviceType',
-        'manufacture',
-        'model',
-        'loanDate',
-      ],
+      defaultHiddenColumnNames: ['deviceType', 'manufacture', 'model'],
       dateColumns: ['loanDate', 'returnDate', 'dueDate'],
       rowChanges: {},
       currentPage: 0,
@@ -353,6 +370,7 @@ class Loans extends React.PureComponent {
       client: props.client,
       data: [],
       loading: true,
+      client: props.client,
     };
     // STATE ENS
 
@@ -388,19 +406,48 @@ class Loans extends React.PureComponent {
     this.changeCurrentPage = currentPage => this.setState({ currentPage });
     this.changePageSize = pageSize => this.setState({ pageSize });
     this.commitChanges = ({ added, changed, deleted }) => {
-      let { data } = this.state;
+      let { data, client } = this.state;
       if (added) {
+        console.log(added);
+        let id = null;
+
+        try {
+          added.map(row => {
+            console.log('row', row.idCode);
+            client
+              .mutate({
+                variables: {
+                  loanDate: row.loanDate,
+                  dueDate: row.dueDate,
+                  devIdCode: row.idCode,
+                  loaner: row.loaner,
+                },
+                mutation: LOAN_ADD_MUTATION,
+              })
+              .then(result => {
+                console.log('RESULT ', result),
+                  (id = result.data.loanCreate.loan.id);
+                console.log('RowID', id);
+                data = [
+                  ...data,
+                  ...added.map((row, index) => ({
+                    id: id,
+                    ...row,
+                  })),
+                ];
+
+                this.setState({ data: data });
+              })
+              .catch(error => {
+                console.log(error);
+                // this.setState({ errorMsgAdded: 'Loan add failed!' });
+              });
+          });
+        } catch (e) {
+          console.log(e);
+        }
+
         console.log('ADDED', added);
-        const startingAddedId =
-          data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [
-          ...data,
-          ...added.map((row, index) => ({
-            id: startingAddedId + index,
-            ...row,
-          })),
-        ];
-        //
       }
       if (changed) {
         data = data.map(row =>
@@ -432,6 +479,7 @@ class Loans extends React.PureComponent {
   async componentDidMount() {
     let temp = await this.state.client.query({ query: LOANS_QUERY });
     let tempEmails = await this.state.client.query({ query: EMAILS_QUERY });
+    let tempIdCodes = await this.state.client.query({ query: DEVICE_ID_QUERY });
 
     let temp2 = [];
     if (temp.data.allLoans) {
@@ -459,6 +507,8 @@ class Loans extends React.PureComponent {
     }
     //console.log('emails', tempEmails);
     emails = tempEmails.data.allUsers;
+    idCodes = tempIdCodes.data.allDevices;
+    //console.log(idCodes);
     this.setState({ data: temp2, loading: false });
   }
 
