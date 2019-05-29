@@ -206,9 +206,9 @@ export const CURRENTUSER_UPDATE_MUTATION = gql`
 /********************** CATEGORY **********************/
 
 export const CATEGORY_ADD_MUTATION = gql`
-  mutation createMutation($deviceType: String!, $desription: String) {
+  mutation createMutation($deviceCategory: String!, $desription: String) {
     categoryCreate(
-      input: { deviceType: $deviceType, desription: $desription }
+      input: { deviceCategory: $deviceCategory, desription: $desription }
     ) {
       category {
         id
@@ -218,9 +218,9 @@ export const CATEGORY_ADD_MUTATION = gql`
 `;
 
 export const CATEGORY_UPDATE_MUTATION = gql`
-  mutation updateMutation($deviceType: String!, $desription: String) {
+  mutation updateMutation($deviceCategory: String!, $desription: String) {
     categoryUpdate(
-      input: { deviceType: $deviceType, desription: $desription }
+      input: { deviceCategory: $deviceCategory, desription: $desription }
     ) {
       category {
         id
@@ -230,8 +230,8 @@ export const CATEGORY_UPDATE_MUTATION = gql`
 `;
 
 export const CATEGORY_DELETE_MUTATION = gql`
-  mutation deleteMutation($deviceType: String!) {
-    categoryDelete(input: { deviceType: $deviceType }) {
+  mutation deleteMutation($deviceCategory: String!) {
+    categoryDelete(input: { deviceCategory: $deviceCategory }) {
       category {
         id
       }

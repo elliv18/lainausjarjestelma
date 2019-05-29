@@ -151,6 +151,7 @@ class MiniDrawer extends React.Component {
       open: false,
       ok: false,
       client: props.client,
+      currentUser: {},
     };
     // STATE ENDS
   }
@@ -158,10 +159,14 @@ class MiniDrawer extends React.Component {
   // STARTING STUFF
   async componentDidMount() {
     try {
-      await this.state.client.query({ query: CURRENTUSER });
+      // handshake current jwt
+      let temp = await this.state.client.query({ query: CURRENTUSER });
 
-      const JWT = localStorage.getItem('jwtToken');
-      await jwt(JWT);
+      console.log(temp);
+      // get jwt and decompose it
+      //const JWT = localStorage.getItem('jwtToken');
+      //let temp = await jwt(JWT);
+      //this.setState({ currentUserId: temp.id, currentUserType: temp.type });
 
       this.setLoginOk();
     } catch (e) {

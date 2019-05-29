@@ -29,7 +29,7 @@ export const EQUIPMENTS_QUERY = gql`
       updatedAt
       category {
         id
-        deviceType
+        deviceCategory
       }
     }
   }
@@ -83,7 +83,7 @@ export const LOANS_QUERY = gql`
         manufacture
         model
         category {
-          deviceType
+          deviceCategory
         }
       }
       loaner {
@@ -121,7 +121,7 @@ export const CURRENTUSER = gql`
           manufacture
           model
           category {
-            deviceType
+            deviceCategory
           }
         }
       }
@@ -133,7 +133,7 @@ export const CATEGORY_QUERY = gql`
   query {
     allCategories {
       id
-      deviceType
+      deviceCategory
       desription
       createdAt
       updatedAt
@@ -143,7 +143,7 @@ export const CATEGORY_QUERY = gql`
 export const CATEGORY_NAME_QUERY = gql`
   query {
     allCategories {
-      deviceType
+      deviceCategory
     }
   }
 `;
