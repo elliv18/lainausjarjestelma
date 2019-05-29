@@ -101,6 +101,24 @@ const styles = {
 
 /******************************** CLASS ******************************/
 
+var moment = require('moment');
+
+const TableRow = ({ row, ...restProps }) => (
+  <Table.Row
+    {...restProps}
+    style={{
+      backgroundColor:
+        moment(row.dueDate).format('YYYY MM DD') <
+          moment().format('YYYY MM DD') && row.isActive
+          ? '#DB2B39'
+          : moment(row.dueDate).format('YYYY MM DD') ==
+              moment().format('YYYY MM DD') && row.isActive
+          ? '#F6BF52'
+          : undefined,
+    }}
+  />
+);
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -108,13 +126,22 @@ class Home extends React.Component {
     // STATE
     this.state = {
       columns: [
-        { name: 'deviceType', title: 'Device type' },
         { name: 'idCode', title: 'ID code' },
+        { name: 'deviceType', title: 'Device type' },
         { name: 'manufacture', title: 'Manufacture' },
         { name: 'model', title: 'Model' },
         { name: 'loanDate', title: 'Loan date' },
-        { name: 'returnDate', title: 'return date' },
+        { name: 'returnDate', title: 'Return date' },
         { name: 'dueDate', title: 'Due date' },
+      ],
+      tableColumnExtensions: [
+        { columnName: 'idCode', wordWrapEnabled: true },
+        { columnName: 'deviceType', wordWrapEnabled: true },
+        { columnName: 'manufacture', wordWrapEnabled: true },
+        { columnName: 'model', wordWrapEnabled: true },
+        { columnName: 'loanDate', wordWrapEnabled: true },
+        { columnName: 'returnDate', wordWrapEnabled: true },
+        { columnName: 'dueDate', wordWrapEnabled: true },
       ],
 
       client: props.client,
@@ -272,7 +299,14 @@ class Home extends React.Component {
   // RENDER
   render() {
     const { classes } = this.props;
-    const { data_user, data_loans, columns, sorting, loading } = this.state;
+    const {
+      data_user,
+      data_loans,
+      columns,
+      sorting,
+      loading,
+      tableColumnExtensions,
+    } = this.state;
     if (loading && (data_user || {}.firstName)) {
       return <Loading />;
     } else {
@@ -437,7 +471,10 @@ class Home extends React.Component {
                   />
                   <IntegratedFiltering />
                   <IntegratedSorting />
-                  <VirtualTable />
+                  <VirtualTable
+                    rowComponent={TableRow}
+                    columnExtensions={tableColumnExtensions}
+                  />
                   <TableHeaderRow showSortingControls />
                   <Toolbar />
                   <SearchPanel />
