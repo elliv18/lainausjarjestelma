@@ -143,7 +143,7 @@ export const EQUIPMENT_UPDATE_MUTATION = gql`
     $manufacture: String
     $model: String
     $info: String
-    $deviceCategory: ID
+    $deviceCategory: String
   ) {
     deviceUpdate(
       input: {

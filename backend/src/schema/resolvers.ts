@@ -420,6 +420,8 @@ export default {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
+      const catId = await prisma.category({ deviceCategory: deviceCategory });
+
       const device = await prisma.updateDevice({
         data: _.pickBy(
           {
@@ -427,7 +429,7 @@ export default {
             manufacture: manufacture,
             model: model,
             info: info,
-            categoryId: deviceCategory
+            categoryId: catId.id
           },
           _.identity
         ),

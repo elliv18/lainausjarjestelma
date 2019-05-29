@@ -295,7 +295,6 @@ export default `
         manufacture: String
         model: String
         info: String
-        loanStatus: Boolean
         deviceCategory: String
     }
     type DeviceUpdatePayload {
