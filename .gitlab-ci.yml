@@ -81,7 +81,7 @@ deploy_backend:
     - mkdir -p ~/.ssh && (umask  077 ; echo "${DEPLOY_KEY_PRIVATE}" | base64 -d > ~/.ssh/id_rsa)
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     # Build containers
-    - docker pull "${BACKEND_IMAGE}"
+    #- docker pull "${BACKEND_IMAGE}"
     - docker build --cache-from "${BACKEND_IMAGE}" -f .dockerfiles/BackendProd -t "${BACKEND_IMAGE}" .
     # Push to remote
     - docker push "${BACKEND_IMAGE}"
@@ -95,7 +95,7 @@ deploy_backend:
       cd ~/$REMOTE_DIR;
       docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY;
       docker-compose pull;
-      docker-compose up -d backend db;"
+      docker-compose up -d backend;"
 
 #######################
 # BACKEND - ENDS HERE #
