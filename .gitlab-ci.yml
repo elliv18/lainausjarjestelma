@@ -140,7 +140,7 @@ deploy_frontend:
     # Push to remote
     - docker push "${FRONTEND_IMAGE}"
     # Prepare files for transfer
-    - cp docker-compose.prod.yml "${REMOTE_DIR}/docker-compose.yml"
+    - cp docker-compose.yml "${REMOTE_DIR}/docker-compose.yml"
     # Copy files to server
     - rsync -r "${REMOTE_DIR}" "${REMOTE_HOST}:./"
     # Run container-setup.sh to set up Docker environment on the remote server

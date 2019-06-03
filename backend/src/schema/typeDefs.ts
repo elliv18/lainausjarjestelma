@@ -318,8 +318,8 @@ export default `
     }
 
     input LoanReturnInput {
-        idCode: String!
-        returnDate: String
+        loanId: String!
+        returnDate: String!
     }
     type LoanReturnPayload {
         loan: Loan

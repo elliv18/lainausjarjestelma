@@ -30,7 +30,7 @@ type Device {
   info: String
   loanStatus: Boolean! @default(value: false)
   categoryId: Category! @relation(name: "Cat")
-  loan: Loan @relation(name: "DevLoan")
+  loan: [Loan] @relation(name: "DevLoan")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -50,7 +50,7 @@ type Loan {
   loanDate: DateTime!
   returnDate: DateTime
   dueDate: DateTime!
-  deviceId: Device! @relation(link: INLINE, name: "DevLoan")
+  deviceId: Device! @relation(name: "DevLoan")
   loanerId: User! @relation(name: "LoanerId")
   supplierId: User! @relation(name: "SupplierId")
   returnerId: User @relation(name: "ReturnId")
