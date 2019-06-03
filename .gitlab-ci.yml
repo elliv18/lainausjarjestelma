@@ -15,7 +15,7 @@ stages:
 #########################
 
 env_prod:
-  image: alpine:latest
+  image: node:slim
   stage: env
   artifacts:
     expire_in: 1 week
@@ -106,13 +106,18 @@ deploy_backend:
 #########################
 
 deploy_frontend:
-  image: docker:latest
+  image: node:slim
   stage: deploy
   services:
     - docker:dind
   dependencies:
     - env_prod
   script:
+    - cd frontend
+    - yarn install
+    - DOTENV_PATH=../${REMOTE_DIR}/.env yarn build
+    - yarn install --prod
+    - cd ..
     - apk update && apk add rsync openssh
     - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
     # Prepare SSH settings
