@@ -82,7 +82,7 @@ deploy_backend:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     # Build containers
     #- docker pull "${BACKEND_IMAGE}"
-    - docker build --cache-from "${BACKEND_IMAGE}" -f .dockerfiles/BackendProd -t "${BACKEND_IMAGE}" .
+    - docker build --cache-from "${BACKEND_IMAGE}" -f .dockerfiles/backendProd -t "${BACKEND_IMAGE}" .
     # Push to remote
     - docker push "${BACKEND_IMAGE}"
     # Prepare files for transfer
@@ -136,7 +136,7 @@ deploy_frontend:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     # Build containers
     - docker pull "${FRONTEND_IMAGE}"
-    - docker build --cache-from "${FRONTEND_IMAGE}" -f .dockerfiles/FrontendProd -t "${FRONTEND_IMAGE}" .
+    - docker build --cache-from "${FRONTEND_IMAGE}" -f .dockerfiles/frontendProd -t "${FRONTEND_IMAGE}" .
     # Push to remote
     - docker push "${FRONTEND_IMAGE}"
     # Prepare files for transfer
