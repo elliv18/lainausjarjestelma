@@ -124,6 +124,10 @@ const TableRow = ({ row, ...restProps }) => (
   />
 );
 
+<<<<<<< HEAD
+=======
+//////////////////////////////// DATE///////////////////////////////
+>>>>>>> f5825453b9240f9406f51a9383702e185f7cc2c9
 const DateFormatter = ({ value }) =>
   value !== null ? moment(value).format('DD-MM-YYYY') : value;
 
@@ -131,6 +135,7 @@ const DateTypeProvider = props => (
   <DataTypeProvider formatterComponent={DateFormatter} {...props} />
 );
 
+<<<<<<< HEAD
 const BooleanTypeProvider = props => (
   <DataTypeProvider formatterComponent={BooleanFormatter} {...props} />
 );
@@ -152,6 +157,8 @@ const BooleanFormatter = ({ value }) => (
   />
 );
 
+=======
+>>>>>>> f5825453b9240f9406f51a9383702e185f7cc2c9
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -193,9 +200,10 @@ class Home extends React.Component {
         personNumber: '',
       },
       data_loans: [],
+
       open: false,
       client: props.client,
-
+      dateColumns: ['loanDate', 'returnDate', 'dueDate'],
       firstName: '',
       lastName: '',
       address: '',
@@ -230,6 +238,7 @@ class Home extends React.Component {
           phone: temp.data.currentUser.phone,
         };
         temp.data.currentUser.loans.map((obj, i) => {
+<<<<<<< HEAD
           temp_loans[i] = {
             id: obj.id,
             loanDate: obj.loanDate !== null ? obj.loanDate : null,
@@ -241,6 +250,20 @@ class Home extends React.Component {
             deviceType: obj.device.category.deviceCategory,
             isActive: obj.isActive,
           };
+=======
+          if (obj.isActive === 'true') {
+            temp_loans[i] = {
+              id: obj.id,
+              loanDate: obj.loanDate,
+              returnDate: obj.returnDate,
+              dueDate: obj.dueDate,
+              idCode: obj.device.idCode,
+              manufacture: obj.device.manufacture,
+              model: obj.device.model,
+              deviceType: obj.device.category.deviceCategory,
+            };
+          }
+>>>>>>> f5825453b9240f9406f51a9383702e185f7cc2c9
         });
       }
       this.setState({
@@ -339,7 +362,10 @@ class Home extends React.Component {
       loading,
       tableColumnExtensions,
       dateColumns,
+<<<<<<< HEAD
       booleanColumns,
+=======
+>>>>>>> f5825453b9240f9406f51a9383702e185f7cc2c9
     } = this.state;
     if (loading && (data_user || {}.firstName)) {
       return <Loading />;
@@ -505,10 +531,13 @@ class Home extends React.Component {
                   />
                   <IntegratedFiltering />
                   <IntegratedSorting />
+<<<<<<< HEAD
                   <BooleanTypeProvider
                     for={booleanColumns}
                     style={{ paddingRight: '20px' }}
                   />
+=======
+>>>>>>> f5825453b9240f9406f51a9383702e185f7cc2c9
                   <DateTypeProvider for={dateColumns} />
                   <VirtualTable
                     rowComponent={TableRow}
