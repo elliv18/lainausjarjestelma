@@ -520,7 +520,9 @@ export default {
         data: {
           isActive: false,
           returnDate: returnDate,
-          returnerId: currentUser.id
+          returnerId: {
+            connect: { id: currentUser.id }
+          }
         },
         where: {
           id: loanData.id

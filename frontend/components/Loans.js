@@ -46,7 +46,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
 import { LOANS_QUERY, EMAILS_QUERY, DEVICE_ID_QUERY } from '../lib/gql/queries';
-import { LOAN_ADD_MUTATION } from '../lib/gql/mutation';
+import { LOAN_ADD_MUTATION, LOAN_RETURN_MUTATION } from '../lib/gql/mutation';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
@@ -243,7 +243,7 @@ const BooleanTypeProvider = props => (
 
 const BooleanFormatter = ({ value }) => (
   <Chip
-    color={value ? 'primary' : 'secondary'}
+    color={'primary'}
     label={value ? 'Active' : 'Returned'}
     icon={value ? <CheckIcon /> : <CancelIcon />}
     style={
@@ -336,7 +336,6 @@ class Loans extends React.PureComponent {
         { columnName: 'loanDate', editingEnabled: true },
         { columnName: 'returnDate', editingEnabled: true },
         { columnName: 'dueDate', editingEnabled: true },
-        { columnName: 'isActive', editingEnabled: false },
       ],
       sorting: [],
       editingRowIds: [
@@ -347,7 +346,6 @@ class Loans extends React.PureComponent {
         'loanDate',
         'returnDate',
         'dueDate',
-        'isActive',
       ],
       addedRows: [],
       defaultHiddenColumnNames: ['deviceType', 'manufacture', 'model'],
@@ -393,7 +391,6 @@ class Loans extends React.PureComponent {
                 loanDate: '',
                 returnDate: '',
                 dueDate: '',
-                isActive: '',
                 idCode: '',
                 manufacture: '',
                 model: '',
@@ -449,11 +446,35 @@ class Loans extends React.PureComponent {
 
         console.log('ADDED', added);
       }
+
       if (changed) {
+        let idCodeDefault = null;
+        let idLoan = null;
+
         data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
         );
         console.log('changed ', changed);
+
+        data.map(row => {
+          changed[row.id] ? (idLoan = row.id) : row;
+
+          if (idLoan === row.id) {
+            console.log(idLoan);
+            client
+              .mutate({
+                variables: {
+                  idCode: row.idCode,
+                  returnDate: row.returnDate,
+                },
+                mutation: LOAN_RETURN_MUTATION,
+              })
+              .then(result => console.log('RESULT ', result))
+              .catch(error => {
+                console.log(error);
+              });
+          }
+        });
       }
       if (deleted) {
         rows = this.deleteRows(deleted);
@@ -510,6 +531,7 @@ class Loans extends React.PureComponent {
     idCodes = tempIdCodes.data.allDevices;
     //console.log(idCodes);
     this.setState({ data: temp2, loading: false });
+    console.log(temp2);
   }
 
   // RENDER

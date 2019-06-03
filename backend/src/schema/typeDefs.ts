@@ -62,7 +62,7 @@ export default `
 
     type Loan {
         id: ID!
-        isActive: String!
+        isActive: Boolean!
         loanDate: String!
         returnDate: String
         dueDate: String!
