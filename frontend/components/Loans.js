@@ -186,8 +186,10 @@ function editIdCodes() {
   return temp;
 }
 
-const LookupEditCellBase = ({ onValueChange, classes, column }) =>
-  column.name == 'loaner' ? (
+const LookupEditCellBase = ({ onValueChange, classes, column, tableRow }) =>
+  column.name == 'loaner' &&
+  tableRow.type.toString() === 'Symbol(added)' &&
+  tableRow.row.isActive ? (
     <TableCell className={classes.lookupEditCell}>
       <Select
         options={(arrayEmails = editEmails())}
@@ -196,7 +198,9 @@ const LookupEditCellBase = ({ onValueChange, classes, column }) =>
         onChange={event => onValueChange(event.value)}
       />
     </TableCell>
-  ) : column.name == 'idCode' ? (
+  ) : column.name == 'idCode' &&
+    tableRow.type.toString() === 'Symbol(added)' &&
+    tableRow.row.isActive ? (
     <TableCell className={classes.lookupEditCell}>
       <Select
         options={(arrayIdCodes = editIdCodes())}
@@ -205,7 +209,7 @@ const LookupEditCellBase = ({ onValueChange, classes, column }) =>
         onChange={event => onValueChange(event.value)}
       />
     </TableCell>
-  ) : (
+  ) : tableRow.type.toString() === 'Symbol(added)' && tableRow.row.isActive ? (
     <TableCell className={classes.lookupEditCell}>
       <TextField
         id="date"
@@ -217,6 +221,20 @@ const LookupEditCellBase = ({ onValueChange, classes, column }) =>
         fullWidth={true}
       />
     </TableCell>
+  ) : column.name === 'returnDate' && tableRow.row.isActive ? (
+    <TableCell className={classes.lookupEditCell}>
+      <TextField
+        id="date"
+        type="date"
+        onChange={event => onValueChange(event.target.value)}
+        InputLabelProps={{
+          shrink: true,
+        }}
+        fullWidth={true}
+      />
+    </TableCell>
+  ) : (
+    <TableCell>-</TableCell>
   );
 
 export const LookupEditCell = withStyles(styles, {
@@ -224,7 +242,12 @@ export const LookupEditCell = withStyles(styles, {
 })(LookupEditCellBase);
 
 const EditCell = props => {
-  const { column } = props;
+  const { column, tableRow } = props;
+
+  console.log('paska', tableRow.row.isActive);
+  tableRow.type.toString() === 'Symbol(added)'
+    ? console.log(tableRow.type.toString())
+    : undefined;
   const availableColumnValues = availableValues[column.name];
   if (availableColumnValues) {
     return (
@@ -328,26 +351,19 @@ class Loans extends React.PureComponent {
         { columnName: 'isActive', wordWrapEnabled: true },
       ],
       editingColumns: [
-        { columnName: 'idCode', editingEnabled: true },
+        { columnName: 'idCode', editingEnabled: false },
         { columnName: 'deviceType', editingEnabled: false },
         { columnName: 'manufacture', editingEnabled: false },
         { columnName: 'model', editingEnabled: false },
-        { columnName: 'loaner', editingEnabled: true },
-        { columnName: 'loanDate', editingEnabled: true },
+        { columnName: 'loaner', editingEnabled: false },
+        { columnName: 'loanDate', editingEnabled: false },
         { columnName: 'returnDate', editingEnabled: true },
-        { columnName: 'dueDate', editingEnabled: true },
+        { columnName: 'dueDate', editingEnabled: false },
       ],
       sorting: [],
-      editingRowIds: [
-        'idCode',
-        'deviceType',
-        'manufacture',
-        'model',
-        'loanDate',
-        'returnDate',
-        'dueDate',
-      ],
+
       addedRows: [],
+      disableRows: ['isActive'],
       defaultHiddenColumnNames: ['deviceType', 'manufacture', 'model'],
       dateColumns: ['loanDate', 'returnDate', 'dueDate'],
       rowChanges: {},
@@ -388,14 +404,7 @@ class Loans extends React.PureComponent {
           Object.keys(row).length
             ? row
             : {
-                loanDate: '',
-                returnDate: '',
-                dueDate: '',
-                idCode: '',
-                manufacture: '',
-                model: '',
-                deviceType: '',
-                loaner: '',
+                isActive: true,
               }
         ),
       });
@@ -553,6 +562,7 @@ class Loans extends React.PureComponent {
       loading,
       defaultHiddenColumnNames,
       dateColumns,
+      disableRows,
     } = this.state;
 
     if (loading) {
@@ -611,6 +621,7 @@ class Loans extends React.PureComponent {
             <TableHeaderRow showSortingControls />
             <TableRowDetail contentComponent={RowDetail} />
             <TableEditRow cellComponent={EditCell} />
+
             <TableEditColumn
               width={170}
               showAddCommand={!addedRows.length}
