@@ -156,7 +156,7 @@ const LookupEditCellBase = ({
     <Select
       options={(arrayCategoryNames = editCategories())}
       //onChange={opt => console.log(opt.label, opt.value)}
-      defaultInputValue="123"
+      //defaultInputValue="123"
       // onChange={opt => console.log(opt.label, opt.value)}
       onChange={event => onValueChange(event.value)}
     />
