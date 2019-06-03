@@ -23,6 +23,7 @@ import {
   SortingState,
   IntegratedFiltering,
   IntegratedSorting,
+  DataTypeProvider,
 } from '@devexpress/dx-react-grid';
 import {
   Grid as GridTable,
@@ -120,6 +121,14 @@ const TableRow = ({ row, ...restProps }) => (
   />
 );
 
+//////////////////////////////// DATE///////////////////////////////
+const DateFormatter = ({ value }) =>
+  value !== null ? moment(value).format('DD-MM-YYYY') : value;
+
+const DateTypeProvider = props => (
+  <DataTypeProvider formatterComponent={DateFormatter} {...props} />
+);
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -156,9 +165,10 @@ class Home extends React.Component {
         personNumber: '',
       },
       data_loans: [],
+
       open: false,
       client: props.client,
-
+      dateColumns: ['loanDate', 'returnDate', 'dueDate'],
       firstName: '',
       lastName: '',
       address: '',
@@ -196,14 +206,9 @@ class Home extends React.Component {
           if (obj.isActive === 'true') {
             temp_loans[i] = {
               id: obj.id,
-              loanDate:
-                obj.loanDate !== null ? <Moment>{obj.loanDate}</Moment> : null,
-              returnDate:
-                obj.returnDate !== null ? (
-                  <Moment>{obj.returnDate}</Moment>
-                ) : null,
-              dueDate:
-                obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
+              loanDate: obj.loanDate,
+              returnDate: obj.returnDate,
+              dueDate: obj.dueDate,
               idCode: obj.device.idCode,
               manufacture: obj.device.manufacture,
               model: obj.device.model,
@@ -307,6 +312,7 @@ class Home extends React.Component {
       sorting,
       loading,
       tableColumnExtensions,
+      dateColumns,
     } = this.state;
     if (loading && (data_user || {}.firstName)) {
       return <Loading />;
@@ -472,6 +478,7 @@ class Home extends React.Component {
                   />
                   <IntegratedFiltering />
                   <IntegratedSorting />
+                  <DateTypeProvider for={dateColumns} />
                   <VirtualTable
                     rowComponent={TableRow}
                     columnExtensions={tableColumnExtensions}
