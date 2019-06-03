@@ -127,6 +127,7 @@ deploy_frontend:
     - docker:dind
   dependencies:
     - env_prod
+    - build_frontend
   script:
     - apk update && apk add rsync openssh
     - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
