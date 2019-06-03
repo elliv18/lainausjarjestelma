@@ -105,19 +105,29 @@ deploy_backend:
 # FRONTEND - START HERE #
 #########################
 
-deploy_frontend:
+build_frontend:
   image: node:slim
+  stage: build
+  dependencies:
+    - env_prod
+  artifacts:
+    paths:
+      - frontend/node_modules/
+      - frontend/build/
+  script:
+    - cd frontend
+    - yarn install
+    - DOTENV_PATH=../${REMOTE_DIR}/.env yarn build
+    - yarn install --prod
+
+deploy_frontend:
+  image: docker:latest
   stage: deploy
   services:
     - docker:dind
   dependencies:
     - env_prod
   script:
-    - cd frontend
-    - yarn install
-    - DOTENV_PATH=../${REMOTE_DIR}/.env yarn build
-    - yarn install --prod
-    - cd ..
     - apk update && apk add rsync openssh
     - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
     # Prepare SSH settings
