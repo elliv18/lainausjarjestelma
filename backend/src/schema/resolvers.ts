@@ -506,15 +506,11 @@ export default {
       return { loan };
     },
     // LOAN RETURN
-    loanReturn: async (
-      obj,
-      { input: { loanId, returnDate } },
-      { currentUser }
-    ) => {
+    loanReturn: async (obj, { input: { id, returnDate } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
-      const dev = await prisma.loan({ id: loanId }).deviceId();
+      const dev = await prisma.loan({ id: id }).deviceId();
 
       const loan = await prisma.updateLoan({
         data: {
@@ -525,7 +521,7 @@ export default {
           }
         },
         where: {
-          id: loanId
+          id: id
         }
       });
 
@@ -541,7 +537,7 @@ export default {
       logger.log(
         "info",
         "[LOAN RETURN] Loan %s returned by %s",
-        loanId,
+        id,
         currentUser.id
       );
       return { loan };
