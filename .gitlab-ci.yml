@@ -78,11 +78,11 @@ deploy_backend:
     - rsync -r "${REMOTE_DIR}" "${REMOTE_HOST}:./"
     # Run container-setup.sh to set up Docker environment on the remote server
     - ssh ${REMOTE_HOST} /bin/bash "
-        echo ${REMOTE_DIR};
-        cd ~/$REMOTE_DIR;
-        docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY;
-        docker-compose pull;
-        docker-compose up -d backend db;"
+      echo ${REMOTE_DIR};
+      cd ~/$REMOTE_DIR;
+      docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY;
+      docker-compose pull;
+      docker-compose up -d backend db;"
 
 #######################
 # BACKEND - ENDS HERE #
@@ -116,12 +116,11 @@ deploy_frontend:
     - rsync -r "${REMOTE_DIR}" "${REMOTE_HOST}:./"
     # Run container-setup.sh to set up Docker environment on the remote server
     - ssh ${REMOTE_HOST} /bin/bash "
-        echo ${REMOTE_DIR};
-        cd ~/$REMOTE_DIR;
-        docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY;
-        docker-compose pull;
-        docker-compose up -d frontend;"
-
+      echo ${REMOTE_DIR};
+      cd ~/$REMOTE_DIR;
+      docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY;
+      docker-compose pull;
+      docker-compose up -d frontend;"
 ########################
 # FRONTEND - ENDS HERE #
 ########################
