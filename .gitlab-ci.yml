@@ -54,6 +54,18 @@ env_prod:
 # BACKEND - START HERE  #
 #########################
 
+build_backend:
+  image: node:slim
+  stage: build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - backend/build/
+  script:
+    - cd backend
+    - yarn install
+    - yarn build
+
 deploy_backend:
   image: docker:latest
   stage: deploy
@@ -61,6 +73,7 @@ deploy_backend:
     - docker:dind
   dependencies:
     - env_prod
+    - build_backend
   script:
     - apk update && apk add rsync openssh
     - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
