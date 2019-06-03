@@ -15,6 +15,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Chip from '@material-ui/core/Chip';
+import CheckIcon from '@material-ui/icons/Check';
+import CancelIcon from '@material-ui/icons/Cancel';
 import Loading from './Loading';
 import ToolbarTitle from '../src/ToolbarTitle';
 
@@ -23,6 +26,7 @@ import {
   SortingState,
   IntegratedFiltering,
   IntegratedSorting,
+  DataTypeProvider,
 } from '@devexpress/dx-react-grid';
 import {
   Grid as GridTable,
@@ -120,6 +124,34 @@ const TableRow = ({ row, ...restProps }) => (
   />
 );
 
+const DateFormatter = ({ value }) =>
+  value !== null ? moment(value).format('DD-MM-YYYY') : value;
+
+const DateTypeProvider = props => (
+  <DataTypeProvider formatterComponent={DateFormatter} {...props} />
+);
+
+const BooleanTypeProvider = props => (
+  <DataTypeProvider formatterComponent={BooleanFormatter} {...props} />
+);
+
+const BooleanFormatter = ({ value }) => (
+  <Chip
+    color={value ? 'primary' : 'secondary'}
+    label={value ? 'Active' : 'Returned'}
+    icon={value ? <CheckIcon /> : <CancelIcon />}
+    style={
+      value
+        ? {
+            backgroundColor: 'rgba(0,128,0)',
+            width: '110px',
+            justifyContent: 'left',
+          }
+        : { backgroundColor: 'rgba(204,0,0)' }
+    }
+  />
+);
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -134,6 +166,7 @@ class Home extends React.Component {
         { name: 'loanDate', title: 'Loan date' },
         { name: 'returnDate', title: 'Return date' },
         { name: 'dueDate', title: 'Due date' },
+        { name: 'isActive', title: 'Loan status' },
       ],
       tableColumnExtensions: [
         { columnName: 'idCode', wordWrapEnabled: true },
@@ -143,7 +176,11 @@ class Home extends React.Component {
         { columnName: 'loanDate', wordWrapEnabled: true },
         { columnName: 'returnDate', wordWrapEnabled: true },
         { columnName: 'dueDate', wordWrapEnabled: true },
+        { columnName: 'isActive', wordWrapEnabled: true },
       ],
+
+      dateColumns: ['loanDate', 'returnDate', 'dueDate'],
+      booleanColumns: ['isActive'],
 
       client: props.client,
       data_user: {
@@ -193,23 +230,17 @@ class Home extends React.Component {
           phone: temp.data.currentUser.phone,
         };
         temp.data.currentUser.loans.map((obj, i) => {
-          if (obj.isActive === 'true') {
-            temp_loans[i] = {
-              id: obj.id,
-              loanDate:
-                obj.loanDate !== null ? <Moment>{obj.loanDate}</Moment> : null,
-              returnDate:
-                obj.returnDate !== null ? (
-                  <Moment>{obj.returnDate}</Moment>
-                ) : null,
-              dueDate:
-                obj.dueDate !== null ? <Moment>{obj.dueDate}</Moment> : null,
-              idCode: obj.device.idCode,
-              manufacture: obj.device.manufacture,
-              model: obj.device.model,
-              deviceType: obj.device.category.deviceCategory,
-            };
-          }
+          temp_loans[i] = {
+            id: obj.id,
+            loanDate: obj.loanDate !== null ? obj.loanDate : null,
+            returnDate: obj.returnDate !== null ? obj.returnDate : null,
+            dueDate: obj.dueDate !== null ? obj.dueDate : null,
+            idCode: obj.device.idCode,
+            manufacture: obj.device.manufacture,
+            model: obj.device.model,
+            deviceType: obj.device.category.deviceCategory,
+            isActive: obj.isActive,
+          };
         });
       }
       this.setState({
@@ -307,6 +338,8 @@ class Home extends React.Component {
       sorting,
       loading,
       tableColumnExtensions,
+      dateColumns,
+      booleanColumns,
     } = this.state;
     if (loading && (data_user || {}.firstName)) {
       return <Loading />;
@@ -472,6 +505,11 @@ class Home extends React.Component {
                   />
                   <IntegratedFiltering />
                   <IntegratedSorting />
+                  <BooleanTypeProvider
+                    for={booleanColumns}
+                    style={{ paddingRight: '20px' }}
+                  />
+                  <DateTypeProvider for={dateColumns} />
                   <VirtualTable
                     rowComponent={TableRow}
                     columnExtensions={tableColumnExtensions}
@@ -479,7 +517,7 @@ class Home extends React.Component {
                   <TableHeaderRow showSortingControls />
                   <Toolbar />
                   <SearchPanel />
-                  <ToolbarTitle title="Active loans" />
+                  <ToolbarTitle title="Your loans" />
                 </GridTable>
               </Paper>
             </Grid>
