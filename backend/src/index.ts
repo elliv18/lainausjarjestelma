@@ -43,7 +43,7 @@ const options = {
   port: BACKEND_PORT,
   cors: {
     //creditials: true,
-    origin: true
+    origin: false
   }
 };
 
