@@ -264,8 +264,8 @@ export const LOAN_ADD_MUTATION = gql`
 `;
 
 export const LOAN_RETURN_MUTATION = gql`
-  mutation loanReturn($idCode: String!, $returnDate: String) {
-    loanReturn(input: { idCode: $idCode, returnDate: $returnDate }) {
+  mutation loanReturn($id: ID!, $returnDate: String!) {
+    loanReturn(input: { id: $id, returnDate: $returnDate }) {
       loan {
         id
         isActive
