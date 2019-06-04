@@ -116,7 +116,7 @@ build_frontend:
       - frontend/build/
   script:
     - cd frontend
-    - yarn install --prod
+    - yarn install
     - DOTENV_PATH=../${REMOTE_DIR}/.env yarn build
 
 deploy_frontend:
