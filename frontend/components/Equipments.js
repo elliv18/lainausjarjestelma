@@ -361,19 +361,23 @@ class Equipments extends React.PureComponent {
         this.setState({ data: data });
       }
       if (deleted) {
-        data = this.deleteRows(deleted);
         console.log(deleted[0]);
 
         // console.log('data', data);
 
-        client.mutate({
-          variables: { id: deleted[0] },
-          mutation: EQUIPMENT_DELETE_MUTATION,
-        });
+        client
+          .mutate({
+            variables: { id: deleted[0] },
+            mutation: EQUIPMENT_DELETE_MUTATION,
+          })
+          .then(response => {
+            console.log(Response), (data = this.deleteRows(deleted));
+          })
+          .catch(error => console.log(error));
 
         this.setState({ data: data });
       }
-      this.setState({ data: data });
+      //this.setState({ data: data });
     };
     this.deleteRows = deletedIds => {
       const data = getStateRows().slice();
