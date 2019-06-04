@@ -27,8 +27,6 @@ import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
 import TableCell from '@material-ui/core/TableCell';
 import ToolbarTitle from '../src/ToolbarTitle';
 
@@ -131,8 +129,6 @@ const availableValues = {
 };
 
 let categoryNames = [];
-let arrayCategoryNames = [];
-let selectedValue = '';
 let selectedRowNumber = null;
 
 function editCategories() {
@@ -146,12 +142,7 @@ function editCategories() {
   return temp;
 }
 
-const LookupEditCellBase = ({
-  availableColumnValues,
-  value,
-  onValueChange,
-  classes,
-}) => (
+const LookupEditCellBase = ({ onValueChange, classes }) => (
   <TableCell className={classes.lookupEditCell}>
     <Select
       options={(arrayCategoryNames = editCategories())}
@@ -304,7 +295,7 @@ class Equipments extends React.PureComponent {
               console.log('RowID', id);
               data = [
                 ...data,
-                ...added.map((row, index) => ({
+                ...added.map(row => ({
                   id: id,
                   ...row,
                 })),
@@ -328,7 +319,7 @@ class Equipments extends React.PureComponent {
 
         console.log('CHANGED', changed);
 
-        data.map((row, i) => {
+        data.map(row => {
           changed[row.id] ? (idDevice = row.id) : row;
 
           if (row.id === idDevice) {
