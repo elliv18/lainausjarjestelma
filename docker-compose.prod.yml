@@ -49,5 +49,5 @@ services:
     #      - ./frontend:/opt/app
     #      - /opt/app/node_modules/.cache/
     restart: always
-#volumes:
-#  postgres: ~
+volumes:
+  postgres: ~
