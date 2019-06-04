@@ -214,19 +214,19 @@ class Category extends React.PureComponent {
 
     this.state = {
       columns: [
-        { name: 'deviceType', title: 'Category' },
+        { name: 'deviceCategory', title: 'Category' },
         { name: 'desription', title: 'Desription' },
         { name: 'createdAt', title: 'Created' },
         { name: 'updatedAt', title: 'Updated' },
       ],
       tableColumnExtensions: [
-        { columnName: 'deviceType', wordWrapEnabled: true, width: 150 },
+        { columnName: 'deviceCategory', wordWrapEnabled: true, width: 150 },
         { columnName: 'desription', wordWrapEnabled: true },
         { columnName: 'createdAt', wordWrapEnabled: true, width: 130 },
         { columnName: 'updatedAt', wordWrapEnabled: true, width: 130 },
       ],
       editingColumns: [
-        { columnName: 'deviceType', editingEnabled: true },
+        { columnName: 'deviceCategory', editingEnabled: true },
         { columnName: 'desription', editingEnabled: true },
         { columnName: 'createdAt', editingEnabled: false },
         { columnName: 'updatedAt', editingEnabled: false },
@@ -239,7 +239,7 @@ class Category extends React.PureComponent {
       rowChanges: {},
       pageSize: 0,
       booleanColumns: [],
-      columnOrder: ['deviceType', 'desription', 'createdAt', 'updatedAt'],
+      columnOrder: ['deviceCategory', 'desription', 'createdAt', 'updatedAt'],
       client: props.client,
       data: [],
       loading: true,
@@ -368,7 +368,7 @@ class Category extends React.PureComponent {
         (obj, i) =>
           (temp2[i] = {
             id: obj.id,
-            deviceType: obj.deviceType,
+            deviceCategory: obj.deviceCategory,
             desription: obj.desription,
             createdAt:
               obj.createdAt !== null ? (
