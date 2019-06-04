@@ -190,11 +190,11 @@ const BooleanFormatter = ({ value }) => (
     style={
       value
         ? {
-            backgroundColor: 'rgba(0,128,0,0.75)',
+            backgroundColor: '#018E42',
             width: '105px',
             justifyContent: 'left',
           }
-        : { backgroundColor: 'rgba(204,0,0,0.85)' }
+        : { backgroundColor: '#DB2B39' }
     }
   />
 );

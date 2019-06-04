@@ -126,6 +126,8 @@ const TableRow = ({ row, ...restProps }) => (
           : moment(row.dueDate).format('YYYY MM DD') ==
               moment().format('YYYY MM DD') && row.isActive
           ? '#F6BF52'
+          : row.isActive == false
+          ? '#9C9C9C'
           : undefined,
     }}
   />
@@ -146,15 +148,15 @@ const BooleanFormatter = ({ value }) => (
   <Chip
     color={'primary'}
     label={value ? 'Active' : 'Returned'}
-    icon={value ? <CheckIcon /> : <CancelIcon />}
+    icon={value ? <CancelIcon /> : <CheckIcon />}
     style={
       value
         ? {
-            backgroundColor: 'rgba(0,128,0)',
+            backgroundColor: '#DB2B39',
             width: '110px',
             justifyContent: 'left',
           }
-        : { backgroundColor: 'rgba(204,0,0)' }
+        : { backgroundColor: '#018E42' }
     }
   />
 );
