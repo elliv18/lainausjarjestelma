@@ -209,7 +209,9 @@ const LookupEditCellBase = ({ onValueChange, classes, column, tableRow }) =>
         onChange={event => onValueChange(event.value)}
       />
     </TableCell>
-  ) : tableRow.type.toString() === 'Symbol(added)' && tableRow.row.isActive ? (
+  ) : tableRow.type.toString() === 'Symbol(added)' &&
+    tableRow.row.isActive &&
+    column.name !== 'returnDate' ? (
     <TableCell className={classes.lookupEditCell}>
       <TextField
         id="date"
@@ -221,7 +223,9 @@ const LookupEditCellBase = ({ onValueChange, classes, column, tableRow }) =>
         fullWidth={true}
       />
     </TableCell>
-  ) : column.name === 'returnDate' && tableRow.row.isActive ? (
+  ) : column.name === 'returnDate' &&
+    tableRow.row.isActive &&
+    tableRow.type.toString() !== 'Symbol(added)' ? (
     <TableCell className={classes.lookupEditCell}>
       <TextField
         id="date"
@@ -478,7 +482,12 @@ class Loans extends React.PureComponent {
                 },
                 mutation: LOAN_RETURN_MUTATION,
               })
-              .then(result => console.log('RESULT ', result))
+              .then(result => {
+                row.isActive = false;
+
+                console.log('RESULT ', result);
+                this.setState({ data: data });
+              })
               .catch(error => {
                 console.log(error);
               });
@@ -488,7 +497,7 @@ class Loans extends React.PureComponent {
       if (deleted) {
         rows = this.deleteRows(deleted);
       }
-      this.setState({ data });
+      //this.setState({ data });
     };
     this.deleteRows = deletedIds => {
       const rows = getStateRows().slice();
