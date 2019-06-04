@@ -5,7 +5,7 @@ services:
     image: prismagraphql/prisma:1.32
     restart: always
     ports:
-      - "${PRISMA_PORT}:${PRISMA_PORT}"
+      - "${PRISMA_PORT}:3060"
     environment:
       PRISMA_CONFIG: |
         port: ${PRISMA_PORT}
@@ -27,7 +27,7 @@ services:
   backend:
     image: node:slim
     ports:
-      - "${BACKEND_PORT}:${BACKEND_PORT}"
+      - "${BACKEND_PORT}:3050"
     volumes:
       - ./backend:/opt/app
     environment:
@@ -42,9 +42,9 @@ services:
     env_file: .env
     restart: always
   frontend:
-    image: node:slim
+    image: alpine
     ports:
-      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+      - "${FRONTEND_PORT}:3000"
     volumes:
       - ./frontend:/opt/app
       - /opt/app/node_modules/.cache/
