@@ -102,6 +102,13 @@ const styles = {
   dialogTitle: {
     backgroundColor: 'lightGrey',
   },
+  typoFirst: {
+    color: 'grey',
+  },
+  typoSecond: {
+    marginLeft: '0.5em',
+    marginTop: '0.02em',
+  },
 };
 
 /******************************** CLASS ******************************/
@@ -366,19 +373,92 @@ class Home extends React.Component {
                 <CardContent className={classes.cardContent}>
                   <Grid container spacing={24}>
                     <Grid item xs={6}>
-                      <Typography variant="h5" component="h2">
-                        First name: {data_user.firstName} {<br />}
-                        Last name: {data_user.lastName} {<br />}
-                        Address: {data_user.address} {<br />}
-                        Phone: {data_user.phone} {<br />}
-                      </Typography>
+                      <div>
+                        <Typography variant="h6" className={classes.typoFirst}>
+                          First name:
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          gutterBottom
+                          className={classes.typoSecond}
+                        >
+                          {data_user.firstName}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography variant="h6" className={classes.typoFirst}>
+                          Last name:
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          gutterBottom
+                          className={classes.typoSecond}
+                        >
+                          {data_user.lastName}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography variant="h6" className={classes.typoFirst}>
+                          Address:
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          gutterBottom
+                          className={classes.typoSecond}
+                        >
+                          {data_user.address}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography variant="h6" className={classes.typoFirst}>
+                          Phone:
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          gutterBottom
+                          className={classes.typoSecond}
+                        >
+                          {data_user.phone}
+                        </Typography>
+                      </div>
                     </Grid>
                     <Grid item xs={6}>
-                      <Typography variant="h5" component="h2">
-                        Email: {data_user.email} {<br />}
-                        Person number: {data_user.personNumber} {<br />}
-                        User type: {data_user.userType} {<br />}
-                      </Typography>
+                      <div>
+                        <Typography variant="h6" className={classes.typoFirst}>
+                          Email:
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          gutterBottom
+                          className={classes.typoSecond}
+                        >
+                          {data_user.email}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography variant="h6" className={classes.typoFirst}>
+                          Person number:
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          gutterBottom
+                          className={classes.typoSecond}
+                        >
+                          {data_user.personNumber}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography variant="h6" className={classes.typoFirst}>
+                          User type:
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          gutterBottom
+                          className={classes.typoSecond}
+                        >
+                          {data_user.userType}
+                        </Typography>
+                      </div>
                     </Grid>
                   </Grid>
                 </CardContent>

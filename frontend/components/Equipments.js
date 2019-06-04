@@ -27,6 +27,8 @@ import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
 import TableCell from '@material-ui/core/TableCell';
 import ToolbarTitle from '../src/ToolbarTitle';
 
@@ -38,7 +40,11 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
-import { EQUIPMENTS_QUERY, CATEGORY_NAME_QUERY } from '../lib/gql/queries';
+import {
+  EQUIPMENTS_QUERY,
+  CATEGORY_NAME_QUERY,
+  DEVICE_ID_QUERY,
+} from '../lib/gql/queries';
 import {
   EQUIPMENT_ADD_MUTATION,
   EQUIPMENT_UPDATE_MUTATION,
@@ -129,6 +135,8 @@ const availableValues = {
 };
 
 let categoryNames = [];
+let arrayCategoryNames = [];
+let selectedValue = '';
 let selectedRowNumber = null;
 
 function editCategories() {
@@ -142,7 +150,12 @@ function editCategories() {
   return temp;
 }
 
-const LookupEditCellBase = ({ onValueChange, classes }) => (
+const LookupEditCellBase = ({
+  availableColumnValues,
+  value,
+  onValueChange,
+  classes,
+}) => (
   <TableCell className={classes.lookupEditCell}>
     <Select
       options={(arrayCategoryNames = editCategories())}
@@ -287,6 +300,7 @@ class Equipments extends React.PureComponent {
                 info: row.info,
                 deviceCategory: row.deviceCategory,
               },
+              refetchQueries: [{ query: DEVICE_ID_QUERY }],
               mutation: EQUIPMENT_ADD_MUTATION,
             })
             .then(result => {
@@ -295,13 +309,14 @@ class Equipments extends React.PureComponent {
               console.log('RowID', id);
               data = [
                 ...data,
-                ...added.map(row => ({
+                ...added.map((row, index) => ({
                   id: id,
                   ...row,
                 })),
               ];
 
               this.setState({ data: data });
+              console.log(data);
             })
             .catch(error => {
               console.log(error);
@@ -319,7 +334,7 @@ class Equipments extends React.PureComponent {
 
         console.log('CHANGED', changed);
 
-        data.map(row => {
+        data.map((row, i) => {
           changed[row.id] ? (idDevice = row.id) : row;
 
           if (row.id === idDevice) {
@@ -398,7 +413,7 @@ class Equipments extends React.PureComponent {
       );
     }
     // console.log(tempCategories.data.allCategories);
-    console.log(temp2);
+    //console.log(temp2);
     categoryNames = tempCategories.data.allCategories;
     this.setState({ data: temp2, loading: false });
   }

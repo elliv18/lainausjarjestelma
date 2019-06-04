@@ -41,7 +41,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
-import { USERS_QUERY } from '../lib/gql/queries';
+import { USERS_QUERY, EMAILS_QUERY } from '../lib/gql/queries';
 import {
   USERS_ADD_MUTATION,
   USERS_UPDATE_MUTATION,
@@ -313,6 +313,7 @@ class Users extends React.PureComponent {
                   personNumber: row.personNumber,
                   phone: row.phone,
                 },
+                refetchQueries: [{ query: EMAILS_QUERY }],
                 mutation: USERS_ADD_MUTATION,
               })
               .then(result => {
