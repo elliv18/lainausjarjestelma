@@ -342,7 +342,7 @@ class Loans extends React.PureComponent {
     this.state = {
       columns: [
         { name: 'idCode', title: 'ID Code' },
-        { name: 'deviceType', title: 'Category' },
+        { name: 'deviceCategory', title: 'Category' },
         { name: 'manufacture', title: 'Manufacture' },
         { name: 'model', title: 'Model' },
         { name: 'loaner', title: 'Loaner' },
@@ -353,7 +353,7 @@ class Loans extends React.PureComponent {
       ],
       tableColumnExtensions: [
         { columnName: 'idCode', wordWrapEnabled: true },
-        { columnName: 'deviceType', wordWrapEnabled: true },
+        { columnName: 'deviceCategory', wordWrapEnabled: true },
         { columnName: 'manufacture', wordWrapEnabled: true },
         { columnName: 'model', wordWrapEnabled: true },
         { columnName: 'loaner', wordWrapEnabled: true, width: 170 },
@@ -364,7 +364,7 @@ class Loans extends React.PureComponent {
       ],
       editingColumns: [
         { columnName: 'idCode', editingEnabled: false },
-        { columnName: 'deviceType', editingEnabled: false },
+        { columnName: 'deviceCategory', editingEnabled: false },
         { columnName: 'manufacture', editingEnabled: false },
         { columnName: 'model', editingEnabled: false },
         { columnName: 'loaner', editingEnabled: false },
@@ -376,7 +376,7 @@ class Loans extends React.PureComponent {
 
       addedRows: [],
       disableRows: ['isActive'],
-      defaultHiddenColumnNames: ['deviceType', 'manufacture', 'model'],
+      defaultHiddenColumnNames: ['deviceCategory', 'manufacture', 'model'],
       dateColumns: ['loanDate', 'returnDate', 'dueDate'],
       rowChanges: {},
       currentPage: 0,
@@ -384,7 +384,7 @@ class Loans extends React.PureComponent {
       booleanColumns: ['isActive'],
       columnOrder: [
         'idCode',
-        'deviceType',
+        'deviceCategory',
         'manufacture',
         'model',
         'loaner',
@@ -543,7 +543,7 @@ class Loans extends React.PureComponent {
             idCode: obj.device.idCode,
             manufacture: obj.device.manufacture,
             model: obj.device.model,
-            deviceType: obj.device.category.deviceType,
+            deviceCategory: obj.device.category.deviceCategory,
             loaner: obj.loaner.firstName + ' ' + obj.loaner.lastName,
             loanerFirstName: obj.loaner.firstName,
             loanerLastName: obj.loaner.lastName,
