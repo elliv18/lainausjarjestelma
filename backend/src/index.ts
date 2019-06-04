@@ -43,7 +43,8 @@ const options = {
   port: BACKEND_PORT,
   cors: {
     creditials: true,
-    origin: ["http://172.16.101.140:3000"]
+    origin: "*"
+    //origin: ["http://172.16.101.140:3000"]
   }
 };
 
