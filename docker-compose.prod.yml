@@ -5,10 +5,10 @@ services:
     image: prismagraphql/prisma:1.32
     restart: always
     ports:
-      - "${PRISMA_PORT}:3060"
+      - "3060:3060"
     environment:
       PRISMA_CONFIG: |
-        port: ${PRISMA_PORT}
+        port: 3060
         databases:
           default:
             connector: postgres
@@ -27,7 +27,7 @@ services:
   backend:
     image: node:slim
     ports:
-      - "${BACKEND_PORT}:3050"
+      - "3050:3050"
     #    volumes:
     #     - ./backend:/opt/app
     environment:
@@ -44,7 +44,7 @@ services:
   frontend:
     image: mhart/alpine-node:latest
     ports:
-      - "${FRONTEND_PORT}:3000"
+      - "3000:3000"
     #    volumes:
     #      - ./frontend:/opt/app
     #      - /opt/app/node_modules/.cache/
