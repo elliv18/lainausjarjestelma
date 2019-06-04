@@ -45,7 +45,12 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
-import { LOANS_QUERY, EMAILS_QUERY, DEVICE_ID_QUERY } from '../lib/gql/queries';
+import {
+  LOANS_QUERY,
+  EMAILS_QUERY,
+  DEVICE_ID_QUERY,
+  CURRENTUSER,
+} from '../lib/gql/queries';
 import { LOAN_ADD_MUTATION, LOAN_RETURN_MUTATION } from '../lib/gql/mutation';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -162,7 +167,6 @@ let arrayEmails = null;
 let arrayIdCodes = null;
 
 let emails = [];
-let idCodes = [];
 
 function editEmails() {
   let temp = [];
@@ -175,7 +179,7 @@ function editEmails() {
   return temp;
 }
 
-function editIdCodes() {
+function editIdCodes(idCodes) {
   let temp = [];
   idCodes.map((row, i) => {
     temp[i] = {
@@ -183,6 +187,8 @@ function editIdCodes() {
       value: row.idCode,
     };
   });
+  console.log('IdCodes loaded', temp);
+
   return temp;
 }
 
@@ -203,7 +209,7 @@ const LookupEditCellBase = ({ onValueChange, classes, column, tableRow }) =>
     tableRow.row.isActive ? (
     <TableCell className={classes.lookupEditCell}>
       <Select
-        options={(arrayIdCodes = editIdCodes())}
+        options={arrayIdCodes}
         //onChange={opt => console.log(opt.label, opt.value)}
         onChange={opt => console.log(opt.label, opt.value)}
         onChange={event => onValueChange(event.value)}
@@ -248,7 +254,6 @@ export const LookupEditCell = withStyles(styles, {
 const EditCell = props => {
   const { column, tableRow } = props;
 
-  console.log('paska', tableRow.row.isActive);
   tableRow.type.toString() === 'Symbol(added)'
     ? console.log(tableRow.type.toString())
     : undefined;
@@ -432,6 +437,8 @@ class Loans extends React.PureComponent {
                   devIdCode: row.idCode,
                   loaner: row.loaner,
                 },
+                refetchQueries: [{ query: CURRENTUSER }],
+
                 mutation: LOAN_ADD_MUTATION,
               })
               .then(result => {
@@ -546,10 +553,10 @@ class Loans extends React.PureComponent {
     }
     //console.log('emails', tempEmails);
     emails = tempEmails.data.allUsers;
-    idCodes = tempIdCodes.data.allDevices;
+    arrayIdCodes = editIdCodes(tempIdCodes.data.allDevices);
     //console.log(idCodes);
     this.setState({ data: temp2, loading: false });
-    console.log(temp2);
+    //  console.log(temp2);
   }
 
   // RENDER

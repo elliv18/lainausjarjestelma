@@ -346,7 +346,7 @@ class MiniDrawer extends React.Component {
                 }),
               }}
             >
-              <div className={classes.content}>{this.props.children}</div>
+              <div className={classes.content}>{this.props.children} </div>
             </div>
           </App>
         </div>
