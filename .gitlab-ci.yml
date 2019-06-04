@@ -75,7 +75,7 @@ deploy_backend:
     - env_prod
     - build_backend
   script:
-    - apt update && apt add rsync openssh
+    - apt update && apt install rsync openssh
     - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
     # Prepare SSH settings
     - mkdir -p ~/.ssh && (umask  077 ; echo "${DEPLOY_KEY_PRIVATE}" | base64 -d > ~/.ssh/id_rsa)
