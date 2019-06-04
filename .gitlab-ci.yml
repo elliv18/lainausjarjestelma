@@ -81,7 +81,7 @@ deploy_backend:
     - mkdir -p ~/.ssh && (umask  077 ; echo "${DEPLOY_KEY_PRIVATE}" | base64 -d > ~/.ssh/id_rsa)
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     # Build containers
-    #- docker pull "${BACKEND_IMAGE}"
+    - docker pull "${BACKEND_IMAGE}"
     - docker build --cache-from "${BACKEND_IMAGE}" -f .dockerfiles/backendProd -t "${BACKEND_IMAGE}" .
     # Push to remote
     - docker push "${BACKEND_IMAGE}"
