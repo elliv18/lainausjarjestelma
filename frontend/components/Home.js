@@ -164,8 +164,8 @@ class Home extends React.Component {
         { name: 'manufacture', title: 'Manufacture' },
         { name: 'model', title: 'Model' },
         { name: 'loanDate', title: 'Loan date' },
-        { name: 'returnDate', title: 'Return date' },
         { name: 'dueDate', title: 'Due date' },
+        { name: 'returnDate', title: 'Return date' },
         { name: 'isActive', title: 'Loan status' },
       ],
       tableColumnExtensions: [
@@ -174,8 +174,8 @@ class Home extends React.Component {
         { columnName: 'manufacture', wordWrapEnabled: true },
         { columnName: 'model', wordWrapEnabled: true },
         { columnName: 'loanDate', wordWrapEnabled: true },
-        { columnName: 'returnDate', wordWrapEnabled: true },
         { columnName: 'dueDate', wordWrapEnabled: true },
+        { columnName: 'returnDate', wordWrapEnabled: true },
         { columnName: 'isActive', wordWrapEnabled: true },
       ],
 
