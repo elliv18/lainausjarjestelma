@@ -42,7 +42,7 @@ services:
     env_file: .env
     restart: always
   frontend:
-    image: mhart/alpine-node:latest
+    image: alpine:latest
     ports:
       - "3000:3000"
     #    volumes:
