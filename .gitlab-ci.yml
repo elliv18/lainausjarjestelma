@@ -106,7 +106,7 @@ deploy_backend:
 #########################
 
 build_frontend:
-  image: node:slim
+  image: mhart/alpine-node:latest
   stage: build
   dependencies:
     - env_prod
