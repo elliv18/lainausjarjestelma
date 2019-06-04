@@ -318,7 +318,7 @@ export default `
     }
 
     input LoanReturnInput {
-        Id: ID!
+        id: ID!
         returnDate: String!
     }
     type LoanReturnPayload {

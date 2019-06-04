@@ -6,7 +6,7 @@ user: lainaus
 pass: proto19
 
 user: deploy
-pass: deploy
+pass: proto19
 
 ## Backend
 
@@ -18,4 +18,4 @@ pass: deploy
 
 ## Frontend
 
-dd
+## notes
