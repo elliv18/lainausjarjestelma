@@ -182,11 +182,14 @@ function editEmails() {
 function editIdCodes(idCodes) {
   let temp = [];
   idCodes.map((row, i) => {
-    temp[i] = {
-      label: row.idCode,
-      value: row.idCode,
-    };
+    if (!row.loanStatus) {
+      temp[i] = {
+        label: row.idCode,
+        value: row.idCode,
+      };
+    }
   });
+
   console.log('IdCodes loaded', temp);
 
   return temp;

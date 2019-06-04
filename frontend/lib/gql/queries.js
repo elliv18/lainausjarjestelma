@@ -38,6 +38,7 @@ export const EQUIPMENTS_QUERY = gql`
 export const DEVICE_ID_QUERY = gql`
   query {
     allDevices {
+      loanStatus
       idCode
     }
   }
