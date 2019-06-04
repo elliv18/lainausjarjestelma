@@ -75,12 +75,12 @@ deploy_backend:
     - env_prod
     - build_backend
   script:
-    - apk update && apk add rsync openssh
+    - apt update && apt add rsync openssh
     - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
     # Prepare SSH settings
     - mkdir -p ~/.ssh && (umask  077 ; echo "${DEPLOY_KEY_PRIVATE}" | base64 -d > ~/.ssh/id_rsa)
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    # Build containers
+    # Build images
     - docker pull "${BACKEND_IMAGE}"
     - docker build --cache-from "${BACKEND_IMAGE}" -f .dockerfiles/backendProd -t "${BACKEND_IMAGE}" .
     # Push to remote
