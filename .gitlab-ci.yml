@@ -95,7 +95,7 @@ deploy_backend:
       cd ~/$REMOTE_DIR;
       docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY;
       docker-compose pull;
-      docker-compose up -d backend;"
+      docker-compose up -d backend prisma postgres;"
 
 #######################
 # BACKEND - ENDS HERE #
