@@ -42,9 +42,8 @@ const server = new GraphQLServer({
 const options = {
   port: BACKEND_PORT,
   cors: {
-    creditials: true,
-    origin: "*"
-    //origin: ["http://172.16.101.140:3000"]
+    //creditials: true,
+    origin: ["http://172.16.101.140:3000"]
   }
 };
 
