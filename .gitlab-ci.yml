@@ -105,6 +105,20 @@ deploy_backend:
 # FRONTEND - START HERE #
 #########################
 
+build_frontend:
+  image: mhart/alpine-node:latest
+  stage: build
+  dependencies:
+    - env_prod
+  artifacts:
+    paths:
+      - frontend/node_modules/
+      - frontend/build/
+  script:
+    - cd frontend
+    - yarn install --prod
+    - DOTENV_PATH=../${REMOTE_DIR}/.env yarn build
+
 deploy_frontend:
   image: docker:latest
   stage: deploy
@@ -112,7 +126,7 @@ deploy_frontend:
     - docker:dind
   dependencies:
     - env_prod
-
+    - build_frontend
   script:
     - apk update && apk add rsync openssh
     - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
