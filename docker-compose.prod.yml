@@ -28,8 +28,8 @@ services:
     image: node:slim
     ports:
       - "${BACKEND_PORT}:3050"
-    volumes:
-      - ./backend:/opt/app
+    #    volumes:
+    #     - ./backend:/opt/app
     environment:
       NODE_ENV: production
       BACKEND_HOST: ${BACKEND_HOST}
@@ -42,12 +42,12 @@ services:
     env_file: .env
     restart: always
   frontend:
-    image: alpine
+    image: mhart/alpine-node:latest
     ports:
       - "${FRONTEND_PORT}:3000"
-    volumes:
-      - ./frontend:/opt/app
-      - /opt/app/node_modules/.cache/
+    #    volumes:
+    #      - ./frontend:/opt/app
+    #      - /opt/app/node_modules/.cache/
     restart: always
-volumes:
-  postgres: ~
+#volumes:
+#  postgres: ~
