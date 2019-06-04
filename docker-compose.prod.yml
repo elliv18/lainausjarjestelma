@@ -28,8 +28,6 @@ services:
     image: node:slim
     ports:
       - "3050:3050"
-    #    volumes:
-    #     - ./backend:/opt/app
     environment:
       NODE_ENV: production
       BACKEND_HOST: ${BACKEND_HOST}
@@ -45,9 +43,6 @@ services:
     image: alpine:latest
     ports:
       - "3000:3000"
-    #    volumes:
-    #      - ./frontend:/opt/app
-    #      - /opt/app/node_modules/.cache/
     restart: always
 volumes:
   postgres: ~
