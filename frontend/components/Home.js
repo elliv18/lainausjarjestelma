@@ -144,7 +144,7 @@ const BooleanTypeProvider = props => (
 
 const BooleanFormatter = ({ value }) => (
   <Chip
-    color={value ? 'primary' : 'secondary'}
+    color={'primary'}
     label={value ? 'Active' : 'Returned'}
     icon={value ? <CheckIcon /> : <CancelIcon />}
     style={
