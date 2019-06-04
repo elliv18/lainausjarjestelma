@@ -473,7 +473,7 @@ class Loans extends React.PureComponent {
             client
               .mutate({
                 variables: {
-                  idCode: row.idCode,
+                  id: row.id,
                   returnDate: row.returnDate,
                 },
                 mutation: LOAN_RETURN_MUTATION,
