@@ -258,6 +258,21 @@ export const LOAN_ADD_MUTATION = gql`
     ) {
       loan {
         id
+        device {
+          idCode
+          manufacture
+          model
+        }
+        loaner {
+          email
+          firstName
+          lastName
+        }
+        supplier {
+          email
+          firstName
+          lastName
+        }
       }
     }
   }

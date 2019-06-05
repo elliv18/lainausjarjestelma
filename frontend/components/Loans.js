@@ -189,7 +189,7 @@ function editIdCodes(idCodes) {
     };
   });
 
-  console.log('IdCodes loaded', temp);
+  // console.log('IdCodes loaded', temp);
 
   return temp;
 }
@@ -255,10 +255,11 @@ export const LookupEditCell = withStyles(styles, {
 
 const EditCell = props => {
   const { column, tableRow } = props;
-
+  /*
   tableRow.type.toString() === 'Symbol(added)'
     ? console.log(tableRow.type.toString())
     : undefined;
+    */
   const availableColumnValues = availableValues[column.name];
   if (availableColumnValues) {
     return (
@@ -303,38 +304,36 @@ const DateTypeProvider = props => (
 const getRowId = row => row.id;
 
 const RowDetail = ({ row }) => (
-  console.log('ROW', row),
-  (
-    <Grid
-      rows={[
-        {
-          loaner: row.loanerFirstName + ' ' + row.loanerLastName,
-          loanerEmail: row.loanerEmail,
-          supplier: row.supplierFirstName + ' ' + row.supplierLastName,
-          supplierEmail: row.supplierEmail,
-          device: row.manufacture + ', ' + row.model,
-        },
+  //  console.log('ROW', row),
+  <Grid
+    rows={[
+      {
+        loaner: row.loanerFirstName + ' ' + row.loanerLastName,
+        loanerEmail: row.loanerEmail,
+        supplier: row.supplierFirstName + ' ' + row.supplierLastName,
+        supplierEmail: row.supplierEmail,
+        device: row.manufacture + ', ' + row.model,
+      },
+    ]}
+    columns={[
+      { name: 'device', title: 'Device' },
+      { name: 'loaner', title: 'Loaner' },
+      { name: 'loanerEmail', title: 'Email' },
+      { name: 'supplier', title: 'Supplier' },
+      { name: 'supplierEmail', title: 'Email' },
+    ]}
+  >
+    <Table
+      columnExtensions={[
+        { columnName: 'loaner', wordWrapEnabled: true, width: 170 },
+        { columnName: 'loanerEmail', width: 300 },
+        { columnName: 'supplier', wordWrapEnabled: true, width: 170 },
+        { columnName: 'supplierEmail', width: 300 },
+        { columnName: 'device', wordWrapEnabled: true, width: 300 },
       ]}
-      columns={[
-        { name: 'device', title: 'Device' },
-        { name: 'loaner', title: 'Loaner' },
-        { name: 'loanerEmail', title: 'Email' },
-        { name: 'supplier', title: 'Supplier' },
-        { name: 'supplierEmail', title: 'Email' },
-      ]}
-    >
-      <Table
-        columnExtensions={[
-          { columnName: 'loaner', wordWrapEnabled: true, width: 170 },
-          { columnName: 'loanerEmail', width: 300 },
-          { columnName: 'supplier', wordWrapEnabled: true, width: 170 },
-          { columnName: 'supplierEmail', width: 300 },
-          { columnName: 'device', wordWrapEnabled: true, width: 300 },
-        ]}
-      />
-      <TableHeaderRow />
-    </Grid>
-  )
+    />
+    <TableHeaderRow />
+  </Grid>
 );
 
 /****************************** CLASS ********************************************************/
@@ -443,7 +442,7 @@ class Loans extends React.PureComponent {
 
         try {
           added.map(row => {
-            console.log('row', row.idCode);
+            //     console.log('row', row.idCode);
 
             client
               .mutate({
@@ -459,11 +458,23 @@ class Loans extends React.PureComponent {
               .then(result => {
                 console.log('RESULT ', result),
                   (id = result.data.loanCreate.loan.id);
-                console.log('RowID', id);
+                // console.log('RowID', id);
                 data = [
                   ...data,
                   ...added.map((row, index) => ({
                     id: id,
+                    manufacture: result.data.loanCreate.loan.device.manufacture,
+                    model: result.data.loanCreate.loan.device.model,
+                    supplierEmail: result.data.loanCreate.loan.supplier.email,
+                    supplierFirstName:
+                      result.data.loanCreate.loan.supplier.firstName,
+                    supplierLastName:
+                      result.data.loanCreate.loan.supplier.lastName,
+                    loanerEmail: result.data.loanCreate.loan.loaner.email,
+                    loanerFirstName:
+                      result.data.loanCreate.loan.loaner.firstName,
+                    loanerLastName: result.data.loanCreate.loan.loaner.lastName,
+
                     ...row,
                   })),
                 ];
@@ -479,7 +490,7 @@ class Loans extends React.PureComponent {
           console.log(e);
         }
 
-        console.log('ADDED', added);
+        //console.log('ADDED', added);
       }
 
       if (changed) {
@@ -505,7 +516,6 @@ class Loans extends React.PureComponent {
                 mutation: LOAN_RETURN_MUTATION,
               })
               .then(result => {
-                let temp = [];
                 row.isActive = false;
 
                 arrayIdCodes = [
@@ -516,7 +526,7 @@ class Loans extends React.PureComponent {
                   },
                 ];
 
-                console.log('changed idcodes', arrayIdCodes);
+                //  console.log('changed idcodes', arrayIdCodes);
                 // arrayIdCodes = [...arrayIdCodes];
 
                 // console.log('array', arrayIdCodes);
@@ -597,7 +607,7 @@ class Loans extends React.PureComponent {
       }
     });
     arrayIdCodes = editIdCodes(tempID);
-    console.log('arrayCodes', arrayIdCodes);
+    //console.log('arrayCodes', arrayIdCodes);
     this.setState({ data: temp2, loading: false });
     //  console.log(temp2);
   }
