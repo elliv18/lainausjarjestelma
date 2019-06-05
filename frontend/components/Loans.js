@@ -306,6 +306,7 @@ const DateTypeProvider = props => (
 const getRowId = row => row.id;
 
 const RowDetail = ({ row }) => (
+  //console.log('ROW', row),
   <Grid
     rows={[
       {
@@ -313,9 +314,11 @@ const RowDetail = ({ row }) => (
         loanerEmail: row.loanerEmail,
         supplier: row.supplierFirstName + ' ' + row.supplierLastName,
         supplierEmail: row.supplierEmail,
+        device: row.manufacture + ', ' + row.model,
       },
     ]}
     columns={[
+      { name: 'device', title: 'Device' },
       { name: 'loaner', title: 'Loaner' },
       { name: 'loanerEmail', title: 'Email' },
       { name: 'supplier', title: 'Supplier' },
@@ -328,6 +331,7 @@ const RowDetail = ({ row }) => (
         { columnName: 'loanerEmail', width: 300 },
         { columnName: 'supplier', wordWrapEnabled: true, width: 170 },
         { columnName: 'supplierEmail', width: 300 },
+        { columnName: 'device', width: 300 },
       ]}
     />
     <TableHeaderRow />
@@ -428,7 +432,7 @@ class Loans extends React.PureComponent {
     this.commitChanges = ({ added, changed, deleted }) => {
       let { data, client } = this.state;
       if (added) {
-        console.log(added);
+        // console.log(added);
         let id = null;
 
         try {
