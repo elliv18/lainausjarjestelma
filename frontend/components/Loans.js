@@ -431,6 +431,7 @@ class Loans extends React.PureComponent {
             ? row
             : {
                 isActive: true,
+                returnDate: null,
               }
         ),
       });
