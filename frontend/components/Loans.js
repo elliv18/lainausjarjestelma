@@ -187,10 +187,12 @@ function editIdCodes(idCodes) {
         label: row.idCode,
         value: row.idCode,
       };
+    } else {
+      null;
     }
   });
 
-  //console.log('IdCodes loaded', temp);
+  console.log('IdCodes loaded', temp);
 
   return temp;
 }
@@ -489,13 +491,13 @@ class Loans extends React.PureComponent {
         data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
         );
-        console.log('changed ', changed);
+        //  console.log('changed ', changed);
 
         data.map(row => {
           changed[row.id] ? (idLoan = row.id) : row;
 
           if (idLoan === row.id) {
-            console.log(idLoan);
+            //       console.log(idLoan);
             client
               .mutate({
                 variables: {
@@ -507,6 +509,7 @@ class Loans extends React.PureComponent {
               .then(result => {
                 let temp = [];
                 row.isActive = false;
+                //console.log('klklklkl', arrayIdCodes);
                 arrayIdCodes = [
                   ...arrayIdCodes,
                   (temp[0] = {
@@ -514,8 +517,7 @@ class Loans extends React.PureComponent {
                     value: row.idCode,
                   }),
                 ];
-                editIdCodes(arrayIdCodes);
-                console.log('array', arrayIdCodes);
+                // console.log('array', arrayIdCodes);
                 console.log('RESULT ', result);
                 this.setState({ data: data });
               })
@@ -557,6 +559,8 @@ class Loans extends React.PureComponent {
   // STARTING QUERY
   async componentDidMount() {
     let temp = await this.state.client.query({ query: LOANS_QUERY });
+    let tempEmails = await this.state.client.query({ query: EMAILS_QUERY });
+    let tempIdCodes = await this.state.client.query({ query: DEVICE_ID_QUERY });
 
     let temp2 = [];
     if (temp.data.allLoans) {
@@ -583,8 +587,6 @@ class Loans extends React.PureComponent {
       );
     }
 
-    let tempEmails = await this.state.client.query({ query: EMAILS_QUERY });
-    let tempIdCodes = await this.state.client.query({ query: DEVICE_ID_QUERY });
     //console.log('emails', tempEmails);
     emails = tempEmails.data.allUsers;
     arrayIdCodes = editIdCodes(tempIdCodes.data.allDevices);
