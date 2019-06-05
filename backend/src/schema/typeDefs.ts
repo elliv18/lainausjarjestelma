@@ -147,10 +147,12 @@ export default `
         # Return loan
         loanReturn(input: LoanReturnInput!): LoanReturnPayload
 
-        ############## DELETE ###############
+        ######### USER #################
 
-        # ADMINS - Delete user
-        userDelete(input: UserDeleteInput!): UserDeletePayload
+        # set user active/inactive
+        userIsActive(input: UserIsActiveInput!): UserIsActivePayload
+
+        ############## DELETE ###############
 
         # ADMINS - Delete device category
         categoryDelete(input: CategoryDeleteInput!): CategoryDeletePayload
@@ -235,18 +237,19 @@ export default `
         user: User
     }
 
-    input UserDeleteInput {
-        id: ID!
-    }
-    type UserDeletePayload {
-        user: User
-    }
-
     input UserUpdatePWInput {
         id: ID!
         password: String!
     }
     type UserUpdatePWPayload {
+        user: User
+    }
+
+    input UserIsActiveInput {
+        id: ID!
+        isActive: Boolean
+    }
+    type UserIsActivePayload {
         user: User
     }
 

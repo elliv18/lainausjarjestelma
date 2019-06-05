@@ -30,7 +30,7 @@ type Device {
   info: String
   loanStatus: Boolean! @default(value: false)
   categoryId: Category! @relation(name: "Cat")
-  loan: [Loan] @relation(name: "DevLoan")
+  loan: [Loan] @relation(name: "DevLoan", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -39,7 +39,7 @@ type Category {
   id: ID! @id
   deviceCategory: String @unique
   desription: String
-  devices: [Device]! @relation(name: "Cat")
+  devices: [Device]! @relation(name: "Cat", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

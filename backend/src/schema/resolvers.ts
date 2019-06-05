@@ -297,25 +297,28 @@ export default {
       );
       return { user };
     },
-    // USER DELETE
-    userDelete: async (obj, { input: { id } }, { currentUser }) => {
+    // SET USER ACTIVE/INACTIVE
+    userIsActive: async (obj, { input: { id, isActive } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
-      if ((await prisma.user({ id }).email()) === ROOT_ADMIN_EMAIL) {
-        logger.log("warn", "[USER DELETE] Root admin cannot be deleted!");
-        throw new Error("ROOT ADMIN Cannot deleted!");
-      }
-
-      const user = await prisma.deleteUser({ id: id });
+      const user = await prisma.updateUser({
+        data: {
+          isActive: isActive
+        },
+        where: {
+          id: id
+        }
+      });
 
       logger.log(
         "info",
-        "[USER DELETE] User %s have deleted by %s",
+        "[USER IS ACTIVE?] User %s active status is %s, set by %s",
         id,
+        isActive,
         currentUser.id
       );
-      return user;
+      return { user };
     },
     // CATEGORY CREATE
     categoryCreate: async (
@@ -475,6 +478,16 @@ export default {
     ) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
+
+      const dev = await prisma.device({ idCode: devIdCode });
+      if (dev.loanStatus) {
+        logger.log(
+          "info",
+          "[LOAN CREATE] Device %s is already loaned, cant create loan",
+          devIdCode
+        );
+        throw new Error("Device is already loaned!");
+      }
 
       const loan = await prisma.createLoan({
         isActive: true,

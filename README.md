@@ -19,3 +19,7 @@ pass: proto19
 ## Frontend
 
 ## notes
+
+conttiin pääsy
+
+- docker exec -it <mycontainer> bash
