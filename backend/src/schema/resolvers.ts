@@ -351,7 +351,7 @@ export default {
       const category = await prisma.updateCategory({
         data: _.pickBy(
           {
-            deviceType: deviceCategory,
+            deviceCategory: deviceCategory,
             desription: desription
           },
           _.identity
