@@ -21,6 +21,9 @@ export default {
   Device: {
     async category(device) {
       return await prisma.device({ id: device.id }).categoryId();
+    },
+    async loan(loan) {
+      return await prisma.device({ id: loan.id }).loan();
     }
   },
   Loan: {
@@ -547,18 +550,26 @@ export default {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
-      // get loan id
-      const loanData = await prisma.device({ id }).loan();
+      const device = await prisma.loan({ id: id }).deviceId();
 
-      /*const loan = await prisma.deleteLoan({ id: loanData.id });
+      const loan = await prisma.deleteLoan({ id: id });
+
+      await prisma.updateDevice({
+        data: {
+          loanStatus: false
+        },
+        where: {
+          id: device.id
+        }
+      });
 
       logger.log(
         "info",
         "[LOAN DELETE] Loan %s have deleted by %s",
-        loanData.id,
+        id,
         currentUser.id
       );
-      return { loan };*/
+      return { loan };
     }
   }
 };

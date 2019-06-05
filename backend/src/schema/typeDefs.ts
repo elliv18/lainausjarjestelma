@@ -39,6 +39,7 @@ export default `
         model: String
         info: String
         loanStatus: Boolean!
+        loan: [Loan]
         category: Category!
         createdAt: String!
         updatedAt: String!
