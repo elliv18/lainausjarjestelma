@@ -51,7 +51,11 @@ import {
   DEVICE_ID_QUERY,
   CURRENTUSER,
 } from '../lib/gql/queries';
-import { LOAN_ADD_MUTATION, LOAN_RETURN_MUTATION } from '../lib/gql/mutation';
+import {
+  LOAN_ADD_MUTATION,
+  LOAN_RETURN_MUTATION,
+  LOAN_DELETE_MUTATION,
+} from '../lib/gql/mutation';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
@@ -73,7 +77,6 @@ const styles = theme => ({
   },
   table: {
     height: '800px',
-    overflowY: 'auto',
   },
   dialog: {
     width: 'calc(100% - 16px)',
@@ -192,7 +195,7 @@ function editIdCodes(idCodes) {
     }
   });
 
-  console.log('IdCodes loaded', temp);
+  //console.log('IdCodes loaded', temp);
 
   return temp;
 }
@@ -409,8 +412,8 @@ class Loans extends React.PureComponent {
     // FUNCTIONS
 
     const getStateRows = () => {
-      const { rows } = this.state;
-      return rows;
+      const { data } = this.state;
+      return data;
     };
 
     this.changeSorting = sorting => this.setState({ sorting });
@@ -511,19 +514,28 @@ class Loans extends React.PureComponent {
         });
       }
       if (deleted) {
-        rows = this.deleteRows(deleted);
+        client
+          .mutate({
+            variables: { id: deleted[0] },
+            mutation: LOAN_DELETE_MUTATION,
+          })
+          .then(response => {
+            console.log(Response), (data = this.deleteRows(deleted));
+            this.setState({ data: data });
+          })
+          .catch(error => console.log(error));
       }
       //this.setState({ data });
     };
     this.deleteRows = deletedIds => {
-      const rows = getStateRows().slice();
+      const data = getStateRows().slice();
       deletedIds.forEach(rowId => {
-        const index = rows.findIndex(row => row.id === rowId);
+        const index = data.findIndex(row => row.id === rowId);
         if (index > -1) {
-          rows.splice(index, 1);
+          data.splice(index, 1);
         }
       });
-      return rows;
+      return data;
     };
     this.changeColumnOrder = order => {
       this.setState({ columnOrder: order });

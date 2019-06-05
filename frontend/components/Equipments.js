@@ -372,10 +372,9 @@ class Equipments extends React.PureComponent {
           })
           .then(response => {
             console.log(Response), (data = this.deleteRows(deleted));
+            this.setState({ data: data });
           })
           .catch(error => console.log(error));
-
-        this.setState({ data: data });
       }
       //this.setState({ data: data });
     };
