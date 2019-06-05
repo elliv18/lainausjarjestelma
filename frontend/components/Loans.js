@@ -75,9 +75,6 @@ const styles = theme => ({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  table: {
-    height: '800px',
-  },
   dialog: {
     width: 'calc(100% - 16px)',
   },
@@ -93,6 +90,7 @@ const TableRow = ({ row, ...restProps }) => (
   <Table.Row
     {...restProps}
     style={{
+      height: 60,
       backgroundColor:
         moment(row.dueDate).format('YYYY MM DD') <
           moment().format('YYYY MM DD') && row.isActive
@@ -648,7 +646,6 @@ class Loans extends React.PureComponent {
 
             <VirtualTable
               columnExtensions={tableColumnExtensions}
-              className={classes.table}
               rowComponent={TableRow}
             />
             <TableColumnReordering
