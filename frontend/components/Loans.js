@@ -378,8 +378,14 @@ class Loans extends React.PureComponent {
         { columnName: 'returnDate', editingEnabled: true },
         { columnName: 'dueDate', editingEnabled: false },
       ],
-      sorting: [],
-
+      defaultSorting: [{ columnName: 'isActive', direction: 'desc' }],
+      sortingStateColumnExtensions: [
+        { columnName: 'isActive', sortingEnabled: false },
+      ],
+      sorting: [
+        { columnName: 'isActive', direction: 'desc' },
+        { columnName: 'dueDate', direction: 'asc' },
+      ],
       addedRows: [],
       disableRows: ['isActive'],
       defaultHiddenColumnNames: ['deviceCategory', 'manufacture', 'model'],
@@ -607,6 +613,8 @@ class Loans extends React.PureComponent {
       defaultHiddenColumnNames,
       dateColumns,
       disableRows,
+      defaultSorting,
+      sortingStateColumnExtensions,
     } = this.state;
 
     if (loading) {
@@ -619,6 +627,8 @@ class Loans extends React.PureComponent {
             <SortingState
               sorting={sorting}
               onSortingChange={this.changeSorting}
+              defaultSorting={defaultSorting}
+              columnExtensions={sortingStateColumnExtensions}
             />
             <PagingState
               currentPage={currentPage}
