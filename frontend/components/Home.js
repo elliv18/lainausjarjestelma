@@ -190,6 +190,14 @@ class Home extends React.Component {
 
       dateColumns: ['loanDate', 'returnDate', 'dueDate'],
       booleanColumns: ['isActive'],
+      defaultSorting: [{ columnName: 'isActive', direction: 'desc' }],
+      sortingStateColumnExtensions: [
+        { columnName: 'isActive', sortingEnabled: false },
+      ],
+      sorting: [
+        { columnName: 'isActive', direction: 'desc' },
+        { columnName: 'dueDate', direction: 'asc' },
+      ],
 
       client: props.client,
       data_user: {
@@ -350,6 +358,8 @@ class Home extends React.Component {
       tableColumnExtensions,
       dateColumns,
       booleanColumns,
+      defaultSorting,
+      sortingStateColumnExtensions,
     } = this.state;
     if (loading && (data_user || {}.firstName)) {
       return <Loading />;
@@ -372,6 +382,8 @@ class Home extends React.Component {
                   <SortingState
                     sorting={sorting}
                     onSortingChange={this.changeSorting}
+                    defaultSorting={defaultSorting}
+                    columnExtensions={sortingStateColumnExtensions}
                   />
                   <IntegratedFiltering />
                   <IntegratedSorting />

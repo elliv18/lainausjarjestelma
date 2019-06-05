@@ -239,7 +239,14 @@ class Equipments extends React.PureComponent {
         { columnName: 'model', editingEnabled: true },
         { columnName: 'info', editingEnabled: true },
       ],
-      sorting: [],
+      defaultSorting: [{ columnName: 'loanStatus', direction: 'asc' }],
+      sortingStateColumnExtensions: [
+        { columnName: 'loanStatus', sortingEnabled: false },
+      ],
+      sorting: [
+        { columnName: 'loanStatus', direction: 'asc' },
+        { columnName: 'manufacture', direction: 'asc' },
+      ],
       editingRowIds: [
         'idCode',
         'deviceCategory',
@@ -440,6 +447,8 @@ class Equipments extends React.PureComponent {
       editingColumns,
       loading,
       defaultHiddenColumnNames,
+      defaultSorting,
+      sortingStateColumnExtensions,
     } = this.state;
 
     if (loading) {
@@ -451,6 +460,8 @@ class Equipments extends React.PureComponent {
             <SortingState
               sorting={sorting}
               onSortingChange={this.changeSorting}
+              defaultSorting={defaultSorting}
+              columnExtensions={sortingStateColumnExtensions}
             />
             <PagingState
               currentPage={currentPage}
