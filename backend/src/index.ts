@@ -40,8 +40,8 @@ const server = new GraphQLServer({
 
 // Cors settings
 const options = {
-  port: BACKEND_PORT,
-  cors: {
+  port: BACKEND_PORT
+  /*cors: {
     creditials: false,
     origin: "*",
     allowedHeaders: [
@@ -56,7 +56,7 @@ const options = {
       "Accept-Encoding",
       "*"
     ]
-  }
+  }*/
 };
 
 server.start(options, () =>
