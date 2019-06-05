@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import Document, { Head, Main, NextScript } from 'next/document';
 import flush from 'styled-jsx/server';
 
-
-
 class MyDocument extends Document {
-  
   render() {
     const { pageContext } = this.props;
 
@@ -22,7 +19,9 @@ class MyDocument extends Document {
           {/* PWA primary color */}
           <meta
             name="theme-color"
-            content={pageContext ? pageContext.theme.palette.primary.main : null}
+            content={
+              pageContext ? pageContext.theme.palette.primary.main : null
+            }
           />
           <link
             rel="stylesheet"

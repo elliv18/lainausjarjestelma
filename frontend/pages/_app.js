@@ -41,7 +41,7 @@ class MyApp extends App {
     return (
       <Container>
         <Head>
-          <title>Loan system</title>
+          <title>Loan System</title>
         </Head>
 
         {/* Wrap every page in Jss and Theme providers */}
@@ -55,8 +55,6 @@ class MyApp extends App {
             theme={this.pageContext.theme}
             sheetsManager={this.pageContext.sheetsManager}
           >
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
             {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server-side. */}
             <ApolloProvider client={apolloClient}>

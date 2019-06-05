@@ -34,6 +34,7 @@ const styles = theme => ({
     left: '25%',
     top: '10%',
     margin: 'auto',
+    backgroundColor: '#E7EEEF',
   },
 
   message: {
@@ -98,7 +99,12 @@ class LoginTab extends React.Component {
         <Paper className={classes.root} elevation={5}>
           <MuiThemeProvider theme={theme}>
             <div className={classes.margin}>
-              <Typography variant="h4" gutterBottom align="center">
+              <Typography
+                variant="h4"
+                gutterBottom
+                align="center"
+                style={{ color: 'rgba(0,70,85)' }}
+              >
                 LOAN SYSTEM
               </Typography>
               <div className={classes.message}>{this.state.alertMsg}</div>
@@ -187,7 +193,11 @@ class LoginTab extends React.Component {
                   }}
                   variant="outlined"
                   color="primary"
-                  style={{ textTransform: 'none' }}
+                  style={{
+                    textTransform: 'none',
+                    backgroundColor: 'rgba(0,70,85)',
+                    color: '#fff',
+                  }}
                 >
                   Login
                 </Button>
