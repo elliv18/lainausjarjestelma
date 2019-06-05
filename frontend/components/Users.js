@@ -184,7 +184,7 @@ const BooleanTypeProvider = props => (
 
 const BooleanFormatter = ({ value }) => (
   <Chip
-    color={value ? 'primary' : 'secondary'}
+    color={'primary'}
     label={value ? 'Active' : 'Inactive'}
     icon={value ? <CheckIcon /> : <CancelIcon />}
     style={
@@ -245,7 +245,14 @@ class Users extends React.PureComponent {
         { columnName: 'updatedAt', editingEnabled: false },
       ],
       rows: [],
-      sorting: [],
+      defaultSorting: [{ columnName: 'isActive', direction: 'dec' }],
+      sortingStateColumnExtensions: [
+        { columnName: 'isActive', sortingEnabled: false },
+      ],
+      sorting: [
+        { columnName: 'isActive', direction: 'desc' },
+        { columnName: 'firstName', direction: 'asc' },
+      ],
       editingRowIds: [],
       addedRows: [],
       defaultHiddenColumnNames: [],
@@ -455,6 +462,8 @@ class Users extends React.PureComponent {
       editingColumns,
       loading,
       defaultHiddenColumnNames,
+      defaultSorting,
+      sortingStateColumnExtensions,
     } = this.state;
 
     if (loading) {
@@ -466,6 +475,8 @@ class Users extends React.PureComponent {
             <SortingState
               sorting={sorting}
               onSortingChange={this.changeSorting}
+              defaultSorting={defaultSorting}
+              columnExtensions={sortingStateColumnExtensions}
             />
             <PagingState
               pageSize={pageSize}

@@ -235,7 +235,7 @@ class Category extends React.PureComponent {
         { columnName: 'updatedAt', editingEnabled: false },
       ],
       rows: [],
-      sorting: [],
+      sorting: [{ columnName: 'deviceCategory', direction: 'asc' }],
       editingRowIds: [],
       addedRows: [],
       defaultHiddenColumnNames: [],
