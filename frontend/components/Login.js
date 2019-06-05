@@ -6,6 +6,7 @@ import {
   Button,
   FormControlLabel,
   Checkbox,
+  Typography,
 } from '@material-ui/core';
 import {
   withStyles,
@@ -97,6 +98,9 @@ class LoginTab extends React.Component {
         <Paper className={classes.root} elevation={5}>
           <MuiThemeProvider theme={theme}>
             <div className={classes.margin}>
+              <Typography variant="h4" gutterBottom align="center">
+                LOAN SYSTEM
+              </Typography>
               <div className={classes.message}>{this.state.alertMsg}</div>
               <Grid container spacing={8} alignItems="flex-end">
                 <Grid item>
@@ -131,7 +135,7 @@ class LoginTab extends React.Component {
                   />
                 </Grid>
               </Grid>
-              <Grid container alignItems="center" justify="space-between">
+              {/*<Grid container alignItems="center" justify="space-between">
                 <Grid item>
                   <FormControlLabel
                     control={<Checkbox color="primary" />}
@@ -150,7 +154,7 @@ class LoginTab extends React.Component {
                     Forgot password ?
                   </Button>
                 </Grid>
-              </Grid>
+              </Grid>*/}
               <Grid container justify="center" style={{ marginTop: '10px' }}>
                 <Button
                   size="large"
