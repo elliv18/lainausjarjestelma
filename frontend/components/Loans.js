@@ -30,9 +30,6 @@ import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-//import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import TableCell from '@material-ui/core/TableCell';
 import TextField from '@material-ui/core/TextField';
 import ToolbarTitle from '../src/ToolbarTitle';
@@ -447,9 +444,8 @@ class Loans extends React.PureComponent {
                   devIdCode: row.idCode,
                   loaner: row.loaner,
                 },
-                refetchQueries: [{ query: CURRENTUSER }],
-
                 mutation: LOAN_ADD_MUTATION,
+                refetchQueries: [{ query: CURRENTUSER }],
               })
               .then(result => {
                 console.log('RESULT ', result),

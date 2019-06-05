@@ -44,6 +44,7 @@ import {
   EQUIPMENTS_QUERY,
   CATEGORY_NAME_QUERY,
   DEVICE_ID_QUERY,
+  LOANS_QUERY,
 } from '../lib/gql/queries';
 import {
   EQUIPMENT_ADD_MUTATION,

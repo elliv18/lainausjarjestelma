@@ -40,11 +40,14 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo } from 'react-apollo';
-import { CATEGORY_QUERY } from '../lib/gql/queries';
+import {
+  CATEGORY_QUERY,
+  EQUIPMENTS_QUERY,
+  CATEGORY_NAME_QUERY,
+} from '../lib/gql/queries';
 import {
   CATEGORY_ADD_MUTATION,
   CATEGORY_UPDATE_MUTATION,
-  CATEGORY_DELETE_MUTATION,
 } from '../lib/gql/mutation';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -292,6 +295,7 @@ class Category extends React.PureComponent {
                   deviceCategory: row.deviceCategory,
                   desription: row.desription,
                 },
+                refetchQueries: [{ query: CATEGORY_NAME_QUERY }],
                 mutation: CATEGORY_ADD_MUTATION,
               })
               .then(result => console.log('RESULT ', result))
