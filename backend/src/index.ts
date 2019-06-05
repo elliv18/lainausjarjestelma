@@ -53,7 +53,8 @@ const options = {
       "access-control-allow-origin",
       "x-csrf-token",
       "Content-Length",
-      "Accept-Encoding"
+      "Accept-Encoding",
+      "*"
     ]
   }
 };
