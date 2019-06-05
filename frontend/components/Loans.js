@@ -57,6 +57,7 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
 import Select from 'react-select';
+import { array } from 'prop-types';
 
 /********************* STYLES ************************************/
 
@@ -182,14 +183,10 @@ function editEmails() {
 function editIdCodes(idCodes) {
   let temp = [];
   idCodes.map((row, i) => {
-    if (!row.loanStatus) {
-      temp[i] = {
-        label: row.idCode,
-        value: row.idCode,
-      };
-    } else {
-      null;
-    }
+    temp[i] = {
+      label: row,
+      value: row,
+    };
   });
 
   console.log('IdCodes loaded', temp);
@@ -510,14 +507,18 @@ class Loans extends React.PureComponent {
               .then(result => {
                 let temp = [];
                 row.isActive = false;
-                //console.log('klklklkl', arrayIdCodes);
+
                 arrayIdCodes = [
                   ...arrayIdCodes,
-                  (temp[0] = {
-                    label: row.idCode,
-                    value: row.idCode,
-                  }),
+                  {
+                    label: result.data.loanReturn.loan.device.idCode,
+                    value: result.data.loanReturn.loan.device.idCode,
+                  },
                 ];
+
+                console.log('changed idcodes', arrayIdCodes);
+                // arrayIdCodes = [...arrayIdCodes];
+
                 // console.log('array', arrayIdCodes);
                 console.log('RESULT ', result);
                 this.setState({ data: data });
@@ -562,7 +563,7 @@ class Loans extends React.PureComponent {
     let temp = await this.state.client.query({ query: LOANS_QUERY });
     let tempEmails = await this.state.client.query({ query: EMAILS_QUERY });
     let tempIdCodes = await this.state.client.query({ query: DEVICE_ID_QUERY });
-
+    let tempID = [];
     let temp2 = [];
     if (temp.data.allLoans) {
       temp.data.allLoans.map(
@@ -590,8 +591,13 @@ class Loans extends React.PureComponent {
 
     //console.log('emails', tempEmails);
     emails = tempEmails.data.allUsers;
-    arrayIdCodes = editIdCodes(tempIdCodes.data.allDevices);
-    //console.log(idCodes);
+    tempIdCodes.data.allDevices.map(row => {
+      if (!row.loanStatus) {
+        tempID = [...tempID, row.idCode];
+      }
+    });
+    arrayIdCodes = editIdCodes(tempID);
+    console.log('arrayCodes', arrayIdCodes);
     this.setState({ data: temp2, loading: false });
     //  console.log(temp2);
   }

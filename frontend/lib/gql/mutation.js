@@ -269,6 +269,9 @@ export const LOAN_RETURN_MUTATION = gql`
       loan {
         id
         isActive
+        device {
+          idCode
+        }
       }
     }
   }
