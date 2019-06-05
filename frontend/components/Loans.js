@@ -331,7 +331,7 @@ const RowDetail = ({ row }) => (
         { columnName: 'loanerEmail', width: 300 },
         { columnName: 'supplier', wordWrapEnabled: true, width: 170 },
         { columnName: 'supplierEmail', width: 300 },
-        { columnName: 'device', width: 300 },
+        { columnName: 'device', wordWrapEnabled: true, width: 300 },
       ]}
     />
     <TableHeaderRow />
