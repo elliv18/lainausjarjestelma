@@ -44,7 +44,7 @@ const options = {
   cors: {
     creditials: false,
     origin: "*",
-    allowedHeaders: ["Origin", "Content-Type", "Authorization"]
+    allowedHeaders: ["Origin", "Content-Type", "Authorization", "Accept"]
   }
 };
 
