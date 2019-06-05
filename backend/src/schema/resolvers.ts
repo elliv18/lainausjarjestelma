@@ -548,7 +548,20 @@ export default {
     // LOAN DELETE
     loanDelete: async (obj, { input: { id } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
-      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+      if (currentUser.type === "STAFF") {
+        const loan = await prisma.loan({ id: id });
+
+        if (Date.parse(loan.createdAt) >= Date.now() - 30 * 60 * 1000) {
+          logger.log(
+            "info",
+            "[LOAN DELETE] Staff %s, deleting time is timeout!",
+            currentUser.id
+          );
+          throw new Error("Permission denined!");
+        }
+      } else {
+        mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+      }
 
       const device = await prisma.loan({ id: id }).deviceId();
 
