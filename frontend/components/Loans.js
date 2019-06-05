@@ -304,36 +304,38 @@ const DateTypeProvider = props => (
 const getRowId = row => row.id;
 
 const RowDetail = ({ row }) => (
-  //console.log('ROW', row),
-  <Grid
-    rows={[
-      {
-        loaner: row.loanerFirstName + ' ' + row.loanerLastName,
-        loanerEmail: row.loanerEmail,
-        supplier: row.supplierFirstName + ' ' + row.supplierLastName,
-        supplierEmail: row.supplierEmail,
-        device: row.manufacture + ', ' + row.model,
-      },
-    ]}
-    columns={[
-      { name: 'device', title: 'Device' },
-      { name: 'loaner', title: 'Loaner' },
-      { name: 'loanerEmail', title: 'Email' },
-      { name: 'supplier', title: 'Supplier' },
-      { name: 'supplierEmail', title: 'Email' },
-    ]}
-  >
-    <Table
-      columnExtensions={[
-        { columnName: 'loaner', wordWrapEnabled: true, width: 170 },
-        { columnName: 'loanerEmail', width: 300 },
-        { columnName: 'supplier', wordWrapEnabled: true, width: 170 },
-        { columnName: 'supplierEmail', width: 300 },
-        { columnName: 'device', wordWrapEnabled: true, width: 300 },
+  console.log('ROW', row),
+  (
+    <Grid
+      rows={[
+        {
+          loaner: row.loanerFirstName + ' ' + row.loanerLastName,
+          loanerEmail: row.loanerEmail,
+          supplier: row.supplierFirstName + ' ' + row.supplierLastName,
+          supplierEmail: row.supplierEmail,
+          device: row.manufacture + ', ' + row.model,
+        },
       ]}
-    />
-    <TableHeaderRow />
-  </Grid>
+      columns={[
+        { name: 'device', title: 'Device' },
+        { name: 'loaner', title: 'Loaner' },
+        { name: 'loanerEmail', title: 'Email' },
+        { name: 'supplier', title: 'Supplier' },
+        { name: 'supplierEmail', title: 'Email' },
+      ]}
+    >
+      <Table
+        columnExtensions={[
+          { columnName: 'loaner', wordWrapEnabled: true, width: 170 },
+          { columnName: 'loanerEmail', width: 300 },
+          { columnName: 'supplier', wordWrapEnabled: true, width: 170 },
+          { columnName: 'supplierEmail', width: 300 },
+          { columnName: 'device', wordWrapEnabled: true, width: 300 },
+        ]}
+      />
+      <TableHeaderRow />
+    </Grid>
+  )
 );
 
 /****************************** CLASS ********************************************************/
@@ -436,6 +438,7 @@ class Loans extends React.PureComponent {
         try {
           added.map(row => {
             console.log('row', row.idCode);
+
             client
               .mutate({
                 variables: {
@@ -496,8 +499,17 @@ class Loans extends React.PureComponent {
                 mutation: LOAN_RETURN_MUTATION,
               })
               .then(result => {
+                let temp = [];
                 row.isActive = false;
-
+                arrayIdCodes = [
+                  ...arrayIdCodes,
+                  (temp[0] = {
+                    label: row.idCode,
+                    value: row.idCode,
+                  }),
+                ];
+                editIdCodes(arrayIdCodes);
+                console.log('array', arrayIdCodes);
                 console.log('RESULT ', result);
                 this.setState({ data: data });
               })
@@ -539,8 +551,6 @@ class Loans extends React.PureComponent {
   // STARTING QUERY
   async componentDidMount() {
     let temp = await this.state.client.query({ query: LOANS_QUERY });
-    let tempEmails = await this.state.client.query({ query: EMAILS_QUERY });
-    let tempIdCodes = await this.state.client.query({ query: DEVICE_ID_QUERY });
 
     let temp2 = [];
     if (temp.data.allLoans) {
@@ -566,6 +576,9 @@ class Loans extends React.PureComponent {
           })
       );
     }
+
+    let tempEmails = await this.state.client.query({ query: EMAILS_QUERY });
+    let tempIdCodes = await this.state.client.query({ query: DEVICE_ID_QUERY });
     //console.log('emails', tempEmails);
     emails = tempEmails.data.allUsers;
     arrayIdCodes = editIdCodes(tempIdCodes.data.allDevices);
