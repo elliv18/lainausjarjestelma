@@ -72,6 +72,7 @@ const styles = {
     width: '90%',
     marginLeft: 'auto',
     marginRight: 'auto',
+    height: 400,
   },
   card: {
     width: '90%',
@@ -169,7 +170,7 @@ class Home extends React.Component {
     this.state = {
       columns: [
         { name: 'idCode', title: 'ID code' },
-        { name: 'deviceType', title: 'Device type' },
+        { name: 'deviceCategory', title: 'Device type' },
         { name: 'manufacture', title: 'Manufacture' },
         { name: 'model', title: 'Model' },
         { name: 'loanDate', title: 'Loan date' },
@@ -179,7 +180,7 @@ class Home extends React.Component {
       ],
       tableColumnExtensions: [
         { columnName: 'idCode', wordWrapEnabled: true },
-        { columnName: 'deviceType', wordWrapEnabled: true },
+        { columnName: 'deviceCategory', wordWrapEnabled: true },
         { columnName: 'manufacture', wordWrapEnabled: true },
         { columnName: 'model', wordWrapEnabled: true },
         { columnName: 'loanDate', wordWrapEnabled: true },
@@ -248,7 +249,7 @@ class Home extends React.Component {
             idCode: obj.device.idCode,
             manufacture: obj.device.manufacture,
             model: obj.device.model,
-            deviceType: obj.device.category.deviceCategory,
+            deviceCategory: obj.device.category.deviceCategory,
             isActive: obj.isActive,
           };
         });
@@ -365,6 +366,32 @@ class Home extends React.Component {
             justify="space-evenly"
             alignItems="center"
           >
+            <Grid item xs={12}>
+              <Paper className={classes.paperTable} elevation={6}>
+                <GridTable rows={data_loans} columns={columns}>
+                  <SearchState />
+                  <SortingState
+                    sorting={sorting}
+                    onSortingChange={this.changeSorting}
+                  />
+                  <IntegratedFiltering />
+                  <IntegratedSorting />
+                  <BooleanTypeProvider
+                    for={booleanColumns}
+                    style={{ paddingRight: '20px' }}
+                  />
+                  <DateTypeProvider for={dateColumns} />
+                  <VirtualTable
+                    rowComponent={TableRow}
+                    columnExtensions={tableColumnExtensions}
+                  />
+                  <TableHeaderRow showSortingControls />
+                  <Toolbar />
+                  <SearchPanel />
+                  <ToolbarTitle title="Your loans" />
+                </GridTable>
+              </Paper>
+            </Grid>
             <Grid item xs={12}>
               <Card className={classes.card} elevation={4}>
                 <CardHeader
@@ -577,32 +604,6 @@ class Home extends React.Component {
                   </Grid>
                 </Grid>
               </Card>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper className={classes.paperTable} elevation={6}>
-                <GridTable rows={data_loans} columns={columns}>
-                  <SearchState />
-                  <SortingState
-                    sorting={sorting}
-                    onSortingChange={this.changeSorting}
-                  />
-                  <IntegratedFiltering />
-                  <IntegratedSorting />
-                  <BooleanTypeProvider
-                    for={booleanColumns}
-                    style={{ paddingRight: '20px' }}
-                  />
-                  <DateTypeProvider for={dateColumns} />
-                  <VirtualTable
-                    rowComponent={TableRow}
-                    columnExtensions={tableColumnExtensions}
-                  />
-                  <TableHeaderRow showSortingControls />
-                  <Toolbar />
-                  <SearchPanel />
-                  <ToolbarTitle title="Your loans" />
-                </GridTable>
-              </Paper>
             </Grid>
           </Grid>
         </Paper>

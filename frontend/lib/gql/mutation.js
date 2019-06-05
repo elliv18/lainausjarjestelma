@@ -275,8 +275,8 @@ export const LOAN_RETURN_MUTATION = gql`
 `;
 
 export const LOAN_DELETE_MUTATION = gql`
-  mutation deleteMutation($idCode: String!) {
-    loanDelete(input: { idCode: $idCode }) {
+  mutation deleteMutation($id: ID!) {
+    loanDelete(input: { id: $id }) {
       loan {
         id
       }

@@ -289,7 +289,7 @@ class Category extends React.PureComponent {
             client
               .mutate({
                 variables: {
-                  deviceType: row.deviceType,
+                  deviceCategory: row.deviceCategory,
                   desription: row.desription,
                 },
                 mutation: CATEGORY_ADD_MUTATION,
@@ -317,24 +317,25 @@ class Category extends React.PureComponent {
 
         data.map(row => {
           changed[row.id] ? (idCategory = row.id) : row;
-          if (row.id === idUser) {
+          if (row.id === idCategory) {
             client
               .mutate({
                 variables: {
                   id: row.id,
-                  deviceType: row.deviceType,
+                  deviceCategory: row.deviceCategory,
                   desription: row.desription,
                 },
                 mutation: CATEGORY_UPDATE_MUTATION,
               })
-              .then(result => console.log('RESULT ', result))
+              .then(
+                result => console.log('RESULT ', result),
+                this.setState({ data: data })
+              )
               .catch(error => {
                 console.log(error);
               });
           }
         });
-
-        this.setState({ data: data });
       }
       if (deleted) {
         rows = this.deleteRows(deleted);
