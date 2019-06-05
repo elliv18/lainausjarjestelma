@@ -85,7 +85,7 @@ const styles = {
     padding: 20,
   },
   cardTitle: {
-    backgroundColor: 'lightGrey',
+    backgroundColor: 'rgba(0,70,85)',
     textAlign: 'left',
     padding: 20,
   },
@@ -409,6 +409,7 @@ class Home extends React.Component {
                 <CardHeader
                   title="Account information"
                   titleTypographyProps={{ variant: 'h4' }}
+                  color="inherit"
                   className={classes.cardTitle}
                 />
                 <CardContent className={classes.cardContent}>
