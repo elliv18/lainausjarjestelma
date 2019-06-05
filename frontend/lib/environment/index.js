@@ -1,6 +1,3 @@
-//import * as dotenv from 'dotenv';
-//dotenv.config();
-
 export const DEVELOPMENT = 'development';
 export const PRODUCTION = 'production';
 
@@ -15,6 +12,6 @@ export const BACKEND_PORT = process.env.BACKEND_PORT || 3050;
 
 console.log(`
 NODE_ENV: ${NODE_ENV}
-FRONTEND_HOST: ${BACKEND_HOST}
-FRONTEND_PORT: ${BACKEND_PORT}
+BACKEND_HOST: ${BACKEND_HOST}
+BACKEND_PORT: ${BACKEND_PORT}
 `);

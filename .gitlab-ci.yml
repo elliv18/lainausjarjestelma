@@ -1,5 +1,5 @@
 variables:
-  REMOTE_IP: "172.16.101.140"
+  REMOTE_IP: 172.16.101.140
   REMOTE_HOST: deploy@172.16.101.140
   REMOTE_DIR: lainausjarjestelma-proto
   BACKEND_IMAGE: ${CI_REGISTRY_IMAGE}/backend
