@@ -1,4 +1,5 @@
 variables:
+  REMOTE_IP: 172.16.101.140
   REMOTE_HOST: deploy@172.16.101.140
   REMOTE_DIR: lainausjarjestelma-proto
   BACKEND_IMAGE: ${CI_REGISTRY_IMAGE}/backend
@@ -44,7 +45,7 @@ env_prod:
     # FRONTEND ENVS
     - echo "FRONTEND_IMAGE=${FRONTEND_IMAGE}" >> "${REMOTE_DIR}/.env"
     - echo "FRONTEND_PORT=3000" >> "${REMOTE_DIR}/.env"
-    - echo "FRONTEND_HOST=${PROD_DOMAIN}" >> "${REMOTE_DIR}/.env"
+    - echo "FRONTEND_HOST=${REMOTE_IP}" >> "${REMOTE_DIR}/.env"
 
 #########################
 # ENV - ENDS HERE       #

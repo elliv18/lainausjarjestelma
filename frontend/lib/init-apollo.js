@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, HttpLink } from 'apollo-boost';
 import fetch from 'isomorphic-unfetch';
-import { IS_BROWSER } from '../lib/environment';
+import { IS_BROWSER, FRONTEND_HOST, FRONTEND_PORT } from '../lib/environment';
 
 let apolloClient = null;
 
@@ -13,7 +13,8 @@ function create(initialState) {
     connectToDevTools: process.browser,
     ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
     link: new HttpLink({
-      uri: 'http://localhost:3050', // Server URL (must be absolute)
+      uri: `${FRONTEND_HOST}:${FRONTEND_PORT}`,
+      //uri: 'http://localhost:3050', // Server URL (must be absolute)
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
       headers: { Authorization: temp },
       // Use fetch() polyfill on the server
