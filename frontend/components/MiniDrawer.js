@@ -253,7 +253,7 @@ class MiniDrawer extends React.Component {
               </List>
               <Divider />
               <List title="Home">
-                <Link prefetch href="/" replace>
+                <Link prefetch href="/">
                   <ListItem
                     button
                     key="Home"
@@ -269,7 +269,7 @@ class MiniDrawer extends React.Component {
               {currentUser.userType === 'ADMIN' ||
               currentUser.userType === 'STAFF' ? (
                 <List title="Equipments">
-                  <Link prefetch href="/equipments" replace>
+                  <Link prefetch href="/equipments">
                     <ListItem
                       button
                       key="Equipments"
@@ -285,7 +285,7 @@ class MiniDrawer extends React.Component {
               ) : null}
               {currentUser.userType === 'ADMIN' ? (
                 <List title="Category">
-                  <Link prefetch href="/category" replace>
+                  <Link prefetch href="/category">
                     <ListItem
                       button
                       key="Category"
@@ -302,7 +302,7 @@ class MiniDrawer extends React.Component {
               {currentUser.userType === 'ADMIN' ||
               currentUser.userType === 'STAFF' ? (
                 <List title="Loans">
-                  <Link prefetch href="/loans" replace>
+                  <Link prefetch href="/loans">
                     <ListItem
                       button
                       key="Loans"
@@ -319,7 +319,7 @@ class MiniDrawer extends React.Component {
               {currentUser.userType === 'ADMIN' ||
               currentUser.userType === 'STAFF' ? (
                 <List title="Users">
-                  <Link prefetch href="/users" replace>
+                  <Link prefetch href="/users">
                     <ListItem
                       button
                       key="Users"
