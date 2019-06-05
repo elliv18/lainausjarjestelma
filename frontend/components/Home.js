@@ -72,7 +72,6 @@ const styles = {
     width: '90%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    height: 400,
   },
   card: {
     width: '90%',
@@ -384,6 +383,7 @@ class Home extends React.Component {
                   <VirtualTable
                     rowComponent={TableRow}
                     columnExtensions={tableColumnExtensions}
+                    height="400"
                   />
                   <TableHeaderRow showSortingControls />
                   <Toolbar />
