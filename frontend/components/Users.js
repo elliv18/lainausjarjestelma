@@ -9,6 +9,7 @@ import {
   SearchState,
   IntegratedFiltering,
   DataTypeProvider,
+  RowDetailState,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -22,6 +23,7 @@ import {
   Toolbar,
   ColumnChooser,
   TableColumnVisibility,
+  TableRowDetail,
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
@@ -32,6 +34,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TableCell from '@material-ui/core/TableCell';
 import ToolbarTitle from '../src/ToolbarTitle';
+import TextField from '@material-ui/core/TextField';
 
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -51,6 +54,34 @@ import {
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
+
+const RowDetail = ({ row }) => (
+  <div>
+    {console.log(row)}
+    <div>
+      <TextField
+        id="new_pw"
+        label="New password"
+        type="password"
+
+        // onChange={this.setNewPW}
+      />
+    </div>
+
+    <div>
+      <TextField
+        id="new_pw_check"
+        label="Again new password"
+        type="password"
+
+        // onChange={this.setNewPWCheck}
+      />
+    </div>
+    <div style={{ marginTop: 20 }}>
+      <Button style={{ backgroundColor: 'grey' }}>Change password</Button>
+    </div>
+  </div>
+);
 
 const styles = theme => ({
   lookupEditCell: {
@@ -492,6 +523,8 @@ class Users extends React.PureComponent {
       return (
         <Paper className={classes.root} elevation={5}>
           <Grid rows={data} columns={columns} getRowId={getRowId}>
+            <RowDetailState />
+
             <SortingState
               sorting={sorting}
               onSortingChange={this.changeSorting}
@@ -534,6 +567,7 @@ class Users extends React.PureComponent {
               onOrderChange={this.changeColumnOrder}
             />
             <TableHeaderRow showSortingControls />
+            <TableRowDetail contentComponent={RowDetail} />
             <TableEditRow cellComponent={EditCell} />
             <TableEditColumn
               width={170}
