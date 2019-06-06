@@ -87,6 +87,34 @@ class LoginTab extends React.Component {
     this.setState({ loading: false });
   }
 
+  logIn = async () => {
+    const { email, password, client } = this.state;
+    console.log('login', email);
+
+    try {
+      const { data } = await client.mutate({
+        variables: {
+          email: email,
+          password: password,
+        },
+        mutation: LOGIN_MUTATION,
+      });
+
+      localStorage.setItem('jwtToken', data.login.jwt);
+    } catch (e) {
+      this.setState({
+        alertMsg: e.message.replace('GraphQL error:', '').trim(),
+      });
+    }
+
+    if (localStorage.getItem('jwtToken') !== null) {
+      Router.push({
+        pathname: '/',
+      });
+      window.location.href = '/';
+    }
+  };
+
   // RENDER
   render() {
     const { classes } = this.props;
@@ -138,6 +166,12 @@ class LoginTab extends React.Component {
                     fullWidth
                     required
                     onChange={this.setPassword}
+                    onKeyPress={async ev => {
+                      if (ev.key === 'Enter') {
+                        console.log('Enter pressed');
+                        this.logIn();
+                      }
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -163,34 +197,9 @@ class LoginTab extends React.Component {
               </Grid>*/}
               <Grid container justify="center" style={{ marginTop: '20px' }}>
                 <Button
+                  id="loginButton"
                   size="large"
-                  onClick={async () => {
-                    const { email, password } = this.state;
-                    try {
-                      const { data } = await client.mutate({
-                        variables: {
-                          email: email,
-                          password: password,
-                        },
-                        mutation: LOGIN_MUTATION,
-                      });
-
-                      localStorage.setItem('jwtToken', data.login.jwt);
-                    } catch (e) {
-                      this.setState({
-                        alertMsg: e.message
-                          .replace('GraphQL error:', '')
-                          .trim(),
-                      });
-                    }
-
-                    if (localStorage.getItem('jwtToken') !== null) {
-                      Router.push({
-                        pathname: '/',
-                      });
-                      window.location.href = '/';
-                    }
-                  }}
+                  onClick={() => this.logIn()}
                   variant="outlined"
                   color="primary"
                   style={{
