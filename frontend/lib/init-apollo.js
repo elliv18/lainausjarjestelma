@@ -9,8 +9,8 @@ const { BACKEND_HOST, BACKEND_PORT } = publicRuntimeConfig;
 
 console.log(`
   NODE_ENV: ${NODE_ENV}
-  BACKEND_HOST: ${BACKEND_HOST_ADDR}
-  BACKEND_PORT: ${BACKEND_PORT_NRO}
+  BACKEND_HOST: ${BACKEND_HOST}
+  BACKEND_PORT: ${BACKEND_PORT}
 `);
 
 let apolloClient = null;
