@@ -43,6 +43,10 @@ services:
     image: ${FRONTEND_IMAGE}
     ports:
       - "3000:3000"
+    environment:
+      NODE_ENV: development
+      BACKEND_HOST: ${BACKEND_HOST}
+      BACKEND_PORT: ${BACKEND_PORT}
     restart: always
 volumes:
   postgres: ~
