@@ -4,8 +4,8 @@ services:
   prisma:
     image: prismagraphql/prisma:1.32
     restart: always
-    ports:
-      - "3060:3060"
+    #ports:
+    #  - "3060:3060"
     environment:
       PRISMA_CONFIG: |
         port: 3060
@@ -42,6 +42,8 @@ services:
       ROOT_ADMIN_EMAIL: ${ROOT_ADMIN_EMAIL}
       ROOT_ADMIN_PASS: ${ROOT_ADMIN_PASS}
     env_file: .env
+    depends_on:
+      - prisma
     restart: always
   frontend:
     image: ${FRONTEND_IMAGE}

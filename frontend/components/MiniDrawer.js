@@ -158,7 +158,6 @@ class MiniDrawer extends React.Component {
   // STARTING STUFF
   async componentDidMount() {
     try {
-      console.log(localStorage.getItem('jwtToken'));
       // get logged user data
       let temp = await this.state.client.query({ query: CURRENTUSER });
 
