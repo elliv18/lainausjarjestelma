@@ -8,6 +8,10 @@ module.exports = {
     BACKEND_HOST: process.env.BACKEND_HOST,
     BACKEND_PORT: process.env.BACKEND_PORT,
   },
+  publicRuntimeConfig: {
+    BACKEND_HOST: process.env.BACKEND_HOST,
+    BACKEND_PORT: process.env.BACKEND_PORT,
+  },
   webpack: config => {
     config.plugins = config.plugins || [];
 
