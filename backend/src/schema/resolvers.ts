@@ -87,9 +87,13 @@ export default {
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
+      console.log("NEW ", password, "OLD", oldPassword, "NAME", lastName);
 
-      if (oldPassword != null && password != null) {
-        if (!(await bcrypt.compare(oldPassword, currentUser.password))) {
+      if (oldPassword !== null && password !== null) {
+        // console.log("blah", currentUser);
+        const cU = await prisma.user({ id: currentUser.id });
+        //  console.log("bleh", cU);
+        if (!(await bcrypt.compare(oldPassword, cU.password))) {
           logger.log(
             "warn",
             "[CURRENTUSER UPDATE] Old password is invalid from user %s",
@@ -99,7 +103,7 @@ export default {
         }
       }
 
-      if (oldPassword == null) {
+      if (oldPassword === null) {
         password = null;
       }
 

@@ -218,7 +218,7 @@ class Home extends React.Component {
       lastName: '',
       address: '',
       phone: '',
-      old_password: '',
+      oldPassword: '',
       password: '',
       alertMsg: '',
       alertMsgMain: '',
@@ -284,9 +284,7 @@ class Home extends React.Component {
           address: this.state.address ? this.state.address : null,
           phone: this.state.phone ? this.state.phone : null,
           password: this.state.password ? this.state.password : null,
-          old_password: this.state.old_password
-            ? this.state.old_password
-            : null,
+          oldPassword: this.state.oldPassword ? this.state.oldPassword : null,
         },
         mutation: CURRENTUSER_UPDATE_MUTATION,
       })
@@ -331,7 +329,7 @@ class Home extends React.Component {
   };
 
   setOldPW = e => {
-    this.setState({ old_password: e.target.value });
+    this.setState({ oldPassword: e.target.value });
   };
 
   setNewPW = e => {
@@ -408,8 +406,10 @@ class Home extends React.Component {
               <Card className={classes.card} elevation={4}>
                 <CardHeader
                   title="Account information"
-                  titleTypographyProps={{ variant: 'h4' }}
-                  color="inherit"
+                  titleTypographyProps={{
+                    variant: 'h4',
+                    style: { color: '#fff' },
+                  }}
                   className={classes.cardTitle}
                 />
                 <CardContent className={classes.cardContent}>
