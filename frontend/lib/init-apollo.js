@@ -1,11 +1,6 @@
 import { ApolloClient, InMemoryCache, HttpLink } from 'apollo-boost';
 import fetch from 'isomorphic-unfetch';
-import { IS_BROWSER } from '../lib/environment';
-
-import getConfig from 'next/config';
-
-const { publicRuntimeConfig } = getConfig();
-const { BACKEND_HOST, BACKEND_PORT } = publicRuntimeConfig;
+import { IS_BROWSER, BACKEND_HOST, BACKEND_PORT } from '../lib/environment';
 
 let apolloClient = null;
 

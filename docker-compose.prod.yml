@@ -39,6 +39,8 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
       SALT_ROUNDS: ${SALT_ROUNDS}
+      ROOT_ADMIN_EMAIL: ${ROOT_ADMIN_EMAIL}
+      ROOT_ADMIN_PASS: ${ROOT_ADMIN_PASS}
     env_file: .env
     restart: always
   frontend:
