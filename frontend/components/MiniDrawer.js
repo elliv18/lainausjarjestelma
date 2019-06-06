@@ -156,7 +156,7 @@ class MiniDrawer extends React.Component {
   }
 
   // STARTING STUFF
-  async componentDidMount() {
+  /*async componentDidMount() {
     try {
       // get logged user data
       let temp = await this.state.client.query({ query: CURRENTUSER });
@@ -167,7 +167,7 @@ class MiniDrawer extends React.Component {
         pathname: '/login',
       });
     }
-  }
+  }*/
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
