@@ -18,7 +18,7 @@ function create(initialState) {
     connectToDevTools: process.browser,
     ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
     link: new HttpLink({
-      uri: `${BACKEND_HOST}:${BACKEND_PORT}`,
+      uri: `http://${BACKEND_HOST}:${BACKEND_PORT}`,
       //uri: 'http://localhost:3050', // Server URL (must be absolute)
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
       headers: { Authorization: temp },
