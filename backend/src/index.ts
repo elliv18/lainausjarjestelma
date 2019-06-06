@@ -43,8 +43,8 @@ const options = {
   port: BACKEND_PORT,
   cors: {
     creditials: false,
-    origin: "*",
-    allowedHeaders: [
+    origin: "*"
+    /*allowedHeaders: [
       "Origin",
       "Content-Type",
       "Authorization",
@@ -55,7 +55,7 @@ const options = {
       "Content-Length",
       "Accept-Encoding",
       "*"
-    ]
+    ]*/
   }
 };
 
