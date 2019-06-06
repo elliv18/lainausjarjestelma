@@ -100,6 +100,8 @@ class LoginTab extends React.Component {
         mutation: LOGIN_MUTATION,
       });
 
+      console.log(data.login.jwt);
+
       localStorage.setItem('jwtToken', data.login.jwt);
     } catch (e) {
       this.setState({
