@@ -16,8 +16,6 @@ export const JWT = IS_BROWSER && localStorage.getItem('jwtToken');
 //export const BACKEND_PORT = process.env.BACKEND_PORT || 3050;
 
 console.log(`
-WUT: ${process.env.BACKEND_HOST}
-WUT2: ${BACKEND_HOST}
 NODE_ENV: ${NODE_ENV}
 BACKEND_HOST: ${BACKEND_HOST}
 BACKEND_PORT: ${BACKEND_PORT}
