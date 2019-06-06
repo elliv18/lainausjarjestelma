@@ -148,7 +148,7 @@ class MiniDrawer extends React.Component {
     // STATE
     this.state = {
       open: false,
-      ok: false,
+      ok: true,
       client: props.client,
       currentUser: {},
     };
