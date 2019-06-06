@@ -45,7 +45,7 @@ import { USERS_QUERY, EMAILS_QUERY } from '../lib/gql/queries';
 import {
   USERS_ADD_MUTATION,
   USERS_UPDATE_MUTATION,
-  USER_DELETE_MUTATION,
+  USER_ISACTIVE_MUTATION,
 } from '../lib/gql/mutation';
 
 import Moment from 'react-moment';
@@ -383,17 +383,37 @@ class Users extends React.PureComponent {
         this.setState({ data: data });
       }
       if (deleted) {
-        data = this.deleteRows(deleted);
-        console.log(deleted[0]);
+        let tempData = [];
 
-        console.log('data', data);
+        // data = this.deleteRows(deleted);
+        //  console.log(deleted[0]);
 
-        client.mutate({
-          variables: { id: deleted[0] },
-          mutation: USER_DELETE_MUTATION,
+        // console.log('data', data);
+        //console.log('isActive', data.isActive);
+        data.map((row, i) => {
+          if (row.id === deleted[0]) {
+            console.log('DATA', data[i].isActive);
+
+            if (row.isActive === true) {
+              //console.log('isactive true');
+              client
+                .mutate({
+                  variables: { id: deleted[0], isActive: false },
+                  mutation: USER_ISACTIVE_MUTATION,
+                })
+                .then(Response => {
+                  console.log(Response.data.userIsActive.user);
+                  data = data.map(row =>
+                    row.id === deleted[0]
+                      ? Response.data.userIsActive.user
+                      : row
+                  );
+                  this.setState({ data: data });
+                });
+              // this.setState({ data: data });
+            }
+          }
         });
-
-        this.setState({ data: data });
       }
       // this.setState({ rows });
     };

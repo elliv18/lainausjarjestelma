@@ -91,11 +91,19 @@ export const USERS_UPDATE_MUTATION = gql`
   }
 `;
 
-export const USER_DELETE_MUTATION = gql`
-  mutation deleteMutation($id: ID!) {
-    userDelete(input: { id: $id }) {
+export const USER_ISACTIVE_MUTATION = gql`
+  mutation deleteMutation($id: ID!, $isActive: Boolean) {
+    userIsActive(input: { id: $id, isActive: $isActive }) {
       user {
         id
+        isActive
+        userType
+        email
+        firstName
+        lastName
+        address
+        personNumber
+        phone
       }
     }
   }
