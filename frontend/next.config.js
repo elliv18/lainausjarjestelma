@@ -5,9 +5,9 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   env: {
-    BACKEND_HOST: progress.env.BACKEND_HOST,
-    BACKEND_PORT: progress.env.BACKEND_PORT,
-    NODE_ENV: progress.env.NODE_ENV,
+    BACKEND_HOST: process.env.BACKEND_HOST,
+    BACKEND_PORT: process.env.BACKEND_PORT,
+    NODE_ENV: process.env.NODE_ENV,
   },
   webpack: config => {
     config.plugins = config.plugins || [];
