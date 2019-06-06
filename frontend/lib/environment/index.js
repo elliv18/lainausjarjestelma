@@ -11,6 +11,7 @@ export const BACKEND_HOST = process.env.BACKEND_HOST || 'http://localhost';
 export const BACKEND_PORT = process.env.BACKEND_PORT || 3050;
 
 console.log(`
+WUT: ${process.env.BACKEND_HOST}
 NODE_ENV: ${NODE_ENV}
 BACKEND_HOST: ${BACKEND_HOST}
 BACKEND_PORT: ${BACKEND_PORT}
