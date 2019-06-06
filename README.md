@@ -2,6 +2,11 @@
 
 ## SERVER
 
+IP: 172.16.101.140
+
+port backend: 3050
+port frontend: 3000
+
 user: lainaus
 pass: proto19
 
