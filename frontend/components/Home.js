@@ -406,8 +406,10 @@ class Home extends React.Component {
               <Card className={classes.card} elevation={4}>
                 <CardHeader
                   title="Account information"
-                  titleTypographyProps={{ variant: 'h4' }}
-                  color="inherit"
+                  titleTypographyProps={{
+                    variant: 'h4',
+                    style: { color: '#fff' },
+                  }}
                   className={classes.cardTitle}
                 />
                 <CardContent className={classes.cardContent}>
