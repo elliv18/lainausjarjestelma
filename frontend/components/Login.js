@@ -141,7 +141,7 @@ class LoginTab extends React.Component {
               >
                 <img
                   src="/static/logo/logoNoBackground.png"
-                  alt="logo"
+                  alt="borrowd"
                   className={classes.logo}
                 />
               </Typography>

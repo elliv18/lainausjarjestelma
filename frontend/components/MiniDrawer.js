@@ -140,6 +140,9 @@ const styles = theme => ({
     width: '100%',
     transition: 'padding-left 0.4s',
   },
+  logo: {
+    height: '42px',
+  },
 });
 
 /******************************** CLASS ****************************/
@@ -204,7 +207,11 @@ class MiniDrawer extends React.Component {
                     className={classes.titleText}
                     title="Home"
                   >
-                    Loan System
+                    <img
+                      src="/static/logo/logoNoBackground.png"
+                      alt="borrowd"
+                      className={classes.logo}
+                    />
                   </Button>
                 </Typography>
               </Link>
