@@ -43,6 +43,10 @@ const styles = theme => ({
     padding: '10px',
     color: 'red',
   },
+  logo: {
+    width: '65%',
+    maxWidth: '300px',
+  },
 });
 
 /************************ THEME ***************************/
@@ -132,11 +136,14 @@ class LoginTab extends React.Component {
             <div className={classes.margin}>
               <Typography
                 variant="h4"
-                gutterBottom
                 align="center"
                 style={{ color: 'rgba(0,70,85)' }}
               >
-                LOAN SYSTEM
+                <img
+                  src="static/logo/logoNobackground.png"
+                  alt="logo"
+                  className={classes.logo}
+                />
               </Typography>
               <div className={classes.message}>{this.state.alertMsg}</div>
               <Grid container spacing={8} alignItems="flex-end">
