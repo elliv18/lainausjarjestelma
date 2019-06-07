@@ -30,6 +30,8 @@ import DeviceCategoriesIcon from '@material-ui/icons/DevicesOther';
 import Link from 'next/link';
 import Router from 'next/router';
 
+import Cookies from 'js-cookie';
+
 import { withApollo } from 'react-apollo';
 import { CURRENTUSER } from '../lib/gql/queries';
 
@@ -177,6 +179,13 @@ class MiniDrawer extends React.Component {
     this.setState({ open: false });
   };
 
+  logOut = () => {
+    Cookies.remove('jwtToken');
+    Router.push({
+      pathname: '/login',
+    });
+  };
+
   // RENDER
   render() {
     const { classes } = this.props;
@@ -203,14 +212,7 @@ class MiniDrawer extends React.Component {
                 className={classes.myAccount}
                 color="inherit"
                 title="Logout"
-                onClick={() =>
-                  localStorage.removeItem(
-                    'jwtToken',
-                    Router.push({
-                      pathname: '/login',
-                    })
-                  )
-                }
+                onClick={() => this.logOut()}
               >
                 <LogoutIcon className={classes.group} /> Logout
               </Button>
