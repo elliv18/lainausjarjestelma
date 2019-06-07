@@ -44,7 +44,11 @@ services:
       DB_NAME: ${DB_NAME}
       SALT_ROUNDS: ${SALT_ROUNDS}
     env_file: .env
+    depends_on:
+      - prisma
     restart: always
+    # Uncomment line below when doing destructive data model updates (comment again afterwards)
+    #command: yarn prisma:force-deploy
   frontend:
     build:
       context: ./

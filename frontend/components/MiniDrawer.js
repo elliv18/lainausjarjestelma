@@ -161,7 +161,10 @@ class MiniDrawer extends React.Component {
   async componentDidMount() {
     try {
       // get logged user data
-      let temp = await this.state.client.query({ query: CURRENTUSER });
+      let temp;
+      do {
+        temp = await this.state.client.query({ query: CURRENTUSER });
+      } while (!temp);
 
       this.setState({ currentUser: temp.data.currentUser, ok: true });
     } catch (e) {
