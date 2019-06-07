@@ -19,3 +19,6 @@ export const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000;
 export const NODE_ENV = process.env.NODE_ENV || DEVELOPMENT;
 
 export const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS) || 10;
+
+export const MAX_PW = 18;
+export const MIN_PW = 3;

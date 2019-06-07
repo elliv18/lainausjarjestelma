@@ -7,7 +7,8 @@ import {
   JWT_SECRET,
   JWT_TIME,
   SALT_ROUNDS,
-  ROOT_ADMIN_EMAIL
+  MAX_PW,
+  MIN_PW
 } from "../environment";
 import logger from "../misc/logger";
 
@@ -87,19 +88,44 @@ export default {
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
-      console.log("NEW ", password, "OLD", oldPassword, "NAME", lastName);
 
       if (oldPassword !== null && password !== null) {
-        // console.log("blah", currentUser);
         const cU = await prisma.user({ id: currentUser.id });
-        //  console.log("bleh", cU);
         if (!(await bcrypt.compare(oldPassword, cU.password))) {
           logger.log(
             "warn",
             "[CURRENTUSER UPDATE] Old password is invalid from user %s",
             currentUser.id
           );
-          throw new Error("Password is invalid!");
+          throw new Error("Old password not match!");
+        }
+
+        // password legality checks
+        if (password === " ") {
+          logger.log(
+            "warn",
+            "[CURRENTUSER UPDATE] Password is null from user %s",
+            currentUser.id
+          );
+          throw new Error("Password can not be empty!");
+        }
+        // bcryptjs max input lenght is 18
+        if (password.length > MAX_PW) {
+          logger.log(
+            "warn",
+            "[CURRENTUSER UPDATE] Password is too long from user %s",
+            currentUser.id
+          );
+          throw new Error("Password too long!");
+        }
+        // password min lenght
+        if (password.length < MIN_PW) {
+          logger.log(
+            "warn",
+            "[CURRENTUSER UPDATE] Password is too short from user %s",
+            currentUser.id
+          );
+          throw new Error("Password too short!");
         }
       }
 
@@ -188,6 +214,34 @@ export default {
           userType
         );
         throw new Error("No permissions or user type is invalid!");
+      }
+
+      // password legality checks
+      if (password === " " || password === null) {
+        logger.log(
+          "warn",
+          "[USER CREATE] Password is null from user %s",
+          currentUser.id
+        );
+        throw new Error("Password can not be null or empty!");
+      }
+      // bcryptjs max input lenght is 18
+      if (password.length > MAX_PW) {
+        logger.log(
+          "warn",
+          "[USER CREATE] Password is too long from user %s",
+          currentUser.id
+        );
+        throw new Error("Password too long!");
+      }
+      // password min lenght
+      if (password.length < MIN_PW) {
+        logger.log(
+          "warn",
+          "[USER CREATE] Password is too short from user %s",
+          currentUser.id
+        );
+        throw new Error("Password too short!");
       }
 
       const user = await prisma.createUser({
@@ -283,6 +337,34 @@ export default {
     userUpdatePW: async (obj, { input: { id, password } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
+      // password legality checks
+      if (password === " " || password === null) {
+        logger.log(
+          "warn",
+          "[USER UPDATE PW] Password is null from user %s",
+          currentUser.id
+        );
+        throw new Error("Password can not be null or empty!");
+      }
+      // bcryptjs max input lenght is 18
+      if (password.length > MAX_PW) {
+        logger.log(
+          "warn",
+          "[USER UPDATE PW] Password is too long from user %s",
+          currentUser.id
+        );
+        throw new Error("Password too long!");
+      }
+      // password min lenght
+      if (password.length < MIN_PW) {
+        logger.log(
+          "warn",
+          "[USER UPDATE PW] Password is too short from user %s",
+          currentUser.id
+        );
+        throw new Error("Password too short!");
+      }
 
       const user = await prisma.updateUser({
         data: {
