@@ -19,6 +19,7 @@ import Router from 'next/router';
 import { primaryColor } from '../src/theme/color';
 import Loading from './Loading';
 import { withApollo } from 'react-apollo';
+import Cookies from 'js-cookie';
 
 /********************** STYLES ****************************/
 
@@ -82,7 +83,8 @@ class LoginTab extends React.Component {
   };
 
   async componentDidMount() {
-    localStorage.removeItem('jwtToken');
+    //localStorage.removeItem('jwtToken');
+    Cookies.remove('jwtToken');
     // TODO - is backend up?
     this.setState({ loading: false });
   }
@@ -102,14 +104,15 @@ class LoginTab extends React.Component {
 
       console.log(data.login.jwt);
 
-      localStorage.setItem('jwtToken', data.login.jwt);
+      Cookies.set('jwtToken', data.login.jwt, { expires: 1 });
+      //localStorage.setItem('jwtToken', data.login.jwt);
     } catch (e) {
       this.setState({
         alertMsg: e.message.replace('GraphQL error:', '').trim(),
       });
     }
 
-    if (localStorage.getItem('jwtToken') !== null) {
+    if (Cookies.get('jwtToken') !== null) {
       Router.push({
         pathname: '/',
       });

@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink } from 'apollo-boost';
 import fetch from 'isomorphic-unfetch';
 import { IS_BROWSER, NODE_ENV } from '../lib/environment';
-
+import Cookies from 'js-cookie';
 import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig();
@@ -16,7 +16,8 @@ console.log(`
 let apolloClient = null;
 
 function create(initialState) {
-  const JWT = IS_BROWSER && localStorage.getItem('jwtToken');
+  //const JWT = IS_BROWSER && localStorage.getItem('jwtToken');
+  const jwt = IS_BROWSER && Cookies.get('jwtToken');
   const temp = JWT ? `Bearer ${JWT}` : null;
   console.log(JWT ? `Bearer ${JWT}` : null);
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
