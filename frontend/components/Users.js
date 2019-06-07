@@ -88,13 +88,15 @@ const RowDetail = ({ row }) => (
           <Button
             style={{ backgroundColor: 'grey' }}
             onClick={() => {
-              if (pw === pw2 && pw !== null && pw2 !== null) {
+              if (pw === pw2 && pw !== null && pw2 !== null && pw.length > 2) {
                 userUpdatePW({
                   variables: { id: row.id, password: pw },
                 }).then();
                 console.log(row.id);
               } else if (pw === null || pw2 === null) {
                 console.log('Password can not be null!!');
+              } else if (pw.length < 3) {
+                console.log('Password too short');
               } else {
                 console.log('Passwords not match!');
               }
@@ -103,6 +105,8 @@ const RowDetail = ({ row }) => (
             Change password
           </Button>
         </div>
+        <div>paska</div>
+
         {error ? console.log(error) : null}
       </div>
     )}
