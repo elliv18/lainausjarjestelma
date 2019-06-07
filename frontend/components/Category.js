@@ -44,6 +44,7 @@ import {
   CATEGORY_QUERY,
   EQUIPMENTS_QUERY,
   CATEGORY_NAME_QUERY,
+  DEVICE_ID_QUERY,
 } from '../lib/gql/queries';
 import {
   CATEGORY_ADD_MUTATION,
@@ -329,7 +330,7 @@ class Category extends React.PureComponent {
                   deviceCategory: row.deviceCategory,
                   desription: row.desription,
                 },
-                mutation: CATEGORY_UPDATE_MUTATION,
+                mutation: DEVICE_ID_QUERY,
               })
               .then(
                 result => console.log('RESULT ', result),
