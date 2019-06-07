@@ -250,6 +250,7 @@ class Users extends React.PureComponent {
         { name: 'phone', title: 'Phone' },
         //  { name: 'createdAt', title: 'Created' },
         //   { name: 'updatedAt', title: 'Updated' }
+        // viddu
       ],
       tableColumnExtensions: [
         { columnName: 'userType', wordWrapEnabled: true, width: 130 },
