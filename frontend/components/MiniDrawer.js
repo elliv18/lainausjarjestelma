@@ -164,6 +164,7 @@ class MiniDrawer extends React.Component {
       let temp;
       do {
         temp = await this.state.client.query({ query: CURRENTUSER });
+        await delay(5000);
       } while (!temp);
 
       this.setState({ currentUser: temp.data.currentUser, ok: true });
