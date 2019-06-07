@@ -82,56 +82,12 @@ export default {
   /************ MUTATIONS **************************/
   Mutation: {
     // CURRENTUSER UPDATE
-    currentUserUpdate: async (
+    currentUserUpdateInfo: async (
       obj,
-      { input: { firstName, lastName, address, phone, password, oldPassword } },
+      { input: { firstName, lastName, address, phone } },
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
-
-      if (oldPassword !== null && password !== null) {
-        const cU = await prisma.user({ id: currentUser.id });
-        if (!(await bcrypt.compare(oldPassword, cU.password))) {
-          logger.log(
-            "warn",
-            "[CURRENTUSER UPDATE] Old password is invalid from user %s",
-            currentUser.id
-          );
-          throw new Error("Old password not match!");
-        }
-
-        // password legality checks
-        if (password === " ") {
-          logger.log(
-            "warn",
-            "[CURRENTUSER UPDATE] Password is null from user %s",
-            currentUser.id
-          );
-          throw new Error("Password can not be empty!");
-        }
-        // bcryptjs max input lenght is 18
-        if (password.length > MAX_PW) {
-          logger.log(
-            "warn",
-            "[CURRENTUSER UPDATE] Password is too long from user %s",
-            currentUser.id
-          );
-          throw new Error("Password too long!");
-        }
-        // password min lenght
-        if (password.length < MIN_PW) {
-          logger.log(
-            "warn",
-            "[CURRENTUSER UPDATE] Password is too short from user %s",
-            currentUser.id
-          );
-          throw new Error("Password too short!");
-        }
-      }
-
-      if (oldPassword === null) {
-        password = null;
-      }
 
       const user = await prisma.updateUser({
         data: _.pickBy(
@@ -139,13 +95,92 @@ export default {
             firstName: firstName,
             lastName: lastName,
             address: address,
-            phone: phone,
-            password: password
-              ? await bcrypt.hash(password, SALT_ROUNDS)
-              : currentUser.password
+            phone: phone
           },
           _.identity
         ),
+        where: {
+          id: currentUser.id
+        }
+      });
+
+      logger.log(
+        "info",
+        "[CURRENTUSER UPDATE] User %s information is updated!",
+        currentUser.id
+      );
+      return { user };
+    },
+    currentUserUpdatePW: async (
+      obj,
+      { input: { password, passwordAgain, oldPassword } },
+      { currentUser }
+    ) => {
+      mustBeLoggedIn(currentUser);
+
+      // if pass is null...
+      if (oldPassword !== null || passwordAgain !== null || password !== null) {
+        logger.log(
+          "warn",
+          "[CURRENTUSER UPDATE PW] Old password or password or password again is null from user %s",
+          currentUser.id
+        );
+        throw new Error("Password can not be null!");
+      }
+
+      // is oldpassword same as db one?
+      const cU = await prisma.user({ id: currentUser.id });
+      if (!(await bcrypt.compare(oldPassword, cU.password))) {
+        logger.log(
+          "warn",
+          "[CURRENTUSER UPDATE PW] Old password is invalid from user %s",
+          currentUser.id
+        );
+        throw new Error("Old password not match!");
+      }
+
+      // is new password write right?
+      if (password !== passwordAgain) {
+        logger.log(
+          "warn",
+          "[CURRENTUSER UPDATE PW] Password and password again not match from user %s",
+          currentUser.id
+        );
+        throw new Error("Password and password again not match!");
+      }
+
+      // password is only whitespaces
+      if (password.replace(/\s/g, "").length) {
+        logger.log(
+          "warn",
+          "[CURRENTUSER UPDATE PW] Password is spaces only from user %s",
+          currentUser.id
+        );
+        throw new Error("Password can not be empty!");
+      }
+      // bcryptjs max input lenght is 18
+      if (password.length > MAX_PW) {
+        logger.log(
+          "warn",
+          "[CURRENTUSER UPDATE PW] Password is too long from user %s",
+          currentUser.id
+        );
+        throw new Error("Password too long!");
+      }
+      // password min lenght
+      if (password.length < MIN_PW) {
+        logger.log(
+          "warn",
+          "[CURRENTUSER UPDATE PW] Password is too short from user %s",
+          currentUser.id
+        );
+        throw new Error("Password too short!");
+      }
+
+      const user = await prisma.updateUser({
+        data: {
+          password: await bcrypt.hash(password, SALT_ROUNDS)
+        },
         where: {
           id: currentUser.id
         }
