@@ -181,23 +181,19 @@ export const EQUIPMENT_DELETE_MUTATION = gql`
 
 /*********************** CURRENTUSER ****************************/
 
-export const CURRENTUSER_UPDATE_MUTATION = gql`
+export const CURRENTUSER_UPDATE_INFO_MUTATION = gql`
   mutation updateMutation(
     $firstName: String
     $lastName: String
     $address: String
     $phone: String
-    $password: String
-    $oldPassword: String
   ) {
-    currentUserUpdate(
+    currentUserUpdateInfo(
       input: {
         firstName: $firstName
         lastName: $lastName
         address: $address
         phone: $phone
-        password: $password
-        oldPassword: $oldPassword
       }
     ) {
       user {
@@ -206,6 +202,26 @@ export const CURRENTUSER_UPDATE_MUTATION = gql`
         lastName
         address
         phone
+      }
+    }
+  }
+`;
+
+export const CURRENTUSER_UPDATE_PW_MUTATION = gql`
+  mutation updateMutation(
+    $password: String!
+    $passwordAgain: String!
+    $oldPassword: String!
+  ) {
+    currentUserUpdatePW(
+      input: {
+        password: $password
+        passwordAgain: $passwordAgain
+        oldPassword: $oldPassword
+      }
+    ) {
+      user {
+        id
       }
     }
   }
