@@ -142,6 +142,7 @@ const styles = theme => ({
   },
   logo: {
     height: '42px',
+    width: 'auto',
   },
 });
 
