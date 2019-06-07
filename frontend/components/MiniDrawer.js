@@ -165,12 +165,13 @@ class MiniDrawer extends React.Component {
       do {
         temp = await this.state.client.query({ query: CURRENTUSER });
         //await delay(5000);
+        console.log(temp);
       } while (!temp);
 
       this.setState({ currentUser: temp.data.currentUser, ok: true });
       await delay(5000);
     } catch (e) {
-      //console.log(e);
+      console.log(e);
       //await delay(5000);
       Router.push({
         pathname: '/login',
