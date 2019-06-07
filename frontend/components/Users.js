@@ -43,44 +43,70 @@ import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
-import { withApollo } from 'react-apollo';
+import { withApollo, Mutation } from 'react-apollo';
 import { USERS_QUERY, EMAILS_QUERY } from '../lib/gql/queries';
 import {
   USERS_ADD_MUTATION,
   USERS_UPDATE_MUTATION,
   USER_ISACTIVE_MUTATION,
+  USER_UPDATE_PW_MUTATION,
 } from '../lib/gql/mutation';
 
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
 
+let pw = null;
+let pw2 = null;
+
 const RowDetail = ({ row }) => (
-  <div>
-    {console.log(row)}
-    <div>
-      <TextField
-        id="new_pw"
-        label="New password"
-        type="password"
+  <Mutation mutation={USER_UPDATE_PW_MUTATION}>
+    {(userUpdatePW, { error }) => (
+      <div>
+        <div>
+          <TextField
+            id="new_pw"
+            label="New password"
+            type="password"
+            onChange={e => {
+              pw = e.target.value;
+            }}
+          />
+        </div>
 
-        // onChange={this.setNewPW}
-      />
-    </div>
-
-    <div>
-      <TextField
-        id="new_pw_check"
-        label="Again new password"
-        type="password"
-
-        // onChange={this.setNewPWCheck}
-      />
-    </div>
-    <div style={{ marginTop: 20 }}>
-      <Button style={{ backgroundColor: 'grey' }}>Change password</Button>
-    </div>
-  </div>
+        <div>
+          <TextField
+            id="new_pw_check"
+            label="Again new password"
+            type="password"
+            onChange={e => {
+              pw2 = e.target.value;
+            }}
+          />
+        </div>
+        <div style={{ marginTop: 20 }}>
+          <Button
+            style={{ backgroundColor: 'grey' }}
+            onClick={() => {
+              if (pw === pw2 && pw !== null && pw2 !== null) {
+                userUpdatePW({
+                  variables: { id: row.id, password: pw },
+                }).then();
+                console.log(row.id);
+              } else if (pw === null || pw2 === null) {
+                console.log('Password can not be null!!');
+              } else {
+                console.log('Passwords not match!');
+              }
+            }}
+          >
+            Change password
+          </Button>
+        </div>
+        {error ? console.log(error) : null}
+      </div>
+    )}
+  </Mutation>
 );
 
 const styles = theme => ({
@@ -250,7 +276,6 @@ class Users extends React.PureComponent {
         { name: 'phone', title: 'Phone' },
         //  { name: 'createdAt', title: 'Created' },
         //   { name: 'updatedAt', title: 'Updated' }
-        // viddu
       ],
       tableColumnExtensions: [
         { columnName: 'userType', wordWrapEnabled: true, width: 130 },
