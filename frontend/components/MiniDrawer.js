@@ -160,24 +160,29 @@ class MiniDrawer extends React.Component {
   // STARTING STUFF
   async componentDidMount() {
     console.log(await Cookies.get('jwtToken'));
-    try {
+    let temp;
+    if ((temp = await this.state.client.query({ query: CURRENTUSER }))) {
+      this.setState({ currentUser: temp.data.currentUser, ok: true });
+    } else {
+      Router.push({
+        pathname: '/login',
+      });
+    }
+
+    /*try {
       // get logged user data
       let temp;
       do {
         temp = await this.state.client.query({ query: CURRENTUSER });
-        //await delay(5000);
         console.log(temp);
       } while (!temp);
 
       this.setState({ currentUser: temp.data.currentUser, ok: true });
-      await delay(5000);
     } catch (e) {
       console.log(e);
-      //await delay(5000);
       /*Router.push({
         pathname: '/login',
       });*/
-    }
   }
 
   handleDrawerOpen = () => {
