@@ -17,7 +17,7 @@ let apolloClient = null;
 
 function create(initialState) {
   //const JWT = IS_BROWSER && localStorage.getItem('jwtToken');
-  const jwt = IS_BROWSER && Cookies.get('jwtToken');
+  const JWT = IS_BROWSER && Cookies.get('jwtToken');
   const temp = JWT ? `Bearer ${JWT}` : null;
   console.log(JWT ? `Bearer ${JWT}` : null);
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
