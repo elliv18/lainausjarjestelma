@@ -111,6 +111,7 @@ export default `
 
         # CURRENTUSER - Update password
         currentUserUpdatePW(input: currentUserUpdatePWInput!): currentUserUpdatePWPayload
+        
         ############# LOGIN #################
 
         # ALL - login
