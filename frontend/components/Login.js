@@ -83,7 +83,6 @@ class LoginTab extends React.Component {
   };
 
   async componentDidMount() {
-    //localStorage.removeItem('jwtToken');
     Cookies.remove('jwtToken');
     // TODO - is backend up?
     this.setState({ loading: false });
@@ -105,7 +104,6 @@ class LoginTab extends React.Component {
       console.log(data.login.jwt);
 
       Cookies.set('jwtToken', data.login.jwt, { expires: 1 });
-      //localStorage.setItem('jwtToken', data.login.jwt);
     } catch (e) {
       this.setState({
         alertMsg: e.message.replace('GraphQL error:', '').trim(),

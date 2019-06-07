@@ -41,8 +41,8 @@ import { withApollo } from 'react-apollo';
 import { CURRENTUSER } from '../lib/gql/queries';
 import { CURRENTUSER_UPDATE_MUTATION } from '../lib/gql/mutation';
 import Cookies from 'js-cookie';
-import Moment from 'react-moment';
-import 'moment-timezone';
+//import Moment from 'react-moment';
+//import 'moment-timezone';
 
 /********************* STYLES ***********************/
 
@@ -232,7 +232,6 @@ class Home extends React.Component {
   // STARTING QUERY
   async componentDidMount() {
     console.log(this.props.data);
-    //const JWT = localStorage.getItem('jwtToken');
     const JWT = Cookies.get('jwtToken');
     if (JWT !== null) {
       let temp = await this.state.client.query({ query: CURRENTUSER });
