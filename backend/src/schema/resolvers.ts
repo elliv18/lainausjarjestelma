@@ -44,12 +44,12 @@ export default {
   Query: {
     currentUser: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
-      console.log("currentuser ", currentUser);
+
       return await prisma.user({ id: currentUser.id });
     },
     allUsers: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
-      mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
       return await prisma.users();
     },
