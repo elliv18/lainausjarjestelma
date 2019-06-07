@@ -159,6 +159,7 @@ class MiniDrawer extends React.Component {
 
   // STARTING STUFF
   async componentDidMount() {
+    console.log(await Cookies.get('jwtToken'));
     try {
       // get logged user data
       let temp;
@@ -173,9 +174,9 @@ class MiniDrawer extends React.Component {
     } catch (e) {
       console.log(e);
       //await delay(5000);
-      Router.push({
+      /*Router.push({
         pathname: '/login',
-      });
+      });*/
     }
   }
 
