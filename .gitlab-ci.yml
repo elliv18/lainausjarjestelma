@@ -68,7 +68,6 @@ build_backend:
     - cd backend
     - yarn install
     - yarn build
-    #- yarn prisma:force-reset
 
 deploy_backend:
   image: docker:latest
