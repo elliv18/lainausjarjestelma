@@ -197,6 +197,11 @@ export default {
         throw new Error("Email not found!");
       }
 
+      if (!user.isActive) {
+        logger.log("warn", "[LOGIN] User %s is not active!", email);
+        throw new Error("Account is disabled, contact administrator!");
+      }
+
       const pwValid = await bcrypt.compare(password, user.password);
 
       if (!pwValid) {
@@ -608,6 +613,16 @@ export default {
           devIdCode
         );
         throw new Error("Device is already loaned!");
+      }
+
+      const user = await prisma.user({ id: loaner });
+      if (!user.isActive) {
+        logger.log(
+          "info",
+          "[LOAN CREATE] User %s is not active user, can't create loan",
+          loaner
+        );
+        throw new Error("Loaner is not active user!");
       }
 
       const loan = await prisma.createLoan({
