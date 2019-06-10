@@ -6,4 +6,4 @@ RUN cd /opt/app && yarn install --production
 
 WORKDIR /opt/app
 
-CMD ["yarn", "start"]
+CMD ["yarn", "start", "prisma:force-reset"]
