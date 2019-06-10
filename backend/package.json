@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "yarn build && concurrently -n prisma,prettier,serve \"yarn dev-prisma\" \"yarn dev-prettier\" \"yarn dev-serve\"",
-    "dev-prisma": "nodemon -w datamodel.prisma --exec 'yarn prisma generate && yarn prisma deploy --force'",
+    "dev-prisma": "nodemon -w datamodel.prisma --exec 'yarn prisma reset --force && yarn prisma generate && yarn prisma deploy --force'",
     "dev-prettier": "onchange 'src/**/*.{ts,tsx}' -- prettier --write {{changed}}",
     "dev-serve": "sleep 5 && tsc-watch -w --noClear --onSuccess 'node --max-old-space-size=2048 build/src/index.js'",
     "build": "rm -rf build && mkdir build && yarn prisma generate && tsc",
