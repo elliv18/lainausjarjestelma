@@ -164,7 +164,7 @@ class MiniDrawer extends React.Component {
   // STARTING STUFF
   async componentDidMount() {
     let temp;
-    if (await Cookies.get('jwtToken')) {
+    if ((await Cookies.get('jwtToken')) !== undefined) {
       try {
         if ((temp = await this.state.client.query({ query: CURRENTUSER }))) {
           this.setState({ currentUser: temp.data.currentUser, ok: true });
