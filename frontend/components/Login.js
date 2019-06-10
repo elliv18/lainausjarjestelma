@@ -140,7 +140,7 @@ class LoginTab extends React.Component {
                 style={{ color: 'rgba(0,70,85)' }}
               >
                 <img
-                  src="/static/logo/logoNoBackground.png"
+                  src="/static/logo/logo.png"
                   alt="borrowd"
                   className={classes.logo}
                 />

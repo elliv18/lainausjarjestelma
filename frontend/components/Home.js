@@ -100,7 +100,7 @@ const styles = {
     color: 'red',
   },
   dialogTitle: {
-    backgroundColor: 'lightGrey',
+    backgroundColor: 'rgba(0,70,85)',
   },
   typoFirst: {
     color: 'grey',
@@ -521,7 +521,9 @@ class Home extends React.Component {
                           className={classes.dialogTitle}
                           id="form-dialog-title-cpi"
                         >
-                          Change personal information
+                          <a style={{ color: '#fff' }}>
+                            Change personal information
+                          </a>
                         </DialogTitle>
                         <DialogContent>
                           <DialogContentText>
@@ -561,21 +563,6 @@ class Home extends React.Component {
                             fullWidth
                             onChange={this.setPhone}
                           />
-                        </DialogContent>
-                        <DialogTitle
-                          className={classes.dialogTitle}
-                          id="form-dialog-title-pw"
-                        >
-                          Change password
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText>
-                            Give old and new pass word two times
-                          </DialogContentText>
-                          <DialogContentText className={classes.message}>
-                            <br />
-                            {this.state.alertMsg}
-                          </DialogContentText>
                           <TextField
                             margin="dense"
                             id="old_pw"
@@ -601,6 +588,10 @@ class Home extends React.Component {
                             onChange={this.setNewPWCheck}
                           />
                         </DialogContent>
+                        <a className={classes.message}>
+                          <br />
+                          {this.state.alertMsg}
+                        </a>
                         <DialogActions>
                           <Button
                             onClick={this.handleCloseSave}

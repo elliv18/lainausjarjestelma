@@ -107,8 +107,11 @@ export default `
         ############# CURRENTUSER #################
 
         # CURRENTUSER - Update personal information
-        currentUserUpdate(input: currentUserUpdateInput): currentUserUpdatePayload
+        currentUserUpdateInfo(input: currentUserUpdateInfoInput!): currentUserUpdateInfoPayload
 
+        # CURRENTUSER - Update password
+        currentUserUpdatePW(input: currentUserUpdatePWInput!): currentUserUpdatePWPayload
+        
         ############# LOGIN #################
 
         # ALL - login
@@ -183,7 +186,7 @@ export default `
 
     ############### CURRENTUSER ####################
 
-    input currentUserUpdateInput {
+    input currentUserUpdateInfoInput {
         firstName: String
         lastName: String
         address: String
@@ -191,7 +194,16 @@ export default `
         password: String
         oldPassword: String
     }
-    type currentUserUpdatePayload {
+    type currentUserUpdateInfoPayload {
+        user: User
+    }
+
+    input currentUserUpdatePWInput {
+        password: String!
+        passwordAgain: String!
+        oldPassword: String!
+    }
+    type currentUserUpdatePWPayload {
         user: User
     }
 
