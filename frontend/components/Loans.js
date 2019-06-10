@@ -456,8 +456,8 @@ class Loans extends React.PureComponent {
                 refetchQueries: [{ query: CURRENTUSER }],
               })
               .then(result => {
-                console.log('RESULT ', result),
-                  (id = result.data.loanCreate.loan.id);
+                //console.log('RESULT ', result),
+                id = result.data.loanCreate.loan.id;
                 // console.log('RowID', id);
                 data = [
                   ...data,
@@ -479,7 +479,6 @@ class Loans extends React.PureComponent {
                   })),
                 ];
 
-                console.log('array', row.idCode);
                 arrayIdCodes = arrayIdCodes.map(row2 =>
                   row2.label === row.idCode ? '' : row2
                 );
