@@ -42,6 +42,8 @@ env_prod:
     - echo "DB_NAME=${DB_NAME}" >> "${REMOTE_DIR}/.env"
     # PRISMA
     - echo "PRISMA_PORT=3060" >> "${REMOTE_DIR}/.env"
+    - echo "PRISMA_MAS=${PRISMA_MAS}" >> "${REMOTE_DIR}/.env"
+    - echo "PRISMA_SECRET=${PRISMA_SECRET}" >> "${REMOTE_DIR}/.env"
     # FRONTEND ENVS
     - echo "FRONTEND_IMAGE=${FRONTEND_IMAGE}" >> "${REMOTE_DIR}/.env"
     - echo "FRONTEND_PORT=3000" >> "${REMOTE_DIR}/.env"

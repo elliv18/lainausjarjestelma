@@ -1,6 +1,6 @@
 import { GraphQLServer } from "graphql-yoga";
 import * as jwt from "jsonwebtoken";
-import { JWT_SECRET, BACKEND_PORT, NODE_ENV } from "./environment";
+import { JWT_SECRET, BACKEND_PORT, NODE_ENV, PRODUCTION } from "./environment";
 import { typeDefs, resolvers } from "./schema";
 import createRootAdmin from "./misc/rootAdmin";
 import logger from "./misc/logger";
@@ -38,9 +38,10 @@ const server = new GraphQLServer({
   }
 });
 
-// Cors settings
+// Server settings
 const options = {
   port: BACKEND_PORT,
+  playground: NODE_ENV === PRODUCTION ? "false" : "/",
   cors: {
     creditials: false,
     origin: "*"
