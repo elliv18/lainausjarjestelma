@@ -8,13 +8,13 @@
     "dev-prisma": "nodemon -w datamodel.prisma --exec 'yarn prisma generate && yarn prisma deploy --force'",
     "dev-prettier": "onchange 'src/**/*.{ts,tsx}' -- prettier --write {{changed}}",
     "dev-serve": "sleep 5 && tsc-watch -w --noClear --onSuccess 'node --max-old-space-size=2048 build/src/index.js'",
-    "build": "rm -rf build && mkdir build && yarn prisma reset --force && yarn prisma generate && tsc",
+    "build": "rm -rf build && mkdir build && yarn prisma generate && tsc",
     "start": "yarn prisma deploy && node build/src/index.js",
     "lint": "yarn lint-prettier && yarn lint-ts",
     "lint-ts": "tslint -p tsconfig.json -t stylish -e '**/*.spec.{ts,tsx}' 'src/**/*.{ts,tsx}'",
     "lint-prettier": "prettier --check 'src/**/*.{ts,tsx}'",
     "prisma:force-deploy": "yarn prisma deploy --force",
-    "prisma:force-reset": "yarn prisma reset --force && yarn prisma generate && yarn prisma deploy --force"
+    "prisma:force-reset": "yarn prisma reset --force"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
