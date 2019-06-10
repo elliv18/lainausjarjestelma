@@ -44,7 +44,7 @@ services:
     depends_on:
       - prisma
     restart: always
-    command: yarn prisma:force-reset
+    #command: yarn prisma:force-reset
   frontend:
     image: ${FRONTEND_IMAGE}
     ports:
