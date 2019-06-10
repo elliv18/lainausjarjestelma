@@ -479,6 +479,11 @@ class Loans extends React.PureComponent {
                   })),
                 ];
 
+                console.log('array', row.idCode);
+                arrayIdCodes = arrayIdCodes.map(row2 =>
+                  row2.label === row.idCode ? '' : row2
+                );
+
                 this.setState({ data: data });
               })
               .catch(error => {
