@@ -47,7 +47,7 @@ import Cookies from 'js-cookie';
 //import Moment from 'react-moment';
 //import 'moment-timezone';
 
-/********************* STYLES ***********************/
+/********************* STYLES **********************/
 
 const styles = {
   root: {
