@@ -39,7 +39,10 @@ import {
 
 import { withApollo } from 'react-apollo';
 import { CURRENTUSER } from '../lib/gql/queries';
-import { CURRENTUSER_UPDATE_MUTATION } from '../lib/gql/mutation';
+import {
+  CURRENTUSER_UPDATE_INFO_MUTATION,
+  CURRENTUSER_UPDATE_PW_MUTATION,
+} from '../lib/gql/mutation';
 import Cookies from 'js-cookie';
 //import Moment from 'react-moment';
 //import 'moment-timezone';
@@ -211,7 +214,8 @@ class Home extends React.Component {
       },
       data_loans: [],
 
-      open: false,
+      openPassword: false,
+      openInformation: false,
       client: props.client,
       dateColumns: ['loanDate', 'returnDate', 'dueDate'],
       firstName: '',
@@ -234,7 +238,11 @@ class Home extends React.Component {
     console.log(this.props.data);
     const JWT = Cookies.get('jwtToken');
     if (JWT !== null) {
-      let temp = await this.state.client.query({ query: CURRENTUSER });
+      let temp = await this.state.client
+        .query({ query: CURRENTUSER })
+        .catch(e => {
+          console.log(e);
+        });
       let temp_user;
       let temp_loans = [];
       if (temp.data.currentUser) {
@@ -271,22 +279,24 @@ class Home extends React.Component {
 
   // FUNCTIONS
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  handleClickOpenInformation = () => {
+    this.setState({ openInformation: true });
   };
 
-  handleCloseSave = async () => {
+  handleCloseInformation = () => {
+    this.setState({ openInformation: false });
+  };
+
+  handleCloseSaveInformation = async () => {
     this.state.client
       .mutate({
         variables: {
-          firstName: this.state.firstName ? this.state.firstName : null,
-          lastName: this.state.lastName ? this.state.lastName : null,
-          address: this.state.address ? this.state.address : null,
-          phone: this.state.phone ? this.state.phone : null,
-          password: this.state.password ? this.state.password : null,
-          oldPassword: this.state.oldPassword ? this.state.oldPassword : null,
+          firstName: this.state.firstName ? this.state.firstName : undefined,
+          lastName: this.state.lastName ? this.state.lastName : undefined,
+          address: this.state.address ? this.state.address : undefined,
+          phone: this.state.phone ? this.state.phone : undefined,
         },
-        mutation: CURRENTUSER_UPDATE_MUTATION,
+        mutation: CURRENTUSER_UPDATE_INFO_MUTATION,
       })
       .then(result => {
         console.log('result', result);
@@ -305,11 +315,45 @@ class Home extends React.Component {
         console.log(error);
       });
 
-    this.setState({ open: false });
+    this.setState({ openInformation: false });
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
+  handleClickOpenPassword = () => {
+    this.setState({ openPassword: true });
+  };
+
+  handleClosePassword = () => {
+    this.setState({ openPassword: false });
+  };
+
+  handleCloseSavePassword = async () => {
+    this.state.client
+      .mutate({
+        variables: {
+          password: this.state.password ? this.state.password : undefined,
+          passwordAgain: this.state.passwordAgain
+            ? this.state.passwordAgain
+            : undefined,
+          oldPassword: this.state.oldPassword
+            ? this.state.oldPassword
+            : undefined,
+        },
+        mutation: CURRENTUSER_UPDATE_PW_MUTATION,
+      })
+      .then(result => {
+        console.log('result', result);
+        this.setState(state => ({
+          data_user: {
+            ...state.data_user,
+          },
+        }));
+      })
+      .catch(error => {
+        this.setState({ alertMsgMain: 'Password update failed!' });
+        console.log(error);
+      });
+
+    this.setState({ openPassword: false });
   };
 
   setFirstName = e => {
@@ -342,6 +386,7 @@ class Home extends React.Component {
     } else {
       this.setState({ alertMsg: '' });
     }
+    this.setState({ passwordAgain: e.target.value });
   };
 
   // RENDER
@@ -506,105 +551,149 @@ class Home extends React.Component {
                 </CardContent>
                 <Grid item xs={12}>
                   <Grid container justify="flex-end">
-                    <CardActions>
-                      <Grid item>
-                        <Button onClick={this.handleClickOpen}>
+                    <Grid item>
+                      <CardActions>
+                        <Button onClick={this.handleClickOpenPassword}>
+                          Change password
+                        </Button>
+
+                        <Dialog
+                          open={this.state.openPassword}
+                          onClose={this.handleClosePassword}
+                          aria-labelledby="form-dialog-change-password"
+                        >
+                          <DialogTitle
+                            className={classes.dialogTitle}
+                            id="form-dialog-change-password"
+                          >
+                            <a style={{ color: '#fff' }}>Change password</a>
+                          </DialogTitle>
+                          <DialogContent>
+                            <TextField
+                              margin="dense"
+                              id="old_pw"
+                              label="Old password"
+                              type="password"
+                              fullWidth
+                              onChange={this.setOldPW}
+                            />
+                            <TextField
+                              margin="dense"
+                              id="new_pw"
+                              label="New password"
+                              type="password"
+                              fullWidth
+                              onChange={this.setNewPW}
+                            />
+                            <TextField
+                              margin="dense"
+                              id="new_pw_check"
+                              label="Again new password"
+                              type="password"
+                              fullWidth
+                              onChange={this.setNewPWCheck}
+                            />
+                          </DialogContent>
+                          <a className={classes.message}>
+                            <br />
+                            {this.state.alertMsg}
+                          </a>
+                          <DialogActions>
+                            <Button
+                              onClick={this.handleCloseSavePassword}
+                              color="primary"
+                            >
+                              Save
+                            </Button>
+                            <Button
+                              onClick={this.handleClosePassword}
+                              color="primary"
+                            >
+                              Cancel
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      </CardActions>
+                    </Grid>
+                    <Grid item>
+                      <CardActions>
+                        <Button onClick={this.handleClickOpenInformation}>
                           Change personal information
                         </Button>
-                      </Grid>
-                      <Dialog
-                        open={this.state.open}
-                        onClose={this.handleClose}
-                        aria-labelledby="form-dialog-title-cpi"
-                      >
-                        <DialogTitle
-                          className={classes.dialogTitle}
-                          id="form-dialog-title-cpi"
+
+                        <Dialog
+                          open={this.state.openInformation}
+                          onClose={this.handleCloseInformation}
+                          aria-labelledby="form-dialog-change-information"
                         >
-                          <a style={{ color: '#fff' }}>
-                            Change personal information
-                          </a>
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText>
-                            Change only new content fields, others can leave
-                            empty.
-                            <br />
-                          </DialogContentText>
-                          <TextField
-                            margin="dense"
-                            id="fn"
-                            label="First name"
-                            type="String"
-                            fullWidth
-                            onChange={this.setFirstName}
-                          />
-                          <TextField
-                            margin="dense"
-                            id="ln"
-                            label="Last name"
-                            type="String"
-                            fullWidth
-                            onChange={this.setLastName}
-                          />
-                          <TextField
-                            margin="dense"
-                            id="address"
-                            label="Address"
-                            type="String"
-                            fullWidth
-                            onChange={this.setAddress}
-                          />
-                          <TextField
-                            margin="dense"
-                            id="phone"
-                            label="Phone"
-                            type="String"
-                            fullWidth
-                            onChange={this.setPhone}
-                          />
-                          <TextField
-                            margin="dense"
-                            id="old_pw"
-                            label="Old password"
-                            type="password"
-                            fullWidth
-                            onChange={this.setOldPW}
-                          />
-                          <TextField
-                            margin="dense"
-                            id="new_pw"
-                            label="New password"
-                            type="password"
-                            fullWidth
-                            onChange={this.setNewPW}
-                          />
-                          <TextField
-                            margin="dense"
-                            id="new_pw_check"
-                            label="Again new password"
-                            type="password"
-                            fullWidth
-                            onChange={this.setNewPWCheck}
-                          />
-                        </DialogContent>
-                        <a className={classes.message}>
-                          <br />
-                          {this.state.alertMsg}
-                        </a>
-                        <DialogActions>
-                          <Button
-                            onClick={this.handleCloseSave}
-                            color="primary"
+                          <DialogTitle
+                            className={classes.dialogTitle}
+                            id="form-dialog-change-information"
                           >
-                            Save
-                          </Button>
-                          <Button onClick={this.handleClose} color="primary">
-                            Cancel
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
-                    </CardActions>
+                            <a style={{ color: '#fff' }}>
+                              Change personal information
+                            </a>
+                          </DialogTitle>
+                          <DialogContent>
+                            <DialogContentText>
+                              Change only new content fields, others can leave
+                              empty.
+                              <br />
+                            </DialogContentText>
+                            <TextField
+                              margin="dense"
+                              id="fn"
+                              label="First name"
+                              type="String"
+                              fullWidth
+                              onChange={this.setFirstName}
+                            />
+                            <TextField
+                              margin="dense"
+                              id="ln"
+                              label="Last name"
+                              type="String"
+                              fullWidth
+                              onChange={this.setLastName}
+                            />
+                            <TextField
+                              margin="dense"
+                              id="address"
+                              label="Address"
+                              type="String"
+                              fullWidth
+                              onChange={this.setAddress}
+                            />
+                            <TextField
+                              margin="dense"
+                              id="phone"
+                              label="Phone"
+                              type="String"
+                              fullWidth
+                              onChange={this.setPhone}
+                            />
+                          </DialogContent>
+                          <a className={classes.message}>
+                            <br />
+                            {this.state.alertMsg}
+                          </a>
+                          <DialogActions>
+                            <Button
+                              onClick={this.handleCloseSaveInformation}
+                              color="primary"
+                            >
+                              Save
+                            </Button>
+                            <Button
+                              onClick={this.handleCloseInformation}
+                              color="primary"
+                            >
+                              Cancel
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      </CardActions>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Card>
