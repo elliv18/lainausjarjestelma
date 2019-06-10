@@ -105,7 +105,6 @@ const RowDetail = ({ row }) => (
             Change password
           </Button>
         </div>
-        <div>paska</div>
 
         {error ? console.log(error) : null}
       </div>
@@ -460,6 +459,23 @@ class Users extends React.PureComponent {
               client
                 .mutate({
                   variables: { id: deleted[0], isActive: false },
+                  mutation: USER_ISACTIVE_MUTATION,
+                })
+                .then(Response => {
+                  console.log(Response.data.userIsActive.user);
+                  data = data.map(row =>
+                    row.id === deleted[0]
+                      ? Response.data.userIsActive.user
+                      : row
+                  );
+                  this.setState({ data: data });
+                });
+              // this.setState({ data: data });
+            } else if (row.isActive === false) {
+              //console.log('isactive true');
+              client
+                .mutate({
+                  variables: { id: deleted[0], isActive: true },
                   mutation: USER_ISACTIVE_MUTATION,
                 })
                 .then(Response => {
