@@ -45,9 +45,9 @@ services:
       - prisma
     restart: always
     # reset prisma - uncomment bellow line to do it
-    command: yarn prisma reset --force
+    command: bash -c "yarn prisma reset --force && yarn prisma deploy --force"
     # update prisma schema - uncomment bellow line to do it
-    command: yarn prisma deploy --force
+    #command: yarn prisma deploy --force
   frontend:
     image: ${FRONTEND_IMAGE}
     ports:
