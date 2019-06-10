@@ -119,7 +119,7 @@ export default {
       mustBeLoggedIn(currentUser);
 
       // if pass is null...
-      if (oldPassword !== null || passwordAgain !== null || password !== null) {
+      if (oldPassword === null || passwordAgain === null || password === null) {
         logger.log(
           "warn",
           "[CURRENTUSER UPDATE PW] Old password or password or password again is null from user %s",
@@ -150,7 +150,7 @@ export default {
       }
 
       // password is only whitespaces
-      if (password.replace(/\s/g, "").length) {
+      if (!password.replace(/\s/g, "").length) {
         logger.log(
           "warn",
           "[CURRENTUSER UPDATE PW] Password is spaces only from user %s",

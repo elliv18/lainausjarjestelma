@@ -235,7 +235,6 @@ class Home extends React.Component {
 
   // STARTING QUERY
   async componentDidMount() {
-    console.log(this.props.data);
     const JWT = Cookies.get('jwtToken');
     if (JWT !== null) {
       let temp = await this.state.client
@@ -303,10 +302,10 @@ class Home extends React.Component {
         this.setState(state => ({
           data_user: {
             ...state.data_user,
-            firstName: result.data.currentUserUpdate.user.firstName,
-            lastName: result.data.currentUserUpdate.user.lastName,
-            address: result.data.currentUserUpdate.user.address,
-            phone: result.data.currentUserUpdate.user.phone,
+            firstName: result.data.currentUserUpdateInfo.user.firstName,
+            lastName: result.data.currentUserUpdateInfo.user.lastName,
+            address: result.data.currentUserUpdateInfo.user.address,
+            phone: result.data.currentUserUpdateInfo.user.phone,
           },
         }));
       })
@@ -327,6 +326,11 @@ class Home extends React.Component {
   };
 
   handleCloseSavePassword = async () => {
+    console.log(
+      this.state.password,
+      this.state.passwordAgain,
+      this.state.oldPassword
+    );
     this.state.client
       .mutate({
         variables: {
@@ -342,11 +346,6 @@ class Home extends React.Component {
       })
       .then(result => {
         console.log('result', result);
-        this.setState(state => ({
-          data_user: {
-            ...state.data_user,
-          },
-        }));
       })
       .catch(error => {
         this.setState({ alertMsgMain: 'Password update failed!' });

@@ -114,7 +114,9 @@ class LoginTab extends React.Component {
       });
     }
 
-    if (Cookies.get('jwtToken') !== null) {
+    console.log('COOKIE:P', Cookies.get('jwtToken'));
+
+    if (Cookies.get('jwtToken') !== undefined) {
       Router.push({
         pathname: '/',
       });
