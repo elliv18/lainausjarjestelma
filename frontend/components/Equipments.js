@@ -9,6 +9,7 @@ import {
   SearchState,
   IntegratedFiltering,
   DataTypeProvider,
+  RowDetailState,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -22,6 +23,8 @@ import {
   Toolbar,
   ColumnChooser,
   TableColumnVisibility,
+  TableRowDetail,
+  Table,
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
@@ -205,8 +208,19 @@ const BooleanFormatter = ({ value }) => (
     }
   />
 );
+var moment = require('moment');
 
 const getRowId = row => row.id;
+
+const RowDetail = ({ row }) => (
+  <div style={{ padding: 10, fontSize: 14 }}>
+    <b>Loaner: </b>
+    {row.loanerInfo}
+    <br /> <br />
+    <b>Duedate: </b>
+    {moment(row.dueDate).format('DD-MM-YYYY')}
+  </div>
+);
 
 /******************************** CLASS ***************************************/
 
@@ -404,6 +418,7 @@ class Equipments extends React.PureComponent {
   // STARTING QUERY
   async componentDidMount() {
     let temp = await this.state.client.query({ query: EQUIPMENTS_QUERY });
+    console.log('data', temp);
     let tempCategories = await this.state.client.query({
       query: CATEGORY_NAME_QUERY,
     });
@@ -420,6 +435,13 @@ class Equipments extends React.PureComponent {
             manufacture: obj.manufacture,
             model: obj.model,
             deviceCategory: obj.category.deviceCategory,
+            loanerInfo:
+              obj.loan[obj.loan.length - 1].loaner.firstName +
+              ' ' +
+              obj.loan[obj.loan.length - 1].loaner.lastName +
+              ', ' +
+              obj.loan[obj.loan.length - 1].loaner.email,
+            dueDate: obj.loan[obj.loan.length - 1].dueDate,
           })
       );
     }
@@ -457,6 +479,8 @@ class Equipments extends React.PureComponent {
       return (
         <Paper className={classes.root} elevation={5}>
           <Grid rows={data} columns={columns} getRowId={getRowId}>
+            <RowDetailState />
+
             <SortingState
               sorting={sorting}
               onSortingChange={this.changeSorting}
@@ -501,6 +525,8 @@ class Equipments extends React.PureComponent {
               onOrderChange={this.changeColumnOrder}
             />
             <TableHeaderRow showSortingControls />
+            <TableRowDetail contentComponent={RowDetail} />
+
             <TableEditRow cellComponent={EditCell} />
             <TableEditColumn
               width={170}

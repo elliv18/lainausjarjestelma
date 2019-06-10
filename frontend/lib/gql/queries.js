@@ -31,6 +31,14 @@ export const EQUIPMENTS_QUERY = gql`
         id
         deviceCategory
       }
+      loan {
+        loaner {
+          email
+          firstName
+          lastName
+        }
+        dueDate
+      }
     }
   }
 `;
