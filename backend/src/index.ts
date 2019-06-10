@@ -44,18 +44,6 @@ const options = {
   cors: {
     creditials: false,
     origin: "*"
-    /*allowedHeaders: [
-      "Origin",
-      "Content-Type",
-      "Authorization",
-      "Accept",
-      "X-Requested-With",
-      "access-control-allow-origin",
-      "x-csrf-token",
-      "Content-Length",
-      "Accept-Encoding",
-      "*"
-    ]*/
   }
 };
 
