@@ -28,3 +28,5 @@ pass: proto19
 conttiin pääsy
 
 - docker exec -it <mycontainer> /bin/sh
+
+lainaus.project.tamk.cloud
