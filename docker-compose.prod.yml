@@ -13,13 +13,13 @@ services:
             connector: postgres
             host: postgres
             port: 5432
-            user: ${DB_USERNAME}
+            user: prisma
             password: ${DB_PASSWORD}
   postgres:
     image: postgres:10.3
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_USER: prisma
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres:/var/lib/postgresql/data
