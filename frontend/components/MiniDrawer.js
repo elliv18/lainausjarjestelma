@@ -165,12 +165,14 @@ class MiniDrawer extends React.Component {
   async componentDidMount() {
     let temp;
     if ((await Cookies.get('jwtToken')) !== undefined) {
-      try {
-        if ((temp = await this.state.client.query({ query: CURRENTUSER }))) {
-          this.setState({ currentUser: temp.data.currentUser, ok: true });
-        }
-      } catch (e) {
-        console.log(e);
+      if (
+        (temp = await this.state.client
+          .query({ query: CURRENTUSER })
+          .catch(e => {
+            console.log(e);
+          }))
+      ) {
+        this.setState({ currentUser: temp.data.currentUser, ok: true });
       }
     } else {
       try {
@@ -193,9 +195,14 @@ class MiniDrawer extends React.Component {
 
   logOut = async () => {
     await Cookies.remove('jwtToken');
-    Router.push({
-      pathname: '/login',
-    });
+    try {
+      Router.push({
+        pathname: '/login',
+      });
+      window.location.href = '/login';
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   // RENDER

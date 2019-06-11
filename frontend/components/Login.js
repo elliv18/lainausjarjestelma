@@ -121,6 +121,7 @@ class LoginTab extends React.Component {
         Router.push({
           pathname: '/',
         });
+        window.location.href = '/';
       } catch (e) {
         console.log(e);
       }
