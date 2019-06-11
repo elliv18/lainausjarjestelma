@@ -3,7 +3,11 @@
 2019 - Kesäharjoittelu lainausjärjestelmä projeckti, jossa luodaan
 fullstack lainausjärjestelmä kokonaisuus.
 
-## Esim env fie
+## PUBLIC URL
+
+- lainaus.project.tamk.cloud
+
+## Example `.env` file
 
 Alla on esimerkki .env tiedostosta
 
@@ -30,23 +34,20 @@ Alla on esimerkki .env tiedostosta
     PRISMA_MAS=SuperSalainen19
 ```
 
-## Projectin ajaminen
+## Development environment setup
 
-1. asenna tarvittavat ohjelmistot
+1. Clone the repo
+2. Create a .env file(above) to the root folder of the repo
+3. Navigate to `/backend` and run `yarn install`
+4. Navigate to `/frontend` and run `yarn install`
+5. Navigate to root of the repo, and run `docker-compose up -d`
 
-   - docker
-   - docker-compose
-   - yarn
-   - curl
+Start developing.
 
-2. lataa tiedotot koneele kansioon
-3. aja yarn backend ja frontend kansioissa
-4. root kansiossa aja `docker-compose up -d`
-5. dev mode on ajossa:
-   - backend: localhost:3050
-   - frontend: localhost:3000
-   - prisma: localhost:3060
-   - prisma admin: localhost:3060/\_admin
+### Code formatting
+
+We use Prettier and TSLint.
+All code has to pass `yarn lint` or it fails the CI.
 
 ## Käytetyt teknologiat
 
