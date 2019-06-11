@@ -615,7 +615,9 @@ export default {
         throw new Error("Device is already loaned!");
       }
 
-      const user = await prisma.user({ id: loaner });
+      console.log("Loaner", loaner);
+      const user = await prisma.user({ email: loaner });
+      console.log("USER", user);
       if (!user.isActive) {
         logger.log(
           "info",

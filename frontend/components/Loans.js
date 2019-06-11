@@ -442,7 +442,7 @@ class Loans extends React.PureComponent {
 
         try {
           added.map(row => {
-            //     console.log('row', row.idCode);
+            console.log('row', row.isActive);
 
             client
               .mutate({
