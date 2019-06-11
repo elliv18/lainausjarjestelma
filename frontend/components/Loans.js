@@ -47,6 +47,7 @@ import {
   EMAILS_QUERY,
   DEVICE_ID_QUERY,
   CURRENTUSER,
+  EQUIPMENTS_QUERY,
 } from '../lib/gql/queries';
 import {
   LOAN_ADD_MUTATION,
@@ -442,7 +443,7 @@ class Loans extends React.PureComponent {
 
         try {
           added.map(row => {
-            console.log('row', row.isActive);
+            // console.log('row', row.isActive);
 
             client
               .mutate({
@@ -521,6 +522,7 @@ class Loans extends React.PureComponent {
                   returnDate: row.returnDate,
                 },
                 mutation: LOAN_RETURN_MUTATION,
+                refetchQueries: [{ query: EQUIPMENTS_QUERY }],
               })
               .then(result => {
                 row.isActive = false;

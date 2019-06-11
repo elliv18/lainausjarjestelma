@@ -215,10 +215,10 @@ const getRowId = row => row.id;
 const RowDetail = ({ row }) => (
   <div style={{ padding: 10, fontSize: 14 }}>
     <b>Loaner: </b>
-    {row.loanerInfo}
+    {row.loanStatus ? row.loanerInfo : '-'}
     <br /> <br />
     <b>Duedate: </b>
-    {moment(row.dueDate).format('DD-MM-YYYY')}
+    {row.loanStatus ? moment(row.dueDate).format('DD-MM-YYYY') : '-'}
   </div>
 );
 
@@ -436,12 +436,18 @@ class Equipments extends React.PureComponent {
             model: obj.model,
             deviceCategory: obj.category.deviceCategory,
             loanerInfo:
-              obj.loan[obj.loan.length - 1].loaner.firstName +
-              ' ' +
-              obj.loan[obj.loan.length - 1].loaner.lastName +
-              ', ' +
-              obj.loan[obj.loan.length - 1].loaner.email,
-            dueDate: obj.loan[obj.loan.length - 1].dueDate,
+              obj.loan.length > 0
+                ? obj.loan[obj.loan.length - 1].loaner.firstName +
+                  ' ' +
+                  obj.loan[obj.loan.length - 1].loaner.lastName +
+                  ', ' +
+                  obj.loan[obj.loan.length - 1].loaner.email
+                : null,
+
+            dueDate:
+              obj.loan.length > 0
+                ? obj.loan[obj.loan.length - 1].dueDate
+                : null,
           })
       );
     }
