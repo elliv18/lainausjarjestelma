@@ -41,7 +41,7 @@ class MyApp extends App {
     return (
       <Container>
         <Head>
-          <title>Loan System</title>
+          <title>Borrowd - Lainausjärjestelmä</title>
         </Head>
 
         {/* Wrap every page in Jss and Theme providers */}
