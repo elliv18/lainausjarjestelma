@@ -296,7 +296,10 @@ class Category extends React.PureComponent {
                   deviceCategory: row.deviceCategory,
                   desription: row.desription,
                 },
-                refetchQueries: [{ query: CATEGORY_NAME_QUERY }],
+                refetchQueries: [
+                  { query: CATEGORY_NAME_QUERY },
+                  { query: CATEGORY_QUERY },
+                ],
                 mutation: CATEGORY_ADD_MUTATION,
               })
               .then(result => console.log('RESULT ', result))
@@ -331,6 +334,7 @@ class Category extends React.PureComponent {
                   desription: row.desription,
                 },
                 mutation: DEVICE_ID_QUERY,
+                refetchQueries: [{ query: CATEGORY_QUERY }],
               })
               .then(
                 result => console.log('RESULT ', result),
@@ -345,6 +349,8 @@ class Category extends React.PureComponent {
       if (deleted) {
         rows = this.deleteRows(deleted);
       }
+      //                refetchQueries: [{ query: EQUIPMENTS_QUERY }],
+
       this.setState({ rows });
     };
     this.deleteRows = deletedIds => {
