@@ -170,12 +170,12 @@ let arrayIdCodes = null;
 
 let emails = [];
 
-function editEmails() {
+function editEmails(tempActiveEmails) {
   let temp = [];
-  emails.map((row, i) => {
+  tempActiveEmails.map((row, i) => {
     temp[i] = {
-      label: row.email,
-      value: row.email,
+      label: row,
+      value: row,
     };
   });
   return temp;
@@ -201,7 +201,7 @@ const LookupEditCellBase = ({ onValueChange, classes, column, tableRow }) =>
   tableRow.row.isActive ? (
     <TableCell className={classes.lookupEditCell}>
       <Select
-        options={(arrayEmails = editEmails())}
+        options={arrayEmails}
         //onChange={opt => console.log(opt.label, opt.value)}
         onChange={opt => console.log(opt.label, opt.value)}
         onChange={event => onValueChange(event.value)}
@@ -582,6 +582,7 @@ class Loans extends React.PureComponent {
     let tempEmails = await this.state.client.query({ query: EMAILS_QUERY });
     let tempIdCodes = await this.state.client.query({ query: DEVICE_ID_QUERY });
     let tempID = [];
+    let tempActiveEmails = [];
     let temp2 = [];
     if (temp.data.allLoans) {
       temp.data.allLoans.map(
@@ -607,13 +608,19 @@ class Loans extends React.PureComponent {
       );
     }
 
-    //console.log('emails', tempEmails);
-    emails = tempEmails.data.allUsers;
+    tempEmails.data.allUsers.map(row => {
+      if (row.isActive) {
+        tempActiveEmails = [...tempActiveEmails, row.email];
+      }
+    });
+
     tempIdCodes.data.allDevices.map(row => {
       if (!row.loanStatus) {
         tempID = [...tempID, row.idCode];
       }
     });
+
+    arrayEmails = editEmails(tempActiveEmails);
     arrayIdCodes = editIdCodes(tempID);
     //console.log('arrayCodes', arrayIdCodes);
     this.setState({ data: temp2, loading: false });

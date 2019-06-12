@@ -73,6 +73,7 @@ export const EMAILS_QUERY = gql`
   query {
     allUsers {
       email
+      isActive
     }
   }
 `;

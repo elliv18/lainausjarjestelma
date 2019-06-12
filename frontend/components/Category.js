@@ -109,7 +109,11 @@ const DeleteButton = ({ onExecute }) => (
   <IconButton
     onClick={() => {
       // eslint-disable-next-line
-      if (window.confirm('Are you sure you want to delete this row?')) {
+      if (
+        window.confirm(
+          'Are you sure you want to delete this category AND ALL ITS DEVICES?'
+        )
+      ) {
         onExecute();
       }
     }}
