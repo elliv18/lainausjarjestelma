@@ -8,7 +8,8 @@ import {
   JWT_TIME,
   SALT_ROUNDS,
   MAX_PW,
-  MIN_PW
+  MIN_PW,
+  ROOT_ADMIN_EMAIL
 } from "../environment";
 import logger from "../misc/logger";
 
@@ -111,6 +112,7 @@ export default {
       );
       return { user };
     },
+    // CURRENTUSER PASSWORD UPDATE
     currentUserUpdatePW: async (
       obj,
       { input: { password, passwordAgain, oldPassword } },
@@ -257,7 +259,7 @@ export default {
       }
 
       // password legality checks
-      if (password === " " || password === null) {
+      if (!password.replace(/\s/g, "").length || password === null) {
         logger.log(
           "warn",
           "[USER CREATE] Password is null from user %s",
@@ -374,15 +376,24 @@ export default {
       return { user };
     },
     // USER PASSWORD UPDATE
-    userUpdatePW: async (obj, { input: { id, password } }, { currentUser }) => {
+    userUpdatePW: async (
+      obj,
+      { input: { id, password, passwordAgain } },
+      { currentUser }
+    ) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
 
       // password legality checks
-      if (password === " " || password === null) {
+      if (
+        !password.replace(/\s/g, "").length ||
+        password === null ||
+        !passwordAgain.replace(/\s/g, "").length ||
+        passwordAgain === null
+      ) {
         logger.log(
           "warn",
-          "[USER UPDATE PW] Password is null from user %s",
+          "[USER UPDATE PW] Password is null updated by %s",
           currentUser.id
         );
         throw new Error("Password can not be null or empty!");
@@ -391,7 +402,7 @@ export default {
       if (password.length > MAX_PW) {
         logger.log(
           "warn",
-          "[USER UPDATE PW] Password is too long from user %s",
+          "[USER UPDATE PW] Password is too long updated by %s",
           currentUser.id
         );
         throw new Error("Password too long!");
@@ -400,10 +411,18 @@ export default {
       if (password.length < MIN_PW) {
         logger.log(
           "warn",
-          "[USER UPDATE PW] Password is too short from user %s",
+          "[USER UPDATE PW] Password is too short updated by %s",
           currentUser.id
         );
         throw new Error("Password too short!");
+      }
+      if (password !== passwordAgain) {
+        logger.log(
+          "warn",
+          "[USER UPDATE PW] Password don't match updated by %s",
+          currentUser.id
+        );
+        throw new Error("Password don't match!");
       }
 
       const user = await prisma.updateUser({
@@ -427,6 +446,31 @@ export default {
     userIsActive: async (obj, { input: { id, isActive } }, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
+
+      if (!isActive) {
+        const loans = await prisma.user({ id: id }).loans();
+        console.log(loans);
+        loans.map(obj => {
+          if (obj.isActive) {
+            logger.log(
+              "warn",
+              "[USER IS ACTIVE] User %s have active loans. Cant disable user!",
+              currentUser.id
+            );
+            throw new Error("User have active loans!");
+          }
+        });
+
+        const u = await prisma.user({ id: id });
+        if (u.email === ROOT_ADMIN_EMAIL) {
+          logger.log(
+            "warn",
+            "[USER IS ACTIVE] Can't disable root admin!",
+            currentUser.id
+          );
+          throw new Error("Can't disable root admin!");
+        }
+      }
 
       const user = await prisma.updateUser({
         data: {

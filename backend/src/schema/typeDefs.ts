@@ -252,6 +252,7 @@ export default `
     input UserUpdatePWInput {
         id: ID!
         password: String!
+        passwordAgain: String!
     }
     type UserUpdatePWPayload {
         user: User
