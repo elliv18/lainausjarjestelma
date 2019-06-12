@@ -277,7 +277,7 @@ export default `
 
     input CategoryUpdateInput {
         id: ID!
-        deviceCategory: String!
+        deviceCategory: String
         desription: String
     }
     type CategoryUpdatePayload {
