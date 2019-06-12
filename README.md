@@ -1,7 +1,6 @@
-# Lainausjärjestelmä
+# LOANING SYSTEM
 
-2019 - Kesäharjoittelu lainausjärjestelmä projeckti, jossa luodaan
-fullstack lainausjärjestelmä kokonaisuus.
+Summer training 2019 project to build fullstack loaning system.
 
 ## PUBLIC URL
 
@@ -9,7 +8,7 @@ fullstack lainausjärjestelmä kokonaisuus.
 
 ## Example `.env` file
 
-Alla on esimerkki .env tiedostosta
+Bellow is example `.env` file
 
 ```
     # NODE_ENV
@@ -64,7 +63,7 @@ Start developing.
 We use Prettier and TSLint.
 All code has to pass `yarn lint` or it fails the CI.
 
-## Käytetyt teknologiat
+## Project used technologies
 
 - docker
 - docker-compose
@@ -92,7 +91,7 @@ All code has to pass `yarn lint` or it fails the CI.
 - react
 - webpack
 
-## ETÄ SERVER
+## Remote server info
 
 IP: 172.16.101.140
 DNS: lainaus.project.tamk.cloud
