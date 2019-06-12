@@ -133,12 +133,12 @@ const styles = theme => ({
       paddingLeft: theme.spacing.unit * 9 + 1,
     },
     width: '100%',
-    transition: 'padding-left 0.4s',
+    transition: 'padding-left 0.3s',
   },
   paperDrawerOpen: {
     paddingLeft: drawerWidth,
     width: '100%',
-    transition: 'padding-left 0.4s',
+    transition: 'padding-left 0.3s',
   },
   logo: {
     height: '42px',
