@@ -322,8 +322,6 @@ class Category extends React.PureComponent {
         data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
         );
-        console.log('CHANGED', changed);
-        //  console.log("ID", id);
 
         data.map(row => {
           changed[row.id] ? (idCategory = row.id) : row;
@@ -384,7 +382,6 @@ class Category extends React.PureComponent {
     let temp = await this.state.client.query({
       query: CATEGORY_QUERY,
     });
-    console.log(temp);
     let temp2 = [];
     if (temp.data.allCategories) {
       temp.data.allCategories.map(

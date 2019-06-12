@@ -163,9 +163,6 @@ const LookupEditCellBase = ({
   <TableCell className={classes.lookupEditCell}>
     <Select
       options={(arrayCategoryNames = editCategories())}
-      //onChange={opt => console.log(opt.label, opt.value)}
-      //defaultInputValue="123"
-      // onChange={opt => console.log(opt.label, opt.value)}
       onChange={event => onValueChange(event.value)}
     />
   </TableCell>
@@ -308,11 +305,9 @@ class Equipments extends React.PureComponent {
     this.commitChanges = ({ added, changed, deleted }) => {
       let { rows, data, client } = this.state;
       if (added) {
-        console.log('added', added);
         let id = null;
 
         added.map(row => {
-          console.log(row.deviceCategory);
           client
             .mutate({
               variables: {
@@ -331,7 +326,6 @@ class Equipments extends React.PureComponent {
             .then(result => {
               console.log('RESULT ', result),
                 (id = result.data.deviceCreate.device.id);
-              console.log('RowID', id);
               data = [
                 ...data,
                 ...added.map((row, index) => ({
@@ -341,7 +335,6 @@ class Equipments extends React.PureComponent {
               ];
 
               this.setState({ data: data });
-              console.log(data);
             })
             .catch(error => {
               console.log(error);
@@ -355,17 +348,11 @@ class Equipments extends React.PureComponent {
         data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
         );
-        console.log('DATA', data);
-
-        console.log('CHANGED', changed);
 
         data.map((row, i) => {
           changed[row.id] ? (idDevice = row.id) : row;
 
           if (row.id === idDevice) {
-            console.log('number', selectedRowNumber);
-            //console.log('ID', idDevice);
-            //console.log('idCode', row.deviceCategory);
             client
               .mutate({
                 variables: {
@@ -388,10 +375,6 @@ class Equipments extends React.PureComponent {
         this.setState({ data: data });
       }
       if (deleted) {
-        console.log(deleted[0]);
-
-        // console.log('data', data);
-
         client
           .mutate({
             variables: { id: deleted[0] },
@@ -424,7 +407,6 @@ class Equipments extends React.PureComponent {
   // STARTING QUERY
   async componentDidMount() {
     let temp = await this.state.client.query({ query: EQUIPMENTS_QUERY });
-    console.log('data', temp);
     let tempCategories = await this.state.client.query({
       query: CATEGORY_NAME_QUERY,
     });
@@ -457,8 +439,7 @@ class Equipments extends React.PureComponent {
           })
       );
     }
-    // console.log(tempCategories.data.allCategories);
-    //console.log(temp2);
+
     categoryNames = tempCategories.data.allCategories;
     this.setState({ data: temp2, loading: false });
   }

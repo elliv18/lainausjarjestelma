@@ -91,15 +91,16 @@ const RowDetail = ({ row }) => (
               if (pw === pw2 && pw !== null && pw2 !== null && pw.length > 2) {
                 userUpdatePW({
                   variables: { id: row.id, password: pw },
-                }).then();
-                console.log(row.id);
-              } else if (pw === null || pw2 === null) {
+                })
+                  .then(result => console.log(result))
+                  .catch(e => console.log(e));
+              } /* else if (pw === null || pw2 === null) {
                 console.log('Password can not be null!!');
               } else if (pw.length < 3) {
                 console.log('Password too short');
               } else {
                 console.log('Passwords not match!');
-              }
+              }*/
             }}
           >
             Change password
@@ -412,7 +413,6 @@ class Users extends React.PureComponent {
         data = data.map(row =>
           changed[row.id] ? { ...row, ...changed[row.id] } : row
         );
-        console.log('CHANGED', changed);
         //  console.log("ID", id);
 
         data.map(row => {
@@ -446,17 +446,9 @@ class Users extends React.PureComponent {
       if (deleted) {
         let tempData = [];
 
-        // data = this.deleteRows(deleted);
-        //  console.log(deleted[0]);
-
-        // console.log('data', data);
-        //console.log('isActive', data.isActive);
         data.map((row, i) => {
           if (row.id === deleted[0]) {
-            console.log('DATA', data[i].isActive);
-
             if (row.isActive === true) {
-              //console.log('isactive true');
               client
                 .mutate({
                   variables: { id: deleted[0], isActive: false },
@@ -464,7 +456,7 @@ class Users extends React.PureComponent {
                   refetchQueries: [{ query: USERS_QUERY }],
                 })
                 .then(Response => {
-                  console.log(Response.data.userIsActive.user);
+                  console.log(Response);
                   data = data.map(row =>
                     row.id === deleted[0]
                       ? Response.data.userIsActive.user
@@ -474,14 +466,13 @@ class Users extends React.PureComponent {
                 });
               // this.setState({ data: data });
             } else if (row.isActive === false) {
-              //console.log('isactive true');
               client
                 .mutate({
                   variables: { id: deleted[0], isActive: true },
                   mutation: USER_ISACTIVE_MUTATION,
                 })
                 .then(Response => {
-                  console.log(Response.data.userIsActive.user);
+                  console.log(Response);
                   data = data.map(row =>
                     row.id === deleted[0]
                       ? Response.data.userIsActive.user
@@ -500,15 +491,11 @@ class Users extends React.PureComponent {
     this.deleteRows = deletedIds => {
       const data = getStateRows().slice();
       deletedIds.forEach(rowId => {
-        console.log('deletedID', deletedIds);
         const index = data.findIndex(row => row.id === rowId);
         if (index > -1) {
-          console.log('dataSplice', data);
-
           data.splice(index, 1);
         }
       });
-      //console.log('data', data);
 
       return data;
     };

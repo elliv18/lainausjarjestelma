@@ -202,7 +202,6 @@ const LookupEditCellBase = ({ onValueChange, classes, column, tableRow }) =>
     <TableCell className={classes.lookupEditCell}>
       <Select
         options={arrayEmails}
-        //onChange={opt => console.log(opt.label, opt.value)}
         onChange={opt => console.log(opt.label, opt.value)}
         onChange={event => onValueChange(event.value)}
       />
@@ -213,7 +212,6 @@ const LookupEditCellBase = ({ onValueChange, classes, column, tableRow }) =>
     <TableCell className={classes.lookupEditCell}>
       <Select
         options={arrayIdCodes}
-        //onChange={opt => console.log(opt.label, opt.value)}
         onChange={opt => console.log(opt.label, opt.value)}
         onChange={event => onValueChange(event.value)}
       />
