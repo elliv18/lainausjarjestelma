@@ -49,6 +49,7 @@ import {
 import {
   CATEGORY_ADD_MUTATION,
   CATEGORY_UPDATE_MUTATION,
+  CATEGORY_DELETE_MUTATION,
 } from '../lib/gql/mutation';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -255,8 +256,8 @@ class Category extends React.PureComponent {
     // FUNCTIONS
 
     const getStateRows = () => {
-      const { rows } = this.state;
-      return rows;
+      const { data } = this.state;
+      return data;
     };
 
     this.changeSorting = sorting => this.setState({ sorting });
@@ -278,38 +279,38 @@ class Category extends React.PureComponent {
     this.commitChanges = ({ added, changed, deleted }) => {
       let { rows, data, client } = this.state;
       if (added) {
-        try {
-          const startingAddedId =
-            data.length > 0 ? data[data.length - 1].id + 1 : 0;
-          data = [
-            ...data,
-            ...added.map((row, index) => ({
-              id: startingAddedId + index,
-              ...row,
-            })),
-          ];
+        added.map(row => {
+          client
+            .mutate({
+              variables: {
+                deviceCategory: row.deviceCategory,
+                desription: row.desription,
+              },
+              refetchQueries: [
+                { query: CATEGORY_NAME_QUERY },
+                { query: CATEGORY_QUERY },
+              ],
+              mutation: CATEGORY_ADD_MUTATION,
+            })
+            .then(result => {
+              console.log('RESULT ', result);
+              data = [
+                ...data,
+                ...added.map((row, index) => ({
+                  id: result.data.categoryCreate.category.id,
+                  deviceCategory:
+                    result.data.categoryCreate.category.deviceCategory,
+                  ...row,
+                })),
+              ];
+            })
+            .catch(error => {
+              console.log(error);
+              this.setState({ errorMsgAdded: 'Category add failed!' });
+            });
+        });
 
-          added.map(row => {
-            client
-              .mutate({
-                variables: {
-                  deviceCategory: row.deviceCategory,
-                  desription: row.desription,
-                },
-                refetchQueries: [{ query: CATEGORY_NAME_QUERY }],
-                mutation: CATEGORY_ADD_MUTATION,
-              })
-              .then(result => console.log('RESULT ', result))
-              .catch(error => {
-                console.log(error);
-                this.setState({ errorMsgAdded: 'Category add failed!' });
-              });
-          });
-
-          this.setState({ data: data });
-        } catch (e) {
-          console.log('ERROR: ', e);
-        }
+        this.setState({ data: data });
       }
       if (changed) {
         let idCategory = null;
@@ -330,7 +331,8 @@ class Category extends React.PureComponent {
                   deviceCategory: row.deviceCategory,
                   desription: row.desription,
                 },
-                mutation: DEVICE_ID_QUERY,
+                mutation: CATEGORY_UPDATE_MUTATION,
+                refetchQueries: [{ query: CATEGORY_QUERY }],
               })
               .then(
                 result => console.log('RESULT ', result),
@@ -343,19 +345,30 @@ class Category extends React.PureComponent {
         });
       }
       if (deleted) {
-        rows = this.deleteRows(deleted);
+        client
+          .mutate({
+            variables: { id: deleted[0] },
+            mutation: CATEGORY_DELETE_MUTATION,
+            refetchQueries: [{ query: EQUIPMENTS_QUERY }],
+          })
+          .then(response => {
+            console.log(Response), (data = this.deleteRows(deleted));
+            this.setState({ data: data });
+          })
+          .catch(error => console.log(error));
       }
+
       this.setState({ rows });
     };
     this.deleteRows = deletedIds => {
-      const rows = getStateRows().slice();
+      const data = getStateRows().slice();
       deletedIds.forEach(rowId => {
-        const index = rows.findIndex(row => row.id === rowId);
+        const index = data.findIndex(row => row.id === rowId);
         if (index > -1) {
-          rows.splice(index, 1);
+          data.splice(index, 1);
         }
       });
-      return rows;
+      return data;
     };
     this.changeColumnOrder = order => {
       this.setState({ columnOrder: order });

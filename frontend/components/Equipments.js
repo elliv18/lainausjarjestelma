@@ -322,7 +322,10 @@ class Equipments extends React.PureComponent {
                 info: row.info,
                 deviceCategory: row.deviceCategory,
               },
-              refetchQueries: [{ query: DEVICE_ID_QUERY }],
+              refetchQueries: [
+                { query: DEVICE_ID_QUERY },
+                { query: EQUIPMENTS_QUERY },
+              ],
               mutation: EQUIPMENT_ADD_MUTATION,
             })
             .then(result => {
@@ -372,6 +375,8 @@ class Equipments extends React.PureComponent {
                   info: row.info,
                   deviceCategory: row.deviceCategory,
                 },
+                refetchQueries: [{ query: EQUIPMENTS_QUERY }],
+
                 mutation: EQUIPMENT_UPDATE_MUTATION,
               })
               .then(result => console.log('RESULT ', result))
@@ -391,6 +396,7 @@ class Equipments extends React.PureComponent {
           .mutate({
             variables: { id: deleted[0] },
             mutation: EQUIPMENT_DELETE_MUTATION,
+            refetchQueries: [{ query: EQUIPMENTS_QUERY }],
           })
           .then(response => {
             console.log(Response), (data = this.deleteRows(deleted));

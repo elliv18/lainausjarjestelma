@@ -380,7 +380,7 @@ class Users extends React.PureComponent {
                   personNumber: row.personNumber,
                   phone: row.phone,
                 },
-                refetchQueries: [{ query: EMAILS_QUERY }],
+                refetchQueries: [{ query: EMAILS_QUERY, USERS_QUERY }],
                 mutation: USERS_ADD_MUTATION,
               })
               .then(result => {
@@ -432,6 +432,7 @@ class Users extends React.PureComponent {
                   phone: row.phone,
                 },
                 mutation: USERS_UPDATE_MUTATION,
+                refetchQueries: [{ query: USERS_QUERY }],
               })
               .then(result => console.log('RESULT ', result))
               .catch(error => {
@@ -460,6 +461,7 @@ class Users extends React.PureComponent {
                 .mutate({
                   variables: { id: deleted[0], isActive: false },
                   mutation: USER_ISACTIVE_MUTATION,
+                  refetchQueries: [{ query: USERS_QUERY }],
                 })
                 .then(Response => {
                   console.log(Response.data.userIsActive.user);

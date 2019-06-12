@@ -551,6 +551,7 @@ class Loans extends React.PureComponent {
           .mutate({
             variables: { id: deleted[0] },
             mutation: LOAN_DELETE_MUTATION,
+            refetchQueries: [{ query: LOANS_QUERY }],
           })
           .then(response => {
             console.log(Response), (data = this.deleteRows(deleted));
