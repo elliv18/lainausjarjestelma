@@ -224,7 +224,8 @@ class Home extends React.Component {
       phone: '',
       oldPassword: '',
       password: '',
-      alertMsg: '',
+      passwordAgain: '',
+      alertMsg: null,
       alertMsgMain: '',
       loading: true,
     };
@@ -331,28 +332,50 @@ class Home extends React.Component {
       this.state.passwordAgain,
       this.state.oldPassword
     );
-    this.state.client
-      .mutate({
-        variables: {
-          password: this.state.password ? this.state.password : undefined,
-          passwordAgain: this.state.passwordAgain
-            ? this.state.passwordAgain
-            : undefined,
-          oldPassword: this.state.oldPassword
-            ? this.state.oldPassword
-            : undefined,
-        },
-        mutation: CURRENTUSER_UPDATE_PW_MUTATION,
-      })
-      .then(result => {
-        console.log('result', result);
-      })
-      .catch(error => {
-        this.setState({ alertMsgMain: 'Password update failed!' });
-        console.log(error);
-      });
+    if (
+      this.state.password !== '' &&
+      this.state.passwordAgain !== '' &&
+      this.state.oldPassword !== ''
+    ) {
+      this.state.client
+        .mutate({
+          variables: {
+            password: this.state.password ? this.state.password : null,
+            passwordAgain: this.state.passwordAgain
+              ? this.state.passwordAgain
+              : null,
+            oldPassword: this.state.oldPassword ? this.state.oldPassword : null,
+          },
+          mutation: CURRENTUSER_UPDATE_PW_MUTATION,
+        })
+        .then(result => {
+          console.log('result', result);
+          this.setState({
+            openPassword: false,
+            alertMsgMain: 'Password changed',
+          });
+        })
+        .catch(error => {
+          this.clear();
+          this.setState({
+            alertMsg: error.message.replace('GraphQL error:', '').trim(),
+            openPassword: true,
+          });
+          console.log(error);
+        });
+    } else {
+      this.clear();
+      this.setState({ alertMsg: 'Fill all fields!', openPassword: true });
+    }
+  };
 
-    this.setState({ openPassword: false });
+  clear = () => {
+    this.setState({
+      oldPassword: '',
+      password: '',
+      passwordAgain: '',
+    });
+    console.log('clear', this.state.password);
   };
 
   setFirstName = e => {
@@ -574,6 +597,7 @@ class Home extends React.Component {
                               label="Old password"
                               type="password"
                               fullWidth
+                              value={this.state.oldPassword}
                               onChange={this.setOldPW}
                             />
                             <TextField
@@ -581,6 +605,7 @@ class Home extends React.Component {
                               id="new_pw"
                               label="New password"
                               type="password"
+                              value={this.state.password}
                               fullWidth
                               onChange={this.setNewPW}
                             />
@@ -589,6 +614,7 @@ class Home extends React.Component {
                               id="new_pw_check"
                               label="Again new password"
                               type="password"
+                              value={this.state.passwordAgain}
                               fullWidth
                               onChange={this.setNewPWCheck}
                             />

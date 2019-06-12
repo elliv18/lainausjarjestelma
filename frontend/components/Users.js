@@ -61,7 +61,7 @@ let pw2 = null;
 
 const RowDetail = ({ row }) => (
   <Mutation mutation={USER_UPDATE_PW_MUTATION}>
-    {(userUpdatePW, { error }) => (
+    {userUpdatePW => (
       <div>
         <div>
           <TextField
@@ -88,13 +88,23 @@ const RowDetail = ({ row }) => (
           <Button
             style={{ backgroundColor: 'grey' }}
             onClick={() => {
-              if (pw === pw2 && pw !== null && pw2 !== null && pw.length > 2) {
-                userUpdatePW({
-                  variables: { id: row.id, password: pw },
+              console.log('PW', pw, 'PW2', pw2);
+              //   if (pw === pw2 && pw !== null && pw2 !== null && pw.length > 2) {
+              //      console.log('OK');
+              userUpdatePW({
+                variables: { id: row.id, password: pw, passwordAgain: pw2 },
+              })
+                .then(response => {
+                  console.log(response);
+                  window.alert('Password changed');
                 })
-                  .then(result => console.log(result))
-                  .catch(e => console.log(e));
-              } /* else if (pw === null || pw2 === null) {
+                .catch(e => {
+                  let error = e.message.replace('GraphQL error:', '').trim();
+                  console.log(error);
+                  window.alert(error);
+                });
+
+              /* else if (pw === null || pw2 === null) {
                 console.log('Password can not be null!!');
               } else if (pw.length < 3) {
                 console.log('Password too short');
@@ -106,8 +116,6 @@ const RowDetail = ({ row }) => (
             Change password
           </Button>
         </div>
-
-        {error ? console.log(error) : null}
       </div>
     )}
   </Mutation>

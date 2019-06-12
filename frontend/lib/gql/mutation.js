@@ -110,8 +110,14 @@ export const USER_ISACTIVE_MUTATION = gql`
 `;
 
 export const USER_UPDATE_PW_MUTATION = gql`
-  mutation updateMutation($id: ID!, $password: String!) {
-    userUpdatePW(input: { id: $id, password: $password }) {
+  mutation updateMutation(
+    $id: ID!
+    $password: String!
+    $passwordAgain: String!
+  ) {
+    userUpdatePW(
+      input: { id: $id, password: $password, passwordAgain: $passwordAgain }
+    ) {
       user {
         id
       }
