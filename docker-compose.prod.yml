@@ -7,7 +7,6 @@ services:
     environment:
       PRISMA_CONFIG: |
         port: 3060
-        #managementApiSecret: ${PRISMA_MAS}
         databases:
           default:
             connector: postgres

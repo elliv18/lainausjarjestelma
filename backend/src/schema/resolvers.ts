@@ -471,7 +471,7 @@ export default {
     // CATEGORY UPDATE
     categoryUpdate: async (
       obj,
-      { input: { deviceCategory, desription } },
+      { input: { id, deviceCategory, desription } },
       { currentUser }
     ) => {
       mustBeLoggedIn(currentUser);
@@ -486,7 +486,7 @@ export default {
           _.identity
         ),
         where: {
-          deviceCategory: deviceCategory
+          id: id
         }
       });
 
