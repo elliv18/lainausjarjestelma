@@ -236,15 +236,24 @@ export const CATEGORY_ADD_MUTATION = gql`
     ) {
       category {
         id
+        deviceCategory
       }
     }
   }
 `;
 
 export const CATEGORY_UPDATE_MUTATION = gql`
-  mutation updateMutation($deviceCategory: String!, $desription: String) {
+  mutation updateMutation(
+    $id: ID!
+    $deviceCategory: String!
+    $desription: String
+  ) {
     categoryUpdate(
-      input: { deviceCategory: $deviceCategory, desription: $desription }
+      input: {
+        id: $id
+        deviceCategory: $deviceCategory
+        desription: $desription
+      }
     ) {
       category {
         id
@@ -254,10 +263,11 @@ export const CATEGORY_UPDATE_MUTATION = gql`
 `;
 
 export const CATEGORY_DELETE_MUTATION = gql`
-  mutation deleteMutation($deviceCategory: String!) {
-    categoryDelete(input: { deviceCategory: $deviceCategory }) {
+  mutation deleteMutation($id: ID!) {
+    categoryDelete(input: { id: $id }) {
       category {
         id
+        deviceCategory
       }
     }
   }
