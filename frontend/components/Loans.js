@@ -441,62 +441,57 @@ class Loans extends React.PureComponent {
         // console.log(added);
         let id = null;
 
-        try {
-          added.map(row => {
-            // console.log('row', row.isActive);
+        added.map(row => {
+          // console.log('row', row.isActive);
 
-            client
-              .mutate({
-                variables: {
-                  loanDate: row.loanDate,
-                  dueDate: row.dueDate,
-                  devIdCode: row.idCode,
-                  loaner: row.loaner,
-                },
-                mutation: LOAN_ADD_MUTATION,
-                refetchQueries: [{ query: CURRENTUSER }],
-              })
-              .then(result => {
-                //console.log('RESULT ', result),
-                id = result.data.loanCreate.loan.id;
-                // console.log('RowID', id);
-                data = [
-                  ...data,
-                  ...added.map((row, index) => ({
-                    id: id,
-                    manufacture: result.data.loanCreate.loan.device.manufacture,
-                    model: result.data.loanCreate.loan.device.model,
-                    supplierEmail: result.data.loanCreate.loan.supplier.email,
-                    supplierFirstName:
-                      result.data.loanCreate.loan.supplier.firstName,
-                    supplierLastName:
-                      result.data.loanCreate.loan.supplier.lastName,
-                    loanerEmail: result.data.loanCreate.loan.loaner.email,
-                    loanerFirstName:
-                      result.data.loanCreate.loan.loaner.firstName,
-                    loanerLastName: result.data.loanCreate.loan.loaner.lastName,
+          client
+            .mutate({
+              variables: {
+                loanDate: row.loanDate,
+                dueDate: row.dueDate,
+                devIdCode: row.idCode,
+                loaner: row.loaner,
+              },
+              refetchQueries: [{ query: CURRENTUSER }, { query: LOANS_QUERY }],
+              mutation: LOAN_ADD_MUTATION,
+            })
+            .then(result => {
+              //console.log('RESULT ', result),
+              id = result.data.loanCreate.loan.id;
+              // console.log('RowID', id);
+              data = [
+                ...data,
+                ...added.map((row, index) => ({
+                  id: id,
+                  manufacture: result.data.loanCreate.loan.device.manufacture,
+                  model: result.data.loanCreate.loan.device.model,
+                  supplierEmail: result.data.loanCreate.loan.supplier.email,
+                  supplierFirstName:
+                    result.data.loanCreate.loan.supplier.firstName,
+                  supplierLastName:
+                    result.data.loanCreate.loan.supplier.lastName,
+                  loanerEmail: result.data.loanCreate.loan.loaner.email,
+                  loanerFirstName: result.data.loanCreate.loan.loaner.firstName,
+                  loanerLastName: result.data.loanCreate.loan.loaner.lastName,
 
-                    ...row,
-                  })),
-                ];
+                  ...row,
+                })),
+              ];
 
-                arrayIdCodes.map((row2, i) => {
-                  if (row2.label === row.idCode) {
-                    arrayIdCodes.splice(i, 1);
-                  }
-                });
-                //  console.log('IDS', arrayIdCodes);
-
-                this.setState({ data: data });
-              })
-              .catch(error => {
-                console.log(error);
-                // this.setState({ errorMsgAdded: 'Loan add failed!' });
+              arrayIdCodes.map((row2, i) => {
+                if (row2.label === row.idCode) {
+                  arrayIdCodes.splice(i, 1);
+                }
               });
-          });
-        } catch (e) {
-          console.log(e);
-        }
+              //  console.log('IDS', arrayIdCodes);
+
+              this.setState({ data: data });
+            })
+            .catch(error => {
+              console.log(error);
+              // this.setState({ errorMsgAdded: 'Loan add failed!' });
+            });
+        });
 
         //console.log('ADDED', added);
       }
@@ -522,7 +517,10 @@ class Loans extends React.PureComponent {
                   returnDate: row.returnDate,
                 },
                 mutation: LOAN_RETURN_MUTATION,
-                refetchQueries: [{ query: EQUIPMENTS_QUERY }],
+                refetchQueries: [
+                  { query: EQUIPMENTS_QUERY },
+                  { query: LOANS_QUERY },
+                ],
               })
               .then(result => {
                 row.isActive = false;
