@@ -29,24 +29,24 @@ env_prod:
     - echo "NODE_ENV=production" >> "${REMOTE_DIR}/.env"
     # BACKEND ENVS
     - echo "BACKEND_IMAGE=${BACKEND_IMAGE}" >> "${REMOTE_DIR}/.env"
-    - echo "BACKEND_PORT=3050" >> "${REMOTE_DIR}/.env"
+    - echo "BACKEND_PORT=${BACKEND_PORT}" >> "${REMOTE_DIR}/.env"
     - echo "BACKEND_HOST=${REMOTE_IP}" >> "${REMOTE_DIR}/.env"
     - echo "JWT_SECRET=${JWT_SECRET}" >> "${REMOTE_DIR}/.env"
     - echo "JWT_TIME=${JWT_TIME}" >> "${REMOTE_DIR}/.env"
     - echo "SALT_ROUNDS=${SALT_ROUNDS}" >> "${REMOTE_DIR}/.env"
+    - echo "MIN_PW=${MIN_PW}" >> "${REMOTE_DIR}/.env"
     - echo "ROOT_ADMIN_EMAIL=${ROOT_ADMIN_EMAIL}" >> "${REMOTE_DIR}/.env"
     - echo "ROOT_ADMIN_PASS=${ROOT_ADMIN_PASS}" >> "${REMOTE_DIR}/.env"
-    # DATABASE ENVS
-    - echo "DB_USERNAME=${DB_USERNAME}" >> "${REMOTE_DIR}/.env"
-    - echo "DB_PASSWORD=${DB_PASSWORD}" >> "${REMOTE_DIR}/.env"
-    - echo "DB_NAME=${DB_NAME}" >> "${REMOTE_DIR}/.env"
+    - echo "ROOT_ADMIN_FIRST_NAME=${ROOT_ADMIN_FIRST_NAME}" >> "${REMOTE_DIR}/.env"
+    - echo "ROOT_ADMIN_LAST_NAME=${ROOT_ADMIN_LAST_NAME}" >> "${REMOTE_DIR}/.env"
+    - echo "ROOT_ADMIN_ADDRESS=${ROOT_ADMIN_ADDRESS}" >> "${REMOTE_DIR}/.env"
+    - echo "ROOT_ADMIN_PERSON_NUMBER=${ROOT_ADMIN_PERSON_NUMBER}" >> "${REMOTE_DIR}/.env"
+    - echo "ROOT_ADMIN_PHONE=${ROOT_ADMIN_PHONE}" >> "${REMOTE_DIR}/.env"
     # PRISMA
     - echo "PRISMA_PORT=3060" >> "${REMOTE_DIR}/.env"
-    - echo "PRISMA_MAS=${PRISMA_MAS}" >> "${REMOTE_DIR}/.env"
-    - echo "PRISMA_SECRET=${PRISMA_SECRET}" >> "${REMOTE_DIR}/.env"
     # FRONTEND ENVS
     - echo "FRONTEND_IMAGE=${FRONTEND_IMAGE}" >> "${REMOTE_DIR}/.env"
-    - echo "FRONTEND_PORT=3000" >> "${REMOTE_DIR}/.env"
+    - echo "FRONTEND_PORT=${FRONTEND_PORT}" >> "${REMOTE_DIR}/.env"
     - echo "FRONTEND_HOST=${REMOTE_IP}" >> "${REMOTE_DIR}/.env"
 
 #########################

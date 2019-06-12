@@ -276,6 +276,7 @@ export default `
     }
 
     input CategoryUpdateInput {
+        id: ID!
         deviceCategory: String!
         desription: String
     }
