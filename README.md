@@ -77,7 +77,7 @@ All code has to pass `yarn lint` or it fails the CI.
 - apollo server
 - graphql-yoga
 - postgresql
-- winston + daily rotate
+- winston + daily rotate logs
 - jwt
 - detenv
 
@@ -90,6 +90,10 @@ All code has to pass `yarn lint` or it fails the CI.
 - cookies
 - react
 - webpack
+
+## Backend logs
+
+Backend log files is saved `backend` folder inside subfolder `logs`. `[root dir]/backend/logs`
 
 ## Remote server info
 
