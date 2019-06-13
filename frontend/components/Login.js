@@ -13,11 +13,13 @@ import {
   MuiThemeProvider,
   createMuiTheme,
 } from '@material-ui/core/styles';
-import { Face, Fingerprint } from '@material-ui/icons';
-import { LOGIN_MUTATION } from '../lib/gql/mutation';
-import Router from 'next/router';
 import { primaryColor } from '../src/theme/color';
+import { Face, Fingerprint } from '@material-ui/icons';
+
+import { LOGIN_MUTATION } from '../lib/gql/mutation';
+
 import Loading from './Loading';
+import Router from 'next/router';
 import { withApollo } from 'react-apollo';
 import Cookies from 'js-cookie';
 
