@@ -37,7 +37,7 @@ import ToolbarTitle from '../src/ToolbarTitle';
 import TextField from '@material-ui/core/TextField';
 
 import CheckIcon from '@material-ui/icons/Check';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@material-ui/icons/ImportExport';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -170,7 +170,11 @@ const DeleteButton = ({ onExecute }) => (
   <IconButton
     onClick={() => {
       // eslint-disable-next-line
-      if (window.confirm('Are you sure you want to delete this row?')) {
+      if (
+        window.confirm(
+          'Are you sure you want to change this user active status?'
+        )
+      ) {
         onExecute();
       }
     }}
