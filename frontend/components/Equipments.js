@@ -80,6 +80,14 @@ const styles = theme => ({
 });
 
 /***************************** FUNCTIONS ***************************/
+const TableRow = ({ row, ...restProps }) => (
+  <Table.Row
+    {...restProps}
+    style={{
+      height: 60,
+    }}
+  />
+);
 
 const AddButton = ({ onExecute }) => (
   <div style={{ textAlign: 'center' }}>
@@ -198,10 +206,10 @@ const BooleanFormatter = ({ value }) => (
       value
         ? {
             backgroundColor: '#DB2B39',
-            width: '115px',
+            width: '110px',
             justifyContent: 'left',
           }
-        : { backgroundColor: '#018E42' }
+        : { backgroundColor: '#018E42', width: '110px', justifyContent: 'left' }
     }
   />
 );
@@ -330,6 +338,7 @@ class Equipments extends React.PureComponent {
                 ...data,
                 ...added.map((row, index) => ({
                   id: id,
+                  loanStatus: false,
                   ...row,
                 })),
               ];
@@ -512,7 +521,10 @@ class Equipments extends React.PureComponent {
               style={{ paddingRight: '20px' }}
             />
 
-            <VirtualTable columnExtensions={tableColumnExtensions} />
+            <VirtualTable
+              columnExtensions={tableColumnExtensions}
+              rowComponent={TableRow}
+            />
             <TableColumnReordering
               order={columnOrder}
               onOrderChange={this.changeColumnOrder}
