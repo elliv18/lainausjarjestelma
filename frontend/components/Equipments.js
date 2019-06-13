@@ -58,6 +58,8 @@ import {
 import Loading from './Loading';
 import Select from 'react-select';
 
+import Router from 'next/router';
+
 /********************* STYLES **************************/
 
 const styles = theme => ({
@@ -292,6 +294,7 @@ class Equipments extends React.PureComponent {
       client: props.client,
       data: [],
       loading: true,
+      currentUser: null,
     };
 
     // STATE ENDS
@@ -416,48 +419,60 @@ class Equipments extends React.PureComponent {
 
   // STARTING QUERY
   async componentDidMount() {
-    let temp = await this.state.client.query({ query: EQUIPMENTS_QUERY });
-    let tempCategories = await this.state.client.query({
-      query: CATEGORY_NAME_QUERY,
-    });
+    let temp = null;
+    let tempCategories = null;
+    let temp2 = [];
 
-    let CU = await this.state.client.query({
-      query: CURRENTUSER,
-    });
+    let CU = await this.state.client
+      .query({
+        query: CURRENTUSER,
+      })
+      .catch(e => console.log(e));
 
     this.setState({ currentUser: CU.data.currentUser.userType });
 
-    let temp2 = [];
-    if (temp.data.allDevices) {
-      temp.data.allDevices.map(
-        (obj, i) =>
-          (temp2[i] = {
-            id: obj.id,
-            idCode: obj.idCode,
-            info: obj.info,
-            loanStatus: obj.loanStatus,
-            manufacture: obj.manufacture,
-            model: obj.model,
-            deviceCategory: obj.category.deviceCategory,
-            loanerInfo:
-              obj.loan.length > 0
-                ? obj.loan[obj.loan.length - 1].loaner.firstName +
-                  ' ' +
-                  obj.loan[obj.loan.length - 1].loaner.lastName +
-                  ', ' +
-                  obj.loan[obj.loan.length - 1].loaner.email
-                : null,
-
-            dueDate:
-              obj.loan.length > 0
-                ? obj.loan[obj.loan.length - 1].dueDate
-                : null,
+    console.log('CU', this.state.currentUser);
+    this.state.currentUser === 'STUDENT'
+      ? Router.push({
+          pathname: '/',
+        })
+      : ((temp = await this.state.client
+          .query({ query: EQUIPMENTS_QUERY })
+          .catch(e => console.log(e))),
+        (tempCategories = await this.state.client
+          .query({
+            query: CATEGORY_NAME_QUERY,
           })
-      );
-    }
+          .catch(e => console.log(e))),
+        temp.data.allDevices
+          ? temp.data.allDevices.map(
+              (obj, i) =>
+                (temp2[i] = {
+                  id: obj.id,
+                  idCode: obj.idCode,
+                  info: obj.info,
+                  loanStatus: obj.loanStatus,
+                  manufacture: obj.manufacture,
+                  model: obj.model,
+                  deviceCategory: obj.category.deviceCategory,
+                  loanerInfo:
+                    obj.loan.length > 0
+                      ? obj.loan[obj.loan.length - 1].loaner.firstName +
+                        ' ' +
+                        obj.loan[obj.loan.length - 1].loaner.lastName +
+                        ', ' +
+                        obj.loan[obj.loan.length - 1].loaner.email
+                      : null,
 
-    categoryNames = tempCategories.data.allCategories;
-    this.setState({ data: temp2, loading: false });
+                  dueDate:
+                    obj.loan.length > 0
+                      ? obj.loan[obj.loan.length - 1].dueDate
+                      : null,
+                })
+            )
+          : null,
+        (categoryNames = tempCategories.data.allCategories),
+        this.setState({ data: temp2, loading: false }));
   }
 
   // RENDER
@@ -485,7 +500,7 @@ class Equipments extends React.PureComponent {
 
     if (loading) {
       return <Loading />;
-    } else {
+    } else if (!loading && currentUser !== 'STUDENT') {
       return (
         <Paper className={classes.root} elevation={5}>
           <Grid rows={data} columns={columns} getRowId={getRowId}>
@@ -583,6 +598,8 @@ class Equipments extends React.PureComponent {
           </Grid>
         </Paper>
       );
+    } else {
+      return null;
     }
   }
 }

@@ -534,6 +534,8 @@ class Users extends React.PureComponent {
   }
 
   async componentDidMount() {
+    let temp = null;
+    let temp2 = [];
     let CU = await this.state.client.query({
       query: CURRENTUSER,
     });
@@ -543,73 +545,70 @@ class Users extends React.PureComponent {
       ? Router.push({
           pathname: '/',
         })
-      : null;
-
-    let temp = await this.state.client
-      .query({
-        query: USERS_QUERY,
-      })
-      .catch(e => {
-        console.log(e);
-      });
-
-    let temp2 = [];
-    if (this.state.currentUser !== 'STUDENT' && temp.data.allUsers) {
-      temp.data.allUsers.map(
-        (obj, i) =>
-          (temp2[i] = {
-            id: obj.id,
-            userType: obj.userType,
-            isActive: obj.isActive,
-            lastName: obj.lastName,
-            email: obj.email,
-            firstName: obj.firstName,
-            address: obj.address,
-            phone: obj.phone,
-            personNumber: obj.personNumber,
-            createdAt:
-              obj.createdAt !== null ? <Moment>{obj.createdAt}</Moment> : null,
-            updatedAt:
-              obj.updatedAt !== null ? <Moment>{obj.updatedAt}</Moment> : null,
+      : ((temp = await this.state.client
+          .query({
+            query: USERS_QUERY,
           })
-      );
-    }
-    this.setState({ data: temp2, loading: false });
-
-    {
-      this.state.currentUser === 'STAFF'
-        ? (this.setState({
-            editingColumns: [
-              { columnName: 'userType', editingEnabled: false },
-              { columnName: 'firstName', editingEnabled: true },
-              { columnName: 'lastName', editingEnabled: true },
-              { columnName: 'email', editingEnabled: true },
-              { columnName: 'isActive', editingEnabled: false },
-              { columnName: 'address', editingEnabled: true },
-              { columnName: 'personNumber', editingEnabled: true },
-              { columnName: 'phone', editingEnabled: true },
-              { columnName: 'createdAt', editingEnabled: false },
-              { columnName: 'updatedAt', editingEnabled: false },
-            ],
-          }),
-          console.log(this.state.currentUser, this.state.editingColumns))
-        : this.state.currentUser === 'ADMIN'
-        ? this.setState({
-            editingColumns: [
-              { columnName: 'userType', editingEnabled: true },
-              { columnName: 'firstName', editingEnabled: true },
-              { columnName: 'lastName', editingEnabled: true },
-              { columnName: 'email', editingEnabled: true },
-              { columnName: 'isActive', editingEnabled: false },
-              { columnName: 'address', editingEnabled: true },
-              { columnName: 'personNumber', editingEnabled: true },
-              { columnName: 'phone', editingEnabled: true },
-              { columnName: 'createdAt', editingEnabled: false },
-              { columnName: 'updatedAt', editingEnabled: false },
-            ],
-          })
-        : null;
-    }
+          .catch(e => {
+            console.log(e);
+          })),
+        temp.data.allUsers
+          ? temp.data.allUsers.map(
+              (obj, i) =>
+                (temp2[i] = {
+                  id: obj.id,
+                  userType: obj.userType,
+                  isActive: obj.isActive,
+                  lastName: obj.lastName,
+                  email: obj.email,
+                  firstName: obj.firstName,
+                  address: obj.address,
+                  phone: obj.phone,
+                  personNumber: obj.personNumber,
+                  createdAt:
+                    obj.createdAt !== null ? (
+                      <Moment>{obj.createdAt}</Moment>
+                    ) : null,
+                  updatedAt:
+                    obj.updatedAt !== null ? (
+                      <Moment>{obj.updatedAt}</Moment>
+                    ) : null,
+                })
+            )
+          : null,
+        this.setState({ data: temp2, loading: false }),
+        this.state.currentUser === 'STAFF'
+          ? (this.setState({
+              editingColumns: [
+                { columnName: 'userType', editingEnabled: false },
+                { columnName: 'firstName', editingEnabled: true },
+                { columnName: 'lastName', editingEnabled: true },
+                { columnName: 'email', editingEnabled: true },
+                { columnName: 'isActive', editingEnabled: false },
+                { columnName: 'address', editingEnabled: true },
+                { columnName: 'personNumber', editingEnabled: true },
+                { columnName: 'phone', editingEnabled: true },
+                { columnName: 'createdAt', editingEnabled: false },
+                { columnName: 'updatedAt', editingEnabled: false },
+              ],
+            }),
+            console.log(this.state.currentUser, this.state.editingColumns))
+          : this.state.currentUser === 'ADMIN'
+          ? this.setState({
+              editingColumns: [
+                { columnName: 'userType', editingEnabled: true },
+                { columnName: 'firstName', editingEnabled: true },
+                { columnName: 'lastName', editingEnabled: true },
+                { columnName: 'email', editingEnabled: true },
+                { columnName: 'isActive', editingEnabled: false },
+                { columnName: 'address', editingEnabled: true },
+                { columnName: 'personNumber', editingEnabled: true },
+                { columnName: 'phone', editingEnabled: true },
+                { columnName: 'createdAt', editingEnabled: false },
+                { columnName: 'updatedAt', editingEnabled: false },
+              ],
+            })
+          : null);
   }
 
   render() {

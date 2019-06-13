@@ -45,6 +45,7 @@ import {
   EQUIPMENTS_QUERY,
   CATEGORY_NAME_QUERY,
   DEVICE_ID_QUERY,
+  CURRENTUSER,
 } from '../lib/gql/queries';
 import {
   CATEGORY_ADD_MUTATION,
@@ -55,6 +56,8 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
 import ToolbarTitle from '../src/ToolbarTitle';
+
+import Router from 'next/router';
 
 /*********************** STYLES *****************************/
 
@@ -253,6 +256,7 @@ class Category extends React.PureComponent {
       data: [],
       loading: true,
       errorMsgAdded: null,
+      currentUser: null,
     };
 
     // STATE ENDS
@@ -379,29 +383,42 @@ class Category extends React.PureComponent {
 
   // STARTING DATA GET
   async componentDidMount() {
-    let temp = await this.state.client.query({
-      query: CATEGORY_QUERY,
-    });
+    let temp = null;
     let temp2 = [];
-    if (temp.data.allCategories) {
-      temp.data.allCategories.map(
-        (obj, i) =>
-          (temp2[i] = {
-            id: obj.id,
-            deviceCategory: obj.deviceCategory,
-            desription: obj.desription,
-            createdAt:
-              obj.createdAt !== null ? (
-                <Moment format="DD-MM-YYYY HH:mm">{obj.createdAt}</Moment>
-              ) : null,
-            updatedAt:
-              obj.updatedAt !== null ? (
-                <Moment format="DD-MM-YYYY HH:mm">{obj.updatedAt}</Moment>
-              ) : null,
+
+    let CU = await this.state.client.query({
+      query: CURRENTUSER,
+    });
+    this.setState({ currentUser: CU.data.currentUser.userType });
+
+    this.state.currentUser !== 'ADMIN'
+      ? Router.push({
+          pathname: '/',
+        })
+      : ((temp = await this.state.client
+          .query({
+            query: CATEGORY_QUERY,
           })
-      );
-    }
-    this.setState({ data: temp2, loading: false });
+          .catch(e => console.log(e))),
+        temp.data.allCategories
+          ? temp.data.allCategories.map(
+              (obj, i) =>
+                (temp2[i] = {
+                  id: obj.id,
+                  deviceCategory: obj.deviceCategory,
+                  desription: obj.desription,
+                  createdAt:
+                    obj.createdAt !== null ? (
+                      <Moment format="DD-MM-YYYY HH:mm">{obj.createdAt}</Moment>
+                    ) : null,
+                  updatedAt:
+                    obj.updatedAt !== null ? (
+                      <Moment format="DD-MM-YYYY HH:mm">{obj.updatedAt}</Moment>
+                    ) : null,
+                })
+            )
+          : null,
+        this.setState({ data: temp2, loading: false }));
   }
 
   // RENDER
@@ -421,11 +438,12 @@ class Category extends React.PureComponent {
       editingColumns,
       loading,
       defaultHiddenColumnNames,
+      currentUser,
     } = this.state;
 
     if (loading) {
       return <Loading />;
-    } else {
+    } else if (!loading && currentUser !== 'STUDENT') {
       return (
         <Paper className={classes.root} elevation={5}>
           <Grid rows={data} columns={columns} getRowId={getRowId}>
@@ -503,6 +521,8 @@ class Category extends React.PureComponent {
           </Grid>
         </Paper>
       );
+    } else {
+      return null;
     }
   }
 }

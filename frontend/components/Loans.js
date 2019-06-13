@@ -59,6 +59,7 @@ import 'moment-timezone';
 import Loading from './Loading';
 import Select from 'react-select';
 import { array } from 'prop-types';
+import Router from 'next/router';
 
 /********************* STYLES ************************************/
 
@@ -406,6 +407,7 @@ class Loans extends React.PureComponent {
       data: [],
       loading: true,
       client: props.client,
+      currentUser: null,
     };
     // STATE ENS
 
@@ -576,53 +578,68 @@ class Loans extends React.PureComponent {
 
   // STARTING QUERY
   async componentDidMount() {
-    let temp = await this.state.client.query({ query: LOANS_QUERY });
-    let tempEmails = await this.state.client.query({ query: EMAILS_QUERY });
-    let tempIdCodes = await this.state.client.query({ query: DEVICE_ID_QUERY });
+    let temp = null;
+    let tempEmails = null;
+    let tempIdCodes = null;
     let tempID = [];
     let tempActiveEmails = [];
     let temp2 = [];
-    if (temp.data.allLoans) {
-      temp.data.allLoans.map(
-        (obj, i) =>
-          (temp2[i] = {
-            id: obj.id,
-            loanDate: obj.loanDate !== null ? obj.loanDate : null,
-            returnDate: obj.returnDate !== null ? obj.returnDate : null,
-            dueDate: obj.dueDate !== null ? obj.dueDate : null,
-            isActive: obj.isActive,
-            idCode: obj.device.idCode,
-            manufacture: obj.device.manufacture,
-            model: obj.device.model,
-            deviceCategory: obj.device.category.deviceCategory,
-            loaner: obj.loaner.firstName + ' ' + obj.loaner.lastName,
-            loanerFirstName: obj.loaner.firstName,
-            loanerLastName: obj.loaner.lastName,
-            loanerEmail: obj.loaner.email,
-            supplierFirstName: obj.supplier.firstName,
-            supplierLastName: obj.supplier.lastName,
-            supplierEmail: obj.supplier.email,
-          })
-      );
-    }
-
-    tempEmails.data.allUsers.map(row => {
-      if (row.isActive) {
-        tempActiveEmails = [...tempActiveEmails, row.email];
-      }
+    let CU = await this.state.client.query({
+      query: CURRENTUSER,
     });
+    this.setState({ currentUser: CU.data.currentUser.userType });
 
-    tempIdCodes.data.allDevices.map(row => {
-      if (!row.loanStatus) {
-        tempID = [...tempID, row.idCode];
-      }
-    });
-
-    arrayEmails = editEmails(tempActiveEmails);
-    arrayIdCodes = editIdCodes(tempID);
-    //console.log('arrayCodes', arrayIdCodes);
-    this.setState({ data: temp2, loading: false });
-    //  console.log(temp2);
+    this.state.currentUser === 'STUDENT'
+      ? Router.push({
+          pathname: '/',
+        })
+      : ((temp = await this.state.client
+          .query({ query: LOANS_QUERY })
+          .catch(e => console.log(e))),
+        (tempEmails = await this.state.client
+          .query({ query: EMAILS_QUERY })
+          .catch(e => console.log(e))),
+        (tempIdCodes = await this.state.client
+          .query({ query: DEVICE_ID_QUERY })
+          .catch(e => console.log(e))),
+        temp.data.allLoans
+          ? temp.data.allLoans.map(
+              (obj, i) =>
+                (temp2[i] = {
+                  id: obj.id,
+                  loanDate: obj.loanDate !== null ? obj.loanDate : null,
+                  returnDate: obj.returnDate !== null ? obj.returnDate : null,
+                  dueDate: obj.dueDate !== null ? obj.dueDate : null,
+                  isActive: obj.isActive,
+                  idCode: obj.device.idCode,
+                  manufacture: obj.device.manufacture,
+                  model: obj.device.model,
+                  deviceCategory: obj.device.category.deviceCategory,
+                  loaner: obj.loaner.firstName + ' ' + obj.loaner.lastName,
+                  loanerFirstName: obj.loaner.firstName,
+                  loanerLastName: obj.loaner.lastName,
+                  loanerEmail: obj.loaner.email,
+                  supplierFirstName: obj.supplier.firstName,
+                  supplierLastName: obj.supplier.lastName,
+                  supplierEmail: obj.supplier.email,
+                })
+            )
+          : null,
+        tempEmails.data.allUsers.map(row => {
+          if (row.isActive) {
+            tempActiveEmails = [...tempActiveEmails, row.email];
+          }
+        }),
+        tempIdCodes.data.allDevices.map(row => {
+          if (!row.loanStatus) {
+            tempID = [...tempID, row.idCode];
+          }
+        }),
+        (arrayEmails = editEmails(tempActiveEmails)),
+        (arrayIdCodes = editIdCodes(tempID)),
+        //console.log('arrayCodes', arrayIdCodes);
+        this.setState({ data: temp2, loading: false }));
+        //  console.log(temp2);
   }
 
   // RENDER
@@ -647,11 +664,12 @@ class Loans extends React.PureComponent {
       disableRows,
       defaultSorting,
       sortingStateColumnExtensions,
+      currentUser,
     } = this.state;
 
     if (loading) {
       return <Loading />;
-    } else {
+    } else if (!loading && currentUser !== 'STUDENT') {
       return (
         <Paper className={classes.root} elevation={5}>
           <Grid rows={data} columns={columns} getRowId={getRowId}>
@@ -740,6 +758,8 @@ class Loans extends React.PureComponent {
           </Grid>
         </Paper>
       );
+    } else {
+      return null;
     }
   }
 }
