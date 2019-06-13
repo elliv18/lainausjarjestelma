@@ -221,7 +221,7 @@ const Command = ({ id, onExecute }) => {
 };
 
 const availableValues = {
-  userType: ['ADMIN', 'STAFF', 'STUDENT'],
+  userType: ['STUDENT', 'STAFF', 'ADMIN'],
 };
 
 const LookupEditCellBase = ({
@@ -248,9 +248,23 @@ export const LookupEditCell = withStyles(styles, {
   name: 'ControlledModeDemo',
 })(LookupEditCellBase);
 
-const EditCell = props => {
+const EditCellAdmin = props => {
   const { column } = props;
   const availableColumnValues = availableValues[column.name];
+  if (availableColumnValues) {
+    return (
+      <LookupEditCell
+        {...props}
+        availableColumnValues={availableColumnValues}
+      />
+    );
+  }
+  return <TableEditRow.Cell {...props} />;
+};
+
+const EditCellStaff = props => {
+  const { column } = props;
+  const availableColumnValues = availableValues[0];
   if (availableColumnValues) {
     return (
       <LookupEditCell
@@ -316,18 +330,7 @@ class Users extends React.PureComponent {
         { columnName: 'createdAt', wordWrapEnabled: true },
         { columnName: 'updatedAt', wordWrapEnabled: true },
       ],
-      editingColumns: [
-        { columnName: 'userType', editingEnabled: true },
-        { columnName: 'firstName', editingEnabled: true },
-        { columnName: 'lastName', editingEnabled: true },
-        { columnName: 'email', editingEnabled: true },
-        { columnName: 'isActive', editingEnabled: false },
-        { columnName: 'address', editingEnabled: true },
-        { columnName: 'personNumber', editingEnabled: true },
-        { columnName: 'phone', editingEnabled: true },
-        { columnName: 'createdAt', editingEnabled: false },
-        { columnName: 'updatedAt', editingEnabled: false },
-      ],
+      editingColumns: [],
       rows: [],
       defaultSorting: [{ columnName: 'isActive', direction: 'dec' }],
       sortingStateColumnExtensions: [
@@ -376,7 +379,7 @@ class Users extends React.PureComponent {
           Object.keys(row).length
             ? row
             : {
-                userType: availableValues.userType[2],
+                userType: availableValues.userType[0],
                 isActive: true,
               }
         ),
@@ -560,6 +563,41 @@ class Users extends React.PureComponent {
       );
     }
     this.setState({ data: temp2, loading: false });
+
+    {
+      this.state.currentUser === 'STAFF'
+        ? (this.setState({
+            editingColumns: [
+              { columnName: 'userType', editingEnabled: false },
+              { columnName: 'firstName', editingEnabled: true },
+              { columnName: 'lastName', editingEnabled: true },
+              { columnName: 'email', editingEnabled: true },
+              { columnName: 'isActive', editingEnabled: false },
+              { columnName: 'address', editingEnabled: true },
+              { columnName: 'personNumber', editingEnabled: true },
+              { columnName: 'phone', editingEnabled: true },
+              { columnName: 'createdAt', editingEnabled: false },
+              { columnName: 'updatedAt', editingEnabled: false },
+            ],
+          }),
+          console.log(this.state.currentUser, this.state.editingColumns))
+        : this.state.currentUser === 'ADMIN'
+        ? this.setState({
+            editingColumns: [
+              { columnName: 'userType', editingEnabled: true },
+              { columnName: 'firstName', editingEnabled: true },
+              { columnName: 'lastName', editingEnabled: true },
+              { columnName: 'email', editingEnabled: true },
+              { columnName: 'isActive', editingEnabled: false },
+              { columnName: 'address', editingEnabled: true },
+              { columnName: 'personNumber', editingEnabled: true },
+              { columnName: 'phone', editingEnabled: true },
+              { columnName: 'createdAt', editingEnabled: false },
+              { columnName: 'updatedAt', editingEnabled: false },
+            ],
+          })
+        : null;
+    }
   }
 
   render() {
@@ -641,7 +679,11 @@ class Users extends React.PureComponent {
               <TableRowDetail contentComponent={RowDetail} />
             ) : null}
 
-            <TableEditRow cellComponent={EditCell} />
+            {currentUser === 'ADMIN' ? (
+              <TableEditRow cellComponent={EditCellAdmin} />
+            ) : (
+              <TableEditRow cellComponent={EditCellStaff} />
+            )}
 
             {currentUser === 'ADMIN' ? (
               <TableEditColumn
@@ -651,7 +693,13 @@ class Users extends React.PureComponent {
                 showDeleteCommand
                 commandComponent={Command}
               />
-            ) : null}
+            ) : (
+              <TableEditColumn
+                width={170}
+                showAddCommand={!addedRows.length}
+                commandComponent={Command}
+              />
+            )}
 
             <Getter
               name="tableColumns"

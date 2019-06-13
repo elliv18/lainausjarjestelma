@@ -172,7 +172,7 @@ class MiniDrawer extends React.Component {
             console.log(e);
           }))
       ) {
-        console.log('TEMP', temp);
+        // console.log('TEMP', temp);
         temp.data.currentUser !== null
           ? this.setState({ currentUser: temp.data.currentUser, ok: true })
           : (Cookies.remove('jwtToken'),
