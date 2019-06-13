@@ -16,6 +16,12 @@ console.log(`
 let apolloClient = null;
 
 function create(initialState) {
+  let URI;
+  if (NODE_ENV === 'production') {
+    URI = 'https://lainaus.api.project.tamk.cloud';
+  } else {
+    URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
+  }
   const JWT = IS_BROWSER && Cookies.get('jwtToken');
   const temp = JWT ? `Bearer ${JWT}` : null;
   console.log(JWT ? `Bearer ${JWT}` : null);
@@ -24,7 +30,7 @@ function create(initialState) {
     connectToDevTools: process.browser,
     ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
     link: new HttpLink({
-      uri: `http://${BACKEND_HOST}:${BACKEND_PORT}`,
+      uri: URL,
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
       headers: { Authorization: temp },
       // Use fetch() polyfill on the server
