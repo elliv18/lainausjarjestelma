@@ -18,7 +18,7 @@ let apolloClient = null;
 function create(initialState) {
   let URI;
   if (NODE_ENV === 'production') {
-    URI = 'https://lainaus.api.project.tamk.cloud';
+    URI = 'https://api.lainaus.project.tamk.cloud';
   } else {
     URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
   }
