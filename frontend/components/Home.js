@@ -225,8 +225,9 @@ class Home extends React.Component {
       oldPassword: '',
       password: '',
       passwordAgain: '',
-      alertMsg: null,
       alertMsgMain: '',
+      alertMsgPass: '',
+      alertMsgInf: '',
       loading: true,
     };
     this.changeSorting = sorting => this.setState({ sorting });
@@ -284,7 +285,8 @@ class Home extends React.Component {
   };
 
   handleCloseInformation = () => {
-    this.setState({ openInformation: false });
+    this.setState({ openInformation: false, alertMsgInf: '' });
+    this.clear();
   };
 
   handleCloseSaveInformation = async () => {
@@ -309,9 +311,10 @@ class Home extends React.Component {
             phone: result.data.currentUserUpdateInfo.user.phone,
           },
         }));
+        this.clear();
       })
       .catch(error => {
-        this.setState({ alertMsgMain: 'Personal information update failed!' });
+        this.setState({ alertMsgInf: 'Personal information update failed!' });
         console.log(error);
       });
 
@@ -323,15 +326,11 @@ class Home extends React.Component {
   };
 
   handleClosePassword = () => {
-    this.setState({ openPassword: false, alertMsg: '' });
+    this.setState({ openPassword: false, alertMsgPass: '' });
+    this.clear();
   };
 
   handleCloseSavePassword = async () => {
-    console.log(
-      this.state.password,
-      this.state.passwordAgain,
-      this.state.oldPassword
-    );
     if (
       this.state.password !== '' &&
       this.state.passwordAgain !== '' &&
@@ -350,22 +349,22 @@ class Home extends React.Component {
         })
         .then(result => {
           console.log('result', result);
+          this.clear();
           this.setState({
-            openPassword: false,
-            alertMsgMain: 'Password changed',
+            alertMsgPass: 'Password changed',
           });
         })
         .catch(error => {
           this.clear();
           this.setState({
-            alertMsg: error.message.replace('GraphQL error:', '').trim(),
+            alertMsgPass: error.message.replace('GraphQL error:', '').trim(),
             openPassword: true,
           });
           console.log(error);
         });
     } else {
       this.clear();
-      this.setState({ alertMsg: 'Fill all fields!', openPassword: true });
+      this.setState({ alertMsgPass: 'Fill all fields!', openPassword: true });
     }
   };
 
@@ -374,8 +373,11 @@ class Home extends React.Component {
       oldPassword: '',
       password: '',
       passwordAgain: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      phone: '',
     });
-    console.log('clear', this.state.password);
   };
 
   setFirstName = e => {
@@ -404,9 +406,9 @@ class Home extends React.Component {
 
   setNewPWCheck = e => {
     if (this.state.password !== e.target.value) {
-      this.setState({ alertMsg: 'Password dont match!' });
+      this.setState({ alertMsgPass: 'Password dont match!' });
     } else {
-      this.setState({ alertMsg: '' });
+      this.setState({ alertMsgPass: '' });
     }
     this.setState({ passwordAgain: e.target.value });
   };
@@ -431,7 +433,6 @@ class Home extends React.Component {
     } else {
       return (
         <Paper className={classes.root}>
-          <div className={classes.message}>{this.state.alertMsgMain}</div>
           <h1>Summary</h1>
           <Grid
             container
@@ -621,7 +622,7 @@ class Home extends React.Component {
                           </DialogContent>
                           <a className={classes.message}>
                             <br />
-                            {this.state.alertMsg}
+                            {this.state.alertMsgPass}
                           </a>
                           <DialogActions>
                             <Button
@@ -700,7 +701,7 @@ class Home extends React.Component {
                           </DialogContent>
                           <a className={classes.message}>
                             <br />
-                            {this.state.alertMsg}
+                            {this.state.alertMsgInf}
                           </a>
                           <DialogActions>
                             <Button

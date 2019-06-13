@@ -170,6 +170,7 @@ class MiniDrawer extends React.Component {
           .query({ query: CURRENTUSER })
           .catch(e => {
             console.log(e);
+            window.location.href = '/';
           }))
       ) {
         // console.log('TEMP', temp);
