@@ -24,6 +24,7 @@ import {
   ColumnChooser,
   TableColumnVisibility,
   TableRowDetail,
+  Table,
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
@@ -58,6 +59,16 @@ import Loading from './Loading';
 
 let pw = null;
 let pw2 = null;
+
+const TableRow = ({ row, ...restProps }) => (
+  <Table.Row
+    {...restProps}
+    style={{
+      height: 60,
+      backgroundColor: row.isActive == false ? '#9C9C9C' : undefined,
+    }}
+  />
+);
 
 const RowDetail = ({ row }) => (
   <Mutation mutation={USER_UPDATE_PW_MUTATION}>
@@ -616,7 +627,10 @@ class Users extends React.PureComponent {
               style={{ paddingRight: '20px' }}
             />
 
-            <VirtualTable columnExtensions={tableColumnExtensions} />
+            <VirtualTable
+              columnExtensions={tableColumnExtensions}
+              rowComponent={TableRow}
+            />
             <TableColumnReordering
               order={columnOrder}
               onOrderChange={this.changeColumnOrder}
