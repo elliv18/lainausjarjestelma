@@ -323,7 +323,7 @@ class Home extends React.Component {
   };
 
   handleClosePassword = () => {
-    this.setState({ openPassword: false });
+    this.setState({ openPassword: false, alertMsg: '' });
   };
 
   handleCloseSavePassword = async () => {

@@ -44,7 +44,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo, Mutation } from 'react-apollo';
-import { USERS_QUERY, EMAILS_QUERY } from '../lib/gql/queries';
+import { USERS_QUERY, EMAILS_QUERY, CURRENTUSER } from '../lib/gql/queries';
 import {
   USERS_ADD_MUTATION,
   USERS_UPDATE_MUTATION,
@@ -348,6 +348,7 @@ class Users extends React.PureComponent {
       data: [],
       loading: true,
       errorMsgAdded: null,
+      currentUser: null,
     };
 
     const getStateRows = () => {
@@ -520,6 +521,12 @@ class Users extends React.PureComponent {
     let temp = await this.state.client.query({
       query: USERS_QUERY,
     });
+    let CU = await this.state.client.query({
+      query: CURRENTUSER,
+    });
+
+    this.setState({ currentUser: CU.data.currentUser.userType });
+
     let temp2 = [];
     if (temp.data.allUsers) {
       temp.data.allUsers.map(
@@ -562,6 +569,7 @@ class Users extends React.PureComponent {
       defaultHiddenColumnNames,
       defaultSorting,
       sortingStateColumnExtensions,
+      currentUser,
     } = this.state;
 
     if (loading) {
@@ -614,7 +622,11 @@ class Users extends React.PureComponent {
               onOrderChange={this.changeColumnOrder}
             />
             <TableHeaderRow showSortingControls />
-            <TableRowDetail contentComponent={RowDetail} />
+
+            {currentUser === 'ADMIN' ? (
+              <TableRowDetail contentComponent={RowDetail} />
+            ) : null}
+
             <TableEditRow cellComponent={EditCell} />
             <TableEditColumn
               width={170}
