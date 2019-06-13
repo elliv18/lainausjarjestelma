@@ -38,9 +38,9 @@ class Error extends React.Component {
   loginPage = () => {
     try {
       Router.push({
-        pathname: '/login',
+        pathname: '/',
       });
-      window.location.href = '/login';
+      window.location.href = '/';
     } catch (e) {
       console.log(e);
     }
@@ -91,7 +91,7 @@ class Error extends React.Component {
                   color: '#fff',
                 }}
               >
-                Login Page
+                Home
               </Button>
             </Grid>
           </div>
