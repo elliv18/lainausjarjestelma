@@ -48,6 +48,7 @@ import {
   CATEGORY_NAME_QUERY,
   DEVICE_ID_QUERY,
   LOANS_QUERY,
+  CURRENTUSER,
 } from '../lib/gql/queries';
 import {
   EQUIPMENT_ADD_MUTATION,
@@ -252,7 +253,7 @@ class Equipments extends React.PureComponent {
         { columnName: 'loanStatus', wordWrapEnabled: true },
       ],
       editingColumns: [
-        { columnName: 'idCode', editingEnabled: true },
+        { columnName: 'idCode', editingEnabled: false },
         { columnName: 'deviceCategory', editingEnabled: true },
         { columnName: 'manufacture', editingEnabled: true },
         { columnName: 'model', editingEnabled: true },
@@ -420,6 +421,12 @@ class Equipments extends React.PureComponent {
       query: CATEGORY_NAME_QUERY,
     });
 
+    let CU = await this.state.client.query({
+      query: CURRENTUSER,
+    });
+
+    this.setState({ currentUser: CU.data.currentUser.userType });
+
     let temp2 = [];
     if (temp.data.allDevices) {
       temp.data.allDevices.map(
@@ -473,6 +480,7 @@ class Equipments extends React.PureComponent {
       defaultHiddenColumnNames,
       defaultSorting,
       sortingStateColumnExtensions,
+      currentUser,
     } = this.state;
 
     if (loading) {
@@ -533,13 +541,22 @@ class Equipments extends React.PureComponent {
             <TableRowDetail contentComponent={RowDetail} />
 
             <TableEditRow cellComponent={EditCell} />
-            <TableEditColumn
-              width={170}
-              showAddCommand={!addedRows.length}
-              showEditCommand
-              showDeleteCommand
-              commandComponent={Command}
-            />
+            {currentUser !== 'ADMIN' ? (
+              <TableEditColumn
+                width={170}
+                showAddCommand={!addedRows.length}
+                showEditCommand
+                commandComponent={Command}
+              />
+            ) : (
+              <TableEditColumn
+                width={170}
+                showAddCommand={!addedRows.length}
+                showEditCommand
+                showDeleteCommand
+                commandComponent={Command}
+              />
+            )}
             <Getter
               name="tableColumns"
               computed={({ tableColumns }) => {
