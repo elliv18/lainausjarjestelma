@@ -596,16 +596,24 @@ export default {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
+      const dev = await prisma.device({ idCode: idCode });
+      if (dev.loanStatus) {
+        logger.log(
+          "warn",
+          "[DEVICE UPDATE] Device is loaned, can't edit info!",
+          currentUser.id
+        );
+        throw new Error("Device is loaned, can't edit info!");
+      }
+
       const catId = await prisma.category({ deviceCategory: deviceCategory });
 
       const device = await prisma.updateDevice({
         data: _.pickBy(
           {
-            idCode: idCode,
             manufacture: manufacture,
             model: model,
             info: info,
-            loanStatus: null,
             categoryId: {
               connect: { id: catId.id }
             }
@@ -751,7 +759,7 @@ export default {
             "[LOAN DELETE] Staff %s, deleting time is timeout!",
             currentUser.id
           );
-          throw new Error("Permission denined!");
+          throw new Error("Permission denied!");
         }
       } else {
         mustBeAtleastLevel(currentUser, UserLevels.ADMIN);
