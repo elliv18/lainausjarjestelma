@@ -628,13 +628,17 @@ class Users extends React.PureComponent {
             ) : null}
 
             <TableEditRow cellComponent={EditCell} />
-            <TableEditColumn
-              width={170}
-              showAddCommand={!addedRows.length}
-              showEditCommand
-              showDeleteCommand
-              commandComponent={Command}
-            />
+
+            {currentUser === 'ADMIN' ? (
+              <TableEditColumn
+                width={170}
+                showAddCommand={!addedRows.length}
+                showEditCommand
+                showDeleteCommand
+                commandComponent={Command}
+              />
+            ) : null}
+
             <Getter
               name="tableColumns"
               computed={({ tableColumns }) => {
