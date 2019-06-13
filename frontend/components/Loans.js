@@ -584,6 +584,7 @@ class Loans extends React.PureComponent {
     let tempID = [];
     let tempActiveEmails = [];
     let temp2 = [];
+
     let CU = await this.state.client.query({
       query: CURRENTUSER,
     });
@@ -639,7 +640,7 @@ class Loans extends React.PureComponent {
         (arrayIdCodes = editIdCodes(tempID)),
         //console.log('arrayCodes', arrayIdCodes);
         this.setState({ data: temp2, loading: false }));
-        //  console.log(temp2);
+    //  console.log(temp2);
   }
 
   // RENDER

@@ -22,6 +22,7 @@ import Loading from './Loading';
 import Router from 'next/router';
 import { withApollo } from 'react-apollo';
 import Cookies from 'js-cookie';
+import { CURRENTUSER } from '../lib/gql/queries';
 
 /********************** STYLES ****************************/
 
@@ -76,6 +77,8 @@ class LoginTab extends React.Component {
       loggedIn: false,
       loading: true,
       client: props.client,
+      currentUser: null,
+      isToken: false,
     };
     // STATE ENDS
   }
@@ -89,7 +92,22 @@ class LoginTab extends React.Component {
   };
 
   async componentDidMount() {
-    Cookies.remove('jwtToken');
+    if (Cookies.get('jwtToken')) {
+      let CU = await this.state.client.query({
+        query: CURRENTUSER,
+      });
+      this.setState({ currentUser: CU.data.currentUser.userType });
+      this.setState({ isToken: true });
+    }
+
+    this.state.currentUser === 'ADMIN' ||
+    this.state.currentUser === 'STAFF' ||
+    this.state.currentUser === 'STUDENT'
+      ? Router.push({
+          pathname: '/',
+        })
+      : Cookies.remove('jwtToken');
+
     // TODO - is backend up?
     this.setState({ loading: false });
   }
@@ -133,11 +151,11 @@ class LoginTab extends React.Component {
   // RENDER
   render() {
     const { classes } = this.props;
-    const { loading, client } = this.state;
+    const { loading, client, isToken } = this.state;
 
     if (loading) {
       return <Loading />;
-    } else {
+    } else if (!loading && !isToken) {
       return (
         <Paper className={classes.root} elevation={5}>
           <MuiThemeProvider theme={theme}>
@@ -233,6 +251,8 @@ class LoginTab extends React.Component {
           </MuiThemeProvider>
         </Paper>
       );
+    } else {
+      return null;
     }
   }
 }
