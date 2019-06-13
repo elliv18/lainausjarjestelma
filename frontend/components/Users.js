@@ -57,6 +57,8 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import Loading from './Loading';
 
+import Router from 'next/router';
+
 let pw = null;
 let pw2 = null;
 
@@ -532,17 +534,27 @@ class Users extends React.PureComponent {
   }
 
   async componentDidMount() {
-    let temp = await this.state.client.query({
-      query: USERS_QUERY,
-    });
     let CU = await this.state.client.query({
       query: CURRENTUSER,
     });
-
     this.setState({ currentUser: CU.data.currentUser.userType });
 
+    this.state.currentUser === 'STUDENT'
+      ? Router.push({
+          pathname: '/',
+        })
+      : null;
+
+    let temp = await this.state.client
+      .query({
+        query: USERS_QUERY,
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
     let temp2 = [];
-    if (temp.data.allUsers) {
+    if (this.state.currentUser !== 'STUDENT' && temp.data.allUsers) {
       temp.data.allUsers.map(
         (obj, i) =>
           (temp2[i] = {
@@ -623,7 +635,7 @@ class Users extends React.PureComponent {
 
     if (loading) {
       return <Loading />;
-    } else {
+    } else if (!loading && currentUser !== 'STUDENT') {
       return (
         <Paper className={classes.root} elevation={5}>
           <Grid rows={data} columns={columns} getRowId={getRowId}>
@@ -727,6 +739,8 @@ class Users extends React.PureComponent {
           </Grid>
         </Paper>
       );
+    } else {
+      return null;
     }
   }
 }
