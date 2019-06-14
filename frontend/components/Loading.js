@@ -8,10 +8,10 @@ import { WaveSpinner } from 'react-spinners-kit';
 const styles = theme => ({
   root: {
     padding: theme.spacing.unit,
-    margin: 'auto',
-    position: 'absolute',
-    left: '43%',
-    top: '44%',
+    position: 'inherit',
+    paddingTop: '15%',
+    width: '50%',
+    margin: '0 auto',
     textAlign: 'center',
   },
 });

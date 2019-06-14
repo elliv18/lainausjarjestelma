@@ -1,15 +1,15 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { PongSpinner } from 'react-spinners-kit';
 
 const styles = theme => ({
   root: {
     padding: theme.spacing.unit,
-    margin: 'auto',
-    position: 'absolute',
-    left: '43%',
-    top: '44%',
+    position: 'inherit',
+    paddingTop: '15%',
+    width: '50%',
+    margin: '0 auto',
     textAlign: 'center',
   },
 });
@@ -24,8 +24,21 @@ class NoServer extends React.Component {
 
     return (
       <div className={classes.root}>
-        <PongSpinner size={200} color="#004655" loading={true} />
-        <h1>Backend not ready yet</h1>
+        <Grid
+          container
+          direction="column"
+          justify="flex-start"
+          alignItems="center"
+        >
+          <Grid item xs>
+            <PongSpinner size={180} color="#004655" loading={true} />
+          </Grid>
+          <br />
+          <Grid item xs>
+            <Typography variant="h4">Database is not available!</Typography>
+            <Typography>Trying to reconnect</Typography>
+          </Grid>
+        </Grid>
       </div>
     );
   }
