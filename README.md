@@ -4,9 +4,9 @@ Summer training 2019 project to build fullstack loaning system.
 
 ## PUBLIC URL
 
-- SITE: lainaus.project.tamk.cloud
+- SITE: https://lainaus.project.tamk.cloud
 
-- API:
+- API: https://lainaus-api.project.tamk.cloud/
 
 ## Example `.env` file
 
@@ -105,7 +105,6 @@ Backend log files is saved `backend` folder inside subfolder `logs`. `[root dir]
 ## Remote server info
 
 IP: 172.16.101.140
-DNS: lainaus.project.tamk.cloud
 
 port backend: 3050
 port frontend: 3000
