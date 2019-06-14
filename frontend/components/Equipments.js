@@ -472,7 +472,7 @@ class Equipments extends React.PureComponent {
             )
           : null,
         (categoryNames = tempCategories.data.allCategories),
-        this.setState({ data: temp2, loading: true }));
+        this.setState({ data: temp2, loading: FormatListBulletedRounded }));
   }
 
   // RENDER
