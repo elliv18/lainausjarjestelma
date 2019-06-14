@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { WaveSpinner } from 'react-spinners-kit';
 
@@ -24,7 +24,16 @@ class Loading extends React.Component {
 
     return (
       <div className={classes.root}>
-        <WaveSpinner size={70} color="#004655" loading={true} />
+        <Grid
+          container
+          direction="column"
+          justify="flex-start"
+          alignItems="center"
+        >
+          <Grid item xs>
+            <WaveSpinner size={80} color="#004655" loading={true} />
+          </Grid>
+        </Grid>
       </div>
     );
   }
