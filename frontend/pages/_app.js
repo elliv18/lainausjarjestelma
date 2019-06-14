@@ -50,7 +50,7 @@ class MyApp extends App {
           {/* MuiThemeProvider makes the theme available down the React
               tree thanks to React context. */}
           <MuiThemeProvider
-            theme={this.pageContext.theme}
+            theme={theme}
             sheetsManager={this.pageContext.sheetsManager}
           >
             {/* Pass pageContext to the _document though the renderPage enhancer
