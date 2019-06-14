@@ -3,22 +3,20 @@ import React from 'react';
 import Head from 'next/head';
 import withApolloClient from '../lib/with-apollo-client';
 import { ApolloProvider } from 'react-apollo';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import JssProvider from 'react-jss/lib/JssProvider';
 import getPageContext from '../src/getPageContext';
 
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#b9ccd0',
+      main: '#004655',
+      dark: '#002027',
+      contrastText: '#fff',
+    },
   },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100); // fake async
-  },
-};
+});
 
 class MyApp extends App {
   constructor() {
