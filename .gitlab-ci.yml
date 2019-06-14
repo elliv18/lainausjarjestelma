@@ -4,8 +4,8 @@ variables:
   REMOTE_DIR: lainausjarjestelma-proto
   BACKEND_IMAGE: ${CI_REGISTRY_IMAGE}/backend
   FRONTEND_IMAGE: ${CI_REGISTRY_IMAGE}/frontend
-  PUBLIC_URL: lainaus.project.tamk.cloud
-  PUBLIC_API_URL: api.lainaus.project.tamk.cloud
+  PUBLIC_URL: https://lainaus.project.tamk.cloud
+  PUBLIC_API_URL: https://lainaus-api.project.tamk.cloud
 
 stages:
   - env
