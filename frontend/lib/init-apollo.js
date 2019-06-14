@@ -5,12 +5,13 @@ import Cookies from 'js-cookie';
 import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig();
-const { BACKEND_HOST, BACKEND_PORT } = publicRuntimeConfig;
+const { BACKEND_HOST, BACKEND_PORT, PUBLIC_API_URL } = publicRuntimeConfig;
 
 console.log(`
   NODE_ENV: ${NODE_ENV}
   BACKEND_HOST: ${BACKEND_HOST}
   BACKEND_PORT: ${BACKEND_PORT}
+  PUBLIC_API_URL: ${PUBLIC_API_URL}
 `);
 
 let apolloClient = null;
@@ -18,7 +19,7 @@ let apolloClient = null;
 function create(initialState) {
   let URI;
   if (NODE_ENV === 'production') {
-    URI = 'https://api.lainaus.project.tamk.cloud';
+    URI = PUBLIC_API_URL;
   } else {
     URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
   }
