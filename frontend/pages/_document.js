@@ -43,6 +43,7 @@ class MyDocument extends Document {
           <link rel="manifest" href="http://localhost:3000/manifest.json" />
         </Head>
         <body>
+          <noscript>You need to enable JavaScript to run this app.</noscript>
           <Main />
           <NextScript />
         </body>
