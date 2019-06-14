@@ -49,7 +49,7 @@ Bellow is example `.env` file
 
     # PUBLIC URL
 
-    PUBLIC_URL=
+    PUBLIC_URL=lainaus.project.tamk.cloud
     PUBLIC_API_URL=
 ```
 
