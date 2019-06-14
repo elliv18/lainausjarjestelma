@@ -23,6 +23,8 @@ class MyDocument extends Document {
               pageContext ? pageContext.theme.palette.primary.main : null
             }
           />
+          <meta name="description" content="Tampereen ammattikorkeakoulun sisäinen lainausjärjestelmä.">
+          <meta name="keywords" content="Tamk,Tuni,lainausjärjestelmä,"></meta>
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
