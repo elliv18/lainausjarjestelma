@@ -17,13 +17,12 @@ console.log(`
 let apolloClient = null;
 
 function create(initialState) {
-  let URI;
+  let URL;
   if (NODE_ENV === 'production') {
     URL = PUBLIC_API_URL;
   } else {
     URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
   }
-  console.log('URL: ', URL);
   const JWT = IS_BROWSER && Cookies.get('jwtToken');
   const temp = JWT ? `Bearer ${JWT}` : null;
   console.log('JWT: ', JWT ? `Bearer ${JWT}` : null);
