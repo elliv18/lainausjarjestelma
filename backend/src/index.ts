@@ -47,7 +47,8 @@ const server = new GraphQLServer({
 // Server settings
 const options = {
   port: BACKEND_PORT,
-  playground: NODE_ENV === PRODUCTION ? "false" : "/",
+  playground: NODE_ENV === PRODUCTION ? "/" : "/",
+  //playground: NODE_ENV === PRODUCTION ? "false" : "/",
   cors: {
     creditials: false,
     origin: "*"
