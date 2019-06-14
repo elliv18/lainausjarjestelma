@@ -1,6 +1,12 @@
 import { GraphQLServer } from "graphql-yoga";
 import * as jwt from "jsonwebtoken";
-import { JWT_SECRET, BACKEND_PORT, NODE_ENV, PRODUCTION } from "./environment";
+import {
+  JWT_SECRET,
+  BACKEND_PORT,
+  BACKEND_HOST,
+  NODE_ENV,
+  PRODUCTION
+} from "./environment";
 import { typeDefs, resolvers } from "./schema";
 import createRootAdmin from "./misc/rootAdmin";
 import logger from "./misc/logger";
@@ -49,5 +55,5 @@ const options = {
 };
 
 server.start(options, () =>
-  logger.log("info", `🚀 Server ready at http://localhost:3050`)
+  logger.log("info", `🚀 Server ready at ${BACKEND_HOST}:${BACKEND_PORT}`)
 );

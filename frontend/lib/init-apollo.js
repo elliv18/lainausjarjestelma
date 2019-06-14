@@ -22,9 +22,10 @@ function create(initialState) {
   } else {
     URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
   }
+  console.log('URL: ', URL);
   const JWT = IS_BROWSER && Cookies.get('jwtToken');
   const temp = JWT ? `Bearer ${JWT}` : null;
-  console.log(JWT ? `Bearer ${JWT}` : null);
+  console.log('JWT: ', JWT ? `Bearer ${JWT}` : null);
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   return new ApolloClient({
     connectToDevTools: process.browser,

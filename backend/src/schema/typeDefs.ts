@@ -97,6 +97,9 @@ export default `
 
         # ADMINS - List one user
         oneUser(input: OneUserInput!): OneUserPayload
+
+        # ALL - is backend up?
+        isBackendRdy: Boolean
     }
 
     #############

@@ -4,7 +4,8 @@ variables:
   REMOTE_DIR: lainausjarjestelma-proto
   BACKEND_IMAGE: ${CI_REGISTRY_IMAGE}/backend
   FRONTEND_IMAGE: ${CI_REGISTRY_IMAGE}/frontend
-  PROD_DOMAIN: lainaus.project.tamk.cloud
+  PUBLIC_URL: lainaus.project.tamk.cloud
+  PUBLIC_API_URL:
 
 stages:
   - env
@@ -48,6 +49,9 @@ env_prod:
     - echo "FRONTEND_IMAGE=${FRONTEND_IMAGE}" >> "${REMOTE_DIR}/.env"
     - echo "FRONTEND_PORT=${FRONTEND_PORT}" >> "${REMOTE_DIR}/.env"
     - echo "FRONTEND_HOST=${REMOTE_IP}" >> "${REMOTE_DIR}/.env"
+    # PUBLIC URL
+    - echo "PUBLIC_URL=${PUBLIC_URL}" >> "${REMOTE_DIR}/.env"
+    - echo "PUBLIC_API_URL=${PUBLIC_API_URL}" >> "${REMOTE_DIR}/.env"
 
 #########################
 # ENV - ENDS HERE       #

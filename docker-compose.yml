@@ -67,6 +67,8 @@ services:
       NODE_ENV: development
       BACKEND_HOST: ${BACKEND_HOST}
       BACKEND_PORT: ${BACKEND_PORT}
+      PUBLIC_URL: ${PUBLIC_URL}
+      PUBLIC_API_URL: ${PUBLIC_API_URL}
     restart: always
 volumes:
   postgres: ~

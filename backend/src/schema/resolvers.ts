@@ -78,6 +78,13 @@ export default {
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
       return await prisma.user({ email: email });
+    },
+    isBackendRdy: async (obj, args, ctx) => {
+      if (await prisma.$exists.user({ email: ROOT_ADMIN_EMAIL })) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   /************ MUTATIONS **************************/
