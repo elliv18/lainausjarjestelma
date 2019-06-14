@@ -95,11 +95,8 @@ export default `
         # ADMINS/STAFF - List all loans
         allLoans: [Loan]
 
-        # ADMINS - List one user
-        oneUser(input: OneUserInput!): OneUserPayload
-
         # ALL - is backend up?
-        isBackendRdy: Boolean
+        isBackendRdy: IsBackendRdyPayload
     }
 
     #############
@@ -176,11 +173,8 @@ export default `
 
     ############### USER ######################
 
-    input OneUserInput {
-        email: String!
-    }
-    type OneUserPayload {
-        user: User
+    type IsBackendRdyPayload {
+        rdy: Boolean
     }
 
     ##############################

@@ -47,43 +47,64 @@ export default {
     currentUser: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
 
+      logger.log(
+        "info",
+        "[Q CURRENTUSER] Current user %s information ask",
+        currentUser.id
+      );
       return await prisma.user({ id: currentUser.id });
     },
     allUsers: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
+      logger.log(
+        "info",
+        "[Q ALLUSERS] User %s - list all users",
+        currentUser.id
+      );
       return await prisma.users();
     },
     allCategories: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
+      logger.log(
+        "info",
+        "[Q ALLCATEGORIES] User %s - list all categories",
+        currentUser.id
+      );
       return await prisma.categories();
     },
     allDevices: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
+      logger.log(
+        "info",
+        "[Q ALLDEVICES] User %s - list all devices",
+        currentUser.id
+      );
       return await prisma.devices();
     },
     allLoans: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
 
+      logger.log(
+        "info",
+        "[Q ALLLOANS] User %s - list all loans",
+        currentUser.id
+      );
       return await prisma.loans();
-    },
-    oneUser: async (obj, { input: { email } }, { currentUser }) => {
-      mustBeLoggedIn(currentUser);
-      mustBeAtleastLevel(currentUser, UserLevels.STAFF);
-
-      return await prisma.user({ email: email });
     },
     isBackendRdy: async (obj, args, ctx) => {
       if (await prisma.$exists.user({ email: ROOT_ADMIN_EMAIL })) {
-        return true;
+        logger.log("info", "[Q ISBACKENDRDY] Backend is rdy");
+        return { rdy: true };
       } else {
-        return false;
+        logger.log("info", "[Q ISBACKENDRDY] Backend is not rdy");
+        return { rdy: false };
       }
     }
   },
