@@ -22,7 +22,9 @@ import Loading from './Loading';
 import Router from 'next/router';
 import { withApollo } from 'react-apollo';
 import Cookies from 'js-cookie';
-import { CURRENTUSER } from '../lib/gql/queries';
+import { CURRENTUSER, BACKENDTEST_QUERY } from '../lib/gql/queries';
+
+import NoServer from './NoServer';
 
 /********************** STYLES ****************************/
 
@@ -79,6 +81,7 @@ class LoginTab extends React.Component {
       client: props.client,
       currentUser: null,
       isToken: false,
+      isBackend: undefined,
     };
     // STATE ENDS
   }
@@ -92,24 +95,43 @@ class LoginTab extends React.Component {
   };
 
   async componentDidMount() {
-    if (Cookies.get('jwtToken')) {
-      let CU = await this.state.client.query({
-        query: CURRENTUSER,
+    let server = await this.state.client
+      .query({
+        query: BACKENDTEST_QUERY,
+      })
+      .then(result => {
+        this.setState({ isBackend: true });
+        console.log(this.state.isBackend);
+      })
+      .catch(e => {
+        console.log(e);
+        this.setState({ isBackend: false, loading: false });
+        setTimeout(function() {
+          window.location.reload();
+        }, 10000);
       });
-      this.setState({ currentUser: CU.data.currentUser.userType });
-      this.setState({ isToken: true });
+
+    if (this.state.isBackend) {
+      console.log(this.state.isBackend);
+      if (Cookies.get('jwtToken')) {
+        let CU = await this.state.client.query({
+          query: CURRENTUSER,
+        });
+        this.setState({ currentUser: CU.data.currentUser.userType });
+        this.setState({ isToken: true });
+      }
+
+      this.state.currentUser === 'ADMIN' ||
+      this.state.currentUser === 'STAFF' ||
+      this.state.currentUser === 'STUDENT'
+        ? Router.push({
+            pathname: '/',
+          })
+        : Cookies.remove('jwtToken');
+
+      // TODO - is backend up?
+      this.setState({ loading: false });
     }
-
-    this.state.currentUser === 'ADMIN' ||
-    this.state.currentUser === 'STAFF' ||
-    this.state.currentUser === 'STUDENT'
-      ? Router.push({
-          pathname: '/',
-        })
-      : Cookies.remove('jwtToken');
-
-    // TODO - is backend up?
-    this.setState({ loading: false });
   }
 
   logIn = async () => {
@@ -151,11 +173,11 @@ class LoginTab extends React.Component {
   // RENDER
   render() {
     const { classes } = this.props;
-    const { loading, client, isToken } = this.state;
+    const { loading, client, isToken, isBackend } = this.state;
 
     if (loading) {
       return <Loading />;
-    } else if (!loading && !isToken) {
+    } else if (!loading && !isToken && isBackend) {
       return (
         <Paper className={classes.root} elevation={5}>
           <MuiThemeProvider theme={theme}>
@@ -252,7 +274,7 @@ class LoginTab extends React.Component {
         </Paper>
       );
     } else {
-      return null;
+      return <NoServer />;
     }
   }
 }
