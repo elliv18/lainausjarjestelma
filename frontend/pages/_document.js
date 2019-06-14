@@ -27,20 +27,20 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
-          <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+          <link rel="shortcut icon" href="/favicon.ico" />
           <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="%PUBLIC_URL%/favicon-32x32.png"
+            href="/favicon-32x32.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="%PUBLIC_URL%/favicon-16x16.png"
+            href="/favicon-16x16.png"
           />
-          <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+          <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
           <noscript>You need to enable JavaScript to run this app.</noscript>
