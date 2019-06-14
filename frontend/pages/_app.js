@@ -6,6 +6,7 @@ import { ApolloProvider } from 'react-apollo';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import JssProvider from 'react-jss/lib/JssProvider';
 import getPageContext from '../src/getPageContext';
+import indigo from '@material-ui/core/colors/indigo';
 
 const theme = createMuiTheme({
   palette: {
