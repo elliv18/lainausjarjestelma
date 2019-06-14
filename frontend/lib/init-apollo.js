@@ -19,8 +19,7 @@ let apolloClient = null;
 function create(initialState) {
   let URI;
   if (NODE_ENV === 'production') {
-    console.log(PUBLIC_API_URL);
-    URI = String(PUBLIC_API_URL);
+    URL = PUBLIC_API_URL;
   } else {
     URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
   }
