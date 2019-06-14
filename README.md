@@ -20,7 +20,7 @@ Bellow is example `.env` file
     BACKEND_HOST=localhost
 
     # jwt
-    JWT_SECRET=SuperSecret19
+    JWT_SECRET=T6Y3JRYmL6
     JWT_TIME=1d
 
     # bcrypt salt rounds
@@ -46,6 +46,11 @@ Bellow is example `.env` file
 
     FRONTEND_HOST=localhost
     FRONTEND_PORT=3000
+
+    # PUBLIC URL
+
+    PUBLIC_URL=
+    PUBLIC_API_URL=
 ```
 
 ## Development environment setup
