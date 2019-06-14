@@ -4,7 +4,9 @@ Summer training 2019 project to build fullstack loaning system.
 
 ## PUBLIC URL
 
-- lainaus.project.tamk.cloud
+- SITE: lainaus.project.tamk.cloud
+
+- API:
 
 ## Example `.env` file
 
