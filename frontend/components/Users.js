@@ -106,7 +106,6 @@ const RowDetail = ({ row }) => (
           <Button
             style={{ backgroundColor: 'grey' }}
             onClick={() => {
-              console.log('PW', pw, 'PW2', pw2);
               //   if (pw === pw2 && pw !== null && pw2 !== null && pw.length > 2) {
               //      console.log('OK');
               userUpdatePW({
@@ -550,7 +549,6 @@ class Users extends React.PureComponent {
       })
       .then(result => {
         this.setState({ isBackend: true });
-        console.log(this.state.isBackend);
       })
       .catch(e => {
         console.log(e);
@@ -565,7 +563,6 @@ class Users extends React.PureComponent {
           query: CURRENTUSER,
         })),
         this.setState({ currentUser: CU.data.currentUser.userType }),
-        console.log('CU', this.state.currentUser),
         this.state.currentUser !== 'STAFF' && this.state.currentUser !== 'ADMIN'
           ? Router.push({
               pathname: '/',
@@ -577,7 +574,6 @@ class Users extends React.PureComponent {
               .catch(e => {
                 console.log(e);
               })),
-            console.log('TEMP', temp),
             temp && temp.data.allUsers
               ? temp.data.allUsers.map(
                   (obj, i) =>
@@ -604,7 +600,7 @@ class Users extends React.PureComponent {
               : null,
             this.setState({ data: temp2, loading: false }),
             this.state.currentUser === 'STAFF'
-              ? (this.setState({
+              ? this.setState({
                   editingColumns: [
                     { columnName: 'userType', editingEnabled: false },
                     { columnName: 'firstName', editingEnabled: true },
@@ -617,8 +613,7 @@ class Users extends React.PureComponent {
                     { columnName: 'createdAt', editingEnabled: false },
                     { columnName: 'updatedAt', editingEnabled: false },
                   ],
-                }),
-                console.log(this.state.currentUser, this.state.editingColumns))
+                })
               : this.state.currentUser === 'ADMIN'
               ? this.setState({
                   editingColumns: [

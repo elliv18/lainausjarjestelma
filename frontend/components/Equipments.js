@@ -49,6 +49,7 @@ import {
   DEVICE_ID_QUERY,
   LOANS_QUERY,
   CURRENTUSER,
+  BACKENDTEST_QUERY,
 } from '../lib/gql/queries';
 import {
   EQUIPMENT_ADD_MUTATION,
@@ -295,6 +296,7 @@ class Equipments extends React.PureComponent {
       data: [],
       loading: true,
       currentUser: null,
+      isBackend: false,
     };
 
     // STATE ENDS
@@ -422,57 +424,76 @@ class Equipments extends React.PureComponent {
     let temp = null;
     let tempCategories = null;
     let temp2 = [];
+    let CU = null;
 
-    let CU = await this.state.client
+    await this.state.client
       .query({
-        query: CURRENTUSER,
+        query: BACKENDTEST_QUERY,
       })
-      .catch(e => console.log(e));
-
-    this.setState({ currentUser: CU.data.currentUser.userType });
-
-    console.log('CU', this.state.currentUser);
-    this.state.currentUser === 'STUDENT'
-      ? Router.push({
-          pathname: '/',
-        })
-      : ((temp = await this.state.client
-          .query({ query: EQUIPMENTS_QUERY })
-          .catch(e => console.log(e))),
-        (tempCategories = await this.state.client
+      .then(result => {
+        this.setState({ isBackend: true });
+      })
+      .catch(e => {
+        console.log(e);
+        this.setState({ isBackend: false });
+        Router.push({
+          pathname: '/login',
+        });
+      });
+    this.state.isBackend
+      ? ((CU = await this.state.client
           .query({
-            query: CATEGORY_NAME_QUERY,
+            query: CURRENTUSER,
           })
           .catch(e => console.log(e))),
-        temp.data.allDevices
-          ? temp.data.allDevices.map(
-              (obj, i) =>
-                (temp2[i] = {
-                  id: obj.id,
-                  idCode: obj.idCode,
-                  info: obj.info,
-                  loanStatus: obj.loanStatus,
-                  manufacture: obj.manufacture,
-                  model: obj.model,
-                  deviceCategory: obj.category.deviceCategory,
-                  loanerInfo:
-                    obj.loan.length > 0
-                      ? obj.loan[obj.loan.length - 1].loaner.firstName +
-                        ' ' +
-                        obj.loan[obj.loan.length - 1].loaner.lastName +
-                        ', ' +
-                        obj.loan[obj.loan.length - 1].loaner.email
-                      : null,
+        this.setState({ currentUser: CU.data.currentUser.userType }),
+        this.state.currentUser === 'STUDENT'
+          ? Router.push({
+              pathname: '/',
+            })
+          : ((temp = await this.state.client
+              .query({ query: EQUIPMENTS_QUERY })
+              .catch(e => console.log(e))),
+            (tempCategories = await this.state.client
+              .query({
+                query: CATEGORY_NAME_QUERY,
+              })
+              .catch(e => console.log(e))),
+            temp && temp.data.allDevices
+              ? temp.data.allDevices.map(
+                  (obj, i) =>
+                    (temp2[i] = {
+                      id: obj.id,
+                      idCode: obj.idCode,
+                      info: obj.info,
+                      loanStatus: obj.loanStatus,
+                      manufacture: obj.manufacture,
+                      model: obj.model,
+                      deviceCategory: obj.category.deviceCategory,
+                      loanerInfo:
+                        obj.loan.length > 0
+                          ? obj.loan[obj.loan.length - 1].loaner.firstName +
+                            ' ' +
+                            obj.loan[obj.loan.length - 1].loaner.lastName +
+                            ', ' +
+                            obj.loan[obj.loan.length - 1].loaner.email
+                          : null,
 
-                  dueDate:
-                    obj.loan.length > 0
-                      ? obj.loan[obj.loan.length - 1].dueDate
-                      : null,
-                })
-            )
-          : null,
-        (categoryNames = tempCategories.data.allCategories),
-        this.setState({ data: temp2, loading: FormatListBulletedRounded }));
+                      dueDate:
+                        obj.loan.length > 0
+                          ? obj.loan[obj.loan.length - 1].dueDate
+                          : null,
+                    })
+                )
+              : null,
+            tempCategories
+              ? (categoryNames = tempCategories.data.allCategories)
+              : null,
+            this.setState({ data: temp2, loading: false })))
+      : (this.setState({ isBackend: false }),
+        Router.push({
+          pathname: '/login',
+        }));
   }
 
   // RENDER

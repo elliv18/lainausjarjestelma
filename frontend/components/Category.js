@@ -46,6 +46,7 @@ import {
   CATEGORY_NAME_QUERY,
   DEVICE_ID_QUERY,
   CURRENTUSER,
+  BACKENDTEST_QUERY,
 } from '../lib/gql/queries';
 import {
   CATEGORY_ADD_MUTATION,
@@ -257,6 +258,7 @@ class Category extends React.PureComponent {
       loading: true,
       errorMsgAdded: null,
       currentUser: null,
+      isBackend: false,
     };
 
     // STATE ENDS
@@ -385,40 +387,65 @@ class Category extends React.PureComponent {
   async componentDidMount() {
     let temp = null;
     let temp2 = [];
+    let CU = null;
 
-    let CU = await this.state.client.query({
-      query: CURRENTUSER,
-    });
-    this.setState({ currentUser: CU.data.currentUser.userType });
+    await this.state.client
+      .query({
+        query: BACKENDTEST_QUERY,
+      })
+      .then(result => {
+        this.setState({ isBackend: true });
+        console.log(this.state.isBackend);
+      })
+      .catch(e => {
+        console.log(e);
+        this.setState({ isBackend: false });
+        Router.push({
+          pathname: '/login',
+        });
+      });
 
-    this.state.currentUser !== 'ADMIN'
-      ? Router.push({
-          pathname: '/',
-        })
-      : ((temp = await this.state.client
-          .query({
-            query: CATEGORY_QUERY,
-          })
-          .catch(e => console.log(e))),
-        temp.data.allCategories
-          ? temp.data.allCategories.map(
-              (obj, i) =>
-                (temp2[i] = {
-                  id: obj.id,
-                  deviceCategory: obj.deviceCategory,
-                  desription: obj.desription,
-                  createdAt:
-                    obj.createdAt !== null ? (
-                      <Moment format="DD-MM-YYYY HH:mm">{obj.createdAt}</Moment>
-                    ) : null,
-                  updatedAt:
-                    obj.updatedAt !== null ? (
-                      <Moment format="DD-MM-YYYY HH:mm">{obj.updatedAt}</Moment>
-                    ) : null,
-                })
-            )
-          : null,
-        this.setState({ data: temp2, loading: false }));
+    this.state.isBackend
+      ? ((CU = await this.state.client.query({
+          query: CURRENTUSER,
+        })),
+        this.setState({ currentUser: CU.data.currentUser.userType }),
+        this.state.currentUser !== 'ADMIN'
+          ? Router.push({
+              pathname: '/',
+            })
+          : ((temp = await this.state.client
+              .query({
+                query: CATEGORY_QUERY,
+              })
+              .catch(e => console.log(e))),
+            temp && temp.data.allCategories
+              ? temp.data.allCategories.map(
+                  (obj, i) =>
+                    (temp2[i] = {
+                      id: obj.id,
+                      deviceCategory: obj.deviceCategory,
+                      desription: obj.desription,
+                      createdAt:
+                        obj.createdAt !== null ? (
+                          <Moment format="DD-MM-YYYY HH:mm">
+                            {obj.createdAt}
+                          </Moment>
+                        ) : null,
+                      updatedAt:
+                        obj.updatedAt !== null ? (
+                          <Moment format="DD-MM-YYYY HH:mm">
+                            {obj.updatedAt}
+                          </Moment>
+                        ) : null,
+                    })
+                )
+              : null,
+            this.setState({ data: temp2, loading: false })))
+      : (this.setState({ isBackend: false }),
+        Router.push({
+          pathname: '/login',
+        }));
   }
 
   // RENDER
