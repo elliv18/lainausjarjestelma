@@ -18,8 +18,11 @@ class MyDocument extends Document {
           />
           {/* PWA primary color */}
           <meta name="msapplication-TileColor" content="#004655" />
-          <meta name="msapplication-navbutton-color" content="#004655">        
-          <meta name="apple-mobile-web-app-status-bar-style" content="#004655"></meta>
+          <meta name="msapplication-navbutton-color" content="#004655" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="#004655"
+          />
           <meta
             name="theme-color"
             content={
