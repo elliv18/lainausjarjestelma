@@ -17,10 +17,13 @@ class MyDocument extends Document {
             content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
           />
           {/* PWA primary color */}
+          <meta name="msapplication-TileColor" content="#004655" />
+          <meta name="msapplication-navbutton-color" content="#004655">        
+          <meta name="apple-mobile-web-app-status-bar-style" content="#004655"></meta>
           <meta
             name="theme-color"
             content={
-              pageContext ? pageContext.theme.palette.primary.main : null
+              pageContext ? pageContext.theme.palette.primary.main : '#004655'
             }
           />
           <meta
