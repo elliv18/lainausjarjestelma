@@ -108,16 +108,23 @@ class LoginTab extends React.Component {
         this.setState({ isBackend: false, loading: false });
         setTimeout(function() {
           window.location.reload();
-        }, 10000);
+        }, 7000);
       });
 
     if (this.state.isBackend) {
-      console.log(this.state.isBackend);
+      console.log(Cookies.get('jwtToken'));
       if (Cookies.get('jwtToken')) {
-        let CU = await this.state.client.query({
-          query: CURRENTUSER,
+        let CU = await this.state.client
+          .query({
+            query: CURRENTUSER,
+          })
+          .catch(e => {
+            Cookies.remove('jwtToken');
+          });
+        console.log(CU);
+        this.setState({
+          currentUser: CU.data.currentUser ? CU.data.currentUser.userType : '',
         });
-        this.setState({ currentUser: CU.data.currentUser.userType });
         this.setState({ isToken: true });
       }
 

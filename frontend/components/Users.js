@@ -45,7 +45,12 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { withApollo, Mutation } from 'react-apollo';
-import { USERS_QUERY, EMAILS_QUERY, CURRENTUSER } from '../lib/gql/queries';
+import {
+  USERS_QUERY,
+  EMAILS_QUERY,
+  CURRENTUSER,
+  BACKENDTEST_QUERY,
+} from '../lib/gql/queries';
 import {
   USERS_ADD_MUTATION,
   USERS_UPDATE_MUTATION,
@@ -365,6 +370,7 @@ class Users extends React.PureComponent {
       loading: true,
       errorMsgAdded: null,
       currentUser: null,
+      isBackend: undefined,
     };
 
     const getStateRows = () => {
@@ -536,79 +542,103 @@ class Users extends React.PureComponent {
   async componentDidMount() {
     let temp = null;
     let temp2 = [];
-    let CU = await this.state.client.query({
-      query: CURRENTUSER,
-    });
-    this.setState({ currentUser: CU.data.currentUser.userType });
+    let CU = null;
 
-    this.state.currentUser === 'STUDENT'
-      ? Router.push({
-          pathname: '/',
-        })
-      : ((temp = await this.state.client
-          .query({
-            query: USERS_QUERY,
-          })
-          .catch(e => {
-            console.log(e);
-          })),
-        temp.data.allUsers
-          ? temp.data.allUsers.map(
-              (obj, i) =>
-                (temp2[i] = {
-                  id: obj.id,
-                  userType: obj.userType,
-                  isActive: obj.isActive,
-                  lastName: obj.lastName,
-                  email: obj.email,
-                  firstName: obj.firstName,
-                  address: obj.address,
-                  phone: obj.phone,
-                  personNumber: obj.personNumber,
-                  createdAt:
-                    obj.createdAt !== null ? (
-                      <Moment>{obj.createdAt}</Moment>
-                    ) : null,
-                  updatedAt:
-                    obj.updatedAt !== null ? (
-                      <Moment>{obj.updatedAt}</Moment>
-                    ) : null,
-                })
-            )
-          : null,
-        this.setState({ data: temp2, loading: false }),
-        this.state.currentUser === 'STAFF'
-          ? (this.setState({
-              editingColumns: [
-                { columnName: 'userType', editingEnabled: false },
-                { columnName: 'firstName', editingEnabled: true },
-                { columnName: 'lastName', editingEnabled: true },
-                { columnName: 'email', editingEnabled: true },
-                { columnName: 'isActive', editingEnabled: false },
-                { columnName: 'address', editingEnabled: true },
-                { columnName: 'personNumber', editingEnabled: true },
-                { columnName: 'phone', editingEnabled: true },
-                { columnName: 'createdAt', editingEnabled: false },
-                { columnName: 'updatedAt', editingEnabled: false },
-              ],
-            }),
-            console.log(this.state.currentUser, this.state.editingColumns))
-          : this.state.currentUser === 'ADMIN'
-          ? this.setState({
-              editingColumns: [
-                { columnName: 'userType', editingEnabled: true },
-                { columnName: 'firstName', editingEnabled: true },
-                { columnName: 'lastName', editingEnabled: true },
-                { columnName: 'email', editingEnabled: true },
-                { columnName: 'isActive', editingEnabled: false },
-                { columnName: 'address', editingEnabled: true },
-                { columnName: 'personNumber', editingEnabled: true },
-                { columnName: 'phone', editingEnabled: true },
-                { columnName: 'createdAt', editingEnabled: false },
-                { columnName: 'updatedAt', editingEnabled: false },
-              ],
+    await this.state.client
+      .query({
+        query: BACKENDTEST_QUERY,
+      })
+      .then(result => {
+        this.setState({ isBackend: true });
+        console.log(this.state.isBackend);
+      })
+      .catch(e => {
+        console.log(e);
+        this.setState({ isBackend: false });
+        Router.push({
+          pathname: '/login',
+        });
+      });
+
+    this.state.isBackend
+      ? ((CU = await this.state.client.query({
+          query: CURRENTUSER,
+        })),
+        this.setState({ currentUser: CU.data.currentUser.userType }),
+        console.log('CU', this.state.currentUser),
+        this.state.currentUser !== 'STAFF' && this.state.currentUser !== 'ADMIN'
+          ? Router.push({
+              pathname: '/',
             })
-          : null);
+          : ((temp = await this.state.client
+              .query({
+                query: USERS_QUERY,
+              })
+              .catch(e => {
+                console.log(e);
+              })),
+            console.log('TEMP', temp),
+            temp && temp.data.allUsers
+              ? temp.data.allUsers.map(
+                  (obj, i) =>
+                    (temp2[i] = {
+                      id: obj.id,
+                      userType: obj.userType,
+                      isActive: obj.isActive,
+                      lastName: obj.lastName,
+                      email: obj.email,
+                      firstName: obj.firstName,
+                      address: obj.address,
+                      phone: obj.phone,
+                      personNumber: obj.personNumber,
+                      createdAt:
+                        obj.createdAt !== null ? (
+                          <Moment>{obj.createdAt}</Moment>
+                        ) : null,
+                      updatedAt:
+                        obj.updatedAt !== null ? (
+                          <Moment>{obj.updatedAt}</Moment>
+                        ) : null,
+                    })
+                )
+              : null,
+            this.setState({ data: temp2, loading: false }),
+            this.state.currentUser === 'STAFF'
+              ? (this.setState({
+                  editingColumns: [
+                    { columnName: 'userType', editingEnabled: false },
+                    { columnName: 'firstName', editingEnabled: true },
+                    { columnName: 'lastName', editingEnabled: true },
+                    { columnName: 'email', editingEnabled: true },
+                    { columnName: 'isActive', editingEnabled: false },
+                    { columnName: 'address', editingEnabled: true },
+                    { columnName: 'personNumber', editingEnabled: true },
+                    { columnName: 'phone', editingEnabled: true },
+                    { columnName: 'createdAt', editingEnabled: false },
+                    { columnName: 'updatedAt', editingEnabled: false },
+                  ],
+                }),
+                console.log(this.state.currentUser, this.state.editingColumns))
+              : this.state.currentUser === 'ADMIN'
+              ? this.setState({
+                  editingColumns: [
+                    { columnName: 'userType', editingEnabled: true },
+                    { columnName: 'firstName', editingEnabled: true },
+                    { columnName: 'lastName', editingEnabled: true },
+                    { columnName: 'email', editingEnabled: true },
+                    { columnName: 'isActive', editingEnabled: false },
+                    { columnName: 'address', editingEnabled: true },
+                    { columnName: 'personNumber', editingEnabled: true },
+                    { columnName: 'phone', editingEnabled: true },
+                    { columnName: 'createdAt', editingEnabled: false },
+                    { columnName: 'updatedAt', editingEnabled: false },
+                  ],
+                })
+              : null))
+      : (this.setState({ isBackend: false }),
+        Router.push({
+          pathname: '/login',
+        }));
   }
 
   render() {
