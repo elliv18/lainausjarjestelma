@@ -118,6 +118,7 @@ class LoginTab extends React.Component {
             query: CURRENTUSER,
           })
           .catch(e => {
+            console.log('catch');
             Cookies.remove('jwtToken');
           });
         console.log('cu', CU);
