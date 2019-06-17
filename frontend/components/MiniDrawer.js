@@ -169,7 +169,7 @@ class MiniDrawer extends React.Component {
     if ((await Cookies.get('jwtToken')) !== undefined) {
       console.log('Cookies2', Cookies.get('jwtToken'));
 
-      temp = await this.state.client
+      /*temp = await this.state.client
         .mutate({ mutation: CURRENTUSER })
         .catch(e => {
           console.log('blahhh', e);
@@ -179,7 +179,22 @@ class MiniDrawer extends React.Component {
               pathname: '/login',
             });
           //  (window.location.href = '/login');
-        });
+        });*/
+
+      for (let i = 0; i < 3; i++) {
+        temp = await this.state.client
+          .mutate({ mutation: CURRENTUSER })
+          .catch(e => {
+            console.log('blahhh', e);
+
+            /*Cookies.remove('jwtToken'),
+            Router.push({
+              pathname: '/login',
+            });
+          //  (window.location.href = '/login');*/
+          });
+      }
+
       console.log('temp1', temp);
       if (temp) {
         console.log('TEMP', temp);
