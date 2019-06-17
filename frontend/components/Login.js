@@ -101,7 +101,7 @@ class LoginTab extends React.Component {
       })
       .then(result => {
         this.setState({ isBackend: true });
-        console.log(this.state.isBackend);
+        console.log('backend', this.state.isBackend);
       })
       .catch(e => {
         console.log(e);
@@ -112,7 +112,7 @@ class LoginTab extends React.Component {
       });
 
     if (this.state.isBackend) {
-      console.log(Cookies.get('jwtToken'));
+      console.log('paska', Cookies.get('jwtToken'));
       if (Cookies.get('jwtToken')) {
         let CU = await this.state.client
           .query({
@@ -121,7 +121,7 @@ class LoginTab extends React.Component {
           .catch(e => {
             Cookies.remove('jwtToken');
           });
-        console.log(CU);
+        console.log('cu', CU);
         this.setState({
           currentUser: CU.data.currentUser ? CU.data.currentUser.userType : '',
         });
