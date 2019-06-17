@@ -38,7 +38,8 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 
 import { withApollo } from 'react-apollo';
-import { CURRENTUSER, BACKENDTEST_QUERY } from '../lib/gql/queries';
+import { BACKENDTEST_QUERY } from '../lib/gql/queries';
+import { CURRENTUSER } from '../lib/gql/mutation';
 import {
   CURRENTUSER_UPDATE_INFO_MUTATION,
   CURRENTUSER_UPDATE_PW_MUTATION,
@@ -262,7 +263,7 @@ class Home extends React.Component {
       ? ((JWT = Cookies.get('jwtToken')),
         JWT !== null
           ? ((temp = await this.state.client
-              .query({ query: CURRENTUSER })
+              .mutate({ mutation: CURRENTUSER })
               .catch(e => {
                 console.log(e);
               })),

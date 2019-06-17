@@ -48,10 +48,10 @@ import { withApollo, Mutation } from 'react-apollo';
 import {
   USERS_QUERY,
   EMAILS_QUERY,
-  CURRENTUSER,
   BACKENDTEST_QUERY,
 } from '../lib/gql/queries';
 import {
+  CURRENTUSER,
   USERS_ADD_MUTATION,
   USERS_UPDATE_MUTATION,
   USER_ISACTIVE_MUTATION,
@@ -559,8 +559,8 @@ class Users extends React.PureComponent {
       });
 
     this.state.isBackend
-      ? ((CU = await this.state.client.query({
-          query: CURRENTUSER,
+      ? ((CU = await this.state.client.mutate({
+          mutation: CURRENTUSER,
         })),
         this.setState({ currentUser: CU.data.currentUser.userType }),
         this.state.currentUser !== 'STAFF' && this.state.currentUser !== 'ADMIN'

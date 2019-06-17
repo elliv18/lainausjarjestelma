@@ -110,35 +110,6 @@ export const LOANS_QUERY = gql`
   }
 `;
 
-export const CURRENTUSER = gql`
-  query {
-    currentUser {
-      userType
-      email
-      firstName
-      lastName
-      address
-      personNumber
-      phone
-      loans {
-        id
-        isActive
-        loanDate
-        returnDate
-        dueDate
-        device {
-          idCode
-          manufacture
-          model
-          category {
-            deviceCategory
-          }
-        }
-      }
-    }
-  }
-`;
-
 export const CATEGORY_QUERY = gql`
   query {
     allCategories {

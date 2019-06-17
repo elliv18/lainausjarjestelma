@@ -46,11 +46,11 @@ import {
   LOANS_QUERY,
   EMAILS_QUERY,
   DEVICE_ID_QUERY,
-  CURRENTUSER,
   EQUIPMENTS_QUERY,
   BACKENDTEST_QUERY,
 } from '../lib/gql/queries';
 import {
+  CURRENTUSER,
   LOAN_ADD_MUTATION,
   LOAN_RETURN_MUTATION,
   LOAN_DELETE_MUTATION,
@@ -605,8 +605,8 @@ class Loans extends React.PureComponent {
       });
 
     this.state.isBackend
-      ? ((CU = await this.state.client.query({
-          query: CURRENTUSER,
+      ? ((CU = await this.state.client.mutate({
+          mutation: CURRENTUSER,
         })),
         this.setState({ currentUser: CU.data.currentUser.userType }),
         this.state.currentUser === 'STUDENT'

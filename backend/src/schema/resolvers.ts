@@ -44,7 +44,7 @@ export default {
   },
   /*************** QUERY **********************/
   Query: {
-    currentUser: async (obj, args, { currentUser }) => {
+    /*currentUser: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
 
       logger.log(
@@ -53,7 +53,7 @@ export default {
         currentUser.id
       );
       return await prisma.user({ id: currentUser.id });
-    },
+    },*/
     allUsers: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
@@ -110,6 +110,16 @@ export default {
   },
   /************ MUTATIONS **************************/
   Mutation: {
+    currentUser: async (obj, args, { currentUser }) => {
+      mustBeLoggedIn(currentUser);
+
+      logger.log(
+        "info",
+        "[Q CURRENTUSER] Current user %s information ask",
+        currentUser.id
+      );
+      return await prisma.user({ id: currentUser.id });
+    },
     // CURRENTUSER UPDATE
     currentUserUpdateInfo: async (
       obj,

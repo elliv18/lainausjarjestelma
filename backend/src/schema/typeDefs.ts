@@ -81,7 +81,7 @@ export default `
 
     type Query {
         # ALL - return current user information
-        currentUser: User
+        # currentUser: User
 
         # ADMINS - List all users
         allUsers: [User]
@@ -104,6 +104,7 @@ export default `
     #############
 
     type Mutation {
+        currentUser: User
         ############# CURRENTUSER #################
 
         # CURRENTUSER - Update personal information

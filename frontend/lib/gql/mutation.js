@@ -187,6 +187,35 @@ export const EQUIPMENT_DELETE_MUTATION = gql`
 
 /*********************** CURRENTUSER ****************************/
 
+export const CURRENTUSER = gql`
+  mutation {
+    currentUser {
+      userType
+      email
+      firstName
+      lastName
+      address
+      personNumber
+      phone
+      loans {
+        id
+        isActive
+        loanDate
+        returnDate
+        dueDate
+        device {
+          idCode
+          manufacture
+          model
+          category {
+            deviceCategory
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const CURRENTUSER_UPDATE_INFO_MUTATION = gql`
   mutation updateMutation(
     $firstName: String

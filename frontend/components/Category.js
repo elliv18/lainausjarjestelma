@@ -45,10 +45,10 @@ import {
   EQUIPMENTS_QUERY,
   CATEGORY_NAME_QUERY,
   DEVICE_ID_QUERY,
-  CURRENTUSER,
   BACKENDTEST_QUERY,
 } from '../lib/gql/queries';
 import {
+  CURRENTUSER,
   CATEGORY_ADD_MUTATION,
   CATEGORY_UPDATE_MUTATION,
   CATEGORY_DELETE_MUTATION,
@@ -406,8 +406,8 @@ class Category extends React.PureComponent {
       });
 
     this.state.isBackend
-      ? ((CU = await this.state.client.query({
-          query: CURRENTUSER,
+      ? ((CU = await this.state.client.mutate({
+          mutation: CURRENTUSER,
         })),
         this.setState({ currentUser: CU.data.currentUser.userType }),
         this.state.currentUser !== 'ADMIN'

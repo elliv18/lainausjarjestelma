@@ -22,7 +22,8 @@ import Loading from './Loading';
 import Router from 'next/router';
 import { withApollo } from 'react-apollo';
 import Cookies from 'js-cookie';
-import { CURRENTUSER, BACKENDTEST_QUERY } from '../lib/gql/queries';
+import { BACKENDTEST_QUERY } from '../lib/gql/queries';
+import { CURRENTUSER } from '../lib/gql/mutation';
 
 import NoServer from './NoServer';
 
@@ -113,8 +114,8 @@ class LoginTab extends React.Component {
     if (this.state.isBackend) {
       if (Cookies.get('jwtToken')) {
         let CU = await this.state.client
-          .query({
-            query: CURRENTUSER,
+          .mutate({
+            mutation: CURRENTUSER,
           })
           .catch(e => {
             console.log('catch');
@@ -233,13 +234,13 @@ class LoginTab extends React.Component {
                     onKeyPress={async ev => {
                       if (ev.key === 'Enter') {
                         console.log('Enter pressed');
-                        setTimeout(
-                          function() {
-                            // console.log('paska');
-                            this.logIn();
-                          }.bind(this),
+                        /*setTimeout(
+                          function() {*/
+                        // console.log('paska');
+                        this.logIn();
+                        /*}.bind(this),
                           3000
-                        );
+                        );*/
                       }
                     }}
                   />

@@ -33,7 +33,7 @@ import Router from 'next/router';
 import Cookies from 'js-cookie';
 
 import { withApollo } from 'react-apollo';
-import { CURRENTUSER } from '../lib/gql/queries';
+import { CURRENTUSER } from '../lib/gql/mutation';
 
 /*********************** GLOBAL VARIABLES *************************/
 
@@ -169,15 +169,17 @@ class MiniDrawer extends React.Component {
     if ((await Cookies.get('jwtToken')) !== undefined) {
       console.log('Cookies2', Cookies.get('jwtToken'));
 
-      temp = await this.state.client.query({ query: CURRENTUSER }).catch(e => {
-        console.log('blahhh', e);
+      temp = await this.state.client
+        .mutate({ mutation: CURRENTUSER })
+        .catch(e => {
+          console.log('blahhh', e);
 
-        Cookies.remove('jwtToken'),
-          Router.push({
-            pathname: '/login',
-          });
-        //  (window.location.href = '/login');
-      });
+          Cookies.remove('jwtToken'),
+            Router.push({
+              pathname: '/login',
+            });
+          //  (window.location.href = '/login');
+        });
       console.log('temp1', temp);
       if (temp) {
         console.log('TEMP', temp);

@@ -48,10 +48,10 @@ import {
   CATEGORY_NAME_QUERY,
   DEVICE_ID_QUERY,
   LOANS_QUERY,
-  CURRENTUSER,
   BACKENDTEST_QUERY,
 } from '../lib/gql/queries';
 import {
+  CURRENTUSER,
   EQUIPMENT_ADD_MUTATION,
   EQUIPMENT_UPDATE_MUTATION,
   EQUIPMENT_DELETE_MUTATION,
@@ -442,8 +442,8 @@ class Equipments extends React.PureComponent {
       });
     this.state.isBackend
       ? ((CU = await this.state.client
-          .query({
-            query: CURRENTUSER,
+          .mutate({
+            mutation: CURRENTUSER,
           })
           .catch(e => console.log(e))),
         this.setState({ currentUser: CU.data.currentUser.userType }),
