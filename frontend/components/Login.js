@@ -163,8 +163,6 @@ class LoginTab extends React.Component {
       });
     }
 
-    //  console.log('COOKIE:P', Cookies.get('jwtToken'));
-
     if ((await Cookies.get('jwtToken')) !== undefined) {
       try {
         Router.push({
