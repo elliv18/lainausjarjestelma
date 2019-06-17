@@ -23,12 +23,7 @@ class MyDocument extends Document {
             name="apple-mobile-web-app-status-bar-style"
             content="#004655"
           />
-          <meta
-            name="theme-color"
-            content={
-              pageContext ? pageContext.theme.palette.primary.main : '#004655'
-            }
-          />
+          <meta name="theme-color" content="#004655">
           <meta
             name="description"
             content="Tampereen ammattikorkeakoulun sisäinen lainausjärjestelmä."
