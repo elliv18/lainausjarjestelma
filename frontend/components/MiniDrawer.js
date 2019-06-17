@@ -166,45 +166,40 @@ class MiniDrawer extends React.Component {
     let temp;
     console.log('Cookies', Cookies.get('jwtToken'));
 
-    setTimeout(function() {
-      console.log('delay');
-      if ((await Cookies.get('jwtToken')) !== undefined) {
-        console.log('Cookies2', Cookies.get('jwtToken'));
-  
-        temp = await this.state.client.query({ query: CURRENTUSER }).catch(e => {
-          console.log('blahhh', e);
-  
-          Cookies.remove('jwtToken'),
-            Router.push({
-              pathname: '/login',
-            });
-          //  (window.location.href = '/login');
-        });
-        console.log('temp1', temp);
-        if (temp) {
-          console.log('TEMP', temp);
-          temp.data.currentUser !== null
-            ? this.setState({ currentUser: temp.data.currentUser, ok: true })
-            : (Cookies.remove('jwtToken'),
-              Router.push({
-                pathname: '/login',
-              }),
-              (window.location.href = '/login'));
-        }
-      } else {
-        console.log('Cookies2', Cookies.get('jwtToken'));
-  
-        try {
+    if ((await Cookies.get('jwtToken')) !== undefined) {
+      console.log('Cookies2', Cookies.get('jwtToken'));
+
+      temp = await this.state.client.query({ query: CURRENTUSER }).catch(e => {
+        console.log('blahhh', e);
+
+        Cookies.remove('jwtToken'),
           Router.push({
             pathname: '/login',
           });
-        } catch (e) {
-          console.log(e);
-        }
+        //  (window.location.href = '/login');
+      });
+      console.log('temp1', temp);
+      if (temp) {
+        console.log('TEMP', temp);
+        temp.data.currentUser !== null
+          ? this.setState({ currentUser: temp.data.currentUser, ok: true })
+          : (Cookies.remove('jwtToken'),
+            Router.push({
+              pathname: '/login',
+            }),
+            (window.location.href = '/login'));
       }
-    }, 3000);
+    } else {
+      console.log('Cookies2', Cookies.get('jwtToken'));
 
-    
+      try {
+        Router.push({
+          pathname: '/login',
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
 
   handleDrawerOpen = () => {
