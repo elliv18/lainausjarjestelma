@@ -175,7 +175,7 @@ class MiniDrawer extends React.Component {
         Cookies.remove('jwtToken'),
           Router.push({
             pathname: '/login',
-          }),
+          });
         //  (window.location.href = '/login');
       });
       console.log('temp1', temp);
