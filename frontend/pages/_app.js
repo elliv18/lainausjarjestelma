@@ -17,6 +17,7 @@ const theme = createMuiTheme({
       contrastText: '#fff',
     },
     secondary: indigo,
+    android: { colorBackground: '#004655' },
   },
 });
 
