@@ -165,10 +165,7 @@ class LoginTab extends React.Component {
 
     //  console.log('COOKIE:P', Cookies.get('jwtToken'));
 
-    if (
-      (await Cookies.get('jwtToken')) !== undefined &&
-      (await Cookies.get('jwtToken')) !== null
-    ) {
+    if ((await Cookies.get('jwtToken')) !== undefined) {
       try {
         Router.push({
           pathname: '/',
