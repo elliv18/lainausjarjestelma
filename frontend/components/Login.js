@@ -156,7 +156,7 @@ class LoginTab extends React.Component {
 
       console.log(data.login.jwt);
 
-      Cookies.set('jwtToken', data.login.jwt, { expires: 1 });
+      await Cookies.set('jwtToken', data.login.jwt, { expires: 1 });
     } catch (e) {
       this.setState({
         alertMsg: e.message.replace('GraphQL error:', '').trim(),

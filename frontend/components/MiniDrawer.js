@@ -173,7 +173,7 @@ class MiniDrawer extends React.Component {
         .mutate({ mutation: CURRENTUSER })
         .catch(e => {
           console.log('blahhh', e);
-          Delay(1000);
+
           Cookies.remove('jwtToken'),
             Router.push({
               pathname: '/login',
