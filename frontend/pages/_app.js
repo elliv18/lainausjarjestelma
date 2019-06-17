@@ -6,22 +6,17 @@ import { ApolloProvider } from 'react-apollo';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import JssProvider from 'react-jss/lib/JssProvider';
 import getPageContext from '../src/getPageContext';
-import indigo from '@material-ui/core/colors/indigo';
+import red from '@material-ui/core/colors/red';
 
 const theme = createMuiTheme({
   palette: {
-    primary: {
+    secondary: {
       light: '#b9ccd0',
       main: '#004655',
       dark: '#002027',
       contrastText: '#fff',
     },
-    secondary: indigo,
-    android: {
-      colorBackground: '#004655',
-      statusBarColor: '#004655',
-      navigationBarColor: '#004655',
-    },
+    primary: red,
   },
 });
 
