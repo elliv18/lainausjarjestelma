@@ -81,7 +81,6 @@ class LoginTab extends React.Component {
       currentUser: null,
       isToken: false,
       isBackend: undefined,
-      render: false, //Set render state to false
     };
     // STATE ENDS
   }
@@ -128,13 +127,6 @@ class LoginTab extends React.Component {
         this.setState({ isToken: true });
       }
 
-      setTimeout(
-        function() {
-          //Start the timer
-          this.setState({ render: true }); //After 1 second, set render to true
-        }.bind(this),
-        3000
-      );
       this.state.currentUser === 'ADMIN' ||
       this.state.currentUser === 'STAFF' ||
       this.state.currentUser === 'STUDENT'
@@ -187,11 +179,11 @@ class LoginTab extends React.Component {
   // RENDER
   render() {
     const { classes } = this.props;
-    const { loading, client, isToken, isBackend, render } = this.state;
+    const { loading, client, isToken, isBackend } = this.state;
 
     if (loading) {
       return <Loading />;
-    } else if (!loading && !isToken && isBackend && render) {
+    } else if (!loading && !isToken && isBackend) {
       return (
         <Paper className={classes.root} elevation={5}>
           <MuiThemeProvider theme={theme}>
@@ -241,7 +233,13 @@ class LoginTab extends React.Component {
                     onKeyPress={async ev => {
                       if (ev.key === 'Enter') {
                         console.log('Enter pressed');
-                        this.logIn();
+                        setTimeout(
+                          function() {
+                            // console.log('paska');
+                            this.logIn();
+                          }.bind(this),
+                          3000
+                        );
                       }
                     }}
                   />
@@ -287,10 +285,8 @@ class LoginTab extends React.Component {
           </MuiThemeProvider>
         </Paper>
       );
-    } else if (!isBackend && !loading) {
-      return <NoServer />;
     } else {
-      return null;
+      return <NoServer />;
     }
   }
 }
