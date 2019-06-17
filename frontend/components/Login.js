@@ -16,14 +16,13 @@ import {
 import { primaryColor } from '../src/theme/color';
 import { Face, Fingerprint } from '@material-ui/icons';
 
-import { LOGIN_MUTATION } from '../lib/gql/mutation';
+import { LOGIN_MUTATION, CURRENTUSER } from '../lib/gql/mutation';
 
 import Loading from './Loading';
 import Router from 'next/router';
 import { withApollo } from 'react-apollo';
 import Cookies from 'js-cookie';
 import { BACKENDTEST_QUERY } from '../lib/gql/queries';
-import { CURRENTUSER } from '../lib/gql/mutation';
 
 import NoServer from './NoServer';
 
