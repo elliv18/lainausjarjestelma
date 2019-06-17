@@ -166,6 +166,10 @@ class MiniDrawer extends React.Component {
     let temp;
     console.log('Cookies', Cookies.get('jwtToken'));
 
+    setTimeout(function() {
+      console.log('delay');
+    }, 3000);
+
     if ((await Cookies.get('jwtToken')) !== undefined) {
       console.log('Cookies2', Cookies.get('jwtToken'));
 
