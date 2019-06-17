@@ -190,6 +190,8 @@ class MiniDrawer extends React.Component {
             (window.location.href = '/login'));
       }
     } else {
+      console.log('Cookies2', Cookies.get('jwtToken'));
+
       try {
         Router.push({
           pathname: '/login',
