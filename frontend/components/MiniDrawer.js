@@ -164,9 +164,14 @@ class MiniDrawer extends React.Component {
   // STARTING STUFF
   async componentDidMount() {
     let temp;
+    console.log('Cookies', Cookies.get('jwtToken'));
+
     if ((await Cookies.get('jwtToken')) !== undefined) {
+      console.log('Cookies2', Cookies.get('jwtToken'));
+
       temp = await this.state.client.query({ query: CURRENTUSER }).catch(e => {
         console.log(e);
+
         Cookies.remove('jwtToken'),
           Router.push({
             pathname: '/login',

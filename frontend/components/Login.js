@@ -112,8 +112,6 @@ class LoginTab extends React.Component {
       });
 
     if (this.state.isBackend) {
-      console.log('delay');
-      console.log('paska', Cookies.get('jwtToken'));
       if (Cookies.get('jwtToken')) {
         let CU = await this.state.client
           .query({
