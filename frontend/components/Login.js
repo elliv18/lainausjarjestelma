@@ -112,9 +112,6 @@ class LoginTab extends React.Component {
       });
 
     if (this.state.isBackend) {
-      setTimeout(function() {
-        window.location.reload();
-      }, 2000);
       console.log('delay');
       console.log('paska', Cookies.get('jwtToken'));
       if (Cookies.get('jwtToken')) {
