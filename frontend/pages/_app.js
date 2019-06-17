@@ -17,7 +17,11 @@ const theme = createMuiTheme({
       contrastText: '#fff',
     },
     secondary: indigo,
-    android: { colorBackground: '#004655' },
+    android: {
+      colorBackground: '#004655',
+      statusBarColor: '#004655',
+      navigationBarColor: '#004655',
+    },
   },
 });
 
