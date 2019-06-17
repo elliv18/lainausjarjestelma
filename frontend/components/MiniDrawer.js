@@ -168,42 +168,43 @@ class MiniDrawer extends React.Component {
 
     setTimeout(function() {
       console.log('delay');
-    }, 3000);
-
-    if ((await Cookies.get('jwtToken')) !== undefined) {
-      console.log('Cookies2', Cookies.get('jwtToken'));
-
-      temp = await this.state.client.query({ query: CURRENTUSER }).catch(e => {
-        console.log('blahhh', e);
-
-        Cookies.remove('jwtToken'),
+      if ((await Cookies.get('jwtToken')) !== undefined) {
+        console.log('Cookies2', Cookies.get('jwtToken'));
+  
+        temp = await this.state.client.query({ query: CURRENTUSER }).catch(e => {
+          console.log('blahhh', e);
+  
+          Cookies.remove('jwtToken'),
+            Router.push({
+              pathname: '/login',
+            });
+          //  (window.location.href = '/login');
+        });
+        console.log('temp1', temp);
+        if (temp) {
+          console.log('TEMP', temp);
+          temp.data.currentUser !== null
+            ? this.setState({ currentUser: temp.data.currentUser, ok: true })
+            : (Cookies.remove('jwtToken'),
+              Router.push({
+                pathname: '/login',
+              }),
+              (window.location.href = '/login'));
+        }
+      } else {
+        console.log('Cookies2', Cookies.get('jwtToken'));
+  
+        try {
           Router.push({
             pathname: '/login',
           });
-        //  (window.location.href = '/login');
-      });
-      console.log('temp1', temp);
-      if (temp) {
-        console.log('TEMP', temp);
-        temp.data.currentUser !== null
-          ? this.setState({ currentUser: temp.data.currentUser, ok: true })
-          : (Cookies.remove('jwtToken'),
-            Router.push({
-              pathname: '/login',
-            }),
-            (window.location.href = '/login'));
+        } catch (e) {
+          console.log(e);
+        }
       }
-    } else {
-      console.log('Cookies2', Cookies.get('jwtToken'));
+    }, 3000);
 
-      try {
-        Router.push({
-          pathname: '/login',
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    
   }
 
   handleDrawerOpen = () => {
