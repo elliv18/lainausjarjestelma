@@ -16,6 +16,7 @@ class MyDocument extends Document {
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
           />
+          <link rel="manifest" href="/manifest.json" />
           {/* PWA primary color */}
           <meta name="msapplication-TileColor" content="#004655" />
           <meta name="msapplication-navbutton-color" content="#004655" />
@@ -46,7 +47,6 @@ class MyDocument extends Document {
             sizes="16x16"
             href="/favicon-16x16.png"
           />
-          <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
           <noscript>You need to enable JavaScript to run this app.</noscript>
