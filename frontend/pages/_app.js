@@ -8,8 +8,6 @@ import JssProvider from 'react-jss/lib/JssProvider';
 import getPageContext from '../src/getPageContext';
 import indigo from '@material-ui/core/colors/indigo';
 
-import HttpsRedirect from 'react-https-redirect';
-
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -41,32 +39,30 @@ class MyApp extends App {
   render() {
     const { Component, pageProps, apolloClient } = this.props;
     return (
-      <HttpsRedirect>
-        <Container>
-          <Head>
-            <title>Borrowd - Lainausjärjestelmä</title>
-          </Head>
+      <Container>
+        <Head>
+          <title>Borrowd - Lainausjärjestelmä</title>
+        </Head>
 
-          {/* Wrap every page in Jss and Theme providers */}
-          <JssProvider
-            registry={this.pageContext.sheetsRegistry}
-            generateClassName={this.pageContext.generateClassName}
-          >
-            {/* MuiThemeProvider makes the theme available down the React
+        {/* Wrap every page in Jss and Theme providers */}
+        <JssProvider
+          registry={this.pageContext.sheetsRegistry}
+          generateClassName={this.pageContext.generateClassName}
+        >
+          {/* MuiThemeProvider makes the theme available down the React
               tree thanks to React context. */}
-            <MuiThemeProvider
-              theme={theme}
-              sheetsManager={this.pageContext.sheetsManager}
-            >
-              {/* Pass pageContext to the _document though the renderPage enhancer
+          <MuiThemeProvider
+            theme={theme}
+            sheetsManager={this.pageContext.sheetsManager}
+          >
+            {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server-side. */}
-              <ApolloProvider client={apolloClient}>
-                <Component pageContext={this.pageContext} {...pageProps} />
-              </ApolloProvider>
-            </MuiThemeProvider>
-          </JssProvider>
-        </Container>
-      </HttpsRedirect>
+            <ApolloProvider client={apolloClient}>
+              <Component pageContext={this.pageContext} {...pageProps} />
+            </ApolloProvider>
+          </MuiThemeProvider>
+        </JssProvider>
+      </Container>
     );
   }
 }
