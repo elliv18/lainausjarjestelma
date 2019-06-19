@@ -87,6 +87,7 @@ export default async (amount: number) => {
       });
       process.stdout.write(".");
     }
+    logger.log("info", "[FAKER] Test data have been created!");
     console.log("faker data created!");
   }
 };

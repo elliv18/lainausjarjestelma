@@ -44,16 +44,6 @@ export default {
   },
   /*************** QUERY **********************/
   Query: {
-    /*currentUser: async (obj, args, { currentUser }) => {
-      mustBeLoggedIn(currentUser);
-
-      logger.log(
-        "info",
-        "[Q CURRENTUSER] Current user %s information ask",
-        currentUser.id
-      );
-      return await prisma.user({ id: currentUser.id });
-    },*/
     allUsers: async (obj, args, { currentUser }) => {
       mustBeLoggedIn(currentUser);
       mustBeAtleastLevel(currentUser, UserLevels.STAFF);
@@ -115,7 +105,7 @@ export default {
 
       logger.log(
         "info",
-        "[Q CURRENTUSER] Current user %s information ask",
+        "[M CURRENTUSER] Current user %s information ask",
         currentUser.id
       );
       return await prisma.user({ id: currentUser.id });
@@ -145,7 +135,7 @@ export default {
 
       logger.log(
         "info",
-        "[CURRENTUSER UPDATE] User %s information is updated!",
+        "[M CURRENTUSER UPDATE] User %s information is updated!",
         currentUser.id
       );
       return { user };
@@ -162,7 +152,7 @@ export default {
       if (oldPassword === null || passwordAgain === null || password === null) {
         logger.log(
           "warn",
-          "[CURRENTUSER UPDATE PW] Old password or password or password again is null from user %s",
+          "[M CURRENTUSER UPDATE PW] Old password or password or password again is null from user %s",
           currentUser.id
         );
         throw new Error("Password can not be null!");
@@ -173,7 +163,7 @@ export default {
       if (!(await bcrypt.compare(oldPassword, cU.password))) {
         logger.log(
           "warn",
-          "[CURRENTUSER UPDATE PW] Old password is invalid from user %s",
+          "[M CURRENTUSER UPDATE PW] Old password is invalid from user %s",
           currentUser.id
         );
         throw new Error("Old password not match!");
@@ -183,7 +173,7 @@ export default {
       if (password !== passwordAgain) {
         logger.log(
           "warn",
-          "[CURRENTUSER UPDATE PW] Password and password again not match from user %s",
+          "[M CURRENTUSER UPDATE PW] Password and password again not match from user %s",
           currentUser.id
         );
         throw new Error("Password and password again not match!");
@@ -193,7 +183,7 @@ export default {
       if (!password.replace(/\s/g, "").length) {
         logger.log(
           "warn",
-          "[CURRENTUSER UPDATE PW] Password is spaces only from user %s",
+          "[M CURRENTUSER UPDATE PW] Password is spaces only from user %s",
           currentUser.id
         );
         throw new Error("Password can not be empty!");
@@ -202,7 +192,7 @@ export default {
       if (password.length > MAX_PW) {
         logger.log(
           "warn",
-          "[CURRENTUSER UPDATE PW] Password is too long from user %s",
+          "[M CURRENTUSER UPDATE PW] Password is too long from user %s",
           currentUser.id
         );
         throw new Error("Password too long!");
@@ -211,7 +201,7 @@ export default {
       if (password.length < MIN_PW) {
         logger.log(
           "warn",
-          "[CURRENTUSER UPDATE PW] Password is too short from user %s",
+          "[M CURRENTUSER UPDATE PW] Password is too short from user %s",
           currentUser.id
         );
         throw new Error("Password too short!");
@@ -233,19 +223,19 @@ export default {
       const user = await prisma.user({ email: email });
 
       if (!user) {
-        logger.log("warn", "[LOGIN] Email %s not found", email);
+        logger.log("warn", "[M LOGIN] Email %s not found", email);
         throw new Error("Email not found!");
       }
 
       if (!user.isActive) {
-        logger.log("warn", "[LOGIN] User %s is not active!", email);
+        logger.log("warn", "[M LOGIN] User %s is not active!", email);
         throw new Error("Account is disabled, contact administrator!");
       }
 
       const pwValid = await bcrypt.compare(password, user.password);
 
       if (!pwValid) {
-        logger.log("warn", "[LOGIN] Password is invalid from user %s", email);
+        logger.log("warn", "[M LOGIN] Password is invalid from user %s", email);
         throw new Error("Password is invalid!");
       }
 
@@ -253,7 +243,11 @@ export default {
         expiresIn: JWT_TIME
       });
 
-      logger.log("info", "[LOGIN] Login succesful! Logged user is: %s", email);
+      logger.log(
+        "info",
+        "[M LOGIN] Login succesful! Logged user is: %s",
+        email
+      );
       return { jwt };
     },
     // USER CREATE
@@ -289,7 +283,7 @@ export default {
       } else {
         logger.log(
           "info",
-          "[USER CREATE] No permissions by %s or user type %s is invalid!",
+          "[M USERCREATE] No permissions by %s or user type %s is invalid!",
           currentUser.id,
           userType
         );
@@ -300,7 +294,7 @@ export default {
       if (!password.replace(/\s/g, "").length || password === null) {
         logger.log(
           "warn",
-          "[USER CREATE] Password is null from user %s",
+          "[M USERCREATE] Password is null from user %s",
           currentUser.id
         );
         throw new Error("Password can not be null or empty!");
@@ -309,7 +303,7 @@ export default {
       if (password.length > MAX_PW) {
         logger.log(
           "warn",
-          "[USER CREATE] Password is too long from user %s",
+          "[M USERCREATE] Password is too long from user %s",
           currentUser.id
         );
         throw new Error("Password too long!");
@@ -318,7 +312,7 @@ export default {
       if (password.length < MIN_PW) {
         logger.log(
           "warn",
-          "[USER CREATE] Password is too short from user %s",
+          "[M USERCREATE] Password is too short from user %s",
           currentUser.id
         );
         throw new Error("Password too short!");
@@ -338,7 +332,7 @@ export default {
 
       logger.log(
         "info",
-        "[USER CREATE] New %s user %s created by %s",
+        "[M USERCREATE] New %s user %s created by %s",
         type,
         email,
         currentUser.id
@@ -378,7 +372,7 @@ export default {
         } else {
           logger.log(
             "info",
-            "[USER CREATE] No permissions by %s or user type %s is invalid!",
+            "[M USERUPDATE] No permissions by %s or user type %s is invalid!",
             currentUser.id,
             userType
           );
@@ -407,7 +401,7 @@ export default {
 
       logger.log(
         "info",
-        "[USER UPDATE] User %s have updated by %s",
+        "[M USERUPDATE] User %s have updated by %s",
         email,
         currentUser.id
       );
@@ -431,7 +425,7 @@ export default {
       ) {
         logger.log(
           "warn",
-          "[USER UPDATE PW] Password is null updated by %s",
+          "[M USERUPDATEPW] Password is null updated by %s",
           currentUser.id
         );
         throw new Error("Password can not be null or empty!");
@@ -440,7 +434,7 @@ export default {
       if (password.length > MAX_PW) {
         logger.log(
           "warn",
-          "[USER UPDATE PW] Password is too long updated by %s",
+          "[M USERUPDATEPW] Password is too long updated by %s",
           currentUser.id
         );
         throw new Error("Password too long!");
@@ -449,7 +443,7 @@ export default {
       if (password.length < MIN_PW) {
         logger.log(
           "warn",
-          "[USER UPDATE PW] Password is too short updated by %s",
+          "[M USERUPDATEPW] Password is too short updated by %s",
           currentUser.id
         );
         throw new Error("Password too short!");
@@ -457,7 +451,7 @@ export default {
       if (password !== passwordAgain) {
         logger.log(
           "warn",
-          "[USER UPDATE PW] Password don't match updated by %s",
+          "[M USERUPDATEPW] Password don't match updated by %s",
           currentUser.id
         );
         throw new Error("Password don't match!");
@@ -474,7 +468,7 @@ export default {
 
       logger.log(
         "info",
-        "[USER UPDATE PW] User %s password have been updated by %s",
+        "[M USERUPDATEPW] User %s password have been updated by %s",
         id,
         currentUser.id
       );
@@ -492,7 +486,7 @@ export default {
           if (obj.isActive) {
             logger.log(
               "warn",
-              "[USER IS ACTIVE] User %s have active loans. Cant disable user!",
+              "[M USERISACTIVE] User %s have active loans. Cant disable user!",
               currentUser.id
             );
             throw new Error("User have active loans!");
@@ -503,7 +497,7 @@ export default {
         if (u.email === ROOT_ADMIN_EMAIL) {
           logger.log(
             "warn",
-            "[USER IS ACTIVE] Can't disable root admin!",
+            "[M USERISACTIVE] Can't disable root admin!",
             currentUser.id
           );
           throw new Error("Can't disable root admin!");
@@ -521,7 +515,7 @@ export default {
 
       logger.log(
         "info",
-        "[USER IS ACTIVE?] User %s active status is %s, set by %s",
+        "[M USERISACTIVE] User %s active status is %s, set by %s",
         id,
         isActive,
         currentUser.id
@@ -544,7 +538,7 @@ export default {
 
       logger.log(
         "info",
-        "[CATEGORY CREATE] New category %s have been created by %s",
+        "[M CATEGORYCREATE] New category %s have been created by %s",
         deviceCategory,
         currentUser.id
       );
@@ -574,7 +568,7 @@ export default {
 
       logger.log(
         "info",
-        "[CATEGORY UPDATE] Category %s have been updated by %s",
+        "[M CATEGORYUPDATE] Category %s have been updated by %s",
         deviceCategory,
         currentUser.id
       );
@@ -591,7 +585,7 @@ export default {
 
       logger.log(
         "info",
-        "[DEVICE CATEGORY DELETE] Device category %s have deleted by %s",
+        "[M DEVICECATEGORYDELETE] Device category %s have deleted by %s",
         category.deviceCategory,
         currentUser.id
       );
@@ -619,7 +613,7 @@ export default {
 
       logger.log(
         "info",
-        "[DEVICE CREATE] New device %s have been created by %s",
+        "[M DEVICECREATE] New device %s have been created by %s",
         idCode,
         currentUser.id
       );
@@ -638,7 +632,7 @@ export default {
       if (dev.loanStatus) {
         logger.log(
           "warn",
-          "[DEVICE UPDATE] Device is loaned, can't edit info!",
+          "[M DEVICEUPDATE] Device is loaned, can't edit info!",
           currentUser.id
         );
         throw new Error("Device is loaned, can't edit info!");
@@ -665,7 +659,7 @@ export default {
 
       logger.log(
         "info",
-        "[DEVICE UPDATE] Device %s have updated by %s",
+        "[M DEVICEUPDATE] Device %s have updated by %s",
         idCode,
         currentUser.id
       );
@@ -680,7 +674,7 @@ export default {
 
       logger.log(
         "info",
-        "[DEVICE] Device %s have deleted by %s",
+        "[M DEVICEDELETE] Device %s have deleted by %s",
         device.idCode,
         currentUser.id
       );
@@ -699,7 +693,7 @@ export default {
       if (dev.loanStatus) {
         logger.log(
           "info",
-          "[LOAN CREATE] Device %s is already loaned, cant create loan",
+          "[M LOANCREATE] Device %s is already loaned, cant create loan",
           devIdCode
         );
         throw new Error("Device is already loaned!");
@@ -710,7 +704,7 @@ export default {
       if (!user.isActive) {
         logger.log(
           "info",
-          "[LOAN CREATE] User %s is not active user, can't create loan",
+          "[M LOANCREATE] User %s is not active user, can't create loan",
           loaner
         );
         throw new Error("Loaner is not active user!");
@@ -742,7 +736,7 @@ export default {
 
       logger.log(
         "info",
-        "[LOAN CREATE] New loan to device %s have been created by %s",
+        "[M LOANCREATE] New loan to device %s have been created by %s",
         devIdCode,
         currentUser.id
       );
@@ -779,7 +773,7 @@ export default {
 
       logger.log(
         "info",
-        "[LOAN RETURN] Loan %s returned by %s",
+        "[M LOANRETURN] Loan %s returned by %s",
         id,
         currentUser.id
       );
@@ -794,7 +788,7 @@ export default {
         if (Date.parse(loan.createdAt) >= Date.now() - 30 * 60 * 1000) {
           logger.log(
             "info",
-            "[LOAN DELETE] Staff %s, deleting time is timeout!",
+            "[M LOANDELETE] Staff %s, deleting time is timeout!",
             currentUser.id
           );
           throw new Error("Permission denied!");
@@ -818,7 +812,7 @@ export default {
 
       logger.log(
         "info",
-        "[LOAN DELETE] Loan %s have deleted by %s",
+        "[M LOANDELETE] Loan %s have deleted by %s",
         id,
         currentUser.id
       );
