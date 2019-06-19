@@ -4,9 +4,10 @@ import MiniDrawer from '../components/MiniDrawer';
 export default class Index extends React.Component {
   componentDidMount = () => {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .catch(err => console.error('Service worker registration failed', err));
+      // Use the window load event to keep the page load performant
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
     } else {
       console.log('Service worker not supported');
     }
