@@ -77,30 +77,33 @@ All code has to pass `yarn lint` or it fails the CI.
 
 ### Backend
 
-- nodejs
-- express
-- typescript
-- pridma
-- apollo server
-- graphql-yoga
-- postgresql
-- winston + daily rotate logs
-- jwt
-- detenv
+- Nodejs
+- Express
+- TypeScript
+- Prisma
+- Apollo server
+- Graphql-Yoga
+- PostgreSQL
+- Winston + daily rotate logs
+- JWT
+- Dotenv
 
 ### Frontend
 
-- nextjs
-- javascript es6
-- devextreme grid
-- apollo client
-- cookies
-- react
-- webpack
+- Nextjs
+- JavaScript ES6
+- DevExtreme grid
+- Apollo client
+- Cookies
+- React
+- Webpack
+- Service worker
 
 ## Backend logs
 
 Backend log files is saved `backend` folder inside subfolder `logs`. `[root dir]/backend/logs`
+
+Remote server backend logs is inside folder `/opt/app/logs`
 
 ## Remote server info
 

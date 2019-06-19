@@ -72,9 +72,3 @@ services:
     restart: always
 volumes:
   postgres: ~
-  #backend:
-  #  driver: local
-  #  driver_opts:
-  #    type: none
-  #    device: ~/logs
-  #    o: bind
