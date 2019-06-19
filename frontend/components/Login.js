@@ -7,6 +7,11 @@ import {
   FormControlLabel,
   Checkbox,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@material-ui/core';
 import {
   withStyles,
@@ -51,6 +56,9 @@ const styles = theme => ({
     width: '65%',
     maxWidth: '300px',
   },
+  dialogTitle: {
+    backgroundColor: 'rgba(0,70,85)',
+  },
 });
 
 /************************ THEME ***************************/
@@ -81,9 +89,18 @@ class LoginTab extends React.Component {
       currentUser: null,
       isToken: false,
       isBackend: undefined,
+      dialogOpen: false,
     };
     // STATE ENDS
   }
+
+  handleDialogOpen = () => {
+    this.setState({ dialogOpen: true });
+  };
+
+  handleDialogClose = () => {
+    this.setState({ dialogOpen: false });
+  };
 
   setEmail = e => {
     this.setState({ email: e.target.value });
@@ -135,7 +152,6 @@ class LoginTab extends React.Component {
           })
         : Cookies.remove('jwtToken');
 
-      // TODO - is backend up?
       this.setState({ loading: false });
     }
   }
@@ -230,39 +246,25 @@ class LoginTab extends React.Component {
                     onChange={this.setPassword}
                     onKeyPress={async ev => {
                       if (ev.key === 'Enter') {
-                        console.log('Enter pressed');
-                        /*setTimeout(
-                          function() {*/
-                        // console.log('paska');
                         this.logIn();
-                        /*}.bind(this),
-                          3000
-                        );*/
                       }
                     }}
                   />
                 </Grid>
               </Grid>
-              {/*<Grid container alignItems="center" justify="space-between">
-                <Grid item>
-                  <FormControlLabel
-                    control={<Checkbox color="primary" />}
-                    label="Remember me"
-                  />
-                </Grid>
-                <Grid item>
-                  <Button
-                    disableFocusRipple
-                    disableRipple
-                    style={{ textTransform: 'none' }}
-                    variant="text"
-                    color="primary"
-                    onClick={() => localStorage.removeItem('jwtToken')}
-                  >
-                    Forgot password ?
-                  </Button>
-                </Grid>
-              </Grid>*/}
+              <Grid item>
+                <Button
+                  disableFocusRipple
+                  disableRipple
+                  style={{ textTransform: 'none' }}
+                  variant="text"
+                  color="primary"
+                  onClick={() => this.handleDialogOpen()}
+                >
+                  Forgot password ?
+                </Button>
+              </Grid>
+
               <Grid container justify="center" style={{ marginTop: '20px' }}>
                 <Button
                   id="loginButton"
@@ -279,6 +281,36 @@ class LoginTab extends React.Component {
                   Login
                 </Button>
               </Grid>
+              <Dialog
+                open={this.state.dialogOpen}
+                onClose={this.handleDialogClose}
+                aria-labelledby="info-dialog-forgot-pw"
+              >
+                <DialogTitle
+                  className={classes.dialogTitle}
+                  id="forgot-password-title"
+                >
+                  <a style={{ color: '#fff' }}>Password reseting...</a>
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="forgot-password-description">
+                    <br />
+                    Send email at same email address that you log in to email
+                    address admin@borrowd.fi request password reset. Admins will
+                    prosseed it when they can. You will get new password to you
+                    login email address.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={this.handleDialogClose}
+                    color="primary"
+                    autoFocus
+                  >
+                    Close
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </div>
           </MuiThemeProvider>
         </Paper>
