@@ -240,17 +240,24 @@ class LoginTab extends React.Component {
                 />
               </Grid>
             </Grid>
-            <Grid item>
-              <Button
-                disableFocusRipple
-                disableRipple
-                style={{ textTransform: 'none' }}
-                variant="text"
-                color="primary"
-                onClick={() => this.handleDialogOpen()}
-              >
-                Forgot password ?
-              </Button>
+            <Grid
+              container
+              alignItems="flex-start"
+              justify="flex-start"
+              style={{ paddingTop: '10px' }}
+            >
+              <Grid item>
+                <Button
+                  disableFocusRipple
+                  disableRipple
+                  style={{ textTransform: 'none' }}
+                  variant="text"
+                  color="primary"
+                  onClick={() => this.handleDialogOpen()}
+                >
+                  Forgot password ?
+                </Button>
+              </Grid>
             </Grid>
 
             <Grid container justify="center" style={{ marginTop: '20px' }}>
