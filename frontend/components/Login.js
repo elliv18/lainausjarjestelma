@@ -61,17 +61,6 @@ const styles = theme => ({
   },
 });
 
-/************************ THEME ***************************/
-
-const theme = createMuiTheme({
-  palette: {
-    primary: primaryColor,
-  },
-  typography: {
-    useNextVariants: true,
-  },
-});
-
 /************************** CLASS *******************************/
 
 class LoginTab extends React.Component {
@@ -200,119 +189,117 @@ class LoginTab extends React.Component {
     } else if (!loading && !isToken && isBackend) {
       return (
         <Paper className={classes.root} elevation={5}>
-          <MuiThemeProvider theme={theme}>
-            <div className={classes.margin}>
-              <Typography
-                variant="h4"
-                align="center"
-                style={{ color: 'rgba(0,70,85)' }}
-              >
-                <img
-                  src="/static/logo/logo.png"
-                  alt="borrowd"
-                  className={classes.logo}
-                />
-              </Typography>
-              <div className={classes.message}>{this.state.alertMsg}</div>
-              <Grid container spacing={8} alignItems="flex-end">
-                <Grid item>
-                  <Face />
-                </Grid>
-                <Grid item md={true} sm={true} xs={true}>
-                  <TextField
-                    id="usernameInput"
-                    label="Email"
-                    type="email"
-                    autoComplete="email"
-                    fullWidth
-                    autoFocus
-                    required
-                    onChange={this.setEmail}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container spacing={8} alignItems="flex-end">
-                <Grid item>
-                  <Fingerprint />
-                </Grid>
-                <Grid item md={true} sm={true} xs={true}>
-                  <TextField
-                    id="passwordInput"
-                    label="Password"
-                    type="password"
-                    autoComplete="password"
-                    fullWidth
-                    required
-                    onChange={this.setPassword}
-                    onKeyPress={async ev => {
-                      if (ev.key === 'Enter') {
-                        this.logIn();
-                      }
-                    }}
-                  />
-                </Grid>
-              </Grid>
+          <div className={classes.margin}>
+            <Typography
+              variant="h4"
+              align="center"
+              style={{ color: 'rgba(0,70,85)' }}
+            >
+              <img
+                src="/static/logo/logo.png"
+                alt="borrowd"
+                className={classes.logo}
+              />
+            </Typography>
+            <div className={classes.message}>{this.state.alertMsg}</div>
+            <Grid container spacing={8} alignItems="flex-end">
               <Grid item>
-                <Button
-                  disableFocusRipple
-                  disableRipple
-                  style={{ textTransform: 'none' }}
-                  variant="text"
-                  color="primary"
-                  onClick={() => this.handleDialogOpen()}
-                >
-                  Forgot password ?
-                </Button>
+                <Face />
               </Grid>
-
-              <Grid container justify="center" style={{ marginTop: '20px' }}>
-                <Button
-                  id="loginButton"
-                  size="large"
-                  onClick={() => this.logIn()}
-                  variant="outlined"
-                  color="primary"
-                  style={{
-                    textTransform: 'none',
-                    backgroundColor: 'rgba(0,70,85)',
-                    color: '#fff',
+              <Grid item md={true} sm={true} xs={true}>
+                <TextField
+                  id="usernameInput"
+                  label="Email"
+                  type="email"
+                  autoComplete="email"
+                  fullWidth
+                  autoFocus
+                  required
+                  onChange={this.setEmail}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={8} alignItems="flex-end">
+              <Grid item>
+                <Fingerprint />
+              </Grid>
+              <Grid item md={true} sm={true} xs={true}>
+                <TextField
+                  id="passwordInput"
+                  label="Password"
+                  type="password"
+                  autoComplete="password"
+                  fullWidth
+                  required
+                  onChange={this.setPassword}
+                  onKeyPress={async ev => {
+                    if (ev.key === 'Enter') {
+                      this.logIn();
+                    }
                   }}
-                >
-                  Login
-                </Button>
+                />
               </Grid>
-              <Dialog
-                open={this.state.dialogOpen}
-                onClose={this.handleDialogClose}
-                aria-labelledby="info-dialog-forgot-pw"
+            </Grid>
+            <Grid item>
+              <Button
+                disableFocusRipple
+                disableRipple
+                style={{ textTransform: 'none' }}
+                variant="text"
+                color="primary"
+                onClick={() => this.handleDialogOpen()}
               >
-                <DialogTitle
-                  className={classes.dialogTitle}
-                  id="forgot-password-title"
+                Forgot password ?
+              </Button>
+            </Grid>
+
+            <Grid container justify="center" style={{ marginTop: '20px' }}>
+              <Button
+                id="loginButton"
+                size="large"
+                onClick={() => this.logIn()}
+                variant="outlined"
+                color="primary"
+                style={{
+                  textTransform: 'none',
+                  backgroundColor: 'rgba(0,70,85)',
+                  color: '#fff',
+                }}
+              >
+                Login
+              </Button>
+            </Grid>
+            <Dialog
+              open={this.state.dialogOpen}
+              onClose={this.handleDialogClose}
+              aria-labelledby="forgot-password-info"
+            >
+              <DialogTitle
+                className={classes.dialogTitle}
+                id="forgot-password-title"
+              >
+                <a style={{ color: '#fff' }}>Password reseting...</a>
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="forgot-password-description">
+                  <br />
+                  Send email at same email address that you log in to email
+                  address admin@borrowd.fi request password reset. Admins will
+                  prosseed it when they can. You will get new password to you
+                  login email address.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={this.handleDialogClose}
+                  color="primary"
+                  autoFocus
                 >
-                  <a style={{ color: '#fff' }}>Password reseting...</a>
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="forgot-password-description">
-                    <br />
-                    Send email at same email address that you log in to email
-                    address admin@borrowd.fi request password reset. Admins will
-                    prosseed it when they can. You will get new password to you
-                    login email address.
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    onClick={this.handleDialogClose}
-                    color="primary"
-                    autoFocus
-                  >
-                    Close
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </div>
-          </MuiThemeProvider>
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
         </Paper>
       );
     } else {
