@@ -4,6 +4,21 @@ importScripts(
 
 if (workbox) {
   console.log(`Yay! Workbox is loaded 🎉`);
+  workbox.precaching.precacheAndRoute([
+    '/login',
+    '/index',
+    '/equipments',
+    '/loans',
+    '/users',
+    '/category',
+    '/_next/static/development/pages/_app.js',
+    '/manifest.json',
+    '/favicon-32x32.png',
+    '/icons/android-chrome-192x192.png',
+    '/static/logo/logo.png',
+    '/_next/static/chunks/0.js',
+    '/favicon.ico',
+  ]);
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }
@@ -80,6 +95,7 @@ workbox.routing.registerRoute(
   })
 );
 
+/*
 var CACHE_NAME = 'static-cache';
 var urlsToCache = ['.', '/login', '/index', '/manifest.json'];
 self.addEventListener('install', function(event) {
@@ -115,3 +131,4 @@ function fetchAndCache(url) {
       // You could return a custom offline 404 page here
     });
 }
+*/

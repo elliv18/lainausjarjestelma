@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import App from '../components/App';
 import classNames from 'classnames';
 
+import NoServer from './NoServer';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -34,6 +35,7 @@ import Cookies from 'js-cookie';
 
 import { withApollo } from 'react-apollo';
 import { CURRENTUSER } from '../lib/gql/mutation';
+import { BACKENDTEST_QUERY } from '../lib/gql/queries';
 
 /*********************** GLOBAL VARIABLES *************************/
 
@@ -157,6 +159,7 @@ class MiniDrawer extends React.Component {
       ok: false,
       client: props.client,
       currentUser: {},
+      isBackend: true,
     };
     // STATE ENDS
   }
@@ -169,7 +172,11 @@ class MiniDrawer extends React.Component {
       for (let i = 0; i < 3 && !temp; i++) {
         temp = await this.state.client
           .mutate({ mutation: CURRENTUSER })
-          .catch(e => {});
+          .catch(e => {
+            if (i == 2) {
+              this.setState({ isBackend: false });
+            }
+          });
       }
 
       if (temp) {
@@ -215,9 +222,9 @@ class MiniDrawer extends React.Component {
   // RENDER
   render() {
     const { classes } = this.props;
-    const { ok, currentUser } = this.state;
+    const { ok, currentUser, isBackend } = this.state;
 
-    if (ok) {
+    if (ok && isBackend) {
       return (
         <div>
           <CssBaseline />
@@ -383,6 +390,8 @@ class MiniDrawer extends React.Component {
           </App>
         </div>
       );
+    } else if (!isBackend) {
+      return <NoServer />;
     } else {
       return null;
     }

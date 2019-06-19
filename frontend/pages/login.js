@@ -12,6 +12,7 @@ export default class Index extends React.Component {
       console.log('Service worker not supported');
     }
   };
+
   render() {
     return (
       <App>
