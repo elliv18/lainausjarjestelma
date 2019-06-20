@@ -6,8 +6,6 @@ Summer training 2019 project to build fullstack loaning system.
 
 - SITE: https://lainaus.project.tamk.cloud
 
-- API: https://lainaus-api.project.tamk.cloud/
-
 ## Example `.env` file
 
 Bellow is example `.env` file
@@ -74,6 +72,7 @@ All code has to pass `yarn lint` or it fails the CI.
 
 - docker
 - docker-compose
+- Dotenv
 
 ### Backend
 
@@ -86,7 +85,6 @@ All code has to pass `yarn lint` or it fails the CI.
 - PostgreSQL
 - Winston + daily rotate logs
 - JWT
-- Dotenv
 
 ### Frontend
 
@@ -107,7 +105,8 @@ Remote server backend logs is inside folder `/opt/app/logs`
 
 ## Remote server info
 
-IP: 172.16.101.140
+- IP: 172.16.101.140
+- API: https://lainaus-api.project.tamk.cloud/
 
 port backend: 3050
 port frontend: 3000
