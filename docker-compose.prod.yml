@@ -4,6 +4,8 @@ services:
   prisma:
     image: prismagraphql/prisma:1.32
     restart: always
+    depends_on:
+      - postgres
     environment:
       PRISMA_CONFIG: |
         port: 3060
