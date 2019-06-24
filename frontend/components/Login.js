@@ -111,9 +111,9 @@ class LoginTab extends React.Component {
       .catch(e => {
         console.log(e);
         this.setState({ isBackend: false, loading: false });
-        /*  setTimeout(function() {
+        setTimeout(function() {
           window.location.reload();
-        }, 7000);*/
+        }, 7000);
       });
 
     if (this.state.isBackend) {
