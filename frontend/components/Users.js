@@ -106,21 +106,23 @@ const RowDetail = ({ row }) => (
           <Button
             style={{ backgroundColor: 'grey' }}
             onClick={() => {
-              //   if (pw === pw2 && pw !== null && pw2 !== null && pw.length > 2) {
-              //      console.log('OK');
-              userUpdatePW({
-                variables: { id: row.id, password: pw, passwordAgain: pw2 },
-              })
-                .then(response => {
-                  console.log(response);
-                  window.alert('Password changed');
+              if (pw === pw2 && pw !== null && pw2 !== null) {
+                //      console.log('OK');
+                userUpdatePW({
+                  variables: { id: row.id, password: pw, passwordAgain: pw2 },
                 })
-                .catch(e => {
-                  let error = e.message.replace('GraphQL error:', '').trim();
-                  console.log(error);
-                  window.alert(error);
-                });
-
+                  .then(response => {
+                    console.log(response);
+                    window.alert('Password changed');
+                  })
+                  .catch(e => {
+                    let error = e.message.replace('GraphQL error:', '').trim();
+                    console.log(error);
+                    window.alert(error);
+                  });
+              } else {
+                window.alert('Fill both password fields!');
+              }
               /* else if (pw === null || pw2 === null) {
                 console.log('Password can not be null!!');
               } else if (pw.length < 3) {
