@@ -167,6 +167,21 @@ class MiniDrawer extends React.Component {
   // STARTING STUFF
   async componentDidMount() {
     let temp;
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then(function(registration) {
+            console.log(
+              'Service worker successfully registered on scope',
+              registration.scope
+            );
+          })
+          .catch(function(error) {
+            console.log('Service worker failed to register');
+          });
+      });
+    }
 
     if ((await Cookies.get('jwtToken')) !== undefined) {
       for (let i = 0; i < 3 && !temp; i++) {
@@ -182,20 +197,15 @@ class MiniDrawer extends React.Component {
       if (temp) {
         temp.data.currentUser !== null
           ? this.setState({ currentUser: temp.data.currentUser, ok: true })
-          : (Cookies.remove('jwtToken'),
-            Router.push({
+          : (Router.push({
               pathname: '/login',
             }),
             (window.location.href = '/login'));
       }
     } else {
-      try {
-        Router.push({
-          pathname: '/login',
-        });
-      } catch (e) {
-        console.log(e);
-      }
+      Router.push({
+        pathname: '/login',
+      });
     }
   }
 

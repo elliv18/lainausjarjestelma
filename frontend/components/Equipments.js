@@ -490,10 +490,7 @@ class Equipments extends React.PureComponent {
               ? (categoryNames = tempCategories.data.allCategories)
               : null,
             this.setState({ data: temp2, loading: false })))
-      : (this.setState({ isBackend: false }),
-        Router.push({
-          pathname: '/login',
-        }));
+      : this.setState({ isBackend: false });
   }
 
   // RENDER

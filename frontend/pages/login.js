@@ -4,12 +4,19 @@ import LoginTab from '../components/Login';
 export default class Index extends React.Component {
   componentDidMount = () => {
     if ('serviceWorker' in navigator) {
-      // Use the window load event to keep the page load performant
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js');
+      window.addEventListener('load', function() {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then(function(registration) {
+            console.log(
+              'Service worker successfully registered on scope',
+              registration.scope
+            );
+          })
+          .catch(function(error) {
+            console.log('Service worker failed to register');
+          });
       });
-    } else {
-      console.log('Service worker not supported');
     }
   };
 
