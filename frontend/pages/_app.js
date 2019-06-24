@@ -18,6 +18,9 @@ const theme = createMuiTheme({
     },
     secondary: indigo,
   },
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 class MyApp extends App {
