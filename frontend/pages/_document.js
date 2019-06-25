@@ -32,7 +32,7 @@ class MyDocument extends Document {
           <meta name="keywords" content="Tamk,Tuni,lainausjärjestelmä," />
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+            href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
           />
           <link rel="shortcut icon" href="/favicon.ico" />
           <link
