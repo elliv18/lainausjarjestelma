@@ -167,7 +167,7 @@ class MiniDrawer extends React.Component {
   // STARTING STUFF
   async componentDidMount() {
     let temp;
-    /* if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
         navigator.serviceWorker
           .register('/sw.js')
@@ -181,7 +181,7 @@ class MiniDrawer extends React.Component {
             console.log('Service worker failed to register');
           });
       });
-    }*/
+    }
 
     if ((await Cookies.get('jwtToken')) !== undefined) {
       for (let i = 0; i < 3 && !temp; i++) {
