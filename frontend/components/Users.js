@@ -104,7 +104,16 @@ const RowDetail = ({ row }) => (
         </div>
         <div style={{ marginTop: 20 }}>
           <Button
-            style={{ backgroundColor: 'grey' }}
+            id="changePassword"
+            size=""
+            variant="outlined"
+            color="primary"
+            style={{
+              textTransform: 'none',
+              backgroundColor: 'rgba(0,70,85)',
+              color: '#fff',
+              marginBottom: 14,
+            }}
             onClick={() => {
               if (pw === pw2 && pw !== null && pw2 !== null) {
                 //      console.log('OK');
@@ -338,7 +347,7 @@ export const TableHeaderContent = withStyles(styles, {
 })(TableHeaderContentBase);
 
 const TableHeaderRowBase = ({ children, classes, ...restProps }) => (
-  <TableHeaderRow.Row style={{ backgroundColor: '#CDECD6' }}>
+  <TableHeaderRow.Row style={{ backgroundColor: '#D0DDE0' }}>
     {children}
   </TableHeaderRow.Row>
 );
@@ -346,6 +355,16 @@ const TableHeaderRowBase = ({ children, classes, ...restProps }) => (
 export const TableHeaderRowStyle = withStyles(styles, {
   name: 'TableHeaderRow',
 })(TableHeaderRowBase);
+
+const ToolbarRootBase = ({ children, classes, ...restProps }) => (
+  <Toolbar.Root style={{ backgroundColor: '#004655', color: '#fff' }}>
+    {children}
+  </Toolbar.Root>
+);
+
+export const ToolbarRoot = withStyles(styles, {
+  name: 'ToolbarRoot',
+})(ToolbarRootBase);
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
@@ -803,7 +822,7 @@ class Users extends React.PureComponent {
             <TableColumnVisibility
               defaultHiddenColumnNames={defaultHiddenColumnNames}
             />
-            <Toolbar />
+            <Toolbar rootComponent={ToolbarRoot} />
             <ColumnChooser />
             <SearchPanel />
             <ToolbarTitle title="Users" />

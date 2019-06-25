@@ -368,7 +368,7 @@ export const TableHeaderContent = withStyles(styles, {
 })(TableHeaderContentBase);
 
 const TableHeaderRowBase = ({ children, classes, ...restProps }) => (
-  <TableHeaderRow.Row style={{ backgroundColor: '#CDECD6' }}>
+  <TableHeaderRow.Row style={{ backgroundColor: '#D0DDE0' }}>
     {children}
   </TableHeaderRow.Row>
 );
@@ -833,7 +833,7 @@ class Loans extends React.PureComponent {
             <TableColumnVisibility
               defaultHiddenColumnNames={defaultHiddenColumnNames}
             />
-            <Toolbar />
+            <Toolbar rootComponent={ToolbarRoot} />
             <ColumnChooser />
             <SearchPanel />
             <ToolbarTitle title="Loans" />

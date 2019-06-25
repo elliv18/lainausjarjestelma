@@ -264,7 +264,7 @@ export const TableHeaderContent = withStyles(styles, {
 })(TableHeaderContentBase);
 
 const TableHeaderRowBase = ({ children, classes, ...restProps }) => (
-  <TableHeaderRow.Row style={{ backgroundColor: '#CDECD6' }}>
+  <TableHeaderRow.Row style={{ backgroundColor: '#D0DDE0' }}>
     {children}
   </TableHeaderRow.Row>
 );
@@ -272,6 +272,16 @@ const TableHeaderRowBase = ({ children, classes, ...restProps }) => (
 export const TableHeaderRowStyle = withStyles(styles, {
   name: 'TableHeaderRow',
 })(TableHeaderRowBase);
+
+const ToolbarRootBase = ({ children, classes, ...restProps }) => (
+  <Toolbar.Root style={{ backgroundColor: '#004655', color: '#fff' }}>
+    {children}
+  </Toolbar.Root>
+);
+
+export const ToolbarRoot = withStyles(styles, {
+  name: 'ToolbarRoot',
+})(ToolbarRootBase);
 
 /******************************** CLASS ***************************************/
 
@@ -655,7 +665,7 @@ class Equipments extends React.PureComponent {
             <TableColumnVisibility
               defaultHiddenColumnNames={defaultHiddenColumnNames}
             />
-            <Toolbar />
+            <Toolbar rootComponent={ToolbarRoot} />
             <ColumnChooser />
             <SearchPanel />
             <ToolbarTitle title="Equipments" />
