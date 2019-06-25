@@ -227,7 +227,7 @@ const TableHeaderContentBase = ({
   <TableHeaderRow.Content
     column={column}
     {...restProps}
-    style={{ color: 'black' }}
+    style={{ color: 'black', fontSize: '14px', fontWeight: 'bold' }}
   >
     {children}
   </TableHeaderRow.Content>
@@ -236,6 +236,16 @@ const TableHeaderContentBase = ({
 export const TableHeaderContent = withStyles(styles, {
   name: 'TableHeaderContent',
 })(TableHeaderContentBase);
+
+const TableHeaderRowBase = ({ children, classes, ...restProps }) => (
+  <TableHeaderRow.Row style={{ backgroundColor: '#CDECD6' }}>
+    {children}
+  </TableHeaderRow.Row>
+);
+
+export const TableHeaderRowStyle = withStyles(styles, {
+  name: 'TableHeaderRow',
+})(TableHeaderRowBase);
 
 /************************* MAIN CLASS ************************************/
 
@@ -536,6 +546,7 @@ class Category extends React.PureComponent {
             <TableHeaderRow
               showSortingControls
               contentComponent={TableHeaderContent}
+              rowComponent={TableHeaderRowStyle}
             />
             <TableEditRow cellComponent={EditCell} />
             <TableEditColumn
