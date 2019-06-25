@@ -196,7 +196,7 @@ export const TableHeaderContent = withStyles(styles, {
 })(TableHeaderContentBase);
 
 const TableHeaderRowBase = ({ children, classes, ...restProps }) => (
-  <TableHeaderRow.Row style={{ backgroundColor: '#CDECD6' }}>
+  <TableHeaderRow.Row style={{ backgroundColor: '#D0DDE0' }}>
     {children}
   </TableHeaderRow.Row>
 );
@@ -204,6 +204,26 @@ const TableHeaderRowBase = ({ children, classes, ...restProps }) => (
 export const TableHeaderRowStyle = withStyles(styles, {
   name: 'TableHeaderRow',
 })(TableHeaderRowBase);
+
+const ToolbarRootBase = ({ children, classes, ...restProps }) => (
+  <Toolbar.Root style={{ backgroundColor: '#004655', color: '#fff' }}>
+    {children}
+  </Toolbar.Root>
+);
+
+export const ToolbarRoot = withStyles(styles, {
+  name: 'ToolbarRoot',
+})(ToolbarRootBase);
+
+const SearchPanelBase = ({ children, classes, ...restProps }) => (
+  <SearchPanel.Input style={{ backgroundColor: '#fff', color: '#fff' }}>
+    {children}
+  </SearchPanel.Input>
+);
+
+export const SearchPanelInput = withStyles(styles, {
+  name: 'SearchPanelInput',
+})(SearchPanelBase);
 
 class Home extends React.Component {
   constructor(props) {
@@ -533,8 +553,8 @@ class Home extends React.Component {
                     contentComponent={TableHeaderContent}
                     rowComponent={TableHeaderRowStyle}
                   />
-                  <Toolbar />
-                  <SearchPanel />
+                  <Toolbar rootComponent={ToolbarRoot} />
+                  <SearchPanel rootComponent={SearchPanelInput} />
                   <ToolbarTitle title="Your loans" />
                 </GridTable>
               </Paper>

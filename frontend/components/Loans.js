@@ -377,6 +377,15 @@ export const TableHeaderRowStyle = withStyles(styles, {
   name: 'TableHeaderRow',
 })(TableHeaderRowBase);
 
+const ToolbarRootBase = ({ children, classes, ...restProps }) => (
+  <Toolbar.Root style={{ backgroundColor: '#004655', color: '#fff' }}>
+    {children}
+  </Toolbar.Root>
+);
+
+export const ToolbarRoot = withStyles(styles, {
+  name: 'ToolbarRoot',
+})(ToolbarRootBase);
 /****************************** CLASS ********************************************************/
 
 class Loans extends React.PureComponent {
