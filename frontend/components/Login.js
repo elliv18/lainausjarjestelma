@@ -216,6 +216,11 @@ class LoginTab extends React.Component {
                   autoFocus
                   required
                   onChange={this.setEmail}
+                  onKeyPress={async ev => {
+                    if (ev.key === 'Enter') {
+                      document.getElementById('passwordInput').focus();
+                    }
+                  }}
                 />
               </Grid>
             </Grid>
