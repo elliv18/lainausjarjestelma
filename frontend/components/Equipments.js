@@ -209,11 +209,23 @@ const BooleanFormatter = ({ value }) => (
     style={
       value
         ? {
-            backgroundColor: '#DB2B39',
+            borderColor: '#DB2B39',
+            borderStyle: 'solid',
+            borderWidth: '1px',
+            color: '#DB2B39',
+            backgroundColor: 'white',
             width: '110px',
             justifyContent: 'left',
           }
-        : { backgroundColor: '#018E42', width: '110px', justifyContent: 'left' }
+        : {
+            borderColor: '#018E42',
+            borderStyle: 'solid',
+            borderWidth: '1px',
+            color: '#018E42',
+            backgroundColor: 'white',
+            width: '110px',
+            justifyContent: 'left',
+          }
     }
   />
 );

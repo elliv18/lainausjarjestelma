@@ -296,11 +296,21 @@ const BooleanFormatter = ({ value }) => (
     style={
       value
         ? {
-            backgroundColor: '#018E42',
+            borderColor: '#018E42',
+            borderStyle: 'solid',
+            borderWidth: '1px',
+            color: '#018E42',
+            backgroundColor: 'white',
             width: '105px',
             justifyContent: 'left',
           }
-        : { backgroundColor: '#DB2B39' }
+        : {
+            borderColor: '#DB2B39',
+            borderStyle: 'solid',
+            borderWidth: '1px',
+            color: '#DB2B39',
+            backgroundColor: '#9C9C9C',
+          }
     }
   />
 );
