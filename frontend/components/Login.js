@@ -44,7 +44,7 @@ const styles = theme => ({
     marginTop: '10%',
     width: '50%',
     margin: 'auto',
-    backgroundColor: '#E7EEEF',
+    backgroundColor: '#F4F7F7',
   },
 
   message: {
