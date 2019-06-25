@@ -6,6 +6,7 @@ cacheName = 'borrowd-v1';
 const runtimeCacheName = workbox.core.cacheNames.runtime;
 
 if (workbox) {
+  workbox.precaching.precacheAndRoute(['/index', '/login']);
   console.log(`Yay! Workbox is loaded 🎉`);
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
@@ -76,7 +77,12 @@ workbox.routing.registerRoute(
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(cacheName).then(function(cache) {
-      return cache.addAll(['error', 'offline', '/static/logo/logo.png']);
+      return cache.addAll([
+        'error',
+        'offline',
+        '/static/logo/logo.png',
+        'error502',
+      ]);
     })
   );
 });
@@ -94,6 +100,9 @@ self.addEventListener('fetch', function(event) {
           if (response.status === 404) {
             console.log(response.status);
             return caches.match('error');
+          } else if (response.status === 502) {
+            console.log(response.status);
+            return caches.match('error502');
           }
           return response;
         });
