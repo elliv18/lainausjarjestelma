@@ -89,7 +89,7 @@ const styles = {
     padding: 20,
   },
   cardTitle: {
-    backgroundColor: 'rgba(0,70,85)',
+    backgroundColor: '#457883',
     textAlign: 'left',
     padding: 20,
   },
@@ -206,7 +206,7 @@ export const TableHeaderRowStyle = withStyles(styles, {
 })(TableHeaderRowBase);
 
 const ToolbarRootBase = ({ children, classes, ...restProps }) => (
-  <Toolbar.Root style={{ backgroundColor: '#004655', color: '#fff' }}>
+  <Toolbar.Root style={{ backgroundColor: '#457883', color: '#fff' }}>
     {children}
   </Toolbar.Root>
 );
