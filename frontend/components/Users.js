@@ -357,7 +357,7 @@ export const TableHeaderRowStyle = withStyles(styles, {
 })(TableHeaderRowBase);
 
 const ToolbarRootBase = ({ children, classes, ...restProps }) => (
-  <Toolbar.Root style={{ backgroundColor: '#004655', color: '#fff' }}>
+  <Toolbar.Root style={{ backgroundColor: '#457883', color: '#fff' }}>
     {children}
   </Toolbar.Root>
 );
