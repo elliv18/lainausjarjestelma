@@ -217,6 +217,26 @@ const BooleanFormatter = ({ value }) => (
 
 const getRowId = row => row.id;
 
+// Header styles
+const TableHeaderContentBase = ({
+  column,
+  children,
+  classes,
+  ...restProps
+}) => (
+  <TableHeaderRow.Content
+    column={column}
+    {...restProps}
+    style={{ color: 'black' }}
+  >
+    {children}
+  </TableHeaderRow.Content>
+);
+
+export const TableHeaderContent = withStyles(styles, {
+  name: 'TableHeaderContent',
+})(TableHeaderContentBase);
+
 /************************* MAIN CLASS ************************************/
 
 class Category extends React.PureComponent {
@@ -513,7 +533,10 @@ class Category extends React.PureComponent {
               order={columnOrder}
               onOrderChange={this.changeColumnOrder}
             />
-            <TableHeaderRow showSortingControls />
+            <TableHeaderRow
+              showSortingControls
+              contentComponent={TableHeaderContent}
+            />
             <TableEditRow cellComponent={EditCell} />
             <TableEditColumn
               width={170}

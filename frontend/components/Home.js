@@ -165,6 +165,26 @@ const BooleanFormatter = ({ value }) => (
   />
 );
 
+// Header styles
+const TableHeaderContentBase = ({
+  column,
+  children,
+  classes,
+  ...restProps
+}) => (
+  <TableHeaderRow.Content
+    column={column}
+    {...restProps}
+    style={{ color: 'black' }}
+  >
+    {children}
+  </TableHeaderRow.Content>
+);
+
+export const TableHeaderContent = withStyles(styles, {
+  name: 'TableHeaderContent',
+})(TableHeaderContentBase);
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -488,7 +508,10 @@ class Home extends React.Component {
                     columnExtensions={tableColumnExtensions}
                     height="400"
                   />
-                  <TableHeaderRow showSortingControls />
+                  <TableHeaderRow
+                    showSortingControls
+                    contentComponent={TableHeaderContent}
+                  />
                   <Toolbar />
                   <SearchPanel />
                   <ToolbarTitle title="Your loans" />

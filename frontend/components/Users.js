@@ -306,6 +306,27 @@ const BooleanFormatter = ({ value }) => (
 );
 
 const getRowId = row => row.id;
+
+// Header styles
+const TableHeaderContentBase = ({
+  column,
+  children,
+  classes,
+  ...restProps
+}) => (
+  <TableHeaderRow.Content
+    column={column}
+    {...restProps}
+    style={{ color: 'black' }}
+  >
+    {children}
+  </TableHeaderRow.Content>
+);
+
+export const TableHeaderContent = withStyles(styles, {
+  name: 'TableHeaderContent',
+})(TableHeaderContentBase);
+
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
@@ -711,7 +732,10 @@ class Users extends React.PureComponent {
               order={columnOrder}
               onOrderChange={this.changeColumnOrder}
             />
-            <TableHeaderRow showSortingControls />
+            <TableHeaderRow
+              showSortingControls
+              contentComponent={TableHeaderContent}
+            />
 
             {currentUser === 'ADMIN' ? (
               <TableRowDetail contentComponent={RowDetail} />
