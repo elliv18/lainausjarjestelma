@@ -387,15 +387,6 @@ export const ToolbarRoot = withStyles(styles, {
   name: 'ToolbarRoot',
 })(ToolbarRootBase);
 
-const ColumnChooserRootBase = ({ childern, classes, ...restProps }) => (
-  <ColumnChooser.ToggleButton style={{ backgroundColor: '#fff' }}>
-    {children}
-  </ColumnChooser.ToggleButton>
-);
-
-export const ColumnChooserRoot = withStyles(styles, {
-  name: 'ColumnChooserRoot',
-})(ColumnChooserRootBase);
 /****************************** CLASS ********************************************************/
 
 class Loans extends React.PureComponent {
@@ -844,7 +835,7 @@ class Loans extends React.PureComponent {
               defaultHiddenColumnNames={defaultHiddenColumnNames}
             />
             <Toolbar rootComponent={ToolbarRoot} />
-            <ColumnChooser rootComponent={ColumnChooserRoot} />
+            <ColumnChooser />
             <SearchPanel />
             <ToolbarTitle title="Loans" />
           </Grid>
