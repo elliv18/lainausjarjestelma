@@ -386,6 +386,16 @@ const ToolbarRootBase = ({ children, classes, ...restProps }) => (
 export const ToolbarRoot = withStyles(styles, {
   name: 'ToolbarRoot',
 })(ToolbarRootBase);
+
+const ColumnChooserRootBase = ({ childern, classes, ...restProps }) => (
+  <ColumnChooser.ToggleButton style={{ backgroundColor: '#fff' }}>
+    {children}
+  </ColumnChooser.ToggleButton>
+);
+
+export const ColumnChooserRoot = withStyles(styles, {
+  name: 'ColumnChooserRoot',
+})(ColumnChooserRootBase);
 /****************************** CLASS ********************************************************/
 
 class Loans extends React.PureComponent {
@@ -749,7 +759,7 @@ class Loans extends React.PureComponent {
       return <Loading />;
     } else if (!loading && currentUser !== 'STUDENT') {
       return (
-        <Paper className={classes.root} elevation={5}>
+        <Paper className={classes.root} elevation={12}>
           <Grid rows={data} columns={columns} getRowId={getRowId}>
             <RowDetailState />
             <SortingState
@@ -834,7 +844,7 @@ class Loans extends React.PureComponent {
               defaultHiddenColumnNames={defaultHiddenColumnNames}
             />
             <Toolbar rootComponent={ToolbarRoot} />
-            <ColumnChooser />
+            <ColumnChooser rootComponent={ColumnChooserRoot} />
             <SearchPanel />
             <ToolbarTitle title="Loans" />
           </Grid>

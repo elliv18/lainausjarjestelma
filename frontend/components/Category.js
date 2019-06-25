@@ -512,7 +512,7 @@ class Category extends React.PureComponent {
       return <Loading />;
     } else if (!loading && currentUser !== 'STUDENT') {
       return (
-        <Paper className={classes.root} elevation={5}>
+        <Paper className={classes.root} elevation={12}>
           <Grid rows={data} columns={columns} getRowId={getRowId}>
             <SortingState
               sorting={sorting}
