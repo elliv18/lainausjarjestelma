@@ -212,8 +212,13 @@ const styles = theme => ({
 
 const AddButton = ({ onExecute }) => (
   <div style={{ textAlign: 'center' }}>
-    <Button color="primary" onClick={onExecute} title="Create new user">
-      <b>New user</b>
+    <Button
+      variant="contained"
+      style={{ color: '#fff', background: '#004655' }}
+      onClick={onExecute}
+      title="Create new user"
+    >
+      <b>New</b>
     </Button>
   </div>
 );
