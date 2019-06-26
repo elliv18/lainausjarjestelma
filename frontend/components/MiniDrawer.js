@@ -257,7 +257,8 @@ class MiniDrawer extends React.Component {
               </Link>
               <Button
                 className={classes.myAccount}
-                color="inherit"
+                variant="contained"
+                color="primary"
                 title="Logout"
                 onClick={() => this.logOut()}
               >
