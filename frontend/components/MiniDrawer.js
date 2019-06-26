@@ -108,8 +108,11 @@ const styles = theme => ({
     backgroundColor: '#B9CCD0',
     minHeight: 'calc(100vh - 64px)',
   },
-  myAccount: {
+  logOutButton: {
     right: 0,
+    paddingLeft: 11,
+    paddingRight: 15,
+    backgroundColor: '#175664',
   },
   group: {
     marginRight: 10,
@@ -256,7 +259,7 @@ class MiniDrawer extends React.Component {
                 </Typography>
               </Link>
               <Button
-                className={classes.myAccount}
+                className={classes.logOutButton}
                 variant="contained"
                 color="primary"
                 title="Logout"
