@@ -584,7 +584,7 @@ class Home extends React.Component {
                   title="Account information"
                   titleTypographyProps={{
                     variant: 'h4',
-                    style: { color: '#fff' },
+                    style: { color: '#fff', textShadow: '1px 1px #000000' },
                   }}
                   className={classes.cardTitle}
                 />
