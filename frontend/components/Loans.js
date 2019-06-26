@@ -493,7 +493,6 @@ class Loans extends React.PureComponent {
       loading: true,
       client: props.client,
       currentUser: null,
-      isBackend: false,
     };
     // STATE ENS
 
@@ -672,86 +671,65 @@ class Loans extends React.PureComponent {
     let temp2 = [];
     let CU = null;
 
-    await this.state.client
-      .query({
-        query: BACKENDTEST_QUERY,
-      })
-      .then(result => {
-        this.setState({ isBackend: true });
-        console.log(this.state.isBackend);
-      })
-      .catch(e => {
-        console.log(e);
-        this.setState({ isBackend: false });
-        Router.push({
-          pathname: '/login',
-        });
-      });
+    (CU = await this.state.client.mutate({
+      mutation: CURRENTUSER,
+    })),
+      this.setState({ currentUser: CU.data.currentUser.userType }),
+      this.state.currentUser === 'STUDENT'
+        ? Router.push({
+            pathname: '/home',
+          })
+        : ((temp = await this.state.client
+            .query({ query: LOANS_QUERY })
+            .catch(e => console.log(e))),
+          (tempEmails = await this.state.client
+            .query({ query: EMAILS_QUERY })
+            .catch(e => console.log(e))),
+          (tempIdCodes = await this.state.client
+            .query({ query: DEVICE_ID_QUERY })
+            .catch(e => console.log(e))),
+          temp && temp.data.allLoans
+            ? temp.data.allLoans.map(
+                (obj, i) =>
+                  (temp2[i] = {
+                    id: obj.id,
+                    loanDate: obj.loanDate !== null ? obj.loanDate : null,
+                    returnDate: obj.returnDate !== null ? obj.returnDate : null,
+                    dueDate: obj.dueDate !== null ? obj.dueDate : null,
+                    isActive: obj.isActive,
+                    idCode: obj.device.idCode,
+                    manufacture: obj.device.manufacture,
+                    model: obj.device.model,
+                    deviceCategory: obj.device.category.deviceCategory,
+                    loaner: obj.loaner.firstName + ' ' + obj.loaner.lastName,
+                    loanerFirstName: obj.loaner.firstName,
+                    loanerLastName: obj.loaner.lastName,
+                    loanerEmail: obj.loaner.email,
+                    supplierFirstName: obj.supplier.firstName,
+                    supplierLastName: obj.supplier.lastName,
+                    supplierEmail: obj.supplier.email,
+                  })
+              )
+            : null,
+          tempEmails
+            ? tempEmails.data.allUsers.map(row => {
+                if (row.isActive) {
+                  tempActiveEmails = [...tempActiveEmails, row.email];
+                }
+              })
+            : null,
+          tempIdCodes
+            ? tempIdCodes.data.allDevices.map(row => {
+                if (!row.loanStatus) {
+                  tempID = [...tempID, row.idCode];
+                }
+              })
+            : null,
+          (arrayEmails = editEmails(tempActiveEmails)),
+          (arrayIdCodes = editIdCodes(tempID)),
+          //console.log('arrayCodes', arrayIdCodes);
+          this.setState({ data: temp2, loading: false }));
 
-    this.state.isBackend
-      ? ((CU = await this.state.client.mutate({
-          mutation: CURRENTUSER,
-        })),
-        this.setState({ currentUser: CU.data.currentUser.userType }),
-        this.state.currentUser === 'STUDENT'
-          ? Router.push({
-              pathname: '/',
-            })
-          : ((temp = await this.state.client
-              .query({ query: LOANS_QUERY })
-              .catch(e => console.log(e))),
-            (tempEmails = await this.state.client
-              .query({ query: EMAILS_QUERY })
-              .catch(e => console.log(e))),
-            (tempIdCodes = await this.state.client
-              .query({ query: DEVICE_ID_QUERY })
-              .catch(e => console.log(e))),
-            temp && temp.data.allLoans
-              ? temp.data.allLoans.map(
-                  (obj, i) =>
-                    (temp2[i] = {
-                      id: obj.id,
-                      loanDate: obj.loanDate !== null ? obj.loanDate : null,
-                      returnDate:
-                        obj.returnDate !== null ? obj.returnDate : null,
-                      dueDate: obj.dueDate !== null ? obj.dueDate : null,
-                      isActive: obj.isActive,
-                      idCode: obj.device.idCode,
-                      manufacture: obj.device.manufacture,
-                      model: obj.device.model,
-                      deviceCategory: obj.device.category.deviceCategory,
-                      loaner: obj.loaner.firstName + ' ' + obj.loaner.lastName,
-                      loanerFirstName: obj.loaner.firstName,
-                      loanerLastName: obj.loaner.lastName,
-                      loanerEmail: obj.loaner.email,
-                      supplierFirstName: obj.supplier.firstName,
-                      supplierLastName: obj.supplier.lastName,
-                      supplierEmail: obj.supplier.email,
-                    })
-                )
-              : null,
-            tempEmails
-              ? tempEmails.data.allUsers.map(row => {
-                  if (row.isActive) {
-                    tempActiveEmails = [...tempActiveEmails, row.email];
-                  }
-                })
-              : null,
-            tempIdCodes
-              ? tempIdCodes.data.allDevices.map(row => {
-                  if (!row.loanStatus) {
-                    tempID = [...tempID, row.idCode];
-                  }
-                })
-              : null,
-            (arrayEmails = editEmails(tempActiveEmails)),
-            (arrayIdCodes = editIdCodes(tempID)),
-            //console.log('arrayCodes', arrayIdCodes);
-            this.setState({ data: temp2, loading: false })))
-      : (this.setState({ isBackend: false }),
-        Router.push({
-          pathname: '/login',
-        }));
     //  console.log(temp2);
   }
 

@@ -100,6 +100,8 @@ class LoginTab extends React.Component {
   };
 
   async componentDidMount() {
+    let CU = null;
+
     let server = await this.state.client
       .query({
         query: BACKENDTEST_QUERY,
@@ -116,33 +118,39 @@ class LoginTab extends React.Component {
         }, 7000);
       });
 
-    if (this.state.isBackend) {
-      if (Cookies.get('jwtToken')) {
-        let CU = await this.state.client
-          .mutate({
-            mutation: CURRENTUSER,
-          })
-          .catch(e => {
-            console.log('catch');
-            Cookies.remove('jwtToken');
-          });
-        console.log('cu', CU);
-        this.setState({
-          currentUser: CU.data.currentUser ? CU.data.currentUser.userType : '',
+    this.state.isBackend
+      ? (Cookies.get('jwtToken')
+          ? ((CU = await this.state.client
+              .mutate({
+                mutation: CURRENTUSER,
+              })
+              .catch(e => {
+                console.log('catch');
+                Cookies.remove('jwtToken');
+              })),
+            this.setState({
+              currentUser:
+                CU && CU.data.currentUser
+                  ? CU.data.currentUser
+                  : null
+                  ? CU.data.currentUser.userType
+                  : '',
+            }),
+            this.setState({ isToken: true }))
+          : Router.push({
+              pathname: '/',
+            }),
+        this.state.currentUser === 'ADMIN' ||
+        this.state.currentUser === 'STAFF' ||
+        this.state.currentUser === 'STUDENT'
+          ? Router.push({
+              pathname: '/home',
+            })
+          : Cookies.remove('jwtToken'),
+        this.setState({ loading: false }))
+      : Router.push({
+          pathname: '/',
         });
-        this.setState({ isToken: true });
-      }
-
-      this.state.currentUser === 'ADMIN' ||
-      this.state.currentUser === 'STAFF' ||
-      this.state.currentUser === 'STUDENT'
-        ? Router.push({
-            pathname: '/home',
-          })
-        : Cookies.remove('jwtToken');
-
-      this.setState({ loading: false });
-    }
   }
 
   logIn = async () => {

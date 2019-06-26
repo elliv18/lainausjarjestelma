@@ -306,7 +306,6 @@ class Home extends React.Component {
       alertMsgPass: '',
       alertMsgInf: '',
       loading: true,
-      isBackend: undefined,
     };
     this.changeSorting = sorting => this.setState({ sorting });
   }
@@ -320,63 +319,43 @@ class Home extends React.Component {
     let temp_user = null;
     let temp_loans = [];
 
-    await this.state.client
-      .query({
-        query: BACKENDTEST_QUERY,
-      })
-      .then(result => {
-        this.setState({ isBackend: true });
-      })
-      .catch(e => {
-        console.log(e);
-        this.setState({ isBackend: false });
-        Router.push({
-          pathname: '/login',
-        });
-      });
-
-    this.state.isBackend
-      ? ((JWT = Cookies.get('jwtToken')),
-        JWT !== null
-          ? ((temp = await this.state.client
-              .mutate({ mutation: CURRENTUSER })
-              .catch(e => {
-                console.log(e);
-              })),
-            temp.data.currentUser
-              ? ((temp_user = {
-                  userType: temp.data.currentUser.userType,
-                  email: temp.data.currentUser.email,
-                  firstName: temp.data.currentUser.firstName,
-                  lastName: temp.data.currentUser.lastName,
-                  address: temp.data.currentUser.address,
-                  personNumber: temp.data.currentUser.personNumber,
-                  phone: temp.data.currentUser.phone,
-                }),
-                temp.data.currentUser.loans.map((obj, i) => {
-                  temp_loans[i] = {
-                    id: obj.id,
-                    loanDate: obj.loanDate !== null ? obj.loanDate : null,
-                    returnDate: obj.returnDate !== null ? obj.returnDate : null,
-                    dueDate: obj.dueDate !== null ? obj.dueDate : null,
-                    idCode: obj.device.idCode,
-                    manufacture: obj.device.manufacture,
-                    model: obj.device.model,
-                    deviceCategory: obj.device.category.deviceCategory,
-                    isActive: obj.isActive,
-                  };
-                }))
-              : null,
-            this.setState({
-              data_user: temp_user,
-              data_loans: temp_loans,
-              loading: false,
-            }))
-          : null)
-      : (this.setState({ isBackend: false }),
-        Router.push({
-          pathname: '/login',
-        }));
+    (JWT = Cookies.get('jwtToken')),
+      JWT !== null
+        ? ((temp = await this.state.client
+            .mutate({ mutation: CURRENTUSER })
+            .catch(e => {
+              console.log(e);
+            })),
+          temp.data.currentUser
+            ? ((temp_user = {
+                userType: temp.data.currentUser.userType,
+                email: temp.data.currentUser.email,
+                firstName: temp.data.currentUser.firstName,
+                lastName: temp.data.currentUser.lastName,
+                address: temp.data.currentUser.address,
+                personNumber: temp.data.currentUser.personNumber,
+                phone: temp.data.currentUser.phone,
+              }),
+              temp.data.currentUser.loans.map((obj, i) => {
+                temp_loans[i] = {
+                  id: obj.id,
+                  loanDate: obj.loanDate !== null ? obj.loanDate : null,
+                  returnDate: obj.returnDate !== null ? obj.returnDate : null,
+                  dueDate: obj.dueDate !== null ? obj.dueDate : null,
+                  idCode: obj.device.idCode,
+                  manufacture: obj.device.manufacture,
+                  model: obj.device.model,
+                  deviceCategory: obj.device.category.deviceCategory,
+                  isActive: obj.isActive,
+                };
+              }))
+            : null,
+          this.setState({
+            data_user: temp_user,
+            data_loans: temp_loans,
+            loading: false,
+          }))
+        : null;
   }
 
   // FUNCTIONS

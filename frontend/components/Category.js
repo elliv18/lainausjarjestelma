@@ -463,63 +463,42 @@ class Category extends React.PureComponent {
     let temp2 = [];
     let CU = null;
 
-    await this.state.client
-      .query({
-        query: BACKENDTEST_QUERY,
-      })
-      .then(result => {
-        this.setState({ isBackend: true });
-        console.log(this.state.isBackend);
-      })
-      .catch(e => {
-        console.log(e);
-        this.setState({ isBackend: false });
-        Router.push({
-          pathname: '/login',
-        });
-      });
-
-    this.state.isBackend
-      ? ((CU = await this.state.client.mutate({
-          mutation: CURRENTUSER,
-        })),
-        this.setState({ currentUser: CU.data.currentUser.userType }),
-        this.state.currentUser !== 'ADMIN'
-          ? Router.push({
-              pathname: '/',
+    (CU = await this.state.client.mutate({
+      mutation: CURRENTUSER,
+    })),
+      this.setState({ currentUser: CU.data.currentUser.userType }),
+      this.state.currentUser !== 'ADMIN'
+        ? Router.push({
+            pathname: '/',
+          })
+        : ((temp = await this.state.client
+            .query({
+              query: CATEGORY_QUERY,
             })
-          : ((temp = await this.state.client
-              .query({
-                query: CATEGORY_QUERY,
-              })
-              .catch(e => console.log(e))),
-            temp && temp.data.allCategories
-              ? temp.data.allCategories.map(
-                  (obj, i) =>
-                    (temp2[i] = {
-                      id: obj.id,
-                      deviceCategory: obj.deviceCategory,
-                      desription: obj.desription,
-                      createdAt:
-                        obj.createdAt !== null ? (
-                          <Moment format="DD-MM-YYYY HH:mm">
-                            {obj.createdAt}
-                          </Moment>
-                        ) : null,
-                      updatedAt:
-                        obj.updatedAt !== null ? (
-                          <Moment format="DD-MM-YYYY HH:mm">
-                            {obj.updatedAt}
-                          </Moment>
-                        ) : null,
-                    })
-                )
-              : null,
-            this.setState({ data: temp2, loading: false })))
-      : (this.setState({ isBackend: false }),
-        Router.push({
-          pathname: '/login',
-        }));
+            .catch(e => console.log(e))),
+          temp && temp.data.allCategories
+            ? temp.data.allCategories.map(
+                (obj, i) =>
+                  (temp2[i] = {
+                    id: obj.id,
+                    deviceCategory: obj.deviceCategory,
+                    desription: obj.desription,
+                    createdAt:
+                      obj.createdAt !== null ? (
+                        <Moment format="DD-MM-YYYY HH:mm">
+                          {obj.createdAt}
+                        </Moment>
+                      ) : null,
+                    updatedAt:
+                      obj.updatedAt !== null ? (
+                        <Moment format="DD-MM-YYYY HH:mm">
+                          {obj.updatedAt}
+                        </Moment>
+                      ) : null,
+                  })
+              )
+            : null,
+          this.setState({ data: temp2, loading: false }));
   }
 
   // RENDER

@@ -162,7 +162,7 @@ class MiniDrawer extends React.Component {
       ok: false,
       client: props.client,
       currentUser: {},
-      isBackend: true,
+      isBackend: false,
     };
     // STATE ENDS
   }
@@ -186,25 +186,45 @@ class MiniDrawer extends React.Component {
       });
     }
 
-    if ((await Cookies.get('jwtToken')) !== undefined) {
-      temp = await this.state.client
-        .mutate({ mutation: CURRENTUSER })
-        .catch(e => {
-          console.log(e);
+    await this.state.client
+      .query({
+        query: BACKENDTEST_QUERY,
+      })
+      .then(result => {
+        this.setState({ isBackend: true });
+        console.log(this.state.isBackend);
+      })
+      .catch(e => {
+        console.log(e);
+        this.setState({ isBackend: false });
+        Router.push({
+          pathname: '/',
         });
-
-      if (temp) {
-        temp.data.currentUser !== null
-          ? this.setState({ currentUser: temp.data.currentUser, ok: true })
-          : (Router.push({
-              pathname: '/',
-            }),
-            (window.location.href = '/'));
-      }
-    } else {
-      Router.push({
-        pathname: '/',
       });
+
+    if (this.state.isBackend) {
+      if ((await Cookies.get('jwtToken')) !== undefined) {
+        temp = await this.state.client
+          .mutate({ mutation: CURRENTUSER })
+          .catch(e => {
+            Router.push({
+              pathname: '/',
+            });
+          });
+
+        if (temp) {
+          temp.data.currentUser !== null
+            ? this.setState({ currentUser: temp.data.currentUser, ok: true })
+            : (Router.push({
+                pathname: '/',
+              }),
+              (window.location.href = '/'));
+        }
+      } else {
+        Router.push({
+          pathname: '/',
+        });
+      }
     }
   }
 
@@ -222,6 +242,7 @@ class MiniDrawer extends React.Component {
       Router.replace({
         pathname: '/',
       });
+      window.location.href = '/';
     } catch (e) {
       console.log(e);
     }
@@ -399,8 +420,6 @@ class MiniDrawer extends React.Component {
           </App>
         </div>
       );
-    } else if (!isBackend) {
-      return <NoServer />;
     } else {
       return null;
     }
