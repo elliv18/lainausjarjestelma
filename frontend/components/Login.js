@@ -169,7 +169,7 @@ class LoginTab extends React.Component {
 
     if ((await Cookies.get('jwtToken')) !== undefined) {
       try {
-        Router.push({
+        Router.replace({
           pathname: '/home',
         });
         window.location.href = '/home';

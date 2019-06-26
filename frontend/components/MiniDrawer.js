@@ -219,10 +219,9 @@ class MiniDrawer extends React.Component {
   logOut = async () => {
     await Cookies.remove('jwtToken');
     try {
-      Router.push({
+      Router.replace({
         pathname: '/',
       });
-      window.location.href = '/';
     } catch (e) {
       console.log(e);
     }
@@ -234,13 +233,12 @@ class MiniDrawer extends React.Component {
     const { ok, currentUser, isBackend } = this.state;
 
     if (ok && isBackend) {
-      console.log(isBackend);
       return (
         <div>
           <CssBaseline />
           <AppBar position="sticky" className={classes.appBar} color="primary">
             <Toolbar>
-              <Link prefetch href="/home">
+              <Link prefetch href="/home" as="/">
                 <Typography className={classes.titleTypo}>
                   <Button
                     size="large"
@@ -303,7 +301,7 @@ class MiniDrawer extends React.Component {
               </List>
               <Divider />
               <List title="Home">
-                <Link prefetch href="/home">
+                <Link prefetch href="/home" as="/">
                   <ListItem
                     button
                     key="Home"
@@ -402,7 +400,6 @@ class MiniDrawer extends React.Component {
         </div>
       );
     } else if (!isBackend) {
-      console.log('!', isBackend);
       return <NoServer />;
     } else {
       return null;
