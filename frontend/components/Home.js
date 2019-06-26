@@ -701,7 +701,14 @@ class Home extends React.Component {
                             className={classes.dialogTitle}
                             id="form-dialog-change-password"
                           >
-                            <a style={{ color: '#fff' }}>Change password</a>
+                            <a
+                              style={{
+                                color: '#fff',
+                                textShadow: '1px 1px #000000',
+                              }}
+                            >
+                              Change password
+                            </a>
                           </DialogTitle>
                           <DialogContent>
                             <TextField
@@ -774,7 +781,12 @@ class Home extends React.Component {
                             className={classes.dialogTitle}
                             id="form-dialog-change-information"
                           >
-                            <a style={{ color: '#fff' }}>
+                            <a
+                              style={{
+                                color: '#fff',
+                                textShadow: '1px 1px #000000',
+                              }}
+                            >
                               Change personal information
                             </a>
                           </DialogTitle>

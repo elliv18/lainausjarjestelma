@@ -290,19 +290,22 @@ class LoginTab extends React.Component {
                 className={classes.dialogTitle}
                 id="forgot-password-title"
               >
-                <a style={{ color: '#fff' }}>Password reseting...</a>
+                <a style={{ color: '#fff', textShadow: '1px 1px #000000' }}>
+                  Password reseting...
+                </a>
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="forgot-password-description">
                   <br />
                   Send email at same email address that you log in to email
-                  address admin@borrowd.fi request password reset. Admins will
-                  prosseed it when they can. You will get new password to you
-                  login email address.
+                  address <b>admin@borrowd.fi</b> request password reset. Admins
+                  will prosseed it when they can. You will get new password to
+                  you login email address.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button
+                  variant="contained"
                   onClick={this.handleDialogClose}
                   color="primary"
                   autoFocus
