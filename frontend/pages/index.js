@@ -1,5 +1,6 @@
 import App from '../components/App';
 import LoginTab from '../components/Login';
+import { NODE_ENV } from '../lib/environment';
 
 export default class Index extends React.Component {
   componentDidMount = () => {
@@ -8,13 +9,17 @@ export default class Index extends React.Component {
         navigator.serviceWorker
           .register('/sw.js')
           .then(function(registration) {
-            console.log(
-              'Service worker successfully registered on scope',
-              registration.scope
-            );
+            if (!(NODE_ENV === 'production')) {
+              console.log(
+                'Service worker successfully registered on scope',
+                registration.scope
+              );
+            }
           })
           .catch(function(error) {
-            console.log('Service worker failed to register');
+            if (!(NODE_ENV === 'production')) {
+              console.log('Service worker failed to register');
+            }
           });
       });
     }
