@@ -7,25 +7,29 @@ import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
 const { BACKEND_HOST, BACKEND_PORT, PUBLIC_API_URL } = publicRuntimeConfig;
 
-console.log(`
-  NODE_ENV: ${NODE_ENV}
-  BACKEND_HOST: ${BACKEND_HOST}
-  BACKEND_PORT: ${BACKEND_PORT}
-  PUBLIC_API_URL: ${PUBLIC_API_URL}
-`);
+if (!(NODE_ENV === 'production')) {
+  console.log(`
+    NODE_ENV: ${NODE_ENV}
+    BACKEND_HOST: ${BACKEND_HOST}
+    BACKEND_PORT: ${BACKEND_PORT}
+    PUBLIC_API_URL: ${PUBLIC_API_URL}
+  `);
+}
 
 let apolloClient = null;
 
 function create(initialState) {
   let URL;
+  const JWT = IS_BROWSER && Cookies.get('jwtToken');
+  const temp = JWT ? `Bearer ${JWT}` : null;
+
   if (NODE_ENV === 'production') {
     URL = PUBLIC_API_URL;
   } else {
     URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
+    console.log('JWT: ', JWT ? `Bearer ${JWT}` : null);
   }
-  const JWT = IS_BROWSER && Cookies.get('jwtToken');
-  const temp = JWT ? `Bearer ${JWT}` : null;
-  console.log('JWT: ', JWT ? `Bearer ${JWT}` : null);
+
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   return new ApolloClient({
     connectToDevTools: process.browser,
