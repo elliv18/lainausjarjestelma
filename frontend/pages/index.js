@@ -9,7 +9,7 @@ export default class Index extends React.Component {
         navigator.serviceWorker
           .register('/sw.js')
           .then(function(registration) {
-            if (!(NODE_ENV === 'production')) {
+            if (NODE_ENV !== 'production') {
               console.log(
                 'Service worker successfully registered on scope',
                 registration.scope
@@ -17,7 +17,7 @@ export default class Index extends React.Component {
             }
           })
           .catch(function(error) {
-            if (!(NODE_ENV === 'production')) {
+            if (NODE_ENV !== 'production') {
               console.log('Service worker failed to register');
             }
           });

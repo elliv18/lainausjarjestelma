@@ -105,7 +105,7 @@ Remote server backend logs is inside folder `/opt/app/logs`
 
 ## Remote server info
 
-- IP: 172.16.101.140
+- IP: 172.16.101.137
 - API: https://lainaus-api.project.tamk.cloud/
 
 port backend: 3050
