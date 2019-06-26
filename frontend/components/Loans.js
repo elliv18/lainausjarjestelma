@@ -343,10 +343,7 @@ const RowDetail = ({ row }) => (
         { columnName: 'device', wordWrapEnabled: true, width: 300 },
       ]}
     />
-    <TableHeaderRow
-      contentComponent={TableHeaderContent}
-      rowComponent={TableHeaderRowStyle}
-    />
+    <TableHeaderRow contentComponent={TableHeaderContent} />
   </Grid>
 );
 
