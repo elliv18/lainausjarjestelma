@@ -270,13 +270,8 @@ class LoginTab extends React.Component {
                 id="loginButton"
                 size="large"
                 onClick={() => this.logIn()}
-                variant="outlined"
+                variant="contained"
                 color="primary"
-                style={{
-                  textTransform: 'none',
-                  backgroundColor: 'rgba(0,70,85)',
-                  color: '#fff',
-                }}
               >
                 Login
               </Button>
