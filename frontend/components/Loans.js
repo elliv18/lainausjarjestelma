@@ -138,7 +138,7 @@ const TableRow = ({ row, ...restProps }) => (
 const AddButton = ({ onExecute }) => (
   <div style={{ textAlign: 'center' }}>
     <Button color="primary" onClick={onExecute} title="Create new row">
-      New
+      <b>New loan</b>
     </Button>
   </div>
 );
