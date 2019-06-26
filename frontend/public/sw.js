@@ -6,7 +6,7 @@ cacheName = 'borrowd-v1';
 const runtimeCacheName = workbox.core.cacheNames.runtime;
 
 if (workbox) {
-  workbox.precaching.precacheAndRoute(['/index', '/login']);
+  workbox.precaching.precacheAndRoute(['/index', '/home']);
   console.log(`Yay! Workbox is loaded 🎉`);
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
