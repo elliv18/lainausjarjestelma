@@ -60,7 +60,36 @@ import ToolbarTitle from '../src/ToolbarTitle';
 
 import Router from 'next/router';
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
 /*********************** STYLES *****************************/
+const theme2 = createMuiTheme({
+  palette: {
+    action: {
+      active: 'rgba(255,255,255, 1)',
+    },
+  },
+  overrides: {
+    MuiInput: {
+      underline: {
+        '&:after': {
+          borderBottomColor: '#D2D1CB',
+        },
+        '&:before': {
+          borderBottomColor: '#000',
+        },
+        '&:hover:not($disabled):not($focused):not($error):before': {
+          borderBottom: `2px solid #000`,
+        },
+      },
+    },
+    MuiIconButton: {
+      root: {
+        color: false,
+      },
+    },
+  },
+});
 
 const styles = theme => ({
   lookupEditCell: {
@@ -513,83 +542,85 @@ class Category extends React.PureComponent {
     } else if (!loading && currentUser !== 'STUDENT') {
       return (
         <Paper className={classes.root} elevation={12}>
-          <Grid rows={data} columns={columns} getRowId={getRowId}>
-            <SortingState
-              sorting={sorting}
-              onSortingChange={this.changeSorting}
-            />
-            <PagingState
-              pageSize={pageSize}
-              onPageSizeChange={this.changePageSize}
-            />
-            <EditingState
-              columnEditingEnabled={false}
-              columnExtensions={editingColumns}
-              editingRowIds={editingRowIds}
-              onEditingRowIdsChange={this.changeEditingRowIds}
-              rowChanges={rowChanges}
-              onRowChangesChange={this.changeRowChanges}
-              addedRows={addedRows}
-              onAddedRowsChange={this.changeAddedRows}
-              onCommitChanges={this.commitChanges}
-            />
-            <SearchState />
+          <MuiThemeProvider theme={theme2}>
+            <Grid rows={data} columns={columns} getRowId={getRowId}>
+              <SortingState
+                sorting={sorting}
+                onSortingChange={this.changeSorting}
+              />
+              <PagingState
+                pageSize={pageSize}
+                onPageSizeChange={this.changePageSize}
+              />
+              <EditingState
+                columnEditingEnabled={false}
+                columnExtensions={editingColumns}
+                editingRowIds={editingRowIds}
+                onEditingRowIdsChange={this.changeEditingRowIds}
+                rowChanges={rowChanges}
+                onRowChangesChange={this.changeRowChanges}
+                addedRows={addedRows}
+                onAddedRowsChange={this.changeAddedRows}
+                onCommitChanges={this.commitChanges}
+              />
+              <SearchState />
 
-            <IntegratedFiltering />
+              <IntegratedFiltering />
 
-            <IntegratedSorting />
+              <IntegratedSorting />
 
-            <IntegratedPaging />
+              <IntegratedPaging />
 
-            <DragDropProvider />
+              <DragDropProvider />
 
-            <BooleanTypeProvider
-              for={booleanColumns}
-              style={{ paddingRight: '20px' }}
-            />
+              <BooleanTypeProvider
+                for={booleanColumns}
+                style={{ paddingRight: '20px' }}
+              />
 
-            <VirtualTable columnExtensions={tableColumnExtensions} />
-            <TableColumnReordering
-              order={columnOrder}
-              onOrderChange={this.changeColumnOrder}
-            />
-            <TableHeaderRow
-              showSortingControls
-              contentComponent={TableHeaderContent}
-              rowComponent={TableHeaderRowStyle}
-            />
-            <TableEditRow cellComponent={EditCell} />
-            <TableEditColumn
-              width={170}
-              showAddCommand={!addedRows.length}
-              showEditCommand
-              showDeleteCommand
-              commandComponent={Command}
-            />
-            <Getter
-              name="tableColumns"
-              computed={({ tableColumns }) => {
-                const result = [
-                  ...tableColumns.filter(
-                    c => c.type !== TableEditColumn.COLUMN_TYPE
-                  ),
-                  {
-                    key: 'editCommand',
-                    type: TableEditColumn.COLUMN_TYPE,
-                    width: 140,
-                  },
-                ];
-                return result;
-              }}
-            />
-            <TableColumnVisibility
-              defaultHiddenColumnNames={defaultHiddenColumnNames}
-            />
-            <Toolbar rootComponent={ToolbarRoot} />
-            <ColumnChooser />
-            <SearchPanel />
-            <ToolbarTitle title="Device Categories" />
-          </Grid>
+              <VirtualTable columnExtensions={tableColumnExtensions} />
+              <TableColumnReordering
+                order={columnOrder}
+                onOrderChange={this.changeColumnOrder}
+              />
+              <TableHeaderRow
+                showSortingControls
+                contentComponent={TableHeaderContent}
+                rowComponent={TableHeaderRowStyle}
+              />
+              <TableEditRow cellComponent={EditCell} />
+              <TableEditColumn
+                width={170}
+                showAddCommand={!addedRows.length}
+                showEditCommand
+                showDeleteCommand
+                commandComponent={Command}
+              />
+              <Getter
+                name="tableColumns"
+                computed={({ tableColumns }) => {
+                  const result = [
+                    ...tableColumns.filter(
+                      c => c.type !== TableEditColumn.COLUMN_TYPE
+                    ),
+                    {
+                      key: 'editCommand',
+                      type: TableEditColumn.COLUMN_TYPE,
+                      width: 140,
+                    },
+                  ];
+                  return result;
+                }}
+              />
+              <TableColumnVisibility
+                defaultHiddenColumnNames={defaultHiddenColumnNames}
+              />
+              <Toolbar rootComponent={ToolbarRoot} />
+              <ColumnChooser />
+              <SearchPanel />
+              <ToolbarTitle title="Device Categories" />
+            </Grid>
+          </MuiThemeProvider>
         </Paper>
       );
     } else {

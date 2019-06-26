@@ -45,10 +45,36 @@ import {
   CURRENTUSER_UPDATE_PW_MUTATION,
 } from '../lib/gql/mutation';
 import Cookies from 'js-cookie';
-//import Moment from 'react-moment';
-//import 'moment-timezone';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 /********************* STYLES **********************/
+const theme2 = createMuiTheme({
+  palette: {
+    action: {
+      active: 'rgba(255,255,255, 1)',
+    },
+  },
+  overrides: {
+    MuiInput: {
+      underline: {
+        '&:after': {
+          borderBottomColor: '#D2D1CB',
+        },
+        '&:before': {
+          borderBottomColor: '#000',
+        },
+        '&:hover:not($disabled):not($focused):not($error):before': {
+          borderBottom: `2px solid #000`,
+        },
+      },
+    },
+    MuiIconButton: {
+      root: {
+        color: false,
+      },
+    },
+  },
+});
 
 const styles = {
   root: {
@@ -509,6 +535,7 @@ class Home extends React.Component {
       return (
         <Paper className={classes.root}>
           <h1>Summary</h1>
+
           <Grid
             container
             spacing={16}
@@ -517,37 +544,39 @@ class Home extends React.Component {
             alignItems="center"
           >
             <Grid item xs={12}>
-              <Paper className={classes.paperTable} elevation={6}>
-                <GridTable rows={data_loans} columns={columns}>
-                  <SearchState />
-                  <SortingState
-                    sorting={sorting}
-                    onSortingChange={this.changeSorting}
-                    defaultSorting={defaultSorting}
-                    columnExtensions={sortingStateColumnExtensions}
-                  />
-                  <IntegratedFiltering />
-                  <IntegratedSorting />
-                  <BooleanTypeProvider
-                    for={booleanColumns}
-                    style={{ paddingRight: '20px' }}
-                  />
-                  <DateTypeProvider for={dateColumns} />
-                  <VirtualTable
-                    rowComponent={TableRow}
-                    columnExtensions={tableColumnExtensions}
-                    height="400"
-                  />
-                  <TableHeaderRow
-                    showSortingControls
-                    contentComponent={TableHeaderContent}
-                    rowComponent={TableHeaderRowStyle}
-                  />
-                  <Toolbar rootComponent={ToolbarRoot} />
-                  <SearchPanel />
-                  <ToolbarTitle title="Your loans" />
-                </GridTable>
-              </Paper>
+              <MuiThemeProvider theme={theme2}>
+                <Paper className={classes.paperTable} elevation={6}>
+                  <GridTable rows={data_loans} columns={columns}>
+                    <SearchState />
+                    <SortingState
+                      sorting={sorting}
+                      onSortingChange={this.changeSorting}
+                      defaultSorting={defaultSorting}
+                      columnExtensions={sortingStateColumnExtensions}
+                    />
+                    <IntegratedFiltering />
+                    <IntegratedSorting />
+                    <BooleanTypeProvider
+                      for={booleanColumns}
+                      style={{ paddingRight: '20px' }}
+                    />
+                    <DateTypeProvider for={dateColumns} />
+                    <VirtualTable
+                      rowComponent={TableRow}
+                      columnExtensions={tableColumnExtensions}
+                      height="400"
+                    />
+                    <TableHeaderRow
+                      showSortingControls
+                      contentComponent={TableHeaderContent}
+                      rowComponent={TableHeaderRowStyle}
+                    />
+                    <Toolbar rootComponent={ToolbarRoot} />
+                    <SearchPanel />
+                    <ToolbarTitle title="Your loans" />
+                  </GridTable>
+                </Paper>
+              </MuiThemeProvider>
             </Grid>
             <Grid item xs={12}>
               <Card className={classes.card} elevation={4}>
