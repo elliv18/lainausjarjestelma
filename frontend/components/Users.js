@@ -64,6 +64,31 @@ import Loading from './Loading';
 
 import Router from 'next/router';
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme2 = createMuiTheme({
+  palette: {
+    action: {
+      active: 'rgba(255,255,255, 1)',
+    },
+  },
+  overrides: {
+    MuiInput: {
+      underline: {
+        '&:after': {
+          borderBottomColor: '#fff',
+        },
+        '&:before': {
+          borderBottomColor: '#fff',
+        },
+        '&:hover:not($disabled):not($focused):not($error):before': {
+          borderBottom: `2px solid #FFFFFF`,
+        },
+      },
+    },
+  },
+});
+
 let pw = null;
 let pw2 = null;
 
@@ -724,109 +749,114 @@ class Users extends React.PureComponent {
     } else if (!loading && currentUser !== 'STUDENT') {
       return (
         <Paper className={classes.root} elevation={12}>
-          <Grid rows={data} columns={columns} getRowId={getRowId}>
-            <RowDetailState />
+          <MuiThemeProvider theme={theme2}>
+            <Grid rows={data} columns={columns} getRowId={getRowId}>
+              <RowDetailState />
 
-            <SortingState
-              sorting={sorting}
-              onSortingChange={this.changeSorting}
-              defaultSorting={defaultSorting}
-              columnExtensions={sortingStateColumnExtensions}
-            />
-            <PagingState
-              pageSize={pageSize}
-              onPageSizeChange={this.changePageSize}
-            />
-            <EditingState
-              columnEditingEnabled={false}
-              columnExtensions={editingColumns}
-              editingRowIds={editingRowIds}
-              onEditingRowIdsChange={this.changeEditingRowIds}
-              rowChanges={rowChanges}
-              onRowChangesChange={this.changeRowChanges}
-              addedRows={addedRows}
-              onAddedRowsChange={this.changeAddedRows}
-              onCommitChanges={this.commitChanges}
-            />
-            <SearchState />
-
-            <IntegratedFiltering />
-
-            <IntegratedSorting />
-
-            <IntegratedPaging />
-
-            <DragDropProvider />
-
-            <BooleanTypeProvider
-              for={booleanColumns}
-              style={{ paddingRight: '20px' }}
-            />
-
-            <VirtualTable
-              columnExtensions={tableColumnExtensions}
-              rowComponent={TableRow}
-            />
-            <TableColumnReordering
-              order={columnOrder}
-              onOrderChange={this.changeColumnOrder}
-            />
-            <TableHeaderRow
-              showSortingControls
-              contentComponent={TableHeaderContent}
-              rowComponent={TableHeaderRowStyle}
-            />
-
-            {currentUser === 'ADMIN' ? (
-              <TableRowDetail contentComponent={RowDetail} />
-            ) : null}
-
-            {currentUser === 'ADMIN' ? (
-              <TableEditRow cellComponent={EditCellAdmin} />
-            ) : (
-              <TableEditRow cellComponent={EditCellStaff} />
-            )}
-
-            {currentUser === 'ADMIN' ? (
-              <TableEditColumn
-                width={170}
-                showAddCommand={!addedRows.length}
-                showEditCommand
-                showDeleteCommand
-                commandComponent={Command}
+              <SortingState
+                sorting={sorting}
+                onSortingChange={this.changeSorting}
+                defaultSorting={defaultSorting}
+                columnExtensions={sortingStateColumnExtensions}
               />
-            ) : (
-              <TableEditColumn
-                width={170}
-                showAddCommand={!addedRows.length}
-                commandComponent={Command}
+              <PagingState
+                pageSize={pageSize}
+                onPageSizeChange={this.changePageSize}
               />
-            )}
+              <EditingState
+                columnEditingEnabled={false}
+                columnExtensions={editingColumns}
+                editingRowIds={editingRowIds}
+                onEditingRowIdsChange={this.changeEditingRowIds}
+                rowChanges={rowChanges}
+                onRowChangesChange={this.changeRowChanges}
+                addedRows={addedRows}
+                onAddedRowsChange={this.changeAddedRows}
+                onCommitChanges={this.commitChanges}
+              />
+              <SearchState />
 
-            <Getter
-              name="tableColumns"
-              computed={({ tableColumns }) => {
-                const result = [
-                  ...tableColumns.filter(
-                    c => c.type !== TableEditColumn.COLUMN_TYPE
-                  ),
-                  {
-                    key: 'editCommand',
-                    type: TableEditColumn.COLUMN_TYPE,
-                    width: 140,
-                  },
-                ];
-                return result;
-              }}
-            />
-            <TableColumnVisibility
-              defaultHiddenColumnNames={defaultHiddenColumnNames}
-            />
-            <Toolbar rootComponent={ToolbarRoot} />
-            <ColumnChooser />
-            <SearchPanel />
-            <ToolbarTitle title="Users" />
-          </Grid>
+              <IntegratedFiltering />
+
+              <IntegratedSorting />
+
+              <IntegratedPaging />
+
+              <DragDropProvider />
+
+              <BooleanTypeProvider
+                for={booleanColumns}
+                style={{ paddingRight: '20px' }}
+              />
+
+              <VirtualTable
+                columnExtensions={tableColumnExtensions}
+                rowComponent={TableRow}
+              />
+              <TableColumnReordering
+                order={columnOrder}
+                onOrderChange={this.changeColumnOrder}
+              />
+              <TableHeaderRow
+                showSortingControls
+                contentComponent={TableHeaderContent}
+                rowComponent={TableHeaderRowStyle}
+              />
+
+              {currentUser === 'ADMIN' ? (
+                <TableRowDetail contentComponent={RowDetail} />
+              ) : null}
+
+              {currentUser === 'ADMIN' ? (
+                <TableEditRow cellComponent={EditCellAdmin} />
+              ) : (
+                <TableEditRow cellComponent={EditCellStaff} />
+              )}
+
+              {currentUser === 'ADMIN' ? (
+                <TableEditColumn
+                  width={170}
+                  showAddCommand={!addedRows.length}
+                  showEditCommand
+                  showDeleteCommand
+                  commandComponent={Command}
+                />
+              ) : (
+                <TableEditColumn
+                  width={170}
+                  showAddCommand={!addedRows.length}
+                  commandComponent={Command}
+                />
+              )}
+
+              <Getter
+                name="tableColumns"
+                computed={({ tableColumns }) => {
+                  const result = [
+                    ...tableColumns.filter(
+                      c => c.type !== TableEditColumn.COLUMN_TYPE
+                    ),
+                    {
+                      key: 'editCommand',
+                      type: TableEditColumn.COLUMN_TYPE,
+                      width: 140,
+                    },
+                  ];
+                  return result;
+                }}
+              />
+              <TableColumnVisibility
+                defaultHiddenColumnNames={defaultHiddenColumnNames}
+              />
+              <Toolbar rootComponent={ToolbarRoot} />
+
+              <ColumnChooser />
+
+              <SearchPanel />
+
+              <ToolbarTitle title="Users" />
+            </Grid>
+          </MuiThemeProvider>
         </Paper>
       );
     } else {
