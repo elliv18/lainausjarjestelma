@@ -8,19 +8,8 @@ export default class Index extends React.Component {
       window.addEventListener('load', function() {
         navigator.serviceWorker
           .register('/sw.js')
-          .then(function(registration) {
-            if (NODE_ENV != 'production') {
-              console.log(
-                'Service worker successfully registered on scope',
-                registration.scope
-              );
-            }
-          })
-          .catch(function(error) {
-            if (NODE_ENV != 'production') {
-              console.log('Service worker failed to register');
-            }
-          });
+          .then(function(registration) {})
+          .catch(function(error) {});
       });
     }
   };
