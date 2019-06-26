@@ -12,7 +12,7 @@ export default class ToolbarTitle extends React.PureComponent {
     return (
       <Plugin name="ToolbarTitle">
         <Template name="toolbarContent">
-          <div style={{ textAlign: 'left' }}>
+          <div style={{ textAlign: 'left', textShadow: '1px 1px #000000' }}>
             <h2>{this.props.title}</h2>
           </div>
           <TemplatePlaceholder />
