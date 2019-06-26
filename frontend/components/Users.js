@@ -212,14 +212,14 @@ const styles = theme => ({
 
 const AddButton = ({ onExecute }) => (
   <div style={{ textAlign: 'center' }}>
-    <Button color="primary" onClick={onExecute} title="Create new row">
+    <Button color="primary" onClick={onExecute} title="Create new user">
       New
     </Button>
   </div>
 );
 
 const EditButton = ({ onExecute }) => (
-  <IconButton onClick={onExecute} title="Edit row">
+  <IconButton onClick={onExecute} title="Edit user">
     <EditIcon />
   </IconButton>
 );
@@ -236,7 +236,7 @@ const DeleteButton = ({ onExecute }) => (
         onExecute();
       }
     }}
-    title="Delete row"
+    title="Change status"
   >
     <DeleteIcon />
   </IconButton>
