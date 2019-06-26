@@ -236,7 +236,7 @@ const DeleteButton = ({ onExecute }) => (
         onExecute();
       }
     }}
-    title="Change status"
+    title="Change user status"
   >
     <DeleteIcon />
   </IconButton>

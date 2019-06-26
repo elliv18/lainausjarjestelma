@@ -125,14 +125,14 @@ const TableRow = ({ row, ...restProps }) => (
 
 const AddButton = ({ onExecute }) => (
   <div style={{ textAlign: 'center' }}>
-    <Button color="primary" onClick={onExecute} title="Create new row">
+    <Button color="primary" onClick={onExecute} title="Create new equipment">
       <b>New equipment</b>
     </Button>
   </div>
 );
 
 const EditButton = ({ onExecute }) => (
-  <IconButton onClick={onExecute} title="Edit row">
+  <IconButton onClick={onExecute} title="Edit equipment">
     <EditIcon />
   </IconButton>
 );
@@ -145,7 +145,7 @@ const DeleteButton = ({ onExecute }) => (
         onExecute();
       }
     }}
-    title="Delete row"
+    title="Delete equipment"
   >
     <DeleteIcon />
   </IconButton>
