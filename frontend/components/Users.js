@@ -86,6 +86,11 @@ const theme2 = createMuiTheme({
         },
       },
     },
+    MuiIconButton: {
+      root: {
+        color: false,
+      },
+    },
   },
 });
 
@@ -752,7 +757,6 @@ class Users extends React.PureComponent {
           <MuiThemeProvider theme={theme2}>
             <Grid rows={data} columns={columns} getRowId={getRowId}>
               <RowDetailState />
-
               <SortingState
                 sorting={sorting}
                 onSortingChange={this.changeSorting}
@@ -774,6 +778,7 @@ class Users extends React.PureComponent {
                 onAddedRowsChange={this.changeAddedRows}
                 onCommitChanges={this.commitChanges}
               />
+
               <SearchState />
 
               <IntegratedFiltering />
@@ -848,10 +853,9 @@ class Users extends React.PureComponent {
               <TableColumnVisibility
                 defaultHiddenColumnNames={defaultHiddenColumnNames}
               />
+
               <Toolbar rootComponent={ToolbarRoot} />
-
               <ColumnChooser />
-
               <SearchPanel />
 
               <ToolbarTitle title="Users" />
