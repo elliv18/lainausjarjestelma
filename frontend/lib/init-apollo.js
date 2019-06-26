@@ -7,15 +7,6 @@ import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
 const { BACKEND_HOST, BACKEND_PORT, PUBLIC_API_URL } = publicRuntimeConfig;
 
-if (!(NODE_ENV === 'production')) {
-  console.log(`
-    NODE_ENV: ${NODE_ENV}
-    BACKEND_HOST: ${BACKEND_HOST}
-    BACKEND_PORT: ${BACKEND_PORT}
-    PUBLIC_API_URL: ${PUBLIC_API_URL}
-  `);
-}
-
 let apolloClient = null;
 
 function create(initialState) {
@@ -26,8 +17,15 @@ function create(initialState) {
   if (NODE_ENV === 'production') {
     URL = PUBLIC_API_URL;
   } else {
-    URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
+    console.log(`
+      NODE_ENV: ${NODE_ENV}
+      BACKEND_HOST: ${BACKEND_HOST}
+      BACKEND_PORT: ${BACKEND_PORT}
+      PUBLIC_API_URL: ${PUBLIC_API_URL}
+    `);
     console.log('JWT: ', JWT ? `Bearer ${JWT}` : null);
+
+    URL = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
   }
 
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
