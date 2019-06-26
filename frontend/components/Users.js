@@ -76,13 +76,13 @@ const theme2 = createMuiTheme({
     MuiInput: {
       underline: {
         '&:after': {
-          borderBottomColor: '#fff',
+          borderBottomColor: '#D2D1CB',
         },
         '&:before': {
-          borderBottomColor: '#fff',
+          borderBottomColor: '#000',
         },
         '&:hover:not($disabled):not($focused):not($error):before': {
-          borderBottom: `2px solid #FFFFFF`,
+          borderBottom: `2px solid #000`,
         },
       },
     },
