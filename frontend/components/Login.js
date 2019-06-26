@@ -137,7 +137,7 @@ class LoginTab extends React.Component {
       this.state.currentUser === 'STAFF' ||
       this.state.currentUser === 'STUDENT'
         ? Router.push({
-            pathname: '/',
+            pathname: '/home',
           })
         : Cookies.remove('jwtToken');
 
@@ -170,9 +170,9 @@ class LoginTab extends React.Component {
     if ((await Cookies.get('jwtToken')) !== undefined) {
       try {
         Router.push({
-          pathname: '/',
+          pathname: '/home',
         });
-        window.location.href = '/';
+        window.location.href = '/home';
       } catch (e) {
         console.log(e);
       }

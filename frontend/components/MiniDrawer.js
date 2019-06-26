@@ -187,27 +187,23 @@ class MiniDrawer extends React.Component {
     }
 
     if ((await Cookies.get('jwtToken')) !== undefined) {
-      for (let i = 0; i < 3 && !temp; i++) {
-        temp = await this.state.client
-          .mutate({ mutation: CURRENTUSER })
-          .catch(e => {
-            if (i == 2) {
-              this.setState({ isBackend: false });
-            }
-          });
-      }
+      temp = await this.state.client
+        .mutate({ mutation: CURRENTUSER })
+        .catch(e => {
+          console.log(e);
+        });
 
       if (temp) {
         temp.data.currentUser !== null
           ? this.setState({ currentUser: temp.data.currentUser, ok: true })
           : (Router.push({
-              pathname: '/login',
+              pathname: '/',
             }),
-            (window.location.href = '/login'));
+            (window.location.href = '/'));
       }
     } else {
       Router.push({
-        pathname: '/login',
+        pathname: '/',
       });
     }
   }
@@ -224,9 +220,9 @@ class MiniDrawer extends React.Component {
     await Cookies.remove('jwtToken');
     try {
       Router.push({
-        pathname: '/login',
+        pathname: '/',
       });
-      window.location.href = '/login';
+      window.location.href = '/';
     } catch (e) {
       console.log(e);
     }
@@ -238,12 +234,13 @@ class MiniDrawer extends React.Component {
     const { ok, currentUser, isBackend } = this.state;
 
     if (ok && isBackend) {
+      console.log(isBackend);
       return (
         <div>
           <CssBaseline />
           <AppBar position="sticky" className={classes.appBar} color="primary">
             <Toolbar>
-              <Link prefetch href="/">
+              <Link prefetch href="/home">
                 <Typography className={classes.titleTypo}>
                   <Button
                     size="large"
@@ -306,11 +303,11 @@ class MiniDrawer extends React.Component {
               </List>
               <Divider />
               <List title="Home">
-                <Link prefetch href="/">
+                <Link prefetch href="/home">
                   <ListItem
                     button
                     key="Home"
-                    selected={window.location.pathname == '/'}
+                    selected={window.location.pathname == '/home'}
                   >
                     <ListItemIcon className={classes.menuIcon}>
                       <HomeIcon />
@@ -405,6 +402,7 @@ class MiniDrawer extends React.Component {
         </div>
       );
     } else if (!isBackend) {
+      console.log('!', isBackend);
       return <NoServer />;
     } else {
       return null;
