@@ -329,9 +329,9 @@ const RowDetail = ({ row }) => (
     columns={[
       { name: 'device', title: 'Device' },
       { name: 'loaner', title: 'Loaner' },
-      { name: 'loanerEmail', title: 'Email' },
+      { name: 'loanerEmail', title: 'Loaner Email' },
       { name: 'supplier', title: 'Supplier' },
-      { name: 'supplierEmail', title: 'Email' },
+      { name: 'supplierEmail', title: 'Supplier Email' },
     ]}
   >
     <Table
@@ -343,7 +343,10 @@ const RowDetail = ({ row }) => (
         { columnName: 'device', wordWrapEnabled: true, width: 300 },
       ]}
     />
-    <TableHeaderRow />
+    <TableHeaderRow
+      contentComponent={TableHeaderContent}
+      rowComponent={TableHeaderRowStyle}
+    />
   </Grid>
 );
 
