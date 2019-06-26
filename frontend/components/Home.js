@@ -534,7 +534,13 @@ class Home extends React.Component {
     } else {
       return (
         <Paper className={classes.root}>
-          <h1>Summary</h1>
+          <Typography
+            variant="h3"
+            gutterBottom
+            style={{ color: '#004655', textShadow: '1px 1px #000000' }}
+          >
+            Summary
+          </Typography>
 
           <Grid
             container
