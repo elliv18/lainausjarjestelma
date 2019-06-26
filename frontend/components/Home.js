@@ -215,16 +215,6 @@ export const ToolbarRoot = withStyles(styles, {
   name: 'ToolbarRoot',
 })(ToolbarRootBase);
 
-const SearchPanelBase = ({ children, classes, ...restProps }) => (
-  <SearchPanel.Input style={{ backgroundColor: '#fff', color: '#fff' }}>
-    {children}
-  </SearchPanel.Input>
-);
-
-export const SearchPanelInput = withStyles(styles, {
-  name: 'SearchPanelInput',
-})(SearchPanelBase);
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -554,7 +544,7 @@ class Home extends React.Component {
                     rowComponent={TableHeaderRowStyle}
                   />
                   <Toolbar rootComponent={ToolbarRoot} />
-                  <SearchPanel rootComponent={SearchPanelInput} />
+                  <SearchPanel />
                   <ToolbarTitle title="Your loans" />
                 </GridTable>
               </Paper>
@@ -665,7 +655,11 @@ class Home extends React.Component {
                   <Grid container justify="flex-end">
                     <Grid item>
                       <CardActions>
-                        <Button onClick={this.handleClickOpenPassword}>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          onClick={this.handleClickOpenPassword}
+                        >
                           Change password
                         </Button>
 
@@ -715,12 +709,14 @@ class Home extends React.Component {
                           </a>
                           <DialogActions>
                             <Button
+                              variant="contained"
                               onClick={this.handleCloseSavePassword}
                               color="primary"
                             >
                               Save
                             </Button>
                             <Button
+                              variant="contained"
                               onClick={this.handleClosePassword}
                               color="primary"
                             >
@@ -732,7 +728,11 @@ class Home extends React.Component {
                     </Grid>
                     <Grid item>
                       <CardActions>
-                        <Button onClick={this.handleClickOpenInformation}>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          onClick={this.handleClickOpenInformation}
+                        >
                           Change personal information
                         </Button>
 
@@ -794,12 +794,14 @@ class Home extends React.Component {
                           </a>
                           <DialogActions>
                             <Button
+                              variant="contained"
                               onClick={this.handleCloseSaveInformation}
                               color="primary"
                             >
                               Save
                             </Button>
                             <Button
+                              variant="contained"
                               onClick={this.handleCloseInformation}
                               color="primary"
                             >
