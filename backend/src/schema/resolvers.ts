@@ -611,6 +611,11 @@ export default {
         }
       });
 
+      console.log(
+        "---------------------------------- CREATE DEVICE **********************************",
+        device
+      );
+
       logger.log(
         "info",
         "[M DEVICECREATE] New device %s have been created by %s",

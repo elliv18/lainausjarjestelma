@@ -207,13 +207,13 @@ const LookupEditCellBase = ({
   onValueChange,
   classes,
 }) => (
-  <TableCell className={classes.lookupEditCell}>
-    <Select
-      options={(arrayCategoryNames = editCategories())}
-      onChange={event => onValueChange(event.value)}
-    />
-  </TableCell>
-);
+    <TableCell className={classes.lookupEditCell}>
+      <Select
+        options={(arrayCategoryNames = editCategories())}
+        onChange={event => onValueChange(event.value)}
+      />
+    </TableCell>
+  );
 export const LookupEditCell = withStyles(styles, {
   name: 'ControlledModeDemo',
 })(LookupEditCellBase);
@@ -244,23 +244,23 @@ const BooleanFormatter = ({ value }) => (
     style={
       value
         ? {
-            borderColor: '#DB2B39',
-            borderStyle: 'solid',
-            borderWidth: '1px',
-            color: '#DB2B39',
-            backgroundColor: 'white',
-            width: '110px',
-            justifyContent: 'left',
-          }
+          borderColor: '#DB2B39',
+          borderStyle: 'solid',
+          borderWidth: '1px',
+          color: '#DB2B39',
+          backgroundColor: 'white',
+          width: '110px',
+          justifyContent: 'left',
+        }
         : {
-            borderColor: '#018E42',
-            borderStyle: 'solid',
-            borderWidth: '1px',
-            color: '#018E42',
-            backgroundColor: 'white',
-            width: '110px',
-            justifyContent: 'left',
-          }
+          borderColor: '#018E42',
+          borderStyle: 'solid',
+          borderWidth: '1px',
+          color: '#018E42',
+          backgroundColor: 'white',
+          width: '110px',
+          justifyContent: 'left',
+        }
     }
   />
 );
@@ -285,14 +285,14 @@ const TableHeaderContentBase = ({
   classes,
   ...restProps
 }) => (
-  <TableHeaderRow.Content
-    column={column}
-    {...restProps}
-    style={{ color: 'black', fontSize: '14px', fontWeight: 'bold' }}
-  >
-    {children}
-  </TableHeaderRow.Content>
-);
+    <TableHeaderRow.Content
+      column={column}
+      {...restProps}
+      style={{ color: 'black', fontSize: '14px', fontWeight: 'bold' }}
+    >
+      {children}
+    </TableHeaderRow.Content>
+  );
 
 export const TableHeaderContent = withStyles(styles, {
   name: 'TableHeaderContent',
@@ -343,7 +343,7 @@ class Equipments extends React.PureComponent {
         { columnName: 'loanStatus', wordWrapEnabled: true },
       ],
       editingColumns: [
-        { columnName: 'idCode', editingEnabled: false },
+        { columnName: 'idCode', editingEnabled: true },
         { columnName: 'deviceCategory', editingEnabled: true },
         { columnName: 'manufacture', editingEnabled: true },
         { columnName: 'model', editingEnabled: true },
@@ -520,11 +520,11 @@ class Equipments extends React.PureComponent {
       this.setState({ currentUser: CU.data.currentUser.userType }),
       this.state.currentUser === 'STUDENT'
         ? Router.push({
-            pathname: '/',
-          })
+          pathname: '/',
+        })
         : ((temp = await this.state.client
-            .query({ query: EQUIPMENTS_QUERY })
-            .catch(e => console.log(e))),
+          .query({ query: EQUIPMENTS_QUERY })
+          .catch(e => console.log(e))),
           (tempCategories = await this.state.client
             .query({
               query: CATEGORY_NAME_QUERY,
@@ -532,30 +532,30 @@ class Equipments extends React.PureComponent {
             .catch(e => console.log(e))),
           temp && temp.data.allDevices
             ? temp.data.allDevices.map(
-                (obj, i) =>
-                  (temp2[i] = {
-                    id: obj.id,
-                    idCode: obj.idCode,
-                    info: obj.info,
-                    loanStatus: obj.loanStatus,
-                    manufacture: obj.manufacture,
-                    model: obj.model,
-                    deviceCategory: obj.category.deviceCategory,
-                    loanerInfo:
-                      obj.loan.length > 0
-                        ? obj.loan[obj.loan.length - 1].loaner.firstName +
-                          ' ' +
-                          obj.loan[obj.loan.length - 1].loaner.lastName +
-                          ', ' +
-                          obj.loan[obj.loan.length - 1].loaner.email
-                        : null,
+              (obj, i) =>
+                (temp2[i] = {
+                  id: obj.id,
+                  idCode: obj.idCode,
+                  info: obj.info,
+                  loanStatus: obj.loanStatus,
+                  manufacture: obj.manufacture,
+                  model: obj.model,
+                  deviceCategory: obj.category.deviceCategory,
+                  loanerInfo:
+                    obj.loan.length > 0
+                      ? obj.loan[obj.loan.length - 1].loaner.firstName +
+                      ' ' +
+                      obj.loan[obj.loan.length - 1].loaner.lastName +
+                      ', ' +
+                      obj.loan[obj.loan.length - 1].loaner.email
+                      : null,
 
-                    dueDate:
-                      obj.loan.length > 0
-                        ? obj.loan[obj.loan.length - 1].dueDate
-                        : null,
-                  })
-              )
+                  dueDate:
+                    obj.loan.length > 0
+                      ? obj.loan[obj.loan.length - 1].dueDate
+                      : null,
+                })
+            )
             : null,
           tempCategories
             ? (categoryNames = tempCategories.data.allCategories)
@@ -657,14 +657,14 @@ class Equipments extends React.PureComponent {
                   commandComponent={Command}
                 />
               ) : (
-                <TableEditColumn
-                  width={170}
-                  showAddCommand={!addedRows.length}
-                  showEditCommand
-                  showDeleteCommand
-                  commandComponent={Command}
-                />
-              )}
+                  <TableEditColumn
+                    width={170}
+                    showAddCommand={!addedRows.length}
+                    showEditCommand
+                    showDeleteCommand
+                    commandComponent={Command}
+                  />
+                )}
               <Getter
                 name="tableColumns"
                 computed={({ tableColumns }) => {
