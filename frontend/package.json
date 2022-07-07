@@ -29,7 +29,7 @@
     "js-cookie": "^2.2.0",
     "jss": "^9.8.7",
     "jwt-decode": "^2.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.25",
     "next": "^8.1.1-canary.43",
     "prop-types": "^15.6.2",
